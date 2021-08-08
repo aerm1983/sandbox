@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="1">
+    <Properties>
+        <Property name="LOG_FOLDER">/tmp/log</Property>
+        <Property name="LOG_FILENAME_01">log_A</Property>
+        <Property name="LOG_FILENAME_02">log_B</Property>
+        <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{LogFileRollerDaemon} %cyan{%c{1.} #%L} : %m%n</Property>
+        <Property name="LOG_PATTERN_FILE">%d{yyyy.MM.dd HH:mm:ss.SSS} %p LogFileRollerDaemon %c{1.} #%L : %m%n</Property>
+    </Properties>
+	<Appenders>
+    	<Console name="console" target="SYSTEM_OUT">
+        	<PatternLayout pattern="${LOG_PATTERN_CONSOLE}" />
+        </Console>
+        
+    	<File name="file_00" 
+    		fileName="${LOG_FOLDER}/${LOG_FILENAME_01}.log"
+    		immediateFlush="true"
+    		locking="true" >
+        	<PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+    	</File>
+		
+		<!-- 
+        <RollingFile name="file_01"
+            fileName="${LOG_FOLDER}/${LOG_FILENAME_01}.log"
+            filePattern="${LOG_FOLDER}/${LOG_FILENAME_01}_${FILE_TIME_PATTERN}_%i.log">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+            <Policies>
+            	<OnStartupTriggeringPolicy />
+            	<TimeBasedTriggeringPolicy interval="${FILE_INTERVAL}" />
+                <SizeBasedTriggeringPolicy size="${FILE_MAX_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${FILE_MAX_QTY}" />
+        </RollingFile>
+        -->
+        
+        <!-- 
+        <RollingFile name="file_02"
+            fileName="${LOG_FOLDER}/${LOG_FILENAME_02}.log"
+            filePattern="${LOG_FOLDER}/${LOG_FILENAME_02}_${FILE_TIME_PATTERN}_%i.log">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+            <Policies>
+            	<OnStartupTriggeringPolicy />
+            	<TimeBasedTriggeringPolicy interval="${FILE_INTERVAL}" />
+                <SizeBasedTriggeringPolicy size="${FILE_MAX_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${FILE_MAX_QTY}" />
+        </RollingFile>
+        -->
+  
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file_00" />
+            <!-- <AppenderRef ref="file_01" /> -->
+            <!-- <AppenderRef ref="file_02" /> -->
+        </Root>
+    </Loggers>
+</Configuration>
