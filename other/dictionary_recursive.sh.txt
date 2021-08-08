@@ -1,0 +1,86 @@
+#!/bin/bash
+
+depth=4 # real depth is this value + 1
+line_result=""
+line_accum[0]=""
+phase=0
+element_list="a b c" # whole alphabet
+counter=0
+counter_module_ref=1000 # 100 000 for a few seconds timing between printings
+module=0
+sleep_secs=0.00 # use 1 to see the algorithm step by step
+
+
+
+function fr {
+
+    # echo "initiating fr ... "
+    # sleep $sleep_secs # debug
+
+
+    for l in $element_list
+    do
+
+        if test $phase -eq 0
+        then
+            line_accum[$phase]=${l}
+
+            else
+            line_accum[$phase]=${line_accum[$phase-1]}${l}
+
+        fi
+
+        # echo "phase:" $phase # debug
+        # echo "line_accum[$phase]:" ${line_accum[$phase]} # debug
+        # sleep $sleep_secs # debug
+
+
+        if test $phase -lt $depth 
+        then
+
+            let phase++
+
+            # echo "calling fr recursively, phase increased to" $phase # debug
+            # sleep $sleep_secs # debug
+
+            fr
+            let phase--
+
+            # echo "returned from fr, phase decreased to" $phase # debug
+            # sleep $sleep_secs # debug
+
+        else
+            # echo "inner most worker... line_accum[$phase]: " ${line_accum[$phase]} " , with counter:" $counter
+            let counter++
+            # sleep $sleep_secs # debug
+
+            let module=counter%counter_module_ref
+
+            if test $module -eq 0
+            then
+                echo "module criteria, counter:" $counter " ; line_accum[phase]:" ${line_accum[$phase]}
+            fi
+
+        fi
+
+    done
+
+    # echo "counter:" $counter #debug
+
+}
+
+
+comm="declare -f fr"
+eval $comm
+
+sleep 0.5 # debug
+
+echo "calling fr ..." 
+
+sleep 0.5 # debug
+
+time fr
+
+echo "final line_accum[depth]:" ${line_accum[$depth]}
+echo "final counter:" $counter
+
