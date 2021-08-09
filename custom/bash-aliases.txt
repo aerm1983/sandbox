@@ -1,18 +1,19 @@
 # add lines at the end of ~/.bashrc
 
 # Customized aliases
-alias c='echo "clear"; sleep 1; clear'
-alias gs='echo "git status"; sleep 1; git status'
-alias gl='echo "git log --graph --all --decorate"; sleep 1; git log --graph --all --decorate'
-alias gb='echo "git branch"; sleep 1; git branch'
-alias gch='echo "git checkout"; sleep 1; git checkout'
-alias ga='echo "git add"; sleep 1; git add'
-alias gco='echo "git commit"; sleep 1; git commit'
-alias gd='echo "git diff"; sleep 1; git diff'
-alias gr='echo "git reset --hard"; sleep 1; git reset --hard'
-alias gm='echo "git merge"; sleep 1; git merge'
-alias gf='echo "git fetch"; sleep 1; git fetch'
-alias gpl='echo "git pull"; sleep 1; git pull'
-alias gps='echo "git push"; sleep 1; git push'
-alias gh='echo -e "  gs: git status \n  gl: git log --graph --all --decorate \n  gb: git branch \n  gch: git checkout \n  ga: git add \n  gco: git commit \n  git diff \n  gr: git reset --hard \n  gm: git merge \n  gf: git fetch \n  gpl: git pull \n  gps: git push"'
+alias_timeout=0.5
+alias c='echo "clear"; sleep ${alias_timeout}; clear'
+alias gs='echo "git status"; sleep ${alias_timeout}; git status'
+alias gl='echo "git log --graph --all --decorate"; sleep ${alias_timeout}; git log --graph --all --decorate'
+alias gb='echo "git branch"; sleep ${alias_timeout}; git branch'
+alias gch='echo "git checkout"; sleep ${alias_timeout}; git checkout'
+alias ga='echo "git add"; sleep ${alias_timeout}; git add'
+alias gco='echo "git commit"; sleep ${alias_timeout}; git commit' 
+alias gd='echo "git diff"; sleep ${alias_timeout}; git diff'
+alias gr='echo "git reset --hard"; sleep ${alias_timeout}; git reset --hard'
+alias gm='echo "git merge"; sleep ${alias_timeout}; git merge'
+alias gf='echo "git fetch"; sleep ${alias_timeout}; git fetch';
+alias gpl='echo "git pull"; sleep ${alias_timeout}; git pull'
+alias gps='echo "git push"; sleep ${alias_timeout}; git push'
+alias gh='echo -e "  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n  gch: git checkout \n  ga: git add \n  gco: git commit \n  gd: git diff \n  gr: git reset --hard \n  gm: git merge \n  gf: git fetch \n  gpl: git pull \n  gps: git push"' 
 
