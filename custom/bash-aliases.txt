@@ -1,0 +1,16 @@
+# add lines at the end of ~/.bashrc
+
+# Customized aliases
+alias c='clear'
+alias gs='echo "git status"; git status'
+alias gl='echo "git log --graph --all --decorate"; git log --graph --all --decorate'
+alias gb='echo "git branch"; git branch'
+alias gch='echo "git checkout"; git checkout'
+alias ga='echo "git add" git add'
+alias gco='echo "git commit"; git commit'
+alias gr='echo "git reset --hard"; git reset --hard'
+alias gm='echo "git merge"; git merge'
+alias gpl='echo "git pull"; git pull'
+alias gps='echo "git push"; git push'
+alias gh='echo -e "  gs: git status \n  gl: git log \n  gb: git branch \n  gch: git checkout \n  ga: git add \n  gco: git commit \n  gr: git reset --hard \n  gm: git merge \n  gpl: git pull \n  gps: git push"'
+
