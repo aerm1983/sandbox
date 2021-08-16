@@ -91,3 +91,23 @@ deb http://httpredir.debian.org/debian/ buster main contrib non-free
 5.4. Connect, run "dhclient usb0".
 
 
+
+
+
+6. WIFI Connection for Debian 11 Bullseye
+
+6.1. Run "su" as root
+
+6.1. Run "ip link", identify wifi card, usually "wlan0" or "wlp4s0"
+
+6.2. Run "ip link set wlp4s0 up"
+
+6.3. Run "iwlist wlp4s0 scan | grep -i essid"
+
+6.4. Run "wpa_passphrase hephaestus > /etc/wpa_supplicant/wpa_supplicant.conf", write passphrase in pending prompt.
+
+6.5. run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
+
+6.6. Run "wpa_supplicant -B -i wlp4s0 -c /etc/wpa_supplicant/wpa_supplicant.conf"
+
+6.7. Run "dhclient wlp4s0"
