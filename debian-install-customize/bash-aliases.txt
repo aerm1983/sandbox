@@ -1,19 +1,31 @@
-# add lines at the end of ~/.bashrc
+# linux: add lines at the end of ~/.bashrc
+# windows git-bash: add lines at the end of /etc/profile.d/aliases
 
 # Customized aliases
+
 alias_timeout=0.5
+
 alias c='echo "clear"; sleep ${alias_timeout}; clear'
+
 alias gs='echo "git status"; sleep ${alias_timeout}; git status'
 alias gl='echo "git log --graph --all --decorate"; sleep ${alias_timeout}; git log --graph --all --decorate'
 alias gb='echo "git branch"; sleep ${alias_timeout}; git branch'
+
 alias gch='echo "git checkout"; sleep ${alias_timeout}; git checkout'
 alias ga='echo "git add"; sleep ${alias_timeout}; git add'
-alias gco='echo "git commit"; sleep ${alias_timeout}; git commit' 
 alias gd='echo "git diff"; sleep ${alias_timeout}; git diff'
+alias gco='echo "git commit"; sleep ${alias_timeout}; git commit' 
+
 alias gr='echo "git reset --hard"; sleep ${alias_timeout}; git reset --hard'
 alias gm='echo "git merge"; sleep ${alias_timeout}; git merge'
+
 alias gf='echo "git fetch"; sleep ${alias_timeout}; git fetch';
 alias gpl='echo "git pull"; sleep ${alias_timeout}; git pull'
 alias gps='echo "git push"; sleep ${alias_timeout}; git push'
-alias gh='echo -e "  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n  gch: git checkout \n  ga: git add \n  gco: git commit \n  gd: git diff \n  gr: git reset --hard \n  gm: git merge \n  gf: git fetch \n  gpl: git pull \n  gps: git push"' 
+
+alias xo='echo "xdg-open"; sleep ${alias_timeout}; xdg-open'
+alias s='echo "start"; sleep ${alias_timeout}; start'
+
+
+alias gh='echo -e "  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows)"' 
 
