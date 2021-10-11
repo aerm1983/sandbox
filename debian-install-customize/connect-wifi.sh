@@ -1,9 +1,13 @@
 #! /bin/bash
 
+echo -e '\n--> connect-wifi script v1.0 2021-10-10 <--\n'
+
+
 w="wlp4s0"
 
 
 function __helper_fn { echo $comm ; sleep 1 ; eval $comm ; echo ; sleep 1 ; }
+
 
 comm="service avahi-daemon stop"
 __helper_fn
