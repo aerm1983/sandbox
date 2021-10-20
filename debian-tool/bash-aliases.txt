@@ -1,0 +1,50 @@
+# customized aliases, begin
+
+# linux: add lines at the end of ~/.bashrc
+# windows git-bash: add lines at the end of /etc/profile.d/aliases
+
+
+
+# customized aliases, check adequate location
+
+alias l='ls'
+alias ll='ls -la'
+alias c='clear'
+alias cp='cp -v'
+alias rm='rm -v'
+
+
+
+# customized aliases, constants
+
+__alias_version__='v.1.0'
+__alias_version_date__='2021-10-11 07:45'
+__alias_timeout__='0.3'
+
+
+
+# customized aliases, add
+
+alias gs='echo "--> git status"; sleep ${__alias_timeout__}; git status'
+alias gl='echo "--> git log --graph --all --decorate"; sleep ${__alias_timeout__}; git log --graph --all --decorate'
+alias gb='echo "--> git branch"; sleep ${__alias_timeout__}; git branch'
+
+alias gch='echo "--> git checkout"; sleep ${__alias_timeout__}; git checkout'
+alias ga='echo "--> git add"; sleep ${__alias_timeout__}; git add'
+alias gd='echo "--> git diff"; sleep ${__alias_timeout__}; git diff'
+alias gco='echo "--> git commit"; sleep ${__alias_timeout__}; git commit' 
+
+alias gr='echo "--> git reset --hard"; sleep ${__alias_timeout__}; git reset --hard'
+alias gm='echo "--> git merge"; sleep ${__alias_timeout__}; git merge'
+
+alias gf='echo "--> git fetch"; sleep ${__alias_timeout__}; git fetch';
+alias gpl='echo "--> git pull"; sleep ${__alias_timeout__}; git pull'
+alias gps='echo "--> git push"; sleep ${__alias_timeout__}; git push'
+
+alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
+alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
+
+
+alias gh='echo -e "--> Git Helper, ${__alias_version__} (${__alias_version_date__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows)"' 
+
+# customized aliases, end
