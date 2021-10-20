@@ -1,21 +1,23 @@
-ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
-umount:
-lsblk: list block devices, label can be displayed.
-df: list devices, free space, mount point
-fdisk: Example: fdisk -l
-sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/house/HOUSE/ig' file.txt ; sed -n '4p' f0.txt ;
-awk: executes brackets if line matches pattern. Example: ls -l | awk '/a/ { print $1 " " $3 }'
-yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
 alias:
-mount: Without params lists mounted points and info. With params mount points or devices. Example: mount -o 'remount,rw' /dev/sda2
-systemctl: manage services daemons.  With enable/disable, manages services at system start. Example: systemctl disable
-update-grub:
-ping:
-nslookup:
-nmap:
-ifconfig:
-source: executes bash script as current shell/process, not as sub-shell/sub-process.
-comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
-sort: order file contents, ascii criteria
-diff: compare two files, git style
 alias: make aliases. Example: alias 'ls -la' 'll'
+awk: executes brackets if line matches pattern. Example: ls -l | awk '/a/ { print $1 " " $3 }'
+comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
+df: list devices, free space, mount point
+diff: compare two files, git style
+fdisk: Example: fdisk -l
+grep: option -a ascii. Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -color=auto to highlight match.
+ifconfig:
+lsblk: list block devices, label can be displayed.
+mount: Without params lists mounted points and info. With params mount points or devices. Example: mount -o 'remount,rw' /dev/sda2
+nmap:
+nslookup:
+ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
+ping:
+sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/house/HOUSE/ig' file.txt ; sed -n '4p' f0.txt ;
+sort: order file contents, ascii criteria
+source: executes bash script as current shell/process, not as sub-shell/sub-process.
+split: split file
+systemctl: manage services daemons.  With enable/disable, manages services at system start. Example: systemctl disable
+umount:
+update-grub:
+yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
