@@ -1,0 +1,9 @@
+# general:
+an old undisciplined cat at home
+an old undisciplined fish at aquarium
+
+# test case 1:
+it is good to have an old undisciplined cat and an old undisciplined fish at home
+
+# test case 2:
+the old undisciplined cat is always hunting the old undisciplined fish at its aquarium
