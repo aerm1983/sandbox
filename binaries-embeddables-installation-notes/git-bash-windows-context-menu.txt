@@ -10,10 +10,17 @@ Git Bash for Windows, context menu entry
 
 (4) In the new command key folder you just made, double-click the (Default) key located on the right-hand side of the window. In the Value data section, put the path to the executable file for the application you'd like to add to the context menu and hit OK.
 
-regedit.exe entry:
+(5) Same procedure can be done to add a "Cmd here" entry.
+
+"regedit.exe" entry, using path input:
+Computer\HKEY_CLASSES_ROOT\Directory\Background\shell\---> Git-Bash here !\command
+Computer\HKEY_CLASSES_ROOT\Directory\Background\shell\---> Cmd here !\command
+
 HKEY_CLASSES_ROOT > 
     Directory > 
         Background > 
             shell > 
-                'Git-Bash here' > 
+                '---> Git-Bash here !' > 
                     'command' : 'C:\opt\git\git-2.35.0\git-bash.exe'
+                '---> Cmd here !' > 
+                    'command' : 'cmd'
