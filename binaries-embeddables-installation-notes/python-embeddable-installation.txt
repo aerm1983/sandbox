@@ -1,0 +1,28 @@
+= = = = = = = = = = = = = =
+Install python embeddable:
+= = = = = = = = = = = = = =
+(1) Download zip containing embeded python, extract files in appropiate folder
+(2) Test installation in folder, run ".\python -V" to check version
+(3) Download "get-pip.py" through "pypi" site, "pip" package, install instructions
+(4) Run ".\python .\get-pip.py", this will add "Scripts" and "Lib" folders
+(5) In "python[V]._pth" file, add line ".\Lib\site-packages"
+(6) Test installation, run "python -m pip -V", run ".\Scripts\pip -V" to check version
+(7) Add python root folder and "Scripts" folder to environment variable "PATH"
+
+
+
+= = = = = = = = = = =
+Some common packages
+= = = = = = = = = = =
+Run "python -m pip list" to check installed packages
+
+ipython
+mysql-connector
+pandas
+matplotlib
+
+psycopg2
+SQLAlchemy
+pyqt5 or 6
+python-Levenshtein
+fuzzywuzzy
