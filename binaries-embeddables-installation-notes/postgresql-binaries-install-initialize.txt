@@ -1,0 +1,85 @@
+= = = = = = = = = = = = = = = = = = = = =
+PostgreSQL v9 Binaries Installation Notes
+= = = = = = = = = = = = = = = = = = = = =
+
+
+
+(1) Enter in "bin" directory
+cd C:\opt\postgresql\postgresql-9.6.24\bin\
+
+
+
+(2) Check version, help
+postgres -V
+postgres --version
+postgres --help
+
+
+
+(2) Initialize cluster (only once)
+NOTE: folder creation should be allowed by operating system
+initdb -D /opt/postgresql/postgresql-9.6.24/data
+
+
+
+(3) Initialize server daemon
+NOTE: log file creation should be allowed by operating system
+pg_ctl -D <cluster-directory> -l <logfile> start
+pg_ctl -D /opt/postgresql/postgresql-9.6.24/data -l /opt/postgresql/postgresql-9.6.24/log/pgdb.log start
+
+NOTE: set environment variable %PGDATA% to skip "-D <cluster-directory>" parameter
+set PGDATA=\opt\postgresql\postgresql-9.6.24\data
+echo %PGDATA%
+pg_ctl -l /opt/postgresql/postgresql-9.6.24/log/pgdb.log start
+
+
+
+(*) Reference, server daemon status, restart, stop
+NOTE: set environment variable %PGDATA% to skip "-D <cluster-directory>" parameter
+set PGDATA=\opt\postgresql\postgresql-9.6.24\data
+echo %PGDATA%
+
+pg_ctl [-D <cluster-directory>] [status|restart|stop]
+pg_ctl -D /opt/postgresql/postgresql-9.6.24/data status
+
+pg_ctl status
+pg_ctl restart
+pg_ctl stop
+
+
+
+(4) First login to postgresql DB and admin configuration
+
+Check in "pg_hba.conf" (cluster folder) this configuration, allowing access without password, restart server if necessary:
+# IPv4 local connections:
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+host    all             all             127.0.0.1/32            trust
+
+Login from cmd:
+psql postgres
+psql -d postgres -h 127.0.0.1
+
+Once into "psql" client console, check connection info and config postgres superuser:
+\conninfo
+create role postgres with superuser ;
+alter user postgres with encrypted password '1234';
+alter role postgres with login ;
+
+Exit "psql" client console:
+\q
+
+
+
+(5) Restart server, check postgres superuser password access
+
+Change "pg_hba.conf" to require password, restart server (pg_ctl restart):
+# IPv4 local connections:
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+host    all             all             127.0.0.1/32            md5
+
+Check "postgres" superuser configuration, password should be required:
+psql -d postgres -U postgres -h 127.0.0.1 -p 5432
+
+Once into "psql" console, check connection info:
+\conninfo
+\q
