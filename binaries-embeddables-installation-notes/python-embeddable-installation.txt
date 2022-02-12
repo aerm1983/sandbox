@@ -8,6 +8,10 @@ Install python embeddable:
 (5) In "python[V]._pth" file, add line ".\Lib\site-packages"
 (6) Test installation, run "python -m pip -V", run ".\Scripts\pip -V" to check version
 (7) Add python root folder and "Scripts" folder to environment variable "PATH"
+(8) Rename "python[V]._pth" file to "python[V]._pth.deprecated" (this file prevents correct functioning of "sys.path" in scripts)
+(9) Test a script using "import sys" and "print(str(sys.path))" to check module search paths
+(10) Environment variable %PYTHONPATH% is also an option for module importing
+
 
 
 
