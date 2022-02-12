@@ -1,0 +1,30 @@
+= = = = = = = = = = = = =
+MariaDB Binaries Install
+= = = = = = = = = = = = =
+
+
+(1) Place files in appropiate installation directory
+
+
+(2) At cmd, "bin" folder, run "mariadb --help", check default locations for file "my.ini"; root directory installation is usually indicated
+
+
+(3) Content of file "my.ini":
+[mysqld]
+datadir=/opt/mariadb/mariadb-10.6.5/data
+port=3306
+innodb_buffer_pool_size=1269M
+character-set-server=utf8
+[client]
+port=3306
+plugin-dir=/opt/mariadb/mariadb-10.6.5/lib/plugin
+
+
+(4) Pending: 
+How to make initial connection? 
+How to configure superuser "root", its password? 
+Review "mariadb-install-db" command
+
+
+(5) Start server daemon:
+mariadbd --console
