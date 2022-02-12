@@ -1,0 +1,20 @@
+# NOTE:
+# Key-value pairs are separated by "newline" character
+# Avoid inserting line comments between key and value to prevent errors
+-vm
+/opt/java/jdk-11.0.12/bin/javaw.exe
+-startup
+plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+--launcher.library
+plugins/org.eclipse.equinox.launcher.win32.win32.x86_64_1.2.400.v20211117-0650
+-product
+org.springframework.boot.ide.branding.sts4
+--launcher.defaultAction
+openFile
+-vmargs
+-Dosgi.requiredJavaVersion=11
+-Dosgi.dataAreaRequiresExplicitInit=true
+-Xms256m
+-Xmx2048m
+--illegal-access=permit
+--add-modules=ALL-SYSTEM
