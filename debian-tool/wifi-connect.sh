@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo -e '\n--> connect-wifi  v_2022-02-13_10:00 <--\n'
+echo -e '\n--> wifi-connect  v_2022-02-13_11:00 <--\n'
 
 
 w="wlp4s0"
@@ -49,6 +49,14 @@ sleep 2
 
 
 cmd="ping -c 4 www.google.com"
+__helper_fn
+
+
+cmd="service avahi-daemon restart"
+__helper_fn
+
+
+cmd="service avahi-daemon status"
 __helper_fn
 
 
