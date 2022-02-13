@@ -21,6 +21,10 @@ deb-src http://deb.debian.org/debian bullseye main
 deb     http://security.debian.org/debian-security bullseye-security/updates main
 deb-src http://security.debian.org/debian-security bullseye-security/updates main
 
+#
+deb     http://security.debian.org/debian-security bullseye-security/updates main
+deb-src http://security.debian.org/debian-security bullseye-security/updates main
+
 # bullseye-updates, previously known as 'volatile'
 # A network mirror was not selected during install.  The following entries
 # are provided as examples, but you should amend them as appropriate
@@ -45,7 +49,7 @@ deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
 
 2.1. Adjust /etc/default/grub: con CMDLINE add "ipv6.disable=1".
 There may be other commands.
-Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash ipv6.disable=1"
+Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet ipv6.disable=1"
 
 2.2. Run "update-grub"
 
@@ -113,6 +117,7 @@ deb http://httpredir.debian.org/debian/ buster main contrib non-free
 6.5. Run "iwlist wlp4s0 scan | grep -i essid"
 
 6.6. Run "wpa_passphrase hephaestus > /etc/wpa_supplicant/wpa_supplicant.conf", write passphrase in pending prompt.
+If password prompt does not work, try: "echo 'mypassword' | wpa_passphrase hephaestus > /etc/wpa_supplicant/wpa_supplicant.conf"
 
 6.7. run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
 

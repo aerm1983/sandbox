@@ -10,6 +10,12 @@ deb-src http://security.debian.org/debian-security bullseye-security/updates mai
 
 
 
+#
+deb     http://security.debian.org/debian-security bullseye-security/updates main
+deb-src http://security.debian.org/debian-security bullseye-security/updates main
+
+
+
 # bullseye-updates, previously known as 'volatile'
 # A network mirror was not selected during install.  The following entries
 # are provided as examples, but you should amend them as appropriate
@@ -26,4 +32,5 @@ deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
 
 # other (?)
 # deb http://deb.debian.org/debian bullseye-backports main contrib non-free
+
 
