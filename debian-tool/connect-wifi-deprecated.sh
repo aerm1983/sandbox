@@ -1,6 +1,7 @@
 #! /bin/bash
+# ATTENTION: DEPRECATED!
 
-echo -e '\n--> connect-wifi script v1.0 2021-10-10 <--\n'
+echo -e '\n--> [DEPRECATED] connect-wifi script v1.0 2021-10-10 <--\n'
 
 
 w="wlp4s0"
