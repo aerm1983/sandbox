@@ -139,3 +139,13 @@ Run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
 Alternatively "https://github.com/aerm1983/sandbox.git" (read only method)
 
 
+
+
+
+8. USB boot tool
+
+8.1. "Rufus-3.7p", runned from Windows, using option "dd" (2nd) instead of "iso" (1st) for usb-writing, worked fine installing "debian-11.2" and "lubuntu-21.x" on 2022-02-14.
+
+8.2. "Universal-USB-Installer-2.0.1" presented an issue concerning with a loop at startup menu with "debian-11.2".
+
+
