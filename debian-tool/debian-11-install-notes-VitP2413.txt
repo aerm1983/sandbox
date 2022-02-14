@@ -52,7 +52,7 @@ deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
 There may be other commands.
 Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet ipv6.disable=1"
 
-2.2. Run "update-grub", alternatively "grub-install" if convenient
+2.2. Run "update-grub", alternatively "grub-install /dev/sda" if convenient
 
 
 
