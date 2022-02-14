@@ -48,11 +48,11 @@ deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
 
 2. Disable ipv6 for lxde installation:
 
-2.1. Adjust /etc/default/grub: con CMDLINE add "ipv6.disable=1".
+2.1. Adjust "/etc/default/grub", at GRUB_CMDLINE_LINUX_DEFAULT add "ipv6.disable=1".
 There may be other commands.
 Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet ipv6.disable=1"
 
-2.2. Run "update-grub"
+2.2. Run "update-grub", alternatively "grub-install" if convenient
 
 
 
@@ -135,6 +135,7 @@ Run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
 
 7.1 Install git
 
-7.2. Run "git clone git@github.com:aerm1983/sandbox.git"
+7.2. Run "git clone git@github.com:aerm1983/sandbox.git" (git through ssh should be previously configured).
+Alternatively "https://github.com/aerm1983/sandbox.git" (read only method)
 
 
