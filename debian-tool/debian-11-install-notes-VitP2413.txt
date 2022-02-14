@@ -1,8 +1,9 @@
-= = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-= = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-INSTALL NOTES FOR DEBIAN 10 BUSTER ON VIT P2413 LAPTOP
-= = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-= = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+INSTALL NOTES FOR DEBIAN 11 BULLSEYE ON VIT P2413 LAPTOP
+UPDATED: 2022-02-14 03:00
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
 
@@ -96,7 +97,7 @@ deb http://httpredir.debian.org/debian/ buster main contrib non-free
 
 5.2. Set an interface up, run "ip link set usb0 up"
 
-5.3. Check interface up, run "ifconfig"
+5.3. Check interface up, run "ifconfig" or "ip link"
 
 5.4. Connect, run "dhclient usb0".
 
@@ -108,28 +109,29 @@ deb http://httpredir.debian.org/debian/ buster main contrib non-free
 
 6.1. Run "su" as root
 
-6.2. Run "apt update ; apt install wpasupplicant wireless-tools"
+6.2. Run "apt update ; apt install wpasupplicant wireless-tools rfkill"
 
-6.3. Run "ip link", identify wifi card, usually "wlan0" or "wlp4s0"
+6.3. Run "ip link", identify wifi device, usually "wlan0" or "wlp4s0".
+Run "ip link set wlp4s0 up"
 
-6.4. Run "ip link set wlp4s0 up"
+6.4. Run "rfkill" or "rfkill list", identify wifi device, usually "wlan".
+Run "rfkill unblock wlan"
 
 6.5. Run "iwlist wlp4s0 scan | grep -i essid"
 
 6.6. Run "wpa_passphrase hephaestus > /etc/wpa_supplicant/wpa_supplicant.conf", write passphrase in pending prompt.
-If password prompt does not work, try: "echo 'mypassword' | wpa_passphrase hephaestus > /etc/wpa_supplicant/wpa_supplicant.conf"
+If password prompt does not work: "echo 'my-wifi-password' | wpa_passphrase 'my-wifi-signal-id' > /etc/wpa_supplicant/wpa_supplicant.conf"
+Run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
 
-6.7. run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
+6.7. Run "wpa_supplicant -B -i wlp4s0 -c /etc/wpa_supplicant/wpa_supplicant.conf"
 
-6.8. Run "wpa_supplicant -B -i wlp4s0 -c /etc/wpa_supplicant/wpa_supplicant.conf"
-
-6.9. Run "dhclient wlp4s0"
-
+6.8. Run "dhclient wlp4s0"
 
 
 
 
-7. Help Git repository
+
+7. Git repository, assistance debian installation files
 
 7.1 Install git
 

@@ -33,7 +33,7 @@ cmd="dhclient -v $u"
 __helper_fn
 
 
-sleep 2
+sleep 3
 
 
 cmd="ping -c4 www.google.com"
