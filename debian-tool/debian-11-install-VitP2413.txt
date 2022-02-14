@@ -13,20 +13,26 @@ INSTALL NOTES FOR DEBIAN 10 BUSTER ON VIT P2413 LAPTOP
 
 # BEGIN sources.list 
 
-deb http://deb.debian.org/debian buster main
-deb-src http://deb.debian.org/debian buster main
+# 
+deb     http://deb.debian.org/debian bullseye main
+deb-src http://deb.debian.org/debian bullseye main
 
-# Line commented out by installer because it failed to verify:
-deb http://security.debian.org/debian-security buster/updates main
-# Line commented out by installer because it failed to verify:
-deb-src http://security.debian.org/debian-security buster/updates main
+#
+deb     http://security.debian.org/debian-security bullseye-security/updates main
+deb-src http://security.debian.org/debian-security bullseye-security/updates main
 
-# buster-updates, previously known as 'volatile'
+# bullseye-updates, previously known as 'volatile'
 # A network mirror was not selected during install.  The following entries
 # are provided as examples, but you should amend them as appropriate
 # for your mirror of choice.
-deb http://deb.debian.org/debian/ buster-updates main
-deb-src http://deb.debian.org/debian/ buster-updates main
+deb     http://deb.debian.org/debian/ bullseye-updates main
+deb-src http://deb.debian.org/debian/ bullseye-updates main
+
+# realtek wifi firmware, atheros eth firmware
+deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
+
+# other (?)
+# deb http://deb.debian.org/debian bullseye-backports main contrib non-free
 
 # END sources.list 
 
