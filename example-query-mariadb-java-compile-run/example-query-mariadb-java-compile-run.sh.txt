@@ -1,0 +1,64 @@
+#!/bin/bash
+
+
+
+# input variables
+input_name='caso2a_formatoC' # caso2a_formatoC  caso3a_formatoD  caso3b_formatoC  mini_original  original
+fecha_sql='2022-02-15'
+
+
+
+# constants
+init_dir=$( pwd )
+BM_HOME='/c/bdd/PROD_BIGDATA_BM/BM_HOME/'
+input_dir=${BM_HOME}'appl/ETLControl/inputfiles'
+processed_dir=${BM_HOME}'appl/ETLControl/processedfiles'
+input_id_area='BDA_JOURNAL_MN'
+
+mariadb_user='root'
+mariadb_password='1234'
+mariadb_db='auditetl'
+
+sql_select_1="SELECT * FROM auditoria WHERE fch_crea > '"${fecha_sql}" 00:00:0' ORDER BY fch_crea DESC ;"
+sql_select_2="SELECT ID_AREA, FCH_CREA, DUPDO, STATUS, MSJE_ERROR FROM auditoria WHERE fch_crea > '${fecha_sql} 00:00:0' ORDER BY fch_crea DESC ; "
+sql_delete="DELETE FROM auditoria WHERE fch_crea > '${fecha_sql} 00:00:0' ;"
+
+
+
+# helper function
+function __helper_fn { echo '---> '"${cmd}" ; sleep 1 ; eval "${cmd}" ; echo '' ; sleep 1 ; }
+
+
+
+# main script
+cmd="cp -v '${input_dir}/$( ls ${input_dir} | grep ${input_name} )' '${input_dir}/${input_id_area}' ; "
+__helper_fn
+
+
+cmd="mvn clean package"
+__helper_fn
+
+
+cmd="echo \""${sql_delete}"\" | mariadb --database="${mariadb_db}" --user="${mariadb_user}" --password="${mariadb_password}" --vertical"
+__helper_fn
+cmd="echo \""${sql_select_1}"\" | mariadb --database="${mariadb_db}" --user="${mariadb_user}" --password="${mariadb_password}" --vertical"
+__helper_fn
+
+
+cmd="java -jar './target/'$( ls './target' | grep -P '^ETL.*[.]jar$' ) | tee ${processed_dir}/log.txt"
+__helper_fn
+
+
+cmd="mv -v '${processed_dir}/${input_id_area}' '${processed_dir}/__${input_name}__${input_id_area}__' ; mv -v '${processed_dir}/${input_id_area}.verified' '${processed_dir}/__${input_name}__${input_id_area}.verified__' ;"
+__helper_fn
+
+
+cmd="echo \""${sql_select_1}"\" | mariadb --database="${mariadb_db}" --user="${mariadb_user}" --password="${mariadb_password}" --vertical"
+__helper_fn
+
+
+unset -f __helper_fn
+
+
+echo "done!"
+

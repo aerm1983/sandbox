@@ -6,7 +6,7 @@ echo -e '\n--> wifi-connect  v_2022-02-14_03:00 <--\n'
 w="wlp4s0"
 
 
-function __helper_fn { echo "--->" $cmd ; sleep 1 ; eval $cmd ; echo ; sleep 1 ; }
+function __helper_fn { echo '--->'"${cmd}" ; sleep 1 ; eval "${cmd}" ; echo ; sleep 1 ; }
 
 
 cmd="service avahi-daemon stop"

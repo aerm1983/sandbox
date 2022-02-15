@@ -6,7 +6,7 @@ echo -e '\n--> usb-tether-connect v_2022-02-13_11:00 <--\n'
 u="usb0"
 
 
-function __helper_fn { echo "--->" $cmd ; sleep 1 ; eval $cmd ; echo ; sleep 1 ; }
+function __helper_fn { echo '--->'"$cmd" ; sleep 1 ; eval "$cmd" ; echo ; sleep 1 ; }
 
 
 cmd="service avahi-daemon stop"
