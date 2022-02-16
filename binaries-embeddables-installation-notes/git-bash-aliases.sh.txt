@@ -1,6 +1,6 @@
 # = = = = = = = = = = = = = 
 # customized aliases
-# updated 2022-02-16 11:30
+# updated 2022-02-16 16:45
 # = = = = = = = = = = = = = 
 # linux: add lines at the end of ~/.bashrc
 # windows git-bash: add lines at the end of /etc/profile.d/aliases
@@ -33,7 +33,7 @@ alias gl='echo "--> git log --graph --all --decorate"; sleep ${__alias_timeout__
 alias gb='echo "--> git branch"; sleep ${__alias_timeout__}; git branch'
 
 alias gch='echo "--> git checkout"; sleep ${__alias_timeout__}; git checkout'
-alias ga='echo "--> git add"; sleep ${__alias_timeout__}; git add'
+function ga { echo '--> git add' $1 $2 $3 $4 $5 "        (up to 5 files; use '.' to stage whole dir)" ; sleep ${__alias_timeout__} ; git add $1 $2 $3 $4 $5 ; echo ; gs ; } 
 alias gd='echo "--> git diff"; sleep ${__alias_timeout__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__alias_timeout__}; git commit' 
 
