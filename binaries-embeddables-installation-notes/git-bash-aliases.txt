@@ -1,5 +1,7 @@
-# customized aliases, begin
-
+# = = = = = = = = = = = = = 
+# customized aliases
+# updated 2022-02-16 11:30
+# = = = = = = = = = = = = = 
 # linux: add lines at the end of ~/.bashrc
 # windows git-bash: add lines at the end of /etc/profile.d/aliases
 
@@ -7,18 +9,19 @@
 
 # customized aliases, check adequate location
 
-alias l='ls'
-alias ll='ls -la'
+alias l='echo "$(ls -a --color=always)"'
+alias ll='ls -la --color=always'
 alias c='clear'
 alias cp='cp -v'
 alias rm='rm -v'
+alias grep='grep --color=always'
+alias diff='diff --color=always'
 
 
 
-# customized aliases, constants
+# customized aliases, constants required for script
 
-__alias_version__='v.1.0'
-__alias_version_date__='2021-10-11 07:45'
+__alias_updated__='2022-02-16 11:30'
 __alias_timeout__='0.3'
 
 
@@ -45,6 +48,11 @@ alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
 alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
 
-alias gh='echo -e "--> Git Helper, ${__alias_version__} (${__alias_version_date__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows)"' 
+alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows)"' 
 
+
+# = = = = = = = = = = = = =
 # customized aliases, end
+# = = = = = = = = = = = = =
+
+
