@@ -3,8 +3,9 @@
 
 
 # input variables
-input_name='caso2a_formatoC' # caso2a_formatoC  caso3a_formatoD  caso3b_formatoC  mini_original  original
-fecha_sql='2022-02-15'
+input_name='original_1e6' # caso2a_formatoC  caso3a_formatoD  caso3b_formatoC  original_1e0  original_1e3  original_1e5  original_1e6
+execute_mvn=true # true false
+fecha_sql='2022-02-15' # '2022-02-15'
 
 
 
@@ -35,8 +36,11 @@ cmd="cp -v '${input_dir}/$( ls ${input_dir} | grep ${input_name} )' '${input_dir
 __helper_fn
 
 
+if [ $execute_mvn = 'true' ]
+then
 cmd="mvn clean package"
 __helper_fn
+fi
 
 
 cmd="echo \""${sql_delete}"\" | mariadb --database="${mariadb_db}" --user="${mariadb_user}" --password="${mariadb_password}" --vertical"
@@ -45,7 +49,7 @@ cmd="echo \""${sql_select_1}"\" | mariadb --database="${mariadb_db}" --user="${m
 __helper_fn
 
 
-cmd="java -jar './target/'$( ls './target' | grep -P '^ETL.*[.]jar$' ) | tee ${processed_dir}/log.txt"
+cmd="time java -jar './target/'$( ls './target' | grep -P '^ETL.*[.]jar$' ) | tee ${processed_dir}/log.txt"
 __helper_fn
 
 
@@ -59,6 +63,8 @@ __helper_fn
 
 unset -f __helper_fn
 
+echo -e "case evaluated: '"${input_name}"'"
+echo -e "execute mvn:    '"${execute_mvn}"'\n"
 
 echo "done!"
 
