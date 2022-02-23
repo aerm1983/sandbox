@@ -9,7 +9,7 @@
 
 # customized aliases, constants required for script
 
-__alias_updated__='2022-02-18 16:00'
+__alias_updated__='2022-02-23 14:30'
 __alias_timeout__='0.3'
 
 
@@ -24,6 +24,7 @@ alias mv='mv -v'
 alias rm='rm -v'
 alias grep='grep --color=always'
 alias diff='diff --color=always'
+function npp { 'notepad++' $1 & disown $! ; }
 
 
 
@@ -34,7 +35,7 @@ alias gl='echo "--> git log --graph --all --decorate"; sleep ${__alias_timeout__
 alias gb='echo "--> git branch"; sleep ${__alias_timeout__}; git branch'
 
 alias gch='echo "--> git checkout"; sleep ${__alias_timeout__}; git checkout'
-function ga { echo '--> git add' $1 $2 $3 $4 $5 "        (up to 5 files; use '.' to stage whole dir)" ; sleep ${__alias_timeout__} ; git add $1 $2 $3 $4 $5 ; echo ; gs ; } 
+function ga { echo '--> git add' "${@}" ; sleep ${__alias_timeout__} ; git add "${@}" ; echo ; gs ; } 
 alias gd='echo "--> git diff"; sleep ${__alias_timeout__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__alias_timeout__}; git commit' 
 
