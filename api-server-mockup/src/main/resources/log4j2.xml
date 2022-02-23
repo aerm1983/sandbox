@@ -18,7 +18,9 @@
  		-->
  
         <!-- <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{Mockup} %cyan{%c{1.} : %M #%L} [%X{x-request-id}] : %m%n</Property> -->
-        <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{Mockup} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property>
+        
+        <!-- <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{Mockup} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property> --><!-- current -->
+        <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{@project.name@} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property><!-- current -->
          
     </Properties>
     

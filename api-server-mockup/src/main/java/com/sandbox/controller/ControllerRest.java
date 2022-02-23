@@ -68,7 +68,8 @@ public class ControllerRest {
 		
 		try {
 			
-			log.info("........ BEGIN n:" + projectName + " v:" + projectVersion + " d:" + projectDescription + " vd:" + projectVersionDate + " vc:" + projectVersionComment + " ........");
+			log.info("................ " + projectName.toUpperCase() + " v" + projectVersion + " BEGIN ................") ; 
+			log.info("d:" + projectDescription + " vd:" + projectVersionDate + " vc:" + projectVersionComment);
 			log.info("path: '" + serverServletContextPath + controllerPath + "'");
 			
 			// log.info("myHttpServletRequestWrapper.getRequestBodyStr() : " + myHttpServletRequestWrapper.getRequestBodyStr() );
@@ -181,7 +182,7 @@ public class ControllerRest {
 			*/
 			
 			
-			log.info("........ END n:" + projectName + " v:" + projectVersion + " ........");
+			log.info("................ " + projectName.toUpperCase() + " v" + projectVersion + " END ................") ;
 			
 			
 			return responseEntityNormal;
@@ -202,7 +203,7 @@ public class ControllerRest {
 			
 			log.error("gson.toJson(errorJsonObject): " + gson.toJson(errorJsonObject));
 		
-			log.error("........ END n:" + projectName + " v:" + projectVersion + " ........");
+			log.error("................ " + projectName.toUpperCase() + " v" + projectVersion + " END ................") ;
 			
 			return responseEntityError;
 		}

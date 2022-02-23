@@ -62,8 +62,9 @@ public class Check {
 			@RequestHeader HttpHeaders httpHeaders
 			) {
 		
-		log.info("........ BEGIN n:" + projectName + " v:" + projectVersion + " d:" + projectDescription + " vd:" + projectVersionDate + " vc:" + projectVersionComment + " ........");
-		log.info("path: " + serverServletContextPath + versioncheckControllerPath);
+		log.info("................ " + projectName.toUpperCase() + " v" + projectVersion + " BEGIN ................") ; 
+		log.info("d:" + projectDescription + " vd:" + projectVersionDate + " vc:" + projectVersionComment);
+		log.info("path: '" + serverServletContextPath + versioncheckControllerPath + "'");
 		
 		String responseStr = "" 
 				+ "projectName: " + projectName + "\n"
@@ -79,7 +80,7 @@ public class Check {
 		
 		log.info("httpHeaders: " + httpHeaders);
 		
-		log.info("........ END n:" + projectName + " v:" + projectVersion + " ........");
+		log.info("................ " + projectName.toUpperCase() + " v" + projectVersion + " END ................") ; 
 		
 		return new ResponseEntity<>(responseStr, HttpStatus.OK);
 	}
