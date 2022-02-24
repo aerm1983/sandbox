@@ -1,5 +1,5 @@
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
-awk: executes brackets if line matches pattern. Example: ls -l | awk '/a/ { print $1 " " $3 }'
+awk: executes curly brackets if line matches pattern. Can perform flaoting-point operations.  Example: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ; 
 comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
 crontab:
 date: print date acording to different formats.  Useful to get Unix time in seconds.  Examples:  date +%s  ;   date +'%F %T'  ;  date +'%Y-%m-%d %H:%M:%S'  ;  date -I  ;  date -Idate  ;  date -Iminutes  ;  date -Iseconds  ;  date --rfc-3339=seconds  ; 
