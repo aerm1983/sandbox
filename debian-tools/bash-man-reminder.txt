@@ -21,6 +21,7 @@ nslookup:
 ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
 od: octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
 ping:
+printf: print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
 process substitution: process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
 rsync:
 sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/cat/dog/ig' file.txt ; sed -n '4p' file.txt ; sed -f script.sed file.txt ;
