@@ -10,7 +10,7 @@ echo: print string. Careful with expansions from vars, to avoid it use double-qu
 eval: execute bash command from string.  Careful with expansions, use double-quotes, see command 'echo'.   Examples: eval 'echo *' ; eval 'echo "*"' ;
 fdisk: Example: fdisk -l
 function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
-grep: option -a ascii. Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex.  Option -color=auto to highlight match.
+grep: option -a ascii. Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex.  Option -color=always|never|auto to highlight match.  Option --binary-files=text|binary to specify treatment of binary files.
 ifconfig:
 ip: list, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
 lsblk: list block devices, label can be displayed.
@@ -19,6 +19,7 @@ mount: Without params lists mounted points and info. With params mount points or
 nmap:
 nslookup:
 ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
+od: octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
 ping:
 process substitution: process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
 rsync:
@@ -26,11 +27,12 @@ sed: mainly for line by line substitution if criteria is met.  Can also print sp
 sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
 split: split file
+stty: config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
 systemctl: manage services daemons.  With enable/disable, manages services at system start. Example: systemctl disable tomcat9
 truncate: eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  Example: truncate -s -1 file.txt ;
 type: see executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
 umount:
 unset: unset variables or functions in shell.  Example: unset my_var ; unset -f my_function 
 update-grub: apply changes made on /etc/default/grub file.  Sometimes "grub-install" may be better.
-xxd: hexadecimal representation of binary in file or stdin; option '-c' to define output columns (16 by default).  Example: xxd file.txt ; xxd -c 8 file.txt
+xxd: hexadecimal dump of file or stdin; option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
