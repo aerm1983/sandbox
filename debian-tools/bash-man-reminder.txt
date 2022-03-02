@@ -13,6 +13,7 @@ function: declare functions, which can take positional parameters ($1, $2, $3, .
 grep: option -a ascii. Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex.  Option -color=always|never|auto to highlight match.  Option --binary-files=text|binary to specify treatment of binary files.
 ifconfig:
 ip: list, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
+join: join two files, according to a common field.  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 lsblk: list block devices, label can be displayed.
 lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 mount: Without params lists mounted points and info. With params mount points or devices. Examples: mount ; mount -o 'remount,rw' /dev/sda2
