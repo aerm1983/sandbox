@@ -1,40 +1,85 @@
+a
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
 awk: executes curly brackets if line matches pattern. Can perform flaoting-point operations.  Example: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ; 
+b
+c
+cmp: compare binary files.  Example: cmp file1.bin file2.bin  ;
 comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
 crontab:
+d
 date: print date acording to different formats.  Useful to get Unix time in seconds.  Examples:  date +%s  ;   date +'%F %T'  ;  date +'%Y-%m-%d %H:%M:%S'  ;  date -I  ;  date -Idate  ;  date -Iminutes  ;  date -Iseconds  ;  date --rfc-3339=seconds  ; 
-declare: print shell available variables and functions info.  Example: declare -p ; declare -p my_var ; declare -p -f my_function ;
-df: list storage devices, free space, mount point
+dd: copy files (pending)
+declare: print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
+df: list storage devices, free space, mount point.  Option '-h' human readable size.
 diff: compare two files line by line, git style
+dos2unix: convert txt from dos to unix..
+du: disk usage by each directory.  Option '-h' human readable size.
+e
 echo: print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
+enable: enable, disable or list builtins.  Example:  enable -a  ; enable  -n  ;  enable -n true ;  enable +n true
 eval: execute bash command from string.  Careful with expansions, use double-quotes, see command 'echo'.   Examples: eval 'echo *' ; eval 'echo "*"' ;
+f
 fdisk: Example: fdisk -l
 function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
+g
 grep: option -a ascii. Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex.  Option -color=always|never|auto to highlight match.  Option --binary-files=text|binary to specify treatment of binary files.
+h
+i
 ifconfig:
 ip: list, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
+j
 join: join two files, according to a common field.  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
+k
+l
 lsblk: list block devices, label can be displayed.
 lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
+m
 mount: Without params lists mounted points and info. With params mount points or devices. Examples: mount ; mount -o 'remount,rw' /dev/sda2
+n
+nl: number lines in file.  Example: nl file.txt > file.nl.txt
 nmap:
+nohup: pending
 nslookup:
 ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
+o
 od: octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
+p
 ping:
 printf: print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
 process substitution: process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
+q
+r
 rsync:
+s
 sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/cat/dog/ig' file.txt ; sed -n '4p' file.txt ; sed -f script.sed file.txt ;
+seq: print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
 sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
 split: split file
 stty: config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
 systemctl: manage services daemons.  With enable/disable, manages services at system start. Example: systemctl disable tomcat9
+t
+time: count time a process take to run.  Example: time sleep 5 ;
+timeout: kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
 truncate: eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  Example: truncate -s -1 file.txt ;
+type: indicate type of command: builtin, executable from $PATH, function, alias.  Example: type ls  ;
 type: see executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
+u
+ulimit: show hardware limit settings
 umount:
+uniq: in a sorted file, eliminate duplicate lines.  Example: uniq file.sort.txt.old > file.sort.uniq.txt  ;
+unix2dos: convert txt from unix to dos.
 unset: unset variables or functions in shell.  Example: unset my_var ; unset -f my_function 
 update-grub: apply changes made on /etc/default/grub file.  Sometimes "grub-install" may be better.
+users: pending
+v
+w
+wc: count lines, words and characters or bytes.  Options: -l -w -c.  Example: wc file.txt  ;
+which: indicate if command is available from $PATH.  Example: which ls  ;
+who: list users signed in.
+whoami: current shell user.
+x
 xxd: hexadecimal dump of file or stdin; option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
+y
 yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
+z
