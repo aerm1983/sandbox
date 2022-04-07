@@ -1,6 +1,6 @@
 a
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
-awk: executes curly brackets if line matches pattern. Can perform flaoting-point operations.  Example: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ; 
+awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;   echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'
 b
 c
 cmp: compare binary files.  Example: cmp file1.bin file2.bin  ;
@@ -28,7 +28,7 @@ i
 ifconfig:
 ip: list, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
 j
-join: join two files, according to a common field.  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
+join: join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 k
 l
 lsblk: list block devices, label can be displayed.
