@@ -1,5 +1,6 @@
 a
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
+apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
 awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;   echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'
 b
 c
