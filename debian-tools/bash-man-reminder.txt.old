@@ -14,7 +14,6 @@ declare: print shell available variables and functions info.  Options: -A associ
 df: list storage devices, free space, mount point.  Option '-h' human readable size.
 diff: compare two files line by line, git style
 dos2unix: convert txt from dos to unix..
-dpkg: indicate if package is installed; indicate package which contains command.  Examples: dpkg -s 'man-db'  ; dpkg -S `which man`
 du: disk usage by each directory.  Option '-h' human readable size.
 e
 echo: print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
@@ -85,3 +84,4 @@ xxd: hexadecimal dump of file or stdin; option '-c' to define output columns (16
 y
 yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
 z
+dpkg: indicate if package is installed; indicate package which contains command.  Examples: dpkg -s 'man-db'  ; dpkg -S `which man`
