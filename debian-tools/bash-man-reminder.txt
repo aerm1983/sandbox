@@ -49,6 +49,7 @@ p
 ping:
 printf: print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
 process substitution: process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
+ps: list system processes. Example: ps -o pid,uid,%cpu,%mem,command ax
 q
 r
 rsync:
