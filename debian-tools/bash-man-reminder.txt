@@ -60,7 +60,7 @@ sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
 split: split file
 stty: config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
-systemctl: manage services daemons.  With enable/disable, manages services at system start. Example: systemctl disable tomcat9
+systemctl: check / manage services.  Enable/disable is related to system startup.  Examples: systemctl list-units --type=service --state=running  ;  systemctl disable tomcat 9
 t
 time: count time a process take to run.  Example: time sleep 5 ;
 timeout: kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
