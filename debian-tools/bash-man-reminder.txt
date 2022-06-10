@@ -77,7 +77,7 @@ update-grub: apply changes made on /etc/default/grub file.  Sometimes "grub-inst
 users: pending
 v
 w
-wc: count lines, words and characters or bytes.  Options: -l -w -c.  Example: wc file.txt  ;
+wc: count lines, words and characters or bytes.  Find line with max length.  Options: -l -w -c -L.  Example: wc file.txt  ;  wc -L file.txt
 which: indicate if command is available from $PATH.  Example: which ls  ;
 who: list users signed in.
 whoami: current shell user.
