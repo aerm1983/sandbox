@@ -24,7 +24,7 @@ f
 fdisk: Example: fdisk -l
 function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
 g
-grep: Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex.  Option -color=always|never|auto to highlight match.  Option -a to allow lines with binary (not properly encoded) bytes.  Ejemplo:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x01-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
+grep: Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  Option -color=always|never|auto to highlight match.  Option -a to allow lines with binary (not properly encoded) bytes.  Ejemplo:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
 h
 i
 ifconfig:
