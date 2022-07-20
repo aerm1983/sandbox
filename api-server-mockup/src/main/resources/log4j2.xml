@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+		
+        <!-- Mockup: -->
+        <!-- <Property name="LOG_CLIENT_NAME">mockup-</Property> -->
+		
+        <!-- <Property name="LOG_FILENAME_API">IssuerProvisioning</Property> -->
+  		<!--  
+        <Property name="LOG_FILENAME_GENERAL">Main</Property>
+        <Property name="LOG_FILENAME_GENERAL_CONJ">Main</Property>
+        <Property name="LOG_FOLDER">/u01/app/logs</Property>
+        <Property name="LOG_FOLDER_CONJ">/u01/app/logs</Property>
+	    <Property name="LOG_PATTERN_FILE">%d{yyyy.MM.dd HH:mm:ss.SSS} %p Mockup %c{1.} : %M #%L [%X{x-request-id}] %m%n</Property>        
+ 		-->
+ 
+        <!-- <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{Mockup} %cyan{%c{1.} : %M #%L} [%X{x-request-id}] : %m%n</Property> -->
+        <!-- <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{Mockup} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property> --><!-- current -->
+        <Property name="LOG_PATTERN_CONSOLE">%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight{%p} %magenta{@project.name@} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property><!-- current -->
+         
+    </Properties>
+    
+    <Appenders>
+    
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}" />
+        </Console>
+  		
+  		<!-- 
+        <File name="file_general"
+            fileName="${LOG_FOLDER}/${LOG_CLIENT_NAME}-${LOG_FILENAME_GENERAL}.log"
+            immediateFlush="true"
+    		locking="true" >
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+        </File>
+        
+        <File name="file_general_conj"
+            fileName="${LOG_FOLDER_CONJ}/${LOG_CLIENT_NAME}-${LOG_FILENAME_GENERAL_CONJ}.log"
+            immediateFlush="true"
+    		locking="true" >
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+        </File>
+  		-->
+  
+    </Appenders>
+    
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console" />
+            <!-- 
+            <AppenderRef ref="file_general" />
+            <AppenderRef ref="file_general_conj" />
+            -->
+        </Root>
+    </Loggers>
+    
+</Configuration>
