@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.google.gson.JsonObject;
 import com.sandbox.ServerMockupApplication;
-import com.sandbox.controller.ControllerRest;
+import com.sandbox.alberto01.ControllerRest;
 
 
 @SpringBootTest(classes = ServerMockupApplication.class)

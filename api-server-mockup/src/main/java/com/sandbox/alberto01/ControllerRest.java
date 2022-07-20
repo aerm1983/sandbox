@@ -1,4 +1,4 @@
-package com.sandbox.controller;
+package com.sandbox.alberto01;
 
 
 import org.springframework.beans.factory.annotation.Value;

@@ -22,6 +22,7 @@
 		<java.version>1.8</java.version>
 		<project.versionDate>2022-02-22 13:00</project.versionDate>
 		<project.versionComment>mockup para bm, hash sha-384 in http header, hash calculation and validation</project.versionComment>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<dependencies>
