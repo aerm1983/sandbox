@@ -7,11 +7,37 @@ api_key_secret='aSBhbSBhIHNlY3JldCBzdHJpbmchCg=='
 nonce=$(date +%s) # prod
 # nonce='1645476399' # debug
 
-data='{"codigo":"00","mensajeCliente":"OPERACION EXITOSA","mensajeSistema":"OPERACION EXITOSA","referenciaBancoOrdenante":"430970001714","referenciaBancoBeneficiario":"430970001714","tipo":"R","bancoOrdenante":"0104","bancoBeneficiario":"0105","idCliente":"V000000001234567","numeroCliente":"00584241234104","numeroComercio":"00584143180388","idComercio":"J000000405175621","fecha":"20201104","hora":"0948","codigoMoneda":"0928","monto":"55.75","concepto":"PAGO MOVIL SMS"}'
+d='{'
+d=${d}'"codigo":"00",'
+d=${d}'"mensajeCliente":"OPERACION EXITOSA",'
+d=${d}'"mensajeSistema":"OPERACION EXITOSA",'
+d=${d}'"referenciaBancoOrdenante":"430970001714",'
+d=${d}'"referenciaBancoBeneficiario":"430970001714",'
+d=${d}'"tipo":"R",'
+d=${d}'"bancoOrdenante":"0104",'
+d=${d}'"bancoBeneficiario":"0105",'
+d=${d}'"idCliente":"V000000001234567",'
+d=${d}'"numeroCliente":"00584241234104",'
+d=${d}'"numeroComercio":"00584143180388",'
+d=${d}'"idComercio":"J000000405175621",'
+d=${d}'"fecha":"20201104",'
+d=${d}'"hora":"0948",'
+d=${d}'"codigoMoneda":"0928",'
+d=${d}'"monto":"55.75",'
+d=${d}'"concepto":"PAGO MOVIL SMS"'
+d=${d}'}'
+data=${d}
+
 
 method='POST'
-url_domain='http://127.0.0.1:9000/mi-directorio-raiz'
+
+
+url_domain='http://127.0.0.1'
+url_port=':9000'
+url_context='/mi-directorio-raiz'
 url_path='/p2p/v1/registro'
+url=${url_domain}${url_port}${url_context}${url_path}
+
 
 api_signature_input="${url_path}${nonce}${data}${api_key_secret}" # prod
 # api_signature_input="errado_api_signature_que_debe_fallar" # debug
@@ -26,23 +52,24 @@ echo 'calculated_signature: '${api_signature_output}
 
 echo ''
 
-headers_list="
---header 'content-type: application/json'
---header 'api-key: ${api_key}'
---header 'nonce: ${nonce}'
---header 'api-signature: ${api_signature_output}'
-"
+hl=""
+hl=${hl}" --header 'content-type: application/json'"
+hl=${hl}" --header 'api-key: ${api_key}'"
+hl=${hl}" --header 'nonce: ${nonce}'"
+hl=${hl}" --header 'api-signature: ${api_signature_output}'"
+header_list=${hl}
+
 
 cmd='curl -s -i --request '${method}
-cmd=${cmd}' '${headers_list}
+cmd=${cmd}' '${header_list}
 cmd=${cmd}" --data '"${data}"'"
-cmd=${cmd}' --url "'${url_domain}${url_path}'"'
+cmd=${cmd}" --url '"${url}"'"
 
 
-echo $cmd
+echo -e $cmd '\n'
 
 eval $cmd
 
-echo -e "\n"
+echo -e '\n'
 
 echo 'done!'

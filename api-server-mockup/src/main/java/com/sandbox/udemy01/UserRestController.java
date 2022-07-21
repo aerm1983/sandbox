@@ -5,18 +5,21 @@ package com.sandbox.udemy01;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -31,17 +34,61 @@ public class UserRestController {
 	private UserDao userDao = new UserDao();
 	
 	
+	
 	@GetMapping(
 			path = { "/udemy01/users" },
 			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
-	public ArrayList<UserPojo> getUsers ( 
-			@RequestHeader HttpHeaders requestHeaders, 
-			@RequestBody Object requestBody
+	public ArrayList<UserPojo> retrieveAllUsers ( 
+			@RequestHeader HttpHeaders requestHeaders 
+			// @RequestBody Object requestBody
 			// @PathVariable String myName
 	) {
 		
 		return userDao.findAll();
 	}
+	
+	
+	
+	@GetMapping(
+			path = { "/udemy01/users/{userId}" },
+			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE } 
+		)
+	public UserPojo retrieveOneUser ( 
+			@RequestHeader HttpHeaders requestHeaders, 
+			// @RequestBody Object requestBody
+			@PathVariable int userId
+	) {
+		
+		return userDao.findOne(userId);
+	}
+
+	
+	
+	@PostMapping(
+			path = { "/udemy01/users" },
+			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE } 
+		)
+	public ResponseEntity<Object> saveUser ( 
+			@RequestHeader HttpHeaders requestHeaders,
+			@RequestBody UserPojo user
+			// @PathVariable int userId
+	) {
+		
+		UserPojo savedUser = userDao.save(user);
+		
+		URI location = ServletUriComponentsBuilder
+			.fromCurrentRequest()
+			.path("/{userId}")
+			.buildAndExpand(savedUser.getId())
+			.toUri();
+		
+		return ResponseEntity.created(location).build();
+		
+	}
+
+	
 }

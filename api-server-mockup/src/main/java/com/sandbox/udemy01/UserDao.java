@@ -21,13 +21,6 @@ public class UserDao {
 	}
 	
 	
-	public UserPojo save( UserPojo user ) {
-		if ( user.getId() == null ) {
-			user.setId( ++userListCount );
-		}
-		userList.add(user);
-		return user ;
-	}
 	
 	public UserPojo findOne( int id ) {
 		for (UserPojo user : userList) {
@@ -37,5 +30,16 @@ public class UserDao {
 		}
 		return null;
 	}
+	
+	
+	
+	public UserPojo save( UserPojo user ) {
+		if ( user.getId() == null ) {
+			user.setId( ++userListCount );
+		}
+		userList.add(user);
+		return user ;
+	}
+
 
 }
