@@ -61,8 +61,11 @@ public class UserRestController {
 			// @RequestBody Object requestBody
 			@PathVariable int userId
 	) {
-		
-		return userDao.findOne(userId);
+		UserPojo user = userDao.findOne(userId);
+		if (user == null) {
+			throw new UserNotFoundException("userId: " + userId);
+		}
+		return user;
 	}
 
 	
