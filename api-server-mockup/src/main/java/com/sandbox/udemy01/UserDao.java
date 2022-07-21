@@ -2,6 +2,8 @@ package com.sandbox.udemy01;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+
 import org.springframework.stereotype.Component;
 
 // @Component
@@ -42,4 +44,17 @@ public class UserDao {
 	}
 
 
+	public UserPojo deleteById( int id ) {
+		Iterator<UserPojo> iterator = userList.iterator();
+		while (iterator.hasNext()) {
+			UserPojo user = iterator.next();
+			if (user.getId() == id) {
+				iterator.remove();
+				return user;
+			}
+		}
+		return null;
+	}
+
+	
 }

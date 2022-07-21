@@ -2,9 +2,19 @@ package com.sandbox.udemy01;
 
 import java.util.Date;
 
-public class UserPojo {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+
+
+@Entity
+public class UserPojo {
+	
+	@Id
+	@GeneratedValue
 	private Integer id;
+	
 	private String name;
 	private Date birthDate;
 	
