@@ -3,7 +3,9 @@
 method='POST'
 
 url_domain='http://127.0.0.1:9000'
-url_path='/udemy01/helloworld'
+path_variable='alberto'
+url_path='/udemy01/helloworld/'${path_variable}
+
 
 headers_list="
 --header 'content-type: application/json'
