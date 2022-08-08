@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import java.net.URI;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,10 +79,19 @@ public class UserRestController {
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public ResponseEntity<Object> saveUser ( 
+			HttpServletRequest httpServletRequest,
 			@RequestHeader HttpHeaders requestHeaders,
-			@RequestBody UserPojo user
+			@RequestBody Object requestBody
+			// @RequestBody UserPojo user
 			// @PathVariable int userId
 	) {
+		
+		log.debug("uri: {}", httpServletRequest.getRequestURI() );
+		log.debug("url: {}", httpServletRequest.getRequestURL() );  // includes host, port, path
+		log.debug("requestHeaders: {}", gson.toJson(requestHeaders)  );
+		log.debug("requestBody: {}", gson.toJson(requestBody)  );
+		
+		UserPojo user = gson.fromJson( gson.toJson(requestBody), UserPojo.class);
 		
 		UserPojo savedUser = userDao.save(user);
 		

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="INFO" monitorInterval="30">
     <Properties>
 		
         <!-- Mockup: -->
@@ -45,7 +45,7 @@
     </Appenders>
     
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="console" />
             <!-- 
             <AppenderRef ref="file_general" />

@@ -61,6 +61,8 @@
 			<!-- <scope>provided</scope> -->
 		</dependency>
 		
+		
+		
 		<!-- dependency for jsp -->
         <!--
 		<dependency>
@@ -83,6 +85,17 @@
 		    <scope>test</scope>
 		</dependency>
         
+        
+		<!-- uncomment only when debugging -->
+		<!-- --> 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<!-- <optional>true</optional> -->
+		</dependency>
+		
+       
+        
         <!--
 		<dependency>
 		    <groupId>com.h2database</groupId>
@@ -91,10 +104,13 @@
 		</dependency>
         -->
 
+		<!-- -->
 		<dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        
+        
         
 		<dependency>
             <groupId>com.h2database</groupId>
