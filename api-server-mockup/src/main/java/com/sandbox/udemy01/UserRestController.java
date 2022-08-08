@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,15 +83,28 @@ public class UserRestController {
 	public ResponseEntity<Object> saveUser ( 
 			HttpServletRequest httpServletRequest,
 			@RequestHeader HttpHeaders requestHeaders,
-			@RequestBody Object requestBody
+			@RequestBody Object requestBody,
 			// @RequestBody UserPojo user
 			// @PathVariable int userId
+			@RequestAttribute("myReqAtt") String myReqAtt
 	) {
 		
 		log.debug("uri: {}", httpServletRequest.getRequestURI() );
 		log.debug("url: {}", httpServletRequest.getRequestURL() );  // includes host, port, path
 		log.debug("requestHeaders: {}", gson.toJson(requestHeaders)  );
 		log.debug("requestBody: {}", gson.toJson(requestBody)  );
+		log.debug("getAttribute(myReqAtt): {}",  httpServletRequest.getAttribute("myReqAtt") );
+
+		Enumeration<String> reqAttNmE = httpServletRequest.getAttributeNames();
+		String reqAttNmStr = "[";
+		while(reqAttNmE.hasMoreElements()) {
+			reqAttNmStr += reqAttNmE.nextElement() + ", ";
+		}
+		reqAttNmStr += "]";
+		log.debug("requestAttributeNames: {}", reqAttNmStr );
+		
+		
+		
 		
 		UserPojo user = gson.fromJson( gson.toJson(requestBody), UserPojo.class);
 		

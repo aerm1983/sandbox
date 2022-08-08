@@ -19,6 +19,8 @@ alias 21='./__curl-udemy01-get-one-user.sh'
 alias 22='./__curl-udemy01-save-user.sh'
 alias 23='./__curl-udemy01-delete-user.sh'
 
+alias 9='. ./__generate-run-docker-image.sh'
+
 
 # print aliases
 alias 00 01 0
@@ -26,6 +28,8 @@ echo
 alias 10 11 
 echo
 alias 20 21 22 23
+echo
+alias 9
 echo
 
 echo 'done!'

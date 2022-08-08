@@ -39,6 +39,8 @@ public class UserRequestInterceptor implements HandlerInterceptor {
     	// log.debug("ALBERTO request map: " + map);
     	log.debug("ALBERTO contentString: " + contentString);
     	
+    	request.setAttribute("myReqAtt", "this_is_a_request_attribute");
+    	
         return true;
     }
 

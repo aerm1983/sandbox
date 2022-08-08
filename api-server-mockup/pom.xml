@@ -50,10 +50,12 @@
 		    <artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 
+		<!-- -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -95,27 +97,19 @@
 		</dependency>
 		
        
-        
-        <!--
+        <!-- local testing -->
 		<dependency>
 		    <groupId>com.h2database</groupId>
 		    <artifactId>h2</artifactId>
-		    <scope>test</scope>
+		    <!-- <scope>test</scope> -->
+            <scope>runtime</scope>
 		</dependency>
-        -->
+        
 
 		<!-- -->
 		<dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-        </dependency>
-        
-        
-        
-		<dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
         
 	</dependencies>
