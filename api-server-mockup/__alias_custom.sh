@@ -3,12 +3,23 @@
 # first run: source ./__alias_custom.sh
 # after: use alias 0
 
-# custom aliases - deployment
-alias 00='clear ; ./__taskkill.sh ; mvn clean package ; java -jar ./target/api-server-mockup.jar & '
-alias 01='./__taskkill.sh '
 
 # custom alias - reload this script
 alias 0='source ./__alias_custom.sh'
+
+
+# custom aliases - deployment
+alias 00=' 04 ; 01 ; 02 '
+alias 01=' mvn clean package '
+# alias 01=' mvn clean package -Dmaven.test.skip '
+alias 02=' jarfile=$( ls ./target/*.jar ) ; str="java -jar ${jarfile} & " ; eval "$str" '
+
+function f04 { jarfile=$( ls ./target/*.jar ) ; taskkill //f //pid $( jps -l | grep ${jarfile} | awk ' // { print $1 }' ) ; }
+alias 04=' f04 '
+
+alias 05=' jarfile=$( ls ./target/*.jar ) ;  jps -l | grep -v target ; echo ;  jps -l | grep target ; echo ; jps -l | grep ${jarfile} '
+
+alias 09='. ./__generate-run-docker-image.sh'
 
 # custom aliases - requests
 alias 10='./__curl-alberto01.sh'
@@ -19,17 +30,24 @@ alias 21='./__curl-udemy01-get-one-user.sh'
 alias 22='./__curl-udemy01-save-user.sh'
 alias 23='./__curl-udemy01-delete-user.sh'
 
-alias 9='. ./__generate-run-docker-image.sh'
+
 
 
 # print aliases
-alias 00 01 0
+alias 0
+echo
+alias 00 01 02
+echo
+alias 04
+type f04
+echo
+alias 05
+echo
+alias 09
 echo
 alias 10 11 
 echo
 alias 20 21 22 23
-echo
-alias 9
 echo
 
 echo 'done!'
