@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+REMINDER:
+(1) To inject variables from pom.xml into resources files:
+(1.1) In pom.xml, plugins section, filtering should be enabled.
+(1.2) Delimiter '@' is defined by SpringBoot2 maven plugin.
+(1.3) Without it, delimiter is '${}' .
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	

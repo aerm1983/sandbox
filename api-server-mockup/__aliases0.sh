@@ -1,15 +1,15 @@
 #! /bin/bash
 
-# first run: source ./__alias_custom.sh
+# first run: source ./__aliases0.sh
 # after: use alias 0
 
 
 # custom alias - reload this script
-alias 0='source ./__alias_custom.sh'
+alias 0='source ./__aliases0.sh'
 
 
 # custom aliases - deployment
-alias 00=' 04 ; 01 ; 02 '
+alias 00=' { 04 ; 01 ; } && { 02 ; } '
 alias 01=' mvn clean package '
 # alias 01=' mvn clean package -Dmaven.test.skip '
 alias 02=' jarfile=$( ls ./target/*.jar ) ; str="java -jar ${jarfile} & " ; eval "$str" '
