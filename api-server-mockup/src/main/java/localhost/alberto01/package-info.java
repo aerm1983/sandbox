@@ -5,4 +5,4 @@
  * @author cmartinez
  *
  */
-package com.sandbox.alberto01;
+package localhost.alberto01;

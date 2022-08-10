@@ -1,4 +1,4 @@
-package com.sandbox.udemy01;
+package localhost.udemy01;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.sandbox.alberto01;
+package localhost.alberto01;
 
 
 // curl -s -i -X 'GET' -H 'content-type:application/json' --url 'http://localhost:4000/jsp/'

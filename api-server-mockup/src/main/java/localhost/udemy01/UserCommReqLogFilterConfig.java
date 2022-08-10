@@ -1,4 +1,4 @@
-package com.sandbox.udemy01;
+package localhost.udemy01;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

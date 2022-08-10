@@ -1,4 +1,4 @@
-package com.sandbox.alberto01;
+package localhost.alberto01;
 
 import java.io.Serializable;
 

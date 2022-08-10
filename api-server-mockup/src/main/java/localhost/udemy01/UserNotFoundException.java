@@ -1,4 +1,4 @@
-package com.sandbox.udemy01;
+package localhost.udemy01;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

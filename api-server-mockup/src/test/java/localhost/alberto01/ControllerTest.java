@@ -1,3 +1,4 @@
+package localhost.alberto01 ;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,8 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.google.gson.JsonObject;
-import com.sandbox.ServerMockupApplication;
-import com.sandbox.alberto01.ControllerRest;
+
+import localhost.ServerMockupApplication;
 
 
 @SpringBootTest(classes = ServerMockupApplication.class)

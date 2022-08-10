@@ -1,4 +1,4 @@
-package com.sandbox.udemy01;
+package localhost.udemy01;
 
 import java.util.Date;
 
