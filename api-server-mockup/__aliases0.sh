@@ -12,7 +12,7 @@ alias 0='source ./__aliases0.sh'
 alias 00=' { 04 ; 01 ; } && { 02 ; } '
 alias 01=' mvn clean package '
 # alias 01=' mvn clean package -Dmaven.test.skip '
-alias 02=' jarfile=$( ls ./target/*.jar ) ; str="java -jar ${jarfile} & " ; eval "$str" '
+alias 02=' jarfile=$( ls ./target/*.jar ) ; str="java -Ddebug -jar ${jarfile} & " ; eval "$str" '
 
 function f04 { jarfile=$( ls ./target/*.jar ) ; taskkill //f //pid $( jps -l | grep ${jarfile} | awk ' // { print $1 }' ) ; }
 alias 04=' f04 '
