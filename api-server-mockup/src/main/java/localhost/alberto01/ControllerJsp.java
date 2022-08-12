@@ -23,14 +23,14 @@ public class ControllerJsp {
 	@GetMapping(path="0")
 	public String first_index( Map<String, Object> model) {
 		try {
-			log.info("................ INICIO JSP JSP ................");
+			log.info("................ INICIO JSP JSP 0 ................");
 			model.put("time", new Date());
 			model.put("message", "Hello Alberto");
-			log.info("................ FIN JSP JSP ................");
+			log.info("................ FIN JSP JSP 0 ................");
 			return "welcome";
 		} catch (Exception e) {
 			log.error("error: ", e);
-			log.error("................ ERROR FIN JSP INDEX ................");
+			log.error("................ ERROR FIN JSP INDEX 0 ................");
 			return "welcome";
 		}
 	}
@@ -39,14 +39,14 @@ public class ControllerJsp {
 	@GetMapping(path="1")
 	public String second_index( Map<String, Object> model) {
 		try {
-			log.info("................ INICIO JSP JSP ................");
+			log.info("................ INICIO JSP JSP 1 ................");
 			model.put("time", new Date());
 			model.put("message", "Hello Alberto");
-			log.info("................ FIN JSP JSP ................");
+			log.info("................ FIN JSP JSP 1 ................");
 			return "scriptedpage";
 		} catch (Exception e) {
 			log.error("error: ", e);
-			log.error("................ ERROR FIN JSP INDEX ................");
+			log.error("................ ERROR FIN JSP INDEX 1 ................");
 			return "scriptedpage";
 		}
 	}

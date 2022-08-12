@@ -57,7 +57,7 @@ public class ControllerRest {
 	
 	@PostMapping(
 			path = { controllerPath },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public ResponseEntity<Object> controller ( 

@@ -42,7 +42,7 @@ public class UserRestController {
 	
 	@GetMapping(
 			path = { "/udemy01/users" },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public ArrayList<UserPojo> retrieveAllUsers ( 
@@ -58,7 +58,7 @@ public class UserRestController {
 	
 	@GetMapping(
 			path = { "/udemy01/users/{userId}" },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public UserPojo retrieveOneUser ( 
@@ -77,7 +77,7 @@ public class UserRestController {
 	
 	@PostMapping(
 			path = { "/udemy01/users" },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public ResponseEntity<Object> saveUser ( 

@@ -30,7 +30,7 @@ public class HelloWorldRestController {
 	
 	@PostMapping(
 			path = { "/udemy01/helloworld/{myName}" },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public String controller ( 
