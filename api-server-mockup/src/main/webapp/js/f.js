@@ -1,1 +1,1 @@
-alert ("/webapp/js/f.js loaded!");
+document.body.append("src/main/webapp/js/f.js loaded!");

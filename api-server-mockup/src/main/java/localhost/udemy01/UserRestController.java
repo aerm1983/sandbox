@@ -31,13 +31,34 @@ import com.google.gson.JsonObject;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("")
 public class UserRestController {
 
 	private static final Logger log = LoggerFactory.getLogger(UserRestController.class);
 	private static Gson gson = new Gson();
 	private UserDao userDao = new UserDao();
+
 	
+	// spring security test purpose
+	@GetMapping(
+			path = { "/user" },
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
+			produces = { MediaType.TEXT_PLAIN_VALUE } 
+		)
+	public String goToUser (HttpServletRequest httpServletRequest) {
+		return "you entered in '/user' !";
+	}
+	
+	// spring security test purpose
+	@GetMapping(
+			path = { "/admin" },
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
+			produces = { MediaType.TEXT_PLAIN_VALUE } 
+		)
+	public String goToAdmin (HttpServletRequest httpServletRequest) {
+		return "you entered in '/admin' !";
+	}
+
 	
 	
 	@GetMapping(
@@ -125,7 +146,7 @@ public class UserRestController {
 	
 	@DeleteMapping(
 			path = { "/udemy01/users/{userId}" },
-			consumes = { MediaType.APPLICATION_JSON_VALUE }, 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE } 
 		)
 	public void deleteOneUser ( 

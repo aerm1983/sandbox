@@ -14,8 +14,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @RestController
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+// public class CustomResponseEntityExceptionHandler {
+
 	
-	
+	/*
+	 * 
+	 */
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
 		
@@ -28,8 +32,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 		
 	}
+
 	
-	
+	/*
+	 * 
+
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
 		
@@ -42,8 +49,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
-
-	
+	 */	
 	
 
 }
