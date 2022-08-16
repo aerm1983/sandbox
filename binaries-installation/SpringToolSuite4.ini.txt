@@ -18,3 +18,5 @@ openFile
 -Xmx2048m
 --illegal-access=permit
 --add-modules=ALL-SYSTEM
+# lombok, add manually:
+-javaagent:D:\opt\sts\sts-4.11.0\lombok-1.18.24.jar
