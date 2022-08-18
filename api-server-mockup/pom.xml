@@ -44,12 +44,7 @@ REMINDER:
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		    <exclusions>
-		    	<!-- logging -->
-		        <exclusion>
-		            <groupId>org.springframework.boot</groupId>
-		            <artifactId>spring-boot-starter-logging</artifactId>
-		        </exclusion>
+			<exclusions>
 				<!-- Jackson -->
 				<!-- 
 				<exclusion>
@@ -57,7 +52,19 @@ REMINDER:
 					<artifactId>spring-boot-starter-json</artifactId>
 				</exclusion>
 				-->
-		    </exclusions>
+			</exclusions>
+		</dependency>
+				
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+		    	<!-- logging -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>

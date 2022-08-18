@@ -1,7 +1,7 @@
 package localhost.CommandLineRun;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlbertoRunnableProcess implements CommandLineRunner{
 	
-	private static Logger log = LogManager.getLogger(AlbertoRunnableProcess.class);
+	private static Logger log = LoggerFactory.getLogger(AlbertoRunnableProcess.class);
 	
 	@Override
 	public
