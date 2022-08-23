@@ -25,8 +25,12 @@ public class CommandLineApp1Test {
 	@Test
 	public void contextLoads() throws Exception {
 		
-		log.debug("test 1 debug simple, no exception!");
-		log.info("test 1 info simple, no exception!");
+		log.trace("simple test 1, trace, no exception!");
+		log.debug("simple test 1, debug, no exception!");
+		log.info("simple test 1, info, no exception!");
+		log.warn("simple test 1, warn, no exception!");
+		log.error("simple test 1, error, no exception!");
+		log.fatal("simple test 1, fatal, no exception!");
 		
 		// throw new Exception("Alberto generated!!!");
 		
