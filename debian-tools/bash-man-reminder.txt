@@ -1,4 +1,4 @@
-# updated: 2022-08-23 17:30
+# updated: 2022-08-23 18:30
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
 apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
@@ -34,7 +34,7 @@ j:
 join: join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 k:
 l:
-less: option -R to display colors.
+less: options: -R raw or display colors; -I case insensitive search; -N line number; -J status column; -S chop long lines; -s chop empty lines; / search forward; ? search backward; n next search result; N previous search result; ESC u highlight search results; & filter or grep.
 lsblk: list block devices, label can be displayed.
 lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
