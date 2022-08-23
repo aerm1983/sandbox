@@ -55,7 +55,7 @@ q:
 r:
 rsync:
 s:
-sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/cat/dog/ig' file.txt ; sed -n '4p' file.txt ; sed -f script.sed file.txt ;
+sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/cat/dog/ig' file.txt  ;  sed -n '4p' file.txt  ;  sed -f script.sed file.txt  ;  sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' color-log.txt > no-color-log.txt  ;
 seq: print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
 sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
