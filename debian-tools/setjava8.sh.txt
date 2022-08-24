@@ -1,0 +1,37 @@
+# change JAVA environment version
+
+
+# save initial dir into var
+init_dir=$( pwd )
+
+
+# redefine JAVA_HOME
+cd $JAVA_8_HOME
+JAVA_HOME=$( pwd )
+
+
+# delete current jdk from PATH
+# echo $PATH | grep -P ':[^:]+java/jdk[^:]+'
+path_tmp1=$( sed -E 's/:[^:]+java[/]jdk[^:]+//g' <( echo ${PATH} ) ) 
+
+
+# append executables dir in new JAVA_HOME to PATH
+cd $JAVA_8_HOME/bin
+path_tmp2=${path_tmp1}':'$( pwd )
+PATH=${path_tmp2}
+
+
+# return to initial dir
+cd ${init_dir}
+
+
+# unset temporal vars
+# unset path_tmp1 path_tmp2 init_dir
+
+# verifications
+echo 'JAVA_HOME: '${JAVA_HOME}
+echo
+echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) )
+echo
+java -version
+
