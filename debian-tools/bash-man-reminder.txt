@@ -1,6 +1,8 @@
-# updated: 2022-08-23 18:30
+# bash man reminder
+# updated: 2022-08-23 20:45
+# look at 'alias:' as example for further command additions
 a:
-alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Examples: alias c='clear' ; alias -p 
+alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
 awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;   echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "alberto" ) { $2 = "isAlberto" } else if ( $1 == "marquina" ) { $2 = "isMarquina" } else { $2 = "notAlbertoNorMarquina" } ; print $1 "|" $2 }' file.txt  ;
 b:
@@ -25,7 +27,7 @@ f:
 fdisk: Example: fdisk -l
 function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
 g:
-grep: Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  Option -color=always|never|auto to highlight match.  Option -a to allow lines with binary (not properly encoded) bytes.  Ejemplo:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
+grep: filter lines by pattern.  Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  Option -color=always|never|auto to highlight match.  Option -a to allow lines with binary (not properly encoded) bytes.  Examples:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
 h:
 i:
 ifconfig:
@@ -34,7 +36,8 @@ j:
 join: join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 k:
 l:
-less: options: -R raw or display colors; -I case insensitive search; -N line number; -J status column; -S chop long lines; -s chop empty lines; / search forward; ? search backward; n next search result; N previous search result; ESC u highlight search results; & filter or grep.
+less: buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Option -R raw or display colors.  Option -I case insensitive search.  Option -N line number.  Option -J status column.  Option -S chop long lines.  Option -s chop empty lines.  Option / search forward.  Option ? search backward.  Option n next search result.  Option N previous search result.  Option ESC u highlight search results.  Option & filter or grep.
+ln: create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
 lsblk: list block devices, label can be displayed.
 lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
@@ -56,7 +59,7 @@ q:
 r:
 rsync:
 s:
-sed: mainly for line by line substitution if criteria is met.  Can also print specific line. Example: sed -E 's/cat/dog/ig' file.txt  ;  sed -n '4p' file.txt  ;  sed -f script.sed file.txt  ;  sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' color-log.txt > no-color-log.txt  ;  sed -E 's/(.)$/\1\n/g' file.txt > file_double_newline.txt  ;
+sed: mainly for line by line substitution if criteria is met.  Can also print specific line.  Option -E extended re.  Example: sed -E 's/cat/dog/ig' file.txt  ;  sed -n '4p' file.txt  ;  sed -f script.sed file.txt  ;  sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' color-log.txt > no-color-log.txt  ;  sed -E 's/(.)$/\1\n/g' file.txt > file_double_newline.txt  ;
 seq: print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
 sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
@@ -66,6 +69,7 @@ systemctl: check / manage services.  Enable/disable is related to system startup
 t:
 time: count time a process take to run.  Example: time sleep 5 ;
 timeout: kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
+tr: translate characters, one by one.  Option -d delete caracter(s).  Example: echo 'a i u o e' | tr 'aeiou' 'AEIOU'  ;  echo -E 'a\ne\ni\no\nu' | tr -d '\n'  ;  
 truncate: eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  Example: truncate -s -1 file.txt ;
 type: indicate type of command: builtin, executable from $PATH, function, alias.  Example: type ls  ;
 type: see executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
@@ -78,6 +82,7 @@ unset: unset variables or functions in shell.  Example: unset my_var ; unset -f 
 update-grub: apply changes made on /etc/default/grub file.  Sometimes "grub-install" may be better.
 users: pending
 v:
+vi: default bash text editor.  Options described a continuation are for prompt at screen bottom.  Option ESC (press several times) clean prompt or exit insert mode.  Option i insert mode.  Option :w write file.  Option :q quit.  Option :q! quit without changes.  Option yy copy (yank) line.  Option p paste line.  Option dd delete line.  Option dw delete word.  Option d (arrow) delete character.  Option / search regex, forward.  Option ? search regex, backwards.  Option n next search result.  Option N previous search result.  Option ctrl+Begin|End|(arrows) and Begin|End fast cursor motion.  Option :%s/{regex}/{string}/{flags} for substituion, omit % for substitution in current line only.
 w:
 wc: count lines, words and characters or bytes.  Find line with max length.  Options: -l -w -c -L.  Example: wc file.txt  ;  wc -L file.txt
 which: indicate if command is available from $PATH.  Example: which ls  ;
