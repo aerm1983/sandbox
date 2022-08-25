@@ -29,7 +29,7 @@ alias dp='declare -p'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
 function npp { 'notepad++' $1 & disown $! ; }
-function m { grep --color=always 'updated:' ~/bash-man-reminder.txt; grep --color=always ${1}':' ~/bash-man-reminder.txt | sed -E '{ s/ ; / ;\n /g ; s/(Option:|Example:)/\n\1\n/g ; s/[.] /.\n / }' }
+function m { grep --color=always 'updated:' ~/bash-man-reminder.txt; grep --color=always ${1}':' ~/bash-man-reminder.txt | sed -E '{ s/ ; / ;\n /g ; s/(Option:|Example:)/\n\1\n/g ; s/[.] /.\n / }' ; }
 function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
 
 
