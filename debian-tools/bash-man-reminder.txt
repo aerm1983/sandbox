@@ -1,5 +1,5 @@
 # bash man reminder
-# updated: 2022-08-23 20:45
+# updated: 2022-08-24 22:45
 # look at 'alias:' as example for further command additions
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
@@ -59,7 +59,7 @@ q:
 r:
 rsync:
 s:
-sed: mainly for line by line substitution if criteria is met.  Can also print specific line.  Option -E extended re.  Example: sed -E 's/cat/dog/ig' file.txt  ;  sed -n '4p' file.txt  ;  sed -f script.sed file.txt  ;  sed -E 's/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' color-log.txt > no-color-log.txt  ;  sed -E 's/(.)$/\1\n/g' file.txt > file_double_newline.txt  ;
+sed: mainly for line by line substitution if criteria is met.  Can also print specific line.  Option -E extended re.  Option -i.old inplace modify, create backup file with suffix.  Example: sed -E '{ s/cat/dog/ig }' file.txt  ;  sed -n '{ 4p }' file.txt  ;  sed -f script.sed file.txt  ;  sed -E '{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }' color-log.txt > no-color-log.txt  ;  sed -E '{ s/(.)$/\1\n/g }' file.txt > file_double_newline.txt  ;  grep --color=never -r 'word' ./ | sed -E '{ s/^([^:]+):.+$/\1/ }'  ;  
 seq: print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
 sort: order file lines, ascii criteria
 source: executes bash script as current shell/process, not as sub-shell/sub-process.
@@ -89,7 +89,7 @@ which: indicate if command is available from $PATH.  Example: which ls  ;
 who: list users signed in.
 whoami: current shell user.
 x:
-xxd: hexadecimal dump of file or stdin; option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
+xxd: hexadecimal dump of file or stdin.  Option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 y:
 yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
 z:

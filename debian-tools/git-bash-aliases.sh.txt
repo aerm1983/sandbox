@@ -9,7 +9,7 @@
 
 # customized aliases, constants required for script
 
-__alias_updated__='2022-08-24 07:30'
+__alias_updated__='2022-08-24 22:45'
 __alias_timeout__='0.3'
 
 
@@ -22,10 +22,16 @@ alias c='clear'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
-alias grep='grep --color=always'
+alias grep='grep --color=always -P'
+alias sed='sed -E'
+alias less='less -R -N -S -J'
+alias dp='declare -p'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
 function npp { 'notepad++' $1 & disown $! ; }
+function m { grep --color=always 'updated:' ~/bash-man-reminder.txt; grep --color=always ${1}':' ~/bash-man-reminder.txt | sed -E '{ s/ ; / ;\n /g ; s/(Option:|Example:)/\n\1\n/g ; s/[.] /.\n / }' }
+function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
+
 
 # java automation, addition begin
 
@@ -38,12 +44,13 @@ alias mcp='mvn clean package -Dmaven.test.skip'
 function jj { jarfile=$( ls ./target/*.jar ) ; java -Dspring.profiles.active=$1 -jar $jarfile &  }
 
 alias wsl='clear ; winpty wsl ;'
+
 alias lg='ls -a --color=always | grep'
 alias llg='ls -la --color=always | grep'
+
 alias cdk='cd ~/Desktop'
 alias cdkj='cd ~/Desktop/dm-code-java'
 function clg { cd $( ls | grep --color=never $1 ) ; }
-function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
 
 # alias sj8 jl jlg tk mc mcp wsl lg llg cdk clg ; print_fn jj ; print_fn clg
 # java automation, addition end
