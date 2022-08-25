@@ -33,7 +33,7 @@ method='POST'
 
 
 url_domain='http://127.0.0.1'
-url_port=':9000'
+url_port=':10000'
 url_context='/mi-directorio-raiz'
 url_path='/p2p/v1/registro'
 url=${url_domain}${url_port}${url_context}${url_path}
