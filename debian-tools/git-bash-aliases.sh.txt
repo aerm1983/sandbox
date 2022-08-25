@@ -9,7 +9,7 @@
 
 # customized aliases, constants required for script
 
-__alias_updated__='2022-08-25 00:30'
+__alias_updated__='2022-08-25 01:30'
 __alias_timeout__='0.3'
 
 
@@ -52,7 +52,7 @@ alias cdk='cd ~/Desktop'
 alias cdkj='cd ~/Desktop/dm-code-java'
 function clg { cd $( ls | grep --color=never $1 ) ; }
 
-# alias sj8 jl jlg tk mc mcp wsl lg llg cdk clg ; print_fn jj ; print_fn clg
+# alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg
 # java automation, addition end
 
 
@@ -82,7 +82,7 @@ alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 # alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "' 
 
 # temporal
-alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "'" ; echo ; alias sj8 jl jlg tk mc mcp wsl lg llg cdk clg ; print_fn jj ; print_fn clg "
+alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "'" ; echo ; alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg "
 
 
 

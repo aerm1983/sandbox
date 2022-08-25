@@ -1,10 +1,10 @@
 # bash man reminder
-# updated: 2022-08-25 00:30
+# updated: 2022-08-25 01:30
 # look at 'alias:' as example for further command additions
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
-awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples: ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;   echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "alberto" ) { $2 = "isAlberto" } else if ( $1 == "marquina" ) { $2 = "isMarquina" } else { $2 = "notAlbertoNorMarquina" } ; print $1 "|" $2 }' file.txt  ;
+awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "alberto" ) { $2 = "isAlberto" } else if ( $1 == "marquina" ) { $2 = "isMarquina" } else { $2 = "notAlbertoNorMarquina" }  ;  print $1 "|" $2 }' file.txt  ;
 b:
 c:
 cmp: compare binary files.  Example: cmp file1.bin file2.bin  ;
