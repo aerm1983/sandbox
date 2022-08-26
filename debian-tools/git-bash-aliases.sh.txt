@@ -1,36 +1,74 @@
 # = = = = = = = = = = 
-# customized aliases
+# CUSTOMIZED ALIASES
 # = = = = = = = = = = 
-# see constants section below for update date reference
-# linux: add lines at the end of '~/.bashrc'
-# windows git-bash: add lines at the end of '/etc/profile.d/aliases'
+# See constants section below for update date reference.
+#
+# INSTALLATION:
+# Put a copy of this faile in $HOME folder.
+# Filename: folowing convention, change to '.git-bash-aliases' when copying to $HOME or %USERPROFILE%
+# Insert source hook in bash initialization file:
+# - linux: '~/.bashrc'.
+# - windows git-bash: '/etc/profile.d/aliases'.
+# Source hook (edit as convenient):
+# srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${srcfile} ] ; then ; source ${srcfile} ; echo "Commands 'gh', 'nh', 'jh' available; last update: "$( h_last_update ) ; fi ; unset srcfile ; 
+#
+#
+# REMINDER:
+# If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
 
 
-
-# customized aliases, constants required for script
-
-__alias_updated__='2022-08-25 01:30'
+# Constants required for script
+__alias_last_update__='2022-08-26 15:15'
 __alias_timeout__='0.3'
 
 
 
-# customized aliases, check adequate location
-
+# General Aliases - file browsing and manipulation
+alias e='exit'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -la --color=always'
 alias c='clear'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
+
+# testing:
+alias lg='ls -a --color=always | grep'
+alias llg='ls -la --color=always | grep'
+alias cdk='cd ~/Desktop'
+function clg { cd $( ls | grep --color=never $1 ) ; }
+
+alias cdkj='cd ~/Desktop/dm-git-java'
+alias cdks='cd ~/Desktop/are-git-sandbox'
+
+
+
+# General aliases - text/binary search and processing
 alias grep='grep --color=always -P'
 alias sed='sed -E'
 alias less='less -R -N -S -J'
-alias dp='declare -p'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
-function npp { 'notepad++' $1 & disown $! ; }
-function m { grep --color=always 'updated:' ~/bash-man-reminder.txt ; grep --color=always ${1}':' ~/bash-man-reminder.txt | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; }
+
+# General aliases - environment monitoring
+function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
+
+# General aliases - functions, helpers
+function h_set_bh_file { bh_file_test=${HOME}/bash-help.txt ; bh_file_profile=${HOME}/.bash-help ; if [ -e ${bh_file_test} ] ; then bh_file=${bh_file_draft} ; echo 'using TEST file' ; elif [ -e ${bh_file_profile} ] ; then bh_file=${bh_file_profile} ; echo 'using PROFILE file' ; else bh_file='' ; echo 'no source file available' ; fi ; }
+function h_arg1_empty { grep --color=always 'updated:' ${bh_file} ; echo '($1 empty)' ; }
+function h_arg1_not_empty { grep --color=always 'updated:' ${bh_file} ; grep --color=always ${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; }
+function h { echo "--> my bash help" ; h_set_bh_file ; if [ -z ${bh_file} ] ; then return 1  ; fi ; if [ -z $1 ] ; then h_arg1_empty ; else h_arg1_not_empty ${1} ; fi ;  }
+
 function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
+
+function h_last_update { echo ${__alias_last_update__} ; }
+
+# General aliases -- Windows OS specific
+function npp { 'notepad++' $1 & disown $! ; }
+
+
+
+
 
 
 # java automation, addition begin
@@ -45,12 +83,6 @@ function jj { jarfile=$( ls ./target/*.jar ) ; java -Dspring.profiles.active=$1 
 
 alias wsl='clear ; winpty wsl ;'
 
-alias lg='ls -a --color=always | grep'
-alias llg='ls -la --color=always | grep'
-
-alias cdk='cd ~/Desktop'
-alias cdkj='cd ~/Desktop/dm-code-java'
-function clg { cd $( ls | grep --color=never $1 ) ; }
 
 # alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg
 # java automation, addition end
@@ -79,10 +111,10 @@ alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
 
 # original
-# alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "' 
+# alias gh='echo -e "--> Git Helper (${__alias_last_update__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "' 
 
 # temporal
-alias gh='echo -e "--> Git Helper (${__alias_updated__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "'" ; echo ; alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg "
+alias gh='echo -e "--> Git Helper (${__alias_last_update__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "'" ; echo ; alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg "
 
 
 
