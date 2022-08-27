@@ -7,20 +7,22 @@
 # Put a copy of this faile in $HOME folder.
 # Filename: folowing convention, change to '.git-bash-aliases' when copying to $HOME or %USERPROFILE%
 # Insert source hook in bash initialization file:
-# - linux: '~/.bashrc'.
-# - windows git-bash: '/etc/profile.d/aliases'.
+#     - linux: '~/.bashrc'.
+#     - windows git-bash: '/etc/profile.d/aliases'.
 # Source hook (edit as convenient):
-# srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${srcfile} ] ; then ; source ${srcfile} ; echo "Commands 'gh', 'nh', 'jh' available; last update: "$( h_last_update ) ; fi ; unset srcfile ; 
-#
+#     srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${srcfile} ] ; then ; source ${srcfile} ; echo 'Custom aliases last update: '$( h_last_update ) ; fi ; unset srcfile ; 
 #
 # REMINDER:
 # If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
 
 
 # Constants required for script
-__alias_last_update__='2022-08-26 15:15'
+__alias_last_update__='2022-08-26 20:20'
 __alias_timeout__='0.3'
 
+
+# Helping alias. Re-alias to '0' while testing / implementing changes:
+alias __gba='rm '${HOME}'/bash-help.txt ; cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_last_update ; echo ; h ;'
 
 
 # General Aliases - file browsing and manipulation
@@ -35,9 +37,10 @@ alias rm='rm -v'
 # testing:
 alias lg='ls -a --color=always | grep'
 alias llg='ls -la --color=always | grep'
-alias cdk='cd ~/Desktop'
 function clg { cd $( ls | grep --color=never $1 ) ; }
 
+# frequently used directories
+alias cdk='cd ~/Desktop'
 alias cdkj='cd ~/Desktop/dm-git-java'
 alias cdks='cd ~/Desktop/are-git-sandbox'
 
@@ -49,12 +52,18 @@ alias sed='sed -E'
 alias less='less -R -N -S -J'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
+alias sed.nc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
+alias sed.iwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
+
+# General aliases - time
+alias date.us='date +%s'
+alias date.ts='date +'\''%Y-%m-%d %H:%M:%S'\'
 
 # General aliases - environment monitoring
 function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
 
 # General aliases - functions, helpers
-function h_set_bh_file { bh_file_test=${HOME}/bash-help.txt ; bh_file_profile=${HOME}/.bash-help ; if [ -e ${bh_file_test} ] ; then bh_file=${bh_file_draft} ; echo 'using TEST file' ; elif [ -e ${bh_file_profile} ] ; then bh_file=${bh_file_profile} ; echo 'using PROFILE file' ; else bh_file='' ; echo 'no source file available' ; fi ; }
+function h_set_bh_file { bh_file_test=${HOME}/bash-help.txt ; bh_file_profile=${HOME}/.bash-help ; if [ -e ${bh_file_test} ] ; then bh_file=${bh_file_test} ; echo 'using TEST file' ; elif [ -e ${bh_file_profile} ] ; then bh_file=${bh_file_profile} ; echo 'using PROFILE file' ; else bh_file='' ; echo 'no source file available' ; fi ; }
 function h_arg1_empty { grep --color=always 'updated:' ${bh_file} ; echo '($1 empty)' ; }
 function h_arg1_not_empty { grep --color=always 'updated:' ${bh_file} ; grep --color=always ${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; }
 function h { echo "--> my bash help" ; h_set_bh_file ; if [ -z ${bh_file} ] ; then return 1  ; fi ; if [ -z $1 ] ; then h_arg1_empty ; else h_arg1_not_empty ${1} ; fi ;  }
