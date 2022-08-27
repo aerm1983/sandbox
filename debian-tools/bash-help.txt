@@ -1,5 +1,5 @@
 # bash help
-# updated: 2022-08-26 20:20
+# updated: 2022-08-26 21:15
 # look at 'alias:' as example for further command additions
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  

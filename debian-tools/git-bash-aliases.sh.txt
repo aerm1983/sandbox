@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-08-26 20:20'
+__alias_last_update__='2022-08-26 21:15'
 __alias_timeout__='0.3'
 
 
@@ -56,8 +56,8 @@ alias sed.nc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
 alias sed.iwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
 
 # General aliases - time
-alias date.us='date +%s'
-alias date.ts='date +'\''%Y-%m-%d %H:%M:%S'\'
+alias date.xs='date +%s'
+alias date.sql='date +'\''%Y-%m-%d %H:%M:%S'\'
 
 # General aliases - environment monitoring
 function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
@@ -118,12 +118,24 @@ alias gps='echo "--> git push"; sleep ${__alias_timeout__}; git push'
 alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
 alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
-
-# original
-# alias gh='echo -e "--> Git Helper (${__alias_last_update__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "' 
-
-# temporal
-alias gh='echo -e "--> Git Helper (${__alias_last_update__}) \n  gs: git status \n  gl: git log --graph --all --decorate\n  gb: git branch \n\n  gch: git checkout \n  ga: git add \n  gd: git diff \n  gco: git commit \n\n  gr: git reset --hard \n  gm: git merge \n\n  gf: git fetch \n  gpl: git pull \n  gps: git push \n\n  xo: xdg-open (linux) \n  s: start (windows) \n\n  # linux: add lines at the end of \"~/.bashrc\" \n  # windows git-bash: add lines at the end of \"/etc/profile.d/aliases\" "'" ; echo ; alias sj8 jl jlg tk mc mcp wsl lg llg cdk ; print_fn jj ; print_fn clg "
+_gh_s='--> Git Helper ('${__alias_last_update__}') \n'
+_gh_s=${_gh_s}'  gs: git status \n' 
+_gh_s=${_gh_s}'  gl: git log --graph --all --decorate \n'
+_gh_s=${_gh_s}'  gb: git branch \n\n'
+_gh_s=${_gh_s}'  gch: git checkout \n'
+_gh_s=${_gh_s}'  ga: git add \n'
+_gh_s=${_gh_s}'  gd: git diff \n'
+_gh_s=${_gh_s}'  gco: git commit \n\n'
+_gh_s=${_gh_s}'  gr: git reset --hard \n'
+_gh_s=${_gh_s}'  gm: git merge \n\n'
+_gh_s=${_gh_s}'  gf: git fetch \n'
+_gh_s=${_gh_s}'  gpl: git pull \n'
+_gh_s=${_gh_s}'  gps: git push \n\n'
+_gh_s=${_gh_s}'  xo: xdg-open (linux) \n'
+_gh_s=${_gh_s}'  s: start (windows) \n\n'
+_gh_s=${_gh_s}'  # linux: add lines at the end of "~/.bashrc" \n'
+_gh_s=${_gh_s}'  # windows git-bash: add lines at the end of "/etc/profile.d/aliases"' 
+alias gh='echo -e "${_gh_s}"'
 
 
 
