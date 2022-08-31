@@ -10,29 +10,30 @@
 #     - linux: '~/.bashrc'.
 #     - windows git-bash: '/etc/profile.d/aliases'.
 # Source hook (edit as convenient):
-#     srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${srcfile} ] ; then ; source ${srcfile} ; echo 'Custom aliases last update: '$( h_last_update ) ; fi ; unset srcfile ; 
+#     srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${srcfile} ] ; then ; source ${srcfile} ; echo $( h_greeting ) ; fi ; unset srcfile ; 
 #
 # REMINDER:
 # If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
 
 
 # Constants required for script
-__alias_last_update__='2022-08-26 21:15'
+__alias_last_update__='2022-08-31 11:20'
 __alias_timeout__='0.3'
 
 
 # Helping alias. Re-alias to '0' while testing / implementing changes:
-alias __gba='rm '${HOME}'/bash-help.txt ; cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_last_update ; echo ; h ;'
+alias __gba='rm '${HOME}'/bash-help.txt ; cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_greeting ; echo ; h ;'
 
 
 # General Aliases - file browsing and manipulation
 alias e='exit'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -la --color=always'
-alias c='clear'
+alias c='_c_a_c'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
+function _c_a_c { if [ -z $1 ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
 
 # testing:
 alias lg='ls -a --color=always | grep'
@@ -51,10 +52,10 @@ alias sed='sed -E'
 alias less='less -R -N -S -J'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
-alias sed.nc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
-alias sed.iwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
-function grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
-alias grep.sed.uniq.rf='grep_sed_uniq_rf '
+alias sednc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
+alias siwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
+function _grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
+alias gsurf='_grep_sed_uniq_rf '
 
 
 # General aliases - time
@@ -73,6 +74,7 @@ function h { echo "--> my bash help" ; h_set_bh_file ; if [ -z ${bh_file} ] ; th
 function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
 
 function h_last_update { echo ${__alias_last_update__} ; }
+function h_greeting { echo 'GBA - updated: '${__alias_last_update__} ; }
 
 # General aliases -- Windows OS specific
 function npp { 'notepad++' $1 & disown $! ; }
@@ -120,23 +122,25 @@ alias gps='echo "--> git push"; sleep ${__alias_timeout__}; git push'
 alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
 alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
-_gh_s='--> Git Helper ('${__alias_last_update__}') \n'
-_gh_s=${_gh_s}'  gs: git status \n' 
-_gh_s=${_gh_s}'  gl: git log --graph --all --decorate \n'
-_gh_s=${_gh_s}'  gb: git branch \n\n'
-_gh_s=${_gh_s}'  gch: git checkout \n'
-_gh_s=${_gh_s}'  ga: git add \n'
-_gh_s=${_gh_s}'  gd: git diff \n'
-_gh_s=${_gh_s}'  gco: git commit \n\n'
-_gh_s=${_gh_s}'  gr: git reset --hard \n'
-_gh_s=${_gh_s}'  gm: git merge \n\n'
-_gh_s=${_gh_s}'  gf: git fetch \n'
-_gh_s=${_gh_s}'  gpl: git pull \n'
-_gh_s=${_gh_s}'  gps: git push \n\n'
-_gh_s=${_gh_s}'  xo: xdg-open (linux) \n'
-_gh_s=${_gh_s}'  s: start (windows) \n\n'
-_gh_s=${_gh_s}'  # linux: add lines at the end of "~/.bashrc" \n'
-_gh_s=${_gh_s}'  # windows git-bash: add lines at the end of "/etc/profile.d/aliases"' 
+s='--> Git Helper ('${__alias_last_update__}') \n'
+s=${s}'  gs: git status \n' 
+s=${s}'  gl: git log --graph --all --decorate \n'
+s=${s}'  gb: git branch \n\n'
+s=${s}'  gch: git checkout \n'
+s=${s}'  ga: git add \n'
+s=${s}'  gd: git diff \n'
+s=${s}'  gco: git commit \n\n'
+s=${s}'  gr: git reset --hard \n'
+s=${s}'  gm: git merge \n\n'
+s=${s}'  gf: git fetch \n'
+s=${s}'  gpl: git pull \n'
+s=${s}'  gps: git push \n\n'
+s=${s}'  xo: xdg-open (linux) \n'
+s=${s}'  s: start (windows) \n\n'
+s=${s}'  # linux: add lines at the end of "~/.bashrc" \n'
+s=${s}'  # windows git-bash: add lines at the end of "/etc/profile.d/aliases"' 
+_gh_s=${s}
+unset s
 alias gh='echo -e "${_gh_s}"'
 
 
