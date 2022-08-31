@@ -33,7 +33,7 @@ alias c='_c_a_c'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
-function _c_a_c { if [ -z $1 ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
+function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
 
 # testing:
 alias lg='ls -a --color=always | grep'
