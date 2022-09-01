@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-08-31 11:20'
+__alias_last_update__='2022-09-01 13:34'
 __alias_timeout__='0.3'
 
 
@@ -87,12 +87,19 @@ function npp { 'notepad++' $1 & disown $! ; }
 # java automation, addition begin
 
 alias sj8='. ~/setjava8.sh.txt'
-alias jl='jps -l'
-alias jlg='jps -l ; echo ; jps -l | grep'
-alias tk='taskkill //f //pid'
+
 alias mc='mvn clean'
 alias mcp='mvn clean package -Dmaven.test.skip'
 function jj { jarfile=$( ls ./target/*.jar ) ; java -Dspring.profiles.active=$1 -jar $jarfile &  }
+
+function _j_l { jps -l ; if [ ! -z ${1} ]; then echo; _s=$( jps -l | grep --color=always -P --color=always "${1}" ) ; if [ ! -z "${_s}" ]  ; then echo "${_s}" ; else echo '"'${1}'": no results' ; fi ; fi ; }
+alias jl='_j_l'
+
+function _t_k { _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' ) ; if test -z ${_n}; then _s=$( jps -l | grep --color=never "${1}" ) ; echo "${_s}"; _pid=$( echo "${_s}" | awk '{ print $1 }' ) ; else _pid=$( echo ${_n} ) ; fi ; echo "${_pid}" ; taskkill //f //pid "${_pid}" ; unset _pid _s _n ; } 
+alias tk='_t_k'
+
+
+
 
 alias wsl='clear ; winpty wsl ;'
 
