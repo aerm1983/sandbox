@@ -17,12 +17,12 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-01 14:00'
+__alias_last_update__='2022-09-01 16:20'
 __alias_timeout__='0.3'
 
 
 # Helping alias. Re-alias to '0' while testing / implementing changes:
-alias __gba='rm '${HOME}'/bash-help.txt ; cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_greeting ; echo ; h ;'
+alias __gba='cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_greeting ; echo ; h ;'
 
 
 # General Aliases - file browsing and manipulation
@@ -52,7 +52,7 @@ alias sed='sed -E'
 alias less='less -R -N -S -J'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1'
-alias sednc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
+alias snc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
 alias siwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
 function _grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
 alias gsurf='_grep_sed_uniq_rf '
@@ -97,7 +97,33 @@ alias jj='_j_j'
 function _j_l { jps -l ; if [ ! -z ${1} ]; then echo; _s=$( jps -l | grep --color=always -P --color=always "${1}" ) ; if [ ! -z "${_s}" ]  ; then echo "${_s}" ; else echo '"'${1}'": no results' ; fi ; fi ; }
 alias jl='_j_l'
 
-function _t_k { if [ ! -z ${1} ]; then _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' ) ; if test -z ${_n}; then _s=$( jps -l | grep --color=never "${1}" ) ; echo "${_s}"; _pid=$( echo "${_s}" | awk '{ print $1 }' ) ; else _pid=$( echo ${_n} ) ; fi ; echo "${_pid}" ; taskkill //f //pid "${_pid}" ; unset _pid _s _n ; else echo 'must provide pid or sid argument' ; fi ; } 
+function _t_k { 
+    if [ -z ${1} ]; then 
+        jarfile=$( ls ./target/*.jar ) ; 
+        if [ ! -z ${jarfile} ] ; then 
+            _pid=$( jps -l | grep -P --color=never "${jarfile}" | awk '{ print $1 }' ) ; 
+            echo ${_pid}
+            jps -l | grep -P --color=always "${jarfile}"
+            taskkill //f //pid "${_pid}" ; 
+        else 
+            echo 'file ./target/*.jar must exist or arg1 must be provided' ; 
+        fi ; 
+    else 
+        _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' ) ; 
+        if test -z ${_n}; then 
+            _s=$( jps -l | grep --color=never "${1}" ) ; 
+            echo "${_s}"; 
+            _pid=$( echo "${_s}" | awk '{ print $1 }' ) ; 
+        else 
+            _pid=$( echo ${_n} ) ; 
+        fi ; 
+        
+        echo "${_pid}" ; 
+        taskkill //f //pid "${_pid}" ; 
+    fi ;
+    unset _pid _s _n ;     
+} 
+
 alias tk='_t_k'
 
 
