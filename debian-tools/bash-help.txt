@@ -1,11 +1,12 @@
 # bash help
-# updated: 2022-08-26 21:15
 # look at 'alias:' as example for further command additions
+# updated: 2022-09-01 19:25
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
 awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "A" ) { $2 = "isA" } else if ( $1 == "B" ) { $2 = "isB" } else { $2 = "notANorB" } ; print $1 "|" $2 }' file.txt  ;
 b:
+basename: see dirname, realpath
 c:
 cmp: compare binary files.  Example: cmp file1.bin file2.bin  ;
 comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
@@ -16,6 +17,7 @@ dd: copy files (pending)
 declare: print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
 df: list storage devices, free space, mount point.  Option '-h' human readable size.
 diff: compare two files line by line, git style
+dirname: see basename, realpath
 dos2unix: convert txt from dos to unix..
 dpkg: indicate if package is installed; indicate package which contains command.  Examples: dpkg -s 'man-db'  ; dpkg -S `which man`
 du: disk usage by each directory.  Option '-h' human readable size.
@@ -58,6 +60,7 @@ process substitution: process stdin/stdout behaves "like a file".  Examples: cat
 ps: list system processes. Example: ps -o pid,uid,%cpu,%mem,command ax
 q:
 r:
+realpath: see basename, dirname
 rsync:
 s:
 sed: mainly for line by line substitution if criteria is met.  Can also print specific line.  Option -E extended re.  Option -i.old inplace modify, create backup file with suffix.  Option -b do not erase \x0d (cr).  Examples: sed -E '{ s/cat/dog/ig }' file.txt  ;  sed -n '{ 4p }' file.txt  ;  sed -f script.sed file.txt  ;  sed -E '{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }' color-log.txt > no-color-log.txt  ;  sed -E '{ s/(.)$/\1\n/g }' file.txt > file_double_newline.txt  ;  grep --color=never -r 'word' ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' # print files containing 'word'  ;  sed -E '{ s/(.)$/\1\n/g }' log.txt > log.in-between-white-line.txt  ;  sed -b -E '{ s/(\x0d)$/\1\n\1/g }' log.cr-nl.txt > log.cr-nl.in-between-white-line.txt  ;  

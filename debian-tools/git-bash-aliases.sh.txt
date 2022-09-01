@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-01 16:20'
+__alias_last_update__='2022-09-01 19:18'
 __alias_timeout__='0.3'
 
 
@@ -91,8 +91,28 @@ alias sj8='. ~/setjava8.sh.txt'
 alias mc='mvn clean'
 alias mcp='mvn clean package -Dmaven.test.skip'
 
-function _j_j { if [ -z ${1}] ; then set 'localalberto' ; echo 'asigning '\'"${1}"\'' as arg1' ; fi ; jarfile=$( ls ./target/*.jar ) ; java -Dspring.profiles.active="${1}" -jar ${jarfile} &  }
+function _j_j { 
+    if [ -z ${1}] ; then 
+        set 'localalberto' ; 
+        echo 'asigning '\'"${1}"\'' as arg1' ; 
+    fi ; 
+    jarfile=$( ls ./target/*.jar ) ; 
+    java -Dspring.profiles.active="${1}" -jar ${jarfile} &  
+}
 alias jj='_j_j'
+
+
+function _j_j_t { 
+    if [ -z ${1}] ; then 
+        set 'localalberto' ; 
+        echo 'asigning '\'"${1}"\'' as arg1' ; 
+    fi ; 
+    jarfile=$( ls ./target/*.jar ) ; 
+    java -Dspring.profiles.active="${1}" -jar ${jarfile} 2>&1 | tee >( cat &>> ~/Desktop/tmp/A.log ) &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
+}
+alias jjt='_j_j_t'
+
+
 
 function _j_l { jps -l ; if [ ! -z ${1} ]; then echo; _s=$( jps -l | grep --color=always -P --color=always "${1}" ) ; if [ ! -z "${_s}" ]  ; then echo "${_s}" ; else echo '"'${1}'": no results' ; fi ; fi ; }
 alias jl='_j_l'
