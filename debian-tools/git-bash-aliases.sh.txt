@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-03 14:23'
+__alias_last_update__='2022-09-05 07:01'
 __alias_timeout__='0.3'
 
 
@@ -86,8 +86,9 @@ alias siwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
 function _grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
 alias gsurf='_grep_sed_uniq_rf '
 
-function _c_s_n_c { cat -n ${1} | sed -E 's/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /' ; }
-alias csnc='_c_s_n_c'
+# function _c_s_n_c { cat -n ${1} | sed -E 's/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /' ; }
+# alias csnc='_c_s_n_c'
+alias csnc='cat -n | sed -E '\''s/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /'\' 
 
 
 
