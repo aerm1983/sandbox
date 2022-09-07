@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-07 10:09'
+__alias_last_update__='2022-09-07 13:11'
 __alias_timeout__='0.3'
 
 
@@ -136,30 +136,46 @@ alias mc='mvn clean'
 alias mcp='mvn clean package -Dmaven.test.skip'
 
 function _j_j { 
-    if [ -z ${1}] ; then 
-        set 'localalberto' ; 
-        echo 'asigning '\'"${1}"\'' as arg1' ; 
-    fi ; 
-    jarfile=$( ls ./target/*.jar ) ; 
-    java -Dspring.profiles.active="${1}" -jar ${jarfile} &  
+
+    if [ -z ${1}]
+    then 
+        set 'localalberto'
+        echo 'asigning '\'"${1}"\'' as arg1'
+    fi
+    
+    if [ -e ./target/*jar ]
+    then
+        jarfile=$( ls ./target/*.jar )
+        echo 'jar filename: '$( basename ${jarfile} )
+        java -Dspring.profiles.active="${1}" -jar ${jarfile} &
+        disown -a
+    else
+        echo 'file ./target/*jar must exist'
+    fi
 }
 alias jj='_j_j'
 
 
 function _j_j_r { 
-    if [ -z ${1}] ; then 
-        set 'localalberto' ; 
-        echo 'asigning '\'"${1}"\'' as arg1' ; 
-    fi ; 
+
+    if [ -z ${1}]
+    then
+        set 'localalberto'
+        echo 'asigning '\'"${1}"\'' as arg1'
+    fi
     
-    JAR_LOG_FOLDER=${HOME}'/Desktop/tmp' ; 
-    echo 'jar log folder: '${JAR_LOG_FOLDER}; 
-    
-    jarfile=$( ls ./target/*.jar ) ; 
-    echo 'jar filename: '$( basename ${jarfile} ); 
-    
-    java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) ).log &
-    disown -a
+    JAR_LOG_FOLDER=${HOME}'/Desktop/tmp'
+    echo 'jar log folder: '${JAR_LOG_FOLDER}
+
+    if [ -e ./target/*jar ]
+    then
+        jarfile=$( ls ./target/*.jar )
+        echo 'jar filename: '$( basename ${jarfile} )
+        java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) ).log &
+        disown -a
+    else
+        echo 'file ./target/*jar must exist'
+    fi
     
 }
 alias jjr='_j_j_r'
@@ -202,8 +218,8 @@ alias jl='_j_l'
 function _t_k { 
     if [ -z ${1} ]
     then 
-        jarfile=$( ls ./target/*.jar )
-        if [ ! -z ${jarfile} ] ; then 
+        if [ -e ./target/*jar ] ; then 
+            jarfile=$( ls ./target/*.jar )
             _pid=$( jps -l | grep -P --color=never "${jarfile}" | awk '{ print $1 }' )
             echo ${_pid}
             jps -l | grep -P --color=always "${jarfile}"
@@ -213,7 +229,7 @@ function _t_k {
         fi
     else 
         _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' )
-        if test -z ${_n}
+        if [ -z ${_n} ]
         then 
             _s=$( jps -l | grep --color=never "${1}" )
             echo "${_s}"; 
