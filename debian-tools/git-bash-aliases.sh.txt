@@ -17,12 +17,18 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-05 07:01'
+__alias_last_update__='2022-09-07 09:08'
 __alias_timeout__='0.3'
 
 
 # Helping alias. Re-alias to '0' while testing / implementing changes:
-alias __gba='cp -v ./bash-help.txt '${HOME}'/.bash-help ; cp ./git-bash-aliases.sh.txt '${HOME}'/.git-bash-aliases  ; source '${HOME}'/.git-bash-aliases ; echo ; h_greeting ; echo ; h ;'
+alias __gba='
+    cp -v ./bash-help.txt ${HOME}/.bash-help ; 
+    cp -v ./git-bash-aliases.sh.txt ${HOME}/.git-bash-aliases  ; 
+    cp -v ./set-java-version.sh.txt ${HOME}/.set-java-version  ; 
+    source ${HOME}/.git-bash-aliases ; 
+    echo ; 
+    h_greeting ; echo ; h ;'
 
 
 
@@ -123,7 +129,8 @@ function npp { 'notepad++' $1 & disown $! ; }
 # Java Aliases - java automation, addition begin
 # ------------------------------------------------------
 
-alias sj8='. ~/setjava8.sh.txt'
+alias sj8='. ~/.set-java-version 8'
+alias sj11='. ~/.set-java-version 11'
 
 alias mc='mvn clean'
 alias mcp='mvn clean package -Dmaven.test.skip'
@@ -145,7 +152,8 @@ function _j_j_t {
         echo 'asigning '\'"${1}"\'' as arg1' ; 
     fi ; 
     jarfile=$( ls ./target/*.jar ) ; 
-    java -Dspring.profiles.active="${1}" -jar ${jarfile} 2>&1 | tee >( cat &>> ~/Desktop/tmp/A.log ) &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
+    # java -Dspring.profiles.active="${1}" -jar ${jarfile} 2>&1 | tee >( cat &>> ~/Desktop/tmp/A.log ) &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
+    java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
 }
 alias jjt='_j_j_t'
 

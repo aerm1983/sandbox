@@ -1,0 +1,57 @@
+# SET JAVA VERSION
+
+
+
+# Constants required for script
+__sjv_last_update__='2022-09-07 09:08'
+
+
+
+# save initial dir into var
+init_dir=$( pwd )
+
+
+# redefine JAVA_HOME
+if [ -z ${1} ]
+then
+    echo 'var ${1} should be "8" or "11"'
+    return 1;
+elif [ ${1} = '8' ]
+then
+    cd $JAVA_8_HOME
+elif [ ${1} = '11' ]
+then
+    cd $JAVA_11_HOME
+else
+    echo 'var ${1} should be "8" or "11"'
+    return 1;
+fi
+JAVA_HOME=$( pwd )
+
+
+# delete current jdk from PATH
+path_tmp1=$( sed -E 's/:[^:]+java[/]jdk[^:]+//g' <( echo ${PATH} ) ) 
+
+
+# append executables dir in new JAVA_HOME to PATH
+cd ./bin
+path_tmp2=${path_tmp1}':'$( pwd )
+PATH=${path_tmp2}
+
+
+# return to initial dir
+cd ${init_dir}
+
+
+# unset temporal vars
+unset path_tmp1 path_tmp2 init_dir
+
+# verifications
+echo '--> set java version | updated: '${__sjv_last_update__}
+echo
+echo 'JAVA_HOME: '${JAVA_HOME}
+echo
+echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) )
+echo
+java -version
+
