@@ -1,9 +1,0 @@
-# general:
-an brand new well-behaved cat at home
-an brand new well-behaved fish at aquarium
-
-# test case 1:
-it is good to have an brand new well-behaved cat and an brand new well-behaved fish at home
-
-# test case 2:
-the brand new well-behaved cat is always hunting the brand new well-behaved fish at its aquarium

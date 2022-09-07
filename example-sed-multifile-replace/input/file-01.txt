@@ -1,4 +1,0 @@
-a first clean line
-start, oldfish, oldcat, oldfish, oldcat, oldfish, oldcat, end
-start, oldcat, oldfish, oldcat, oldfish, oldcat, oldfish, end
-closing line

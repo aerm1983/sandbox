@@ -1,4 +1,0 @@
-sed, don't touch this line
-hello my newcat, welcome
-there is an newfish in this tank
-nothing to replace here
