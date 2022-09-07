@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-07 09:08'
+__alias_last_update__='2022-09-07 10:09'
 __alias_timeout__='0.3'
 
 
@@ -146,47 +146,86 @@ function _j_j {
 alias jj='_j_j'
 
 
-function _j_j_t { 
+function _j_j_r { 
     if [ -z ${1}] ; then 
         set 'localalberto' ; 
         echo 'asigning '\'"${1}"\'' as arg1' ; 
     fi ; 
+    
+    JAR_LOG_FOLDER=${HOME}'/Desktop/tmp' ; 
+    echo 'jar log folder: '${JAR_LOG_FOLDER}; 
+    
     jarfile=$( ls ./target/*.jar ) ; 
-    # java -Dspring.profiles.active="${1}" -jar ${jarfile} 2>&1 | tee >( cat &>> ~/Desktop/tmp/A.log ) &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
-    java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ~/Desktop/tmp/$( basename $( ls ./target/*jar ) ).log &
+    echo 'jar filename: '$( basename ${jarfile} ); 
+    
+    java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) ).log &
+    disown -a
+    
 }
-alias jjt='_j_j_t'
+alias jjr='_j_j_r'
 
 
 
-function _j_l { jps -l ; if [ ! -z ${1} ]; then echo; _s=$( jps -l | grep --color=always -P --color=always "${1}" ) ; if [ ! -z "${_s}" ]  ; then echo "${_s}" ; else echo '"'${1}'": no results' ; fi ; fi ; }
+function _j_l { 
+
+    # all java processes
+    jps -l
+
+    
+    # current dir java process
+    if [ -e ./target/*jar ]
+    then
+        jarfile=$( basename $( ls ./target/*jar ) )
+        if [ ! -z ${jarfile} ]
+        then
+            echo
+            jps -l | grep --color=always ${jarfile}
+        fi
+    fi
+
+    
+    # arg ${1} java process
+    if [ ! -z ${1} ]
+    then 
+        echo
+        _s=$( jps -l | grep --color=always -P --color=always "${1}" )
+        if [ ! -z "${_s}" ]
+        then 
+            echo "${_s}"
+            else echo '"'${1}'": no results'
+        fi
+    fi
+}
+
 alias jl='_j_l'
 
 function _t_k { 
-    if [ -z ${1} ]; then 
-        jarfile=$( ls ./target/*.jar ) ; 
+    if [ -z ${1} ]
+    then 
+        jarfile=$( ls ./target/*.jar )
         if [ ! -z ${jarfile} ] ; then 
-            _pid=$( jps -l | grep -P --color=never "${jarfile}" | awk '{ print $1 }' ) ; 
+            _pid=$( jps -l | grep -P --color=never "${jarfile}" | awk '{ print $1 }' )
             echo ${_pid}
             jps -l | grep -P --color=always "${jarfile}"
-            taskkill //f //pid "${_pid}" ; 
+            taskkill //f //pid "${_pid}"
         else 
-            echo 'file ./target/*.jar must exist or arg1 must be provided' ; 
-        fi ; 
+            echo 'file ./target/*.jar must exist or PID must be provided'
+        fi
     else 
-        _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' ) ; 
-        if test -z ${_n}; then 
-            _s=$( jps -l | grep --color=never "${1}" ) ; 
+        _n=$( echo ${1} | grep -P --color=never '^[0-9]+$' )
+        if test -z ${_n}
+        then 
+            _s=$( jps -l | grep --color=never "${1}" )
             echo "${_s}"; 
-            _pid=$( echo "${_s}" | awk '{ print $1 }' ) ; 
+            _pid=$( echo "${_s}" | awk '{ print $1 }' )
         else 
-            _pid=$( echo ${_n} ) ; 
-        fi ; 
+            _pid=$( echo ${_n} )
+        fi
         
-        echo "${_pid}" ; 
-        taskkill //f //pid "${_pid}" ; 
-    fi ;
-    unset _pid _s _n ;     
+        echo "${_pid}"
+        taskkill //f //pid "${_pid}"
+    fi
+    unset _pid _s _n
 } 
 
 alias tk='_t_k'
