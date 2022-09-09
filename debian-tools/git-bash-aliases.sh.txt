@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-07 13:11'
+__alias_last_update__='2022-09-09 06:12'
 __alias_timeout__='0.3'
 
 
@@ -108,18 +108,60 @@ alias date.sql='date +'\''%Y-%m-%d %H:%M:%S'\'
 function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
 
 # General aliases - functions, helpers
-function h_set_bh_file { bh_file_test=${HOME}/bash-help.txt ; bh_file_profile=${HOME}/.bash-help ; if [ -e ${bh_file_test} ] ; then bh_file=${bh_file_test} ; echo 'using TEST file' ; elif [ -e ${bh_file_profile} ] ; then bh_file=${bh_file_profile} ; echo 'using PROFILE file' ; else bh_file='' ; echo 'no source file available' ; fi ; }
-function h_arg1_empty { grep --color=always 'updated:' ${bh_file} ; echo '($1 empty)' ; }
-function h_arg1_not_empty { grep --color=always 'updated:' ${bh_file} ; grep --color=always ${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; }
-function h { echo "--> my bash help" ; h_set_bh_file ; if [ -z ${bh_file} ] ; then return 1  ; fi ; if [ -z $1 ] ; then h_arg1_empty ; else h_arg1_not_empty ${1} ; fi ;  }
+function h_set_bh_file { 
+    bh_file_test=${HOME}/bash-help.txt ; 
+    bh_file_profile=${HOME}/.bash-help ; 
+    if [ -e ${bh_file_test} ] ; 
+    then 
+        bh_file=${bh_file_test} ; 
+	echo 'using TEST file' ; 
+    elif [ -e ${bh_file_profile} ] ; 
+    then 
+        bh_file=${bh_file_profile} ; 
+        echo 'using PROFILE file' ; 
+    else 
+        bh_file='' ; 
+        echo 'no source file available' ; 
+    fi ; 
+}
+function h_arg1_empty { 
+    grep --color=always 'updated:' ${bh_file}
+    echo '($1 empty)'
+}
+function h_arg1_not_empty { 
+    grep --color=always 'updated:' ${bh_file} ; 
+    grep --color=always '^'${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; 
+}
+function h { 
+    echo "--> my bash help" ; 
+    h_set_bh_file ; 
+    if [ -z ${bh_file} ] ; 
+    then 
+        return 1  ; 
+    fi ; 
+    if [ -z $1 ] ; 
+    then 
+        h_arg1_empty ; 
+    else 
+        h_arg1_not_empty ${1} ; 
+    fi ;  
+}
 
-function print_fn { type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; }
+function print_fn { 
+    type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; 
+}
 
-function h_last_update { echo ${__alias_last_update__} ; }
-function h_greeting { echo 'GBA - updated: '${__alias_last_update__} ; }
+function h_last_update { 
+    echo ${__alias_last_update__} ; 
+}
+function h_greeting { 
+    echo 'GBA - updated: '${__alias_last_update__} ; 
+}
 
 # General aliases -- Windows OS specific
-function npp { 'notepad++' $1 & disown $! ; }
+function npp { 
+    'notepad++' $1 & disown $! ; 
+}
 
 
 
