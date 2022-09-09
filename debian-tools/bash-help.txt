@@ -1,101 +1,103 @@
 # bash help
 # look at 'alias:' as example for further command additions
-# updated: 2022-09-09 11:12
+# updated:  2022-09-09 17:33
 a:
-alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
-apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
-apt-file: search file in packages (installed or not).  This command uses a repository different from 'apt', which requires separate update.  See 'dpkg -S' for file search in installed packages.  Actions:  update - update local repository, different from that of apt.  search - indicate repository which provides file.  Options:  -x pattern is regex.  Examples:  apt-file update  ;  apt-file search 'bin/bash'  ;  apt-file search -x 'bin/bash$'  ;  
-awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Backreference \0 is matched string.  See cut.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "A" ) { $2 = "isA" } else if ( $1 == "B" ) { $2 = "isB" } else { $2 = "notANorB" } ; print $1 "|" $2 }' file.txt  ;
+alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
+apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
+apt-file:  Search file in packages (installed or not).  This command uses a repository different from 'apt', which requires separate update.  See 'dpkg -S' for file search in installed packages.  Actions:  update - update local repository, different from that of apt.  search - indicate repository which provides file.  Options:  -x pattern is regex.  Examples:  apt-file update  ;  apt-file search 'bin/bash'  ;  apt-file search -x 'bin/bash$'  ;  
+awk:  Executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Backreference \0 is matched string.  See cut.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "A" ) { $2 = "isA" } else if ( $1 == "B" ) { $2 = "isB" } else { $2 = "notANorB" } ; print $1 "|" $2 }' file.txt  ;
 b:
-basename: see dirname, realpath
+basename:  See dirname, realpath
 c:
-cmp: compare binary files.  Example: cmp file1.bin file2.bin  ;
-comm: compare two files, requires previous sorting, writes three columns: inFileA, inFileB, inFileAAndFileB
+cmp:  Compare two binary files.  See 'comm' to compare text files.  Example: cmp file1.bin file2.bin  ;
+comm:  Compare two text files.  Requires previous sorting.  Writes three columns: inFileA, inFileB, inFileAAndFileB.  See 'cmp' for binary files comparison.
 crontab:
-cut: print fields separated by a delimiter.  Option -d delimiter.  Option -f fields list.  See awk.  Examples:  echo -e '1,A,a\n2,B,b\n3,D,d\n' | cut -d, -f1,2,3  ;  
+cut:  Print fields separated by a delimiter.  Option -d delimiter.  Option -f fields list.  See awk.  Examples:  echo -e '1,A,a\n2,B,b\n3,D,d\n' | cut -d, -f1,2,3  ;  
 d:
-date: print date acording to different formats.  Useful to get Unix time in seconds.  Examples:  date +%s  ;  date +'%F %T'  ;  date +'%Y-%m-%d %H:%M:%S'  ;  date -I  ;  date -Idate  ;  date -Iminutes  ;  date -Iseconds  ;  date --rfc-3339=seconds  ; 
-dd: copy files (pending)
-declare: print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
-df: list storage devices, free space, mount point.  Option '-h' human readable size.
-diff: compare two files line by line, git style
-dirname: see basename, realpath
-dos2unix: convert txt from dos to unix..
-dpkg: indicate installed package status (info); also files contained in installed packages.  See 'apt-file' for file search in not installed packages.  Options:  -l list packages.  -s [package] status (info) of package.  -L [package] list files in package.  -S [file] search package which contains file.  Examples:  dpkg -l  ;  dpkg -s 'bash'  ;  dpkg -L 'bash'  ;  dpkg -S 'bin/bash'  ;  
-du: disk usage by each directory.  Option '-h' human readable size.
+date:  Print date acording to different formats.  Useful to get Unix time in seconds.  Examples:  date +%s  ;  date +'%F %T'  ;  date +'%Y-%m-%d %H:%M:%S'  ;  date -I  ;  date -Idate  ;  date -Iminutes  ;  date -Iseconds  ;  date --rfc-3339=seconds  ; 
+dd:  Copy files (pending)
+declare:  Print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
+df:  List storage devices, free space, mount point.  Option '-h' human readable size.
+dialog:  Make dialogs, uses nCurses.
+diff:  Compare two files line by line, git style
+dirname:  See basename, realpath
+dos2unix:  Convert txt from dos to unix..
+dpkg:  Indicate installed package status (info); also files contained in installed packages.  See 'apt-file' for file search in not installed packages.  Options:  -l list packages.  -s [package] status (info) of package.  -L [package] list files in package.  -S [file] search package which contains file.  Examples:  dpkg -l  ;  dpkg -s 'bash'  ;  dpkg -L 'bash'  ;  dpkg -S 'bin/bash'  ;  
+du:  Disk usage by each directory.  Option '-h' human readable size.
 e:
-echo: print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
-enable: enable, disable or list builtins.  Example:  enable -a  ; enable  -n  ;  enable -n true ;  enable +n true
-eval: execute bash command from string.  Careful with expansions, use double-quotes, see command 'echo'.   Examples: eval 'echo *' ; eval 'echo "*"' ;
+echo:  Print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
+enable:  Enable, disable or list builtins.  Example:  enable -a  ; enable  -n  ;  enable -n true ;  enable +n true
+eval:  Execute bash command from string.  Careful with expansions, use double-quotes, see command 'echo'.   Examples: eval 'echo *' ; eval 'echo "*"' ;
 f:
-fdisk: Example: fdisk -l
-find: Search files starting from indicated directory, applying several possible selection criteria.  Option -name|iname filter by filname, 'ls' like.  Option -regex|iregex filter by absolute path plus filename.  Examples:  find ./  ;  find ~ -name '*bash*'  ;  find ~ -regex '.*bash.*'  ;  
-function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
+fdisk:  Example: fdisk -l
+find:  Search files starting from indicated directory, applying several possible selection criteria.  Option -name|iname filter by filname, 'ls' like.  Option -regex|iregex filter by absolute path plus filename.  Examples:  find ./  ;  find ~ -name '*bash*'  ;  find ~ -regex '.*bash.*'  ;  
+function:  Declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
 g:
-grep: filter lines by pattern.  Options:  -v invert selection.  -i insensitive case.  -n line number.  -E extended regex.  -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  --color=always|never|auto to highlight match.  -a allow lines with binary (not properly encoded) bytes.  -r recursive search.  -R like -r, also follow links.  Examples:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
+grep:  Filter lines by pattern.  Options:  -v invert selection.  -i insensitive case.  -n line number.  -E extended regex.  -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  --color=always|never|auto to highlight match.  -a allow lines with binary (not properly encoded) bytes.  -r recursive search.  -R like -r, also follow links.  Examples:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
 h:
 i:
 ifconfig:
-ip: list, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
+ip:  List, manage network devices.  Example: ip link ; ip link set 'wlan0' up ; ip link set 'wlan0' down ;
 j:
-join: join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
+jp2a:  Convert jpeg to ascii.
+join:  Join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 k:
 l:
-less: buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
-ln: create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
-lsblk: list block devices, label can be displayed.
-lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
+less:  Buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  -G highlight search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
+ln:  Create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
+lsblk:  List block devices, label can be displayed.
+lspci:  List devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
-mount: Without params lists mounted points and info. With params mount points or devices. Examples: mount ; mount -o 'remount,rw' /dev/sda2
+mount:  Without params lists mounted points and info. With params mount points or devices. Examples: mount ; mount -o 'remount,rw' /dev/sda2
 n:
-nl: number lines in file.  Example: nl file.txt > file.nl.txt
+nl:  Number lines in file.  Example: nl file.txt > file.nl.txt
 nmap:
-nohup: pending
+nohup:  Pending
 nslookup:
-ntfsfix: fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
+ntfsfix:  Fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
 o:
-od: octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
+od:  Octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
 p:
 ping:
-printf: print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
-process substitution: process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
-ps: list system processes. Example: ps -o pid,uid,%cpu,%mem,command ax
+printf:  Print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
+process substitution:  Process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
+ps:  List system processes. Example: ps -o pid,uid,%cpu,%mem,command ax
 q:
 r:
-realpath: see basename, dirname
+realpath:  See basename, dirname
 rsync:
 s:
-sed: mainly for line by line substitution if criteria is met.  Can also print specific line.  Backreference '\0' is entire pattern match.  Options:  -E extended re.  -i.old inplace modify, create backup file with suffix.  -b do not erase \x0d (cr).  Examples:  sed -E '{ s/cat/dog/ig }' file.txt  ;  sed -n '{ 4p }' file.txt  ;  sed -f script.sed file.txt  ;  sed -E '{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }' color-log.txt > no-color-log.txt  ;  sed -E '{ s/(.)$/\1\n/g }' file.txt > file_double_newline.txt  ;  grep --color=never -r 'word' ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' # print files containing 'word'  ;  sed -E '{ s/(.)$/\1\n/g }' log.txt > log.in-between-white-line.txt  ;  sed -b -E '{ s/(\x0d)$/\1\n\1/g }' log.cr-nl.txt > log.cr-nl.in-between-white-line.txt  ;  
-seq: print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
-sort: order file lines, ascii criteria
-source: executes bash script as current shell/process, not as sub-shell/sub-process.
-split: split file
-stty: config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
-systemctl: check / manage services.  Enable/disable is related to system startup.  Examples: systemctl list-units --type=service --state=running  ;  systemctl status tomcat9  ;  systemctl disable tomcat 9
+sed:  Mainly for line by line substitution if criteria is met.  Can also print specific line.  Backreference '\0' is entire pattern match.  Escape sequences '\U' or '\L' to upper or lower case backreference.  Options:  -E extended re.  -i.old inplace modify, create backup file with suffix.  -b do not erase \x0d (cr).  Examples:  sed -E '{ s/cat/dog/ig }' file.txt  ;  sed -n '{ 4p }' file.txt  ;  sed -f script.sed file.txt  ;  sed -E '{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }' color-log.txt > no-color-log.txt  ;  sed -E '{ s/(.)$/\1\n/g }' file.txt > file_double_newline.txt  ;  grep --color=never -r 'word' ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' # print files containing 'word'  ;  sed -E '{ s/(.)$/\1\n/g }' log.txt > log.in-between-white-line.txt  ;  sed -b -E '{ s/(\x0d)$/\1\n\1/g }' log.cr-nl.txt > log.cr-nl.in-between-white-line.txt  ;  
+seq:  Print sequence.  Examples: seq 5  ;  seq 0 5  ;  seq 0  0.5  5  ; 
+sort:  Order file lines, ascii criteria
+source:  Executes bash script as current shell/process, not as sub-shell/sub-process.
+split:  Split file
+stty:  Config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
+systemctl:  Check / manage services.  Enable/disable is related to system startup.  Examples:  systemctl list-units --type=service --state=running  ;  systemctl status tomcat9  ;  systemctl disable tomcat 9
 t:
-time: count time a process take to run.  Example: time sleep 5 ;
-timeout: kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
-tr: translate characters, one by one.  Option -d delete caracter(s).  Example: echo 'a i u o e' | tr 'aeiou' 'AEIOU'  ;  echo -E 'a\ne\ni\no\nu' | tr -d '\n'  ;  
-truncate: eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  Example: truncate -s -1 file.txt ;
-type: indicate type of command: builtin, executable from $PATH, function, alias.  Example: type ls  ;
-type: see executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
+time:  Count time a process take to run.  Example: time sleep 5 ;
+timeout:  Kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
+tr:  Translate characters, one by one.  Option -d delete caracter(s).  Example: echo 'a i u o e' | tr 'aeiou' 'AEIOU'  ;  echo -E 'a\ne\ni\no\nu' | tr -d '\n'  ;  
+truncate:  Eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  Example: truncate -s -1 file.txt ;
+type:  Indicate type of command: builtin, executable from $PATH, function, alias.  Example: type ls  ;
+type:  See executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
 u:
-ulimit: show hardware limit settings
+ulimit:  Show hardware limit settings
 umount:
-uniq: in a sorted file, eliminate duplicate lines.  Example: uniq file.sort.txt.old > file.sort.uniq.txt  ;
-unix2dos: convert txt from unix to dos.
-unset: unset variables or functions in shell.  Example: unset my_var ; unset -f my_function 
-update-grub: apply changes made on /etc/default/grub file.  Sometimes "grub-install" may be better.
-users: pending
+uniq:  In a sorted file, eliminate duplicate lines.  Example: uniq file.sort.txt.old > file.sort.uniq.txt  ;
+unix2dos:  Convert txt from unix to dos.
+unset:  Unset variables or functions in shell.  Example: unset my_var ; unset -f my_function 
+update-grub:  Apply changes made on /etc/default/grub file.  Sometimes "grub-install" may be better.
+users:  Pending
 v:
-vi: default bash text editor.  Options described a continuation are for prompt at screen bottom.  Option ESC (press several times) clean prompt or exit insert mode.  Option i insert mode.  Option :w write file.  Option :q quit.  Option :q! quit without changes.  Option yy copy (yank) line.  Option p paste line.  Option dd delete line.  Option dw delete word.  Option d (arrow) delete character.  Option / search regex, forward.  Option ? search regex, backwards.  Option n next search result.  Option N previous search result.  Option ctrl+Begin|End|(arrows) and Begin|End fast cursor motion.  Option :%s/{regex}/{string}/{flags} for substituion, omit % for substitution in current line only.  Option :%s/{regex}//gn to count matches.  Option : set number|nonumber to display line numbers.  Option : set hlsearch|nohlsearch to highlight search matches.  
+vi:  Default bash text editor.  Actions described are for prompt at screen bottom.  Actions:  ESC (press several times) clean prompt or exit insert mode.  i insert mode.  :w write file.  :q quit.  :q! quit without changes.  yy copy (yank) line.  p paste line.  dd delete line.  dw delete word.  d (arrow) delete character.  / search regex, forward.  ? search regex, backwards.  n next search result.  N previous search result.  ctrl+Begin|End|(arrows) and Begin|End fast cursor motion.  :%s/{regex}/{string}/{flags} for substituion, omit % for substitution in current line only.  :%s/{regex}//gn to count matches.  :set number|nonumber to display line numbers.  :set hlsearch|nohlsearch to highlight search matches.  
 w:
-wc: count lines, words and characters or bytes.  Find line with max length.  Options: -l -w -c -L.  Example: wc file.txt  ;  wc -L file.txt
-which: indicate if command is available from $PATH.  Example: which ls  ;
-who: list users signed in.
-whoami: current shell user.
+wc:  Count lines, words and characters or bytes.  Find line with max length.  Options: -l -w -c -L.  Example: wc file.txt  ;  wc -L file.txt
+which:  Indicate if command is available from $PATH.  Example: which ls  ;
+who:  List users signed in.
+whoami:  Current shell user.
 x:
-xxd: hexadecimal dump of file or stdin.  Option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
+xxd:  Hexadecimal dump of file or stdin.  Option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 y:
-yes: produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
+yes:  Produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
 z:
