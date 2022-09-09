@@ -1,10 +1,10 @@
 # bash help
 # look at 'alias:' as example for further command additions
-# updated: 2022-09-09 06:04
+# updated: 2022-09-09 11:01
 a:
 alias: make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache: search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  Example: apt-cache search --names-only 'aptitude'
-apt-file: search file in not installed packages.
+apt-file: search file in packages (installed or not).  This command uses a repository different from 'apt', which requires separate update.  See 'dpkg -S' for file search in installed packages.  Actions:  update - update local repository, different from that of apt.  search - indicate repository which provides file.  Options:  -x pattern is regex.  Examples:  apt-file update  ;  apt-file search 'bin/bash'  ;  apt-file search -x 'bin/bash$'  ;  
 awk: executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Backreference \0 is matched string.  See cut.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "A" ) { $2 = "isA" } else if ( $1 == "B" ) { $2 = "isB" } else { $2 = "notANorB" } ; print $1 "|" $2 }' file.txt  ;
 b:
 basename: see dirname, realpath
@@ -21,7 +21,7 @@ df: list storage devices, free space, mount point.  Option '-h' human readable s
 diff: compare two files line by line, git style
 dirname: see basename, realpath
 dos2unix: convert txt from dos to unix..
-dpkg: indicate package info and status; also files contained in installed packages.  Option -l list packages.  Option -s [package] status of package.  Option -L [package] list files in package.  Option -S [file] search package which contains file.  Examples:  dpkg -s 'bash'  ;  dpkg -L 'bash'  ;  dpkg -S 'bin/bash'  ;  
+dpkg: indicate installed package status (info); also files contained in installed packages.  See 'apt-file' for file search in not installed packages.  Options:  -l list packages.  -s [package] status (info) of package.  -L [package] list files in package.  -S [file] search package which contains file.  Examples:  dpkg -l  ;  dpkg -s 'bash'  ;  dpkg -L 'bash'  ;  dpkg -S 'bin/bash'  ;  
 du: disk usage by each directory.  Option '-h' human readable size.
 e:
 echo: print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
@@ -32,7 +32,7 @@ fdisk: Example: fdisk -l
 find: Search files starting from indicated directory, applying several possible selection criteria.  Option -name|iname filter by filname, 'ls' like.  Option -regex|iregex filter by absolute path plus filename.  Examples:  find ./  ;  find ~ -name '*bash*'  ;  find ~ -regex '.*bash.*'  ;  
 function: declare functions, which can take positional parameters ($1, $2, $3, ...) and environment variables.  Example: function my_function { echo $1 $2 $3 ; echo ; echo 'done!' ; } ; my_function
 g:
-grep: filter lines by pattern.  Option -v invert selection.  Option -i insensitive case.  Option -n line number.  Option -E extended regex.  Option -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  Option -color=always|never|auto to highlight match.  Option -a to allow lines with binary (not properly encoded) bytes.  Examples:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
+grep: filter lines by pattern.  Options:  -v invert selection.  -i insensitive case.  -n line number.  -E extended regex.  -P perl compatible regex, does not require ANSI-C Quoting for hexadecimals.  --color=always|never|auto to highlight match.  -a allow lines with binary (not properly encoded) bytes.  -r recursive search.  -R like -r, also follow links.  Examples:  grep -v -a -P '^.*$' file.txt # (filter lines with binary bytes)  ;  grep -v -a -P '^[\x00-\x7f]*$' f1.txt # (filter lines with non-ascii characters)  ;
 h:
 i:
 ifconfig:
@@ -41,7 +41,7 @@ j:
 join: join two files, according to a common field (default: first field ).  Option '-t' field separator. Example:  join -t ',' file1.txt file2.txt  ;  
 k:
 l:
-less: buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Option -R raw or display colors.  Option -I case insensitive search.  Option -N line number.  Option -J status column.  Option -S chop long lines.  Option -s chop empty lines.  Option / search forward.  Option ? search backward.  Option n next search result.  Option N previous search result.  Option ESC u highlight search results.  Option & filter or grep.
+less: buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
 ln: create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
 lsblk: list block devices, label can be displayed.
 lspci: list devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.

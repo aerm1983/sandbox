@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-09 06:12'
+__alias_last_update__='2022-09-09 06:29'
 __alias_timeout__='0.3'
 
 
@@ -130,7 +130,7 @@ function h_arg1_empty {
 }
 function h_arg1_not_empty { 
     grep --color=always 'updated:' ${bh_file} ; 
-    grep --color=always '^'${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; 
+    grep --color=always '^'${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(Actions?:|Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }' ; 
 }
 function h { 
     echo "--> my bash help" ; 
@@ -291,7 +291,7 @@ alias tk='_t_k'
 
 
 
-alias wsl='clear ; winpty wsl ;'
+alias wsl='clear ; winpty wsl'
 
 
 # java automation, addition end
