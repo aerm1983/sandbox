@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-09 20:37
+# updated:  2022-09-09 22:16
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt:  A workflow to install a program would be: (1) `dpkg` to check if program/package is installed; (2) `apt-file` to search package containing program; (3) `apt` to install package.  See also apt-cache, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Examples:  apt search --names-only 'man-db'
@@ -57,7 +57,7 @@ nohup:  Pending
 nslookup:
 ntfsfix:  Fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don/docs
 o:
-od:  Octal/hexadecimal dump of file; complement of xxd.  Example: od -v -An -tx1 file.bin > file.hex.txt  ;
+od:  Octal/hexadecimal dump of file.  See also 'xxd'.  Options:  -An supress file offset (left index column).  -tx1 hexadecimal format, one-byte grouped.  -w8 number of bytes per line, eight in this case.  -v supress *.  Examples:  od -v -An -tx1 file.bin > file.hex.txt  ;  echo -e 'AAAA\nBBBB\nCCCC\DDDD\nEEEE\nFFFF' | od -v -An -tx1 -w8  ;  
 p:
 ping:
 printf:  Print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
@@ -98,7 +98,7 @@ which:  Indicate if command is available from $PATH.  Example: which ls  ;
 who:  List users signed in.
 whoami:  Current shell user.
 x:
-xxd:  Hexadecimal dump of file or stdin.  Option '-c' to define output columns (16 by default).  Option '-ps' for simple hexadecimal dump.  Option 'r' for reverse (hexadecimal to binary).  Example: xxd file.bin  ;  xxd -c 8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
+xxd:  Hexadecimal dump of file or stdin.  Useful as reminder of special/control ascii chars/bytes.  See also 'od'.  Options:  -c output columns (16 by default).  -ps simple hexadecimal dump.  -r along with -ps, reverse operation (hexadecimal to binary).  Examples:  echo -e -n 'A\x1fB' | xxd  ;  xxd -c8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 y:
 yes:  Produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10
 z:

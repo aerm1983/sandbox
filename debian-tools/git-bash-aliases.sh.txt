@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-09 19:41'
+__alias_last_update__='2022-09-09 22:18'
 __alias_timeout__='0.3'
 
 
@@ -85,7 +85,7 @@ alias grep='grep --color=always -P'
 alias sed='sed -E'
 alias less='less -R -M'
 alias diff='diff --color=always'
-alias od='od -v -An -tx1'
+alias od='od -v -An -tx1 -w16'
 alias snc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
 alias siwl='sed -E '\''{ s/(.)$/\1\n/g }'\'
 
