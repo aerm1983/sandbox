@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-09 22:16
+# updated:  2022-09-10 18:43
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt:  A workflow to install a program would be: (1) `dpkg` to check if program/package is installed; (2) `apt-file` to search package containing program; (3) `apt` to install package.  See also apt-cache, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Examples:  apt search --names-only 'man-db'
@@ -9,6 +9,8 @@ awk:  Executes curly brackets if line matches pattern.  Option -F field separato
 b:
 basename:  See dirname, realpath
 c:
+cmd:  See 'cmd.exe', to execute sentences from git-bash.
+cmd.exe:  Windows command, useful to execute sentences from git-bash, using option /C.  See also: 'mountvol'.  Examples:  cmd.exe /C 'mountvol /E'  ;  
 cmp:  Compare two binary files.  See 'comm' to compare text files.  Example: cmp file1.bin file2.bin  ;
 comm:  Compare two text files.  Requires previous sorting.  Writes three columns: inFileA, inFileB, inFileAAndFileB.  See 'cmp' for binary files comparison.
 crontab:
@@ -50,6 +52,7 @@ lsblk:  List block devices, label can be displayed.
 lspci:  List devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
 mount:  Without params lists mounted points and info. With params mount points or devices. Examples: mount ; mount -o 'remount,rw' /dev/sda2
+mountvol:  Windows command, equivalent to Unix 'mount'.  With no args, shows help and lists volumes available, mounted and not mounted.  See also 'cmd.exe'.  Options:  /P unmount.  /E enable automatic mountig of new volumes.  Examples:  cmd.exe /C 'mountvol'  ;  cmd.exe /C 'mountvol F:\ /P' # unmount F drive  ;  cmd.exe /C 'mountvol F:\ \\?\Volume{96d242db-1b4f-11ed-ab66-d8cb8a835833}\' # mount specified volume as F drive  ;  cmd.exe /C 'mountvol /E' # enable automatic mounting of new volumes  ;  
 n:
 nl:  Number lines in file.  Example: nl file.txt > file.nl.txt
 nmap:
