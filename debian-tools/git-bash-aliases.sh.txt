@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-09 17:36'
+__alias_last_update__='2022-09-09 19:41'
 __alias_timeout__='0.3'
 
 
@@ -186,7 +186,7 @@ function _j_j_r {
         echo 'asigning '\'"${1}"\'' as arg1'
     fi
     
-    JAR_LOG_FOLDER=${HOME}'/Desktop/tmp'
+    JAR_LOG_FOLDER=${HOME}'/Desktop/log'
     echo 'jar log folder: '${JAR_LOG_FOLDER}
 
     if [ -e ./target/*jar ]
