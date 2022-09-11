@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-10 20:13
+# updated:  2022-09-11 09:15
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt:  A workflow to install a program would be: (1) `dpkg` to check if program/package is installed; (2) `apt-file` to search package containing program; (3) `apt` to install package.  See also apt-cache, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Examples:  apt search --names-only 'man-db'
@@ -49,10 +49,10 @@ k:
 l:
 less:  Buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  -G highlight search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
 ln:  Create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
-lsblk:  List block devices, label can be displayed.  Options:  -O show all fields/columns.  Examples:  lsblk -O | less -M -S  ;  
+lsblk:  List block devices, label can be displayed.  See also: 'mount', 'umount', 'parted'.  Options:  -O show all fields/columns.  Examples:  lsblk  ;  lsblk -O | less -M -S  ;  
 lspci:  List devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
-mount:  Without params lists mounted points and info. With params mount points or devices.  See also: 'mountvol' (windows).  Examples: mount ; mount -o 'remount,rw' /dev/sda2
+mount:  Without params lists mounted points and info. With params mount points or devices.  See also: 'umount', 'lsblk', 'mountvol' (windows).  Examples:  mount ; mount -o 'remount,rw' /dev/sda2
 mountvol:  Windows command, equivalent to Unix 'mount'.  With no args, shows help and lists volumes available, mounted and not mounted.  See also 'cmd.exe'.  Options:  /P unmount.  /E enable automatic mountig of new volumes.  Examples:  cmd.exe /C 'mountvol'  ;  cmd.exe /C 'mountvol F:\ /P' # unmount F drive  ;  cmd.exe /C 'mountvol F:\ \\?\Volume{96d242db-1b4f-11ed-ab66-d8cb8a835833}\' # mount specified volume as F drive  ;  cmd.exe /C 'mountvol /E' # enable automatic mounting of new volumes  ;  
 n:
 nl:  Number lines in file.  Example: nl file.txt > file.nl.txt
@@ -63,6 +63,7 @@ ntfsfix:  Fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don
 o:
 od:  Octal/hexadecimal dump of file.  See also 'xxd'.  Options:  -An supress file offset (left index column).  -tx1 hexadecimal format, one-byte grouped.  -w8 number of bytes per line, eight in this case.  -v supress *.  Examples:  od -v -An -tx1 file.bin > file.hex.txt  ;  echo -e 'AAAA\nBBBB\nCCCC\DDDD\nEEEE\nFFFF' | od -v -An -tx1 -w8  ;  
 p:
+parted:  Create labels and partitions (format drive).  Target drive should be unmounted.  See also: 'umount', 'lsblk'.  Actions:  mklabel create label; values 'msdos', 'gpt'.  mkpart create partition; values 'primary', 'logical', 'extended'.  Options:  -a alignment; value 'opt' for optimal.  Examples:  parted -a opt /dev/sdx mklabel msdos 0 9G # prompt message, change 0 to 2048s  ;  parted -a opt /dev/sdx mkpart primary 0 9G # prompt message, change 0 to 2048s  ;  
 ping:
 printf:  Print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
 process substitution:  Process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
@@ -88,7 +89,7 @@ type:  Indicate type of command: builtin, executable from $PATH, function, alias
 type:  See executable, function, alias info.  Example: type python3 ; type my_function ; type my_alias
 u:
 ulimit:  Show hardware limit settings
-umount:  See 'mount'.  See also: 'mountvol' (windows).  
+umount:  Unmount drive.  See also: 'mount', lsblk, 'mountvol' (windows).  Examples:  umount /dev/sdb  ;   
 uniq:  In a sorted file, eliminate duplicate lines.  Example: uniq file.sort.txt.old > file.sort.uniq.txt  ;
 unix2dos:  Convert txt from unix to dos.
 unset:  Unset variables or functions in shell.  Example: unset my_var ; unset -f my_function 

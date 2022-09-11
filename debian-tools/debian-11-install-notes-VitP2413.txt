@@ -2,7 +2,7 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 INSTALL NOTES FOR DEBIAN 11 BULLSEYE 
 VIT P2413 LAPTOP REQUIRES SPECIAL FIRMWARE PACKAGES
-UPDATED: 2022-09-11 08:05
+UPDATED: 2022-09-11 09:40
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -183,5 +183,37 @@ Run "cat /etc/wpa_supplicant/wpa_supplicant.conf", check content
 Alternatively "https://github.com/alberto-romero-eng/sandbox.git" (read only method)
 
 
+
+9. Format USB flash drive (Linux)
+
+9.1. Run "lsblk", identify flash drive device, example 'dev/sdb'
+
+9.2. Run "parted -a opt /dev/sdb mklabel msdos 0 9G".  
+See message prompt, '0' might require adjustment to '2048s'.
+
+9.3. Run "parted -a opt /dev/sdb mkpart primary 0 9G".
+See message prompt, '0' might requier adjustment to '2048s'.
+
+
+
+
+10. Search files/packages (Linux)
+
+10.1. Run "apt update; apt-file update;".
+In following lines, example file is 'bin/man' and package is 'man-db'.
+
+10.2. Run "dpkg -S 'bin/man'" to find if file and corresponding package are installed.
+If positive, run "dpkg -l 'man-db'".
+'dpkg' search is ls-like.
+
+10.3. If no results with dpkg, run "apt-file search 'bin/man'".
+Alternatively, run "apt-file search -x 'bin/man$'" for regex support.
+
+10.4.  Package is found from 10.1 or 10.2.
+If package is installed, "dpkg -l 'man-db'" and "dpkg -s 'man-db'" corroborate status.
+Otherwise, run "apt-cache search --names-only 'man-db'" and "apt-cache show 'man-db'" to get info.
+'apt' and 'apt-cache' work by default with regex support.
+
+10.5.  Run "apt install 'man-db'" to install.
 
 
