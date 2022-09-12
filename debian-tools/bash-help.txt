@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-11 09:44
+# updated:  2022-09-12 10:49
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt:  A workflow to install a program would be: (1) `dpkg` to check if program/package is installed; (2) `apt-file` to search package containing program; (3) `apt` to install package.  See also apt-cache, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  --fix-missing solve faulty package installs.  Examples:  apt search --names-only 'man-db'  ;  apt install --fix-missing 'man-db'  ;  
@@ -18,7 +18,7 @@ crontab:
 cut:  Print fields separated by a delimiter.  Option -d delimiter.  Option -f fields list.  See awk.  Examples:  echo -e '1,A,a\n2,B,b\n3,D,d\n' | cut -d, -f1,2,3  ;  
 d:
 date:  Print date acording to different formats.  Useful to get Unix time in seconds.  Examples:  date +%s  ;  date +'%F %T'  ;  date +'%Y-%m-%d %H:%M:%S'  ;  date -I  ;  date -Idate  ;  date -Iminutes  ;  date -Iseconds  ;  date --rfc-3339=seconds  ; 
-dd:  Copy files (pending)
+dd:  Copy byte streams.  It is not as fast as 'cp', 'cat' or 'pv'.  Using 'bs=1M' resulted in best possible speed.  Advantages: (1) Limit input bytes processed; (2) Query progress with signal SIGUSR1 when in background.  In the tests below WSL was faster than git-bash, per 'dd' execution and per '/dev/random' bytes generation.   Options:  bs=1M block size, here with recommmended value.  count=1K how many blocks to process, skip in most cases.  if=/dev/random input file.  of=f.bin output file.  Examples:  time dd bs=1K count=1K if=/dev/random of=f.bin # increment bs or count to 10K-1M as convenient  ;  dd bs=1M if=f.bin of=f.bin.dd1M & pid=$! ; kill -SIGUSR1 $pid  ;  
 declare:  Print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
 df:  List storage devices, free space, mount point.  Option '-h' human readable size.
 dialog:  Make dialogs, uses nCurses.
