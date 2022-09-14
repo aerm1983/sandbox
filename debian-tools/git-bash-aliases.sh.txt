@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-09 22:18'
+__alias_last_update__='2022-09-14 08:18'
 __alias_timeout__='0.3'
 
 
@@ -284,6 +284,7 @@ alias wsl='clear ; winpty wsl'
 
 alias gs='echo "--> git status"; sleep ${__alias_timeout__}; git status'
 alias gl='echo "--> git log --graph --all --decorate"; sleep ${__alias_timeout__}; git log --graph --all --decorate'
+alias glf='echo "--> git ls-files"; sleep ${__alias_timeout__}; git ls-files'
 alias gb='echo "--> git branch"; sleep ${__alias_timeout__}; git branch'
 
 alias gch='echo "--> git checkout"; sleep ${__alias_timeout__}; git checkout'
@@ -291,7 +292,7 @@ function ga { echo '--> git add' "${@}" ; sleep ${__alias_timeout__} ; git add "
 alias gd='echo "--> git diff"; sleep ${__alias_timeout__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__alias_timeout__}; git commit' 
 
-alias gr='echo "--> git reset --hard"; sleep ${__alias_timeout__}; git reset --hard'
+alias grh='echo "--> git reset --hard"; sleep ${__alias_timeout__}; git reset --hard'
 alias gm='echo "--> git merge"; sleep ${__alias_timeout__}; git merge'
 
 alias gf='echo "--> git fetch"; sleep ${__alias_timeout__}; git fetch ; echo ; gs';
@@ -302,22 +303,25 @@ alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
 alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
 s='--> Git Helper ('${__alias_last_update__}') \n'
-s=${s}'  gs: git status \n' 
-s=${s}'  gl: git log --graph --all --decorate \n'
-s=${s}'  gb: git branch \n\n'
+s=${s}'  gs : git status \n' 
+s=${s}'  gl : git log --graph --all --decorate \n'
+s=${s}'  glf: git ls-files \n'
+s=${s}'  gb : git branch \n'
+s=${s}'\n'
 s=${s}'  gch: git checkout \n'
-s=${s}'  ga: git add \n'
-s=${s}'  gd: git diff \n'
-s=${s}'  gco: git commit \n\n'
-s=${s}'  gr: git reset --hard \n'
-s=${s}'  gm: git merge \n\n'
-s=${s}'  gf: git fetch \n'
+s=${s}'  ga : git add \n'
+s=${s}'  gd : git diff \n'
+s=${s}'  gco: git commit \n'
+s=${s}'\n'
+s=${s}'  grh: git reset --hard \n'
+s=${s}'  gm : git merge \n'
+s=${s}'\n'
+s=${s}'  gf : git fetch \n'
 s=${s}'  gpl: git pull \n'
-s=${s}'  gps: git push \n\n'
-s=${s}'  xo: xdg-open (linux) \n'
-s=${s}'  s: start (windows) \n\n'
-s=${s}'  # linux: add lines at the end of "~/.bashrc" \n'
-s=${s}'  # windows git-bash: add lines at the end of "/etc/profile.d/aliases"' 
+s=${s}'  gps: git push \n'
+s=${s}'\n'
+s=${s}'  xo : xdg-open (linux) \n'
+s=${s}'  s  : start (windows) \n'
 _gh_s=${s}
 unset s
 alias gh='echo -e "${_gh_s}"'
