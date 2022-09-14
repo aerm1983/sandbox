@@ -2,7 +2,7 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 INSTALL NOTES FOR DEBIAN 11 BULLSEYE 
 VIT P2413 LAPTOP REQUIRES SPECIAL FIRMWARE PACKAGES
-UPDATED: 2022-09-11 09:40
+UPDATED: 2022-09-14 07:30
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -11,9 +11,13 @@ UPDATED: 2022-09-11 09:40
 
 1. Transfer ISO image to USB drive
 
-1.1 Preferred image is "debian-netinst.iso" (300MB).  Also "mini.iso" (50MB) is available, but internet connectivity is required for installation.
+1.1. Debian install references:
+https://www.debian.org/releases/bullseye/amd64/
+https://www.debian.org/releases/bullseye/amd64/ch04s03.en.html
 
-1.2. Using git-bash is preferred:
+1.2 Preferred image is "debian-netinst.iso" (300MB).  Also "mini.iso" (50MB) is available, but internet connectivity is required for installation.
+
+1.3. Using git-bash is preferred:
 
 # BEGIN git-bash
 
@@ -31,11 +35,11 @@ cmd.exe /C 'mountvol  F:\  \\?\Volume{9b-1b-1f}\' ;  # mount USB device
 
 # END git-bash
 
-1.3. Alternative, "Rufus-3.7p", run from Windows, using option "dd" (2nd) instead of "iso" (1st) for usb-writing, worked fine installing "debian-11.2" and "lubuntu-21.x" on 2022-02-14.
+1.4. Alternative, "Rufus-3.7p", run from Windows, using option "dd" (2nd) instead of "iso" (1st) for usb-writing, worked fine installing "debian-11.2" and "lubuntu-21.x" on 2022-02-14.
 
-1.4. Alternative, "Universal-USB-Installer-2.0.1", run from Windows, presented an issue concerning with a loop at startup menu with "debian-11.2".
+1.5. Alternative, "Universal-USB-Installer-2.0.1", run from Windows, presented an issue concerning with a loop at startup menu with "debian-11.2".
 
-1.5. Do install "standard system utilities" (provides 'update-grub', 'shutdown', other).
+1.6. Do install "standard system utilities" (provides 'update-grub', 'shutdown', other).
 
 
 
@@ -66,10 +70,6 @@ deb http://ftp.debian.org/debian bullseye main non-free
 #
 # old:
 # deb http://httpredir.debian.org/debian/ bullseye main contrib non-free
-#
-# optional:
-# deb http://ftp.us.debian.org/debian bullseye main non-free
-# deb http://http.us.debian.org/debian bullseye main non-free
 #
 # realtek wifi firmware additional info (file rtlwifi/rtl8723fw_B.bin):
 # https://packages.debian.org/bullseye/firmware-realtek
@@ -199,21 +199,25 @@ See message prompt, '0' might requier adjustment to '2048s'.
 
 10. Search files/packages (Linux)
 
-10.1. Run "apt update; apt-file update;".
-In following lines, example file is 'bin/man' and package is 'man-db'.
+10.1. Update repositories.
+Run "apt update; apt-file update;".
+In following lines, example file is 'bin/man' and example package is 'man-db'.
 
-10.2. Run "dpkg -S 'bin/man'" to find if file and corresponding package are installed.
-If positive, run "dpkg -l 'man-db'".
-'dpkg' search is ls-like.
+10.2. Use dpkg.
+Run "dpkg -S 'bin/man'" to find which package the file belongs to.
+Run "dpkg -l 'man-db'" and "dpkg -s 'man-db'" to see package status and info.
+'dpkg' package/file search is sort of 'ls-like'.
 
-10.3. If no results with dpkg, run "apt-file search 'bin/man'".
+10.3. Use apt-file.
+If no results with dpkg, run "apt-file search 'bin/man'".
 Alternatively, run "apt-file search -x 'bin/man$'" for regex support.
 
-10.4.  Package is found from 10.1 or 10.2.
-If package is installed, "dpkg -l 'man-db'" and "dpkg -s 'man-db'" corroborate status.
-Otherwise, run "apt-cache search --names-only 'man-db'" and "apt-cache show 'man-db'" to get info.
+10.4. Use apt-cache.
+Run "apt-cache search --names-only 'man-db'" to search package.
+Run "apt-cache show 'man-db'" to get package info.
 'apt' and 'apt-cache' work by default with regex support.
 
-10.5.  Run "apt install 'man-db'" to install.
+10.5. Use apt.
+Run "apt install 'man-db'" to install.
 
 
