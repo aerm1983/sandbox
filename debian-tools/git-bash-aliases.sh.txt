@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-14 11:11'
+__alias_last_update__='2022-09-14 14:13'
 __alias_timeout__='0.3'
 
 
@@ -104,10 +104,18 @@ alias csnc='cat -n | sed -E '\''s/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'
 alias date.xs='date +%s'
 alias date.sql='date +'\''%Y-%m-%d %H:%M:%S'\'
 
+
+
+# ---------------------------------------------------
 # General aliases - environment monitoring
+# ---------------------------------------------------
 function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
 
+
+
+# ---------------------------------------------------
 # General aliases - functions, helpers
+# ---------------------------------------------------
 function h { 
 
     bh_file=${HOME}/.bash-help
@@ -148,7 +156,7 @@ function npp {
 
 
 # ------------------------------------------------------
-# Java Aliases - java automation, addition begin
+# Java Aliases - java automation
 # ------------------------------------------------------
 
 alias sj8='. ~/.set-java-version 8'
@@ -269,12 +277,15 @@ function _t_k {
 alias tk='_t_k'
 
 
-
-
-alias wsl='clear ; winpty wsl'
-
-
-# java automation, addition end
+s='--> Java Helper ('${__alias_last_update__}') \n'
+s=${s}'  jl : jps -l \n'
+s=${s}'  jj : java -jar \n'
+s=${s}'  jjr: java -jar ./${jar_file} > ${log_file} \n'
+s=${s}'\n'
+s=${s}'  tk : tk \n'
+_jh_s=${s}
+unset s
+alias jh='echo -e "${_jh_s}"'
 
 
 
@@ -299,8 +310,6 @@ alias gf='echo "--> git fetch"; sleep ${__alias_timeout__}; git fetch ; echo ; g
 alias gpl='echo "--> git pull"; sleep ${__alias_timeout__}; git pull'
 alias gps='echo "--> git push"; sleep ${__alias_timeout__}; git push'
 
-alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
-alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
 
 s='--> Git Helper ('${__alias_last_update__}') \n'
 s=${s}'  gs : git status \n' 
@@ -319,11 +328,23 @@ s=${s}'\n'
 s=${s}'  gf : git fetch \n'
 s=${s}'  gpl: git pull \n'
 s=${s}'  gps: git push \n'
-s=${s}'\n'
-s=${s}'  xo : xdg-open (linux) \n'
-s=${s}'  s  : start (windows) \n'
 _gh_s=${s}
 unset s
 alias gh='echo -e "${_gh_s}"'
+
+
+
+# ------------------------------------------------------
+# Windows OS Aliases
+# ------------------------------------------------------
+
+alias wsl='clear ; winpty wsl'
+alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
+
+alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
+
+
+
+
 
 
