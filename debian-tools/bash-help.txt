@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-14 09:45
+# updated:  2022-09-14 11:29
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -22,7 +22,7 @@ dd:  Copy byte streams.  It is not as fast as 'cp', 'cat' or 'pv'.  Using 'bs=1M
 declare:  Print shell available variables and functions info.  Options: -A associative ; -a array ;  -i integer ; -p print ; -f function.  Example: declare -p ; declare -p my_var  ;  declare -p -f my_function  ;  declare -A myvar=([name]='john', [surname]='doe')  ;  declare -i myint  ;  myint+=1  ;
 df:  List storage devices, free space, mount point.  Option '-h' human readable size.
 dialog:  Create GUIs in bash using nCurses.
-diff:  Compare two files line by line.  Options:  -u human readable, git style.  -b ignore whitespace changes.  -B ignore whiteline changes.
+diff:  Compare two files line by line.  Options:  -u human readable, git style.  -y side by side comparison.  -b ignore whitespace changes.  -B ignore whiteline changes.  --left-column do not double-print common lines when using -y.  --supress-common-lines do not print common lines when using -y. 
 dirname:  See basename, realpath
 dmesg:  Query last linux system log entries.
 dos2unix:  Convert txt from dos to unix..
