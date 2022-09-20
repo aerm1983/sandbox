@@ -1,0 +1,129 @@
+# JAVA HELPER WM PLATFORM
+# updated: 2022-09-20 07:21
+
+
+function _jh_kill_service {
+    cdkj
+    cd ${1}
+    pwd
+    tk
+    echo
+}
+
+function _jh_kill_platform {
+    alias 1
+    cdkj
+    _jh_kill_service ui
+    _jh_kill_service bulkfileprocessor
+    _jh_kill_service productmanagement
+    _jh_kill_service mappingmanagement
+    _jh_kill_service usermanagement
+    _jh_kill_service marketplaceebay
+    _jh_kill_service microservicesregistry
+    cdkj
+}
+
+
+
+
+function _jh_start_service_service {
+    cdkj
+    cd ${1}
+    pwd
+    jjr
+    cd ..
+    echo -n 'sleeping 40 secs... '
+    sleep 40
+    echo -e 'done\n'
+}
+
+
+function _jh_restart_platform {
+
+    __date_ini=$( date )
+    alias 2
+    cdkj
+    _jh_kill_platform
+
+
+
+
+    # flyway clean
+    # flyway baseline
+
+    # mariadb_user='root'
+    # mariadb_password='1234'
+    # mariadb_db='bulkfileprocessor'
+
+    # mariadb_sql_delete="DELETE FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
+    # mariadb_bash_delete='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_delete}\'
+    # echo "${mariadb_bash_delete}"
+    # eval "${mariadb_bash_delete}"
+    # echo $?
+
+    # mariadb_sql_select="SELECT * FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
+    # mariadb_bash_select='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_select}\'
+    # echo "${mariadb_bash_select}"
+    # eval "${mariadb_bash_select}"
+    # echo $?
+
+    # echo
+
+
+
+    cdkj
+
+    _jh_start_service microservicesregistry 
+
+    _jh_start_service usermanagement
+    _jh_start_service marketplaceebay
+    _jh_start_service mappingmanagement
+    sleep 40
+
+    _jh_start_service productmanagement
+    _jh_start_service bulkfileprocessor
+
+    _jh_start_service ui
+
+    cdkj
+
+
+
+    # sleep 60 ; echo 'pre-curl, 60s pause 1, done'
+    # sleep 30 ; echo 'pre-curl, 30s pause 2, done'
+    # --location
+    # curl -s -i --request POST --header 'Content-Type: application/json' --data-raw '{"filename": "ebay_product_test_4.9_ALBERTO.csv","job":"product","storeId":"do-commerce"}' --url 'http://localhost:8283/v1/event/ftp'
+    # echo  'curl completed'
+    # sleep 60 ; echo 'post-curl, 60s pause 1, done'
+
+    echo 'completed'
+    echo 'start: '${__date_ini}
+    echo 'end:   '$( date )
+
+}
+
+
+
+function _jh_clean_logs {
+    cdk
+    cd log
+    echo -n '' > bulk-processor-4.5.19-SNAPSHOT.jar.log
+    echo -n '' > mapping-management-4.1.18-SNAPSHOT.jar.log
+    echo -n '' > marketplaceebay-4.4.12-SNAPSHOT.jar.log
+    echo -n '' > microservices-registry-0.0.1-SNAPSHOT.jar.log
+    echo -n '' > productmanagement-4.6.20-SNAPSHOT.jar.log
+    echo -n '' > ui-4.8.3-SNAPSHOT.jar.log
+    echo -n '' > usermanagement-4.5.16-SNAPSHOT.jar.log
+    clear ; alias 9 ; echo -n -e '\nrefreshing...' ; sleep 1 ; clear ;
+    pwd
+    ll
+    cdkj
+}
+
+
+
+alias 0='. ./jh_wm_platform.sh.txt ; echo '\''(jh_wm_pl reloaded)'\'' ; alias 1 ;  alias 2  ;  alias 9 ;'
+alias 1='_jh_kill_platform'
+alias 2='_jh_restart_platform'
+alias 9='_jh_clean_logs'
+
