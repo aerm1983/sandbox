@@ -1,5 +1,5 @@
 # JAVA HELPER WM PLATFORM
-__jh_wmp_updated__='2022-09-20 07:42'
+__jh_wmp_updated__='2022-09-20 14:04'
 
 
 function _jh_kill_service {
@@ -16,6 +16,7 @@ function _jh_kill_platform {
     _jh_kill_service ui
     _jh_kill_service bulkfileprocessor
     _jh_kill_service productmanagement
+    _jh_kill_service mailing
     _jh_kill_service mappingmanagement
     _jh_kill_service usermanagement
     _jh_kill_service marketplaceebay
@@ -78,7 +79,10 @@ function _jh_restart_platform {
     _jh_start_service usermanagement
     _jh_start_service marketplaceebay
     _jh_start_service mappingmanagement
+    echo -n 'sleeping 40 secs... '
     sleep 40
+    echo -e 'done\n'
+    _jh_start_service mailing
 
     _jh_start_service productmanagement
     _jh_start_service bulkfileprocessor
@@ -107,25 +111,28 @@ function _jh_restart_platform {
 function _jh_clean_logs {
     cdk
     cd log
-    echo -n '' > bulk-processor-4.5.19-SNAPSHOT.jar.log
-    echo -n '' > mapping-management-4.1.18-SNAPSHOT.jar.log
-    echo -n '' > marketplaceebay-4.4.12-SNAPSHOT.jar.log
-    echo -n '' > microservices-registry-0.0.1-SNAPSHOT.jar.log
-    echo -n '' > productmanagement-4.6.20-SNAPSHOT.jar.log
-    echo -n '' > ui-4.8.3-SNAPSHOT.jar.log
-    echo -n '' > usermanagement-4.5.16-SNAPSHOT.jar.log
+    echo -n '' > microservices*.jar.log
+    echo -n '' > usermanagement*.jar.log
+    echo -n '' > marketplaceebay*.jar.log
+    echo -n '' > mapping*.jar.log
+    echo -n '' > mailing*.jar.log
+    echo -n '' > productmanagement*.jar.log
+    echo -n '' > bulk*.jar.log
+    echo -n '' > ui*.jar.log
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 8
+    alias 7
     pwd
     ll
     cdkj
+    echo
 }
 
 
 
-alias 0='. ./jh_wm_platform.sh.txt ; echo "updated:" ${__jh_wmp_updated__} ; alias 0 1 2 8 9 ;'
+alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__jh_wmp_updated__} ; alias 0 1 2 7 8 9 ;'
 alias 1='_jh_kill_platform'
 alias 2='_jh_restart_platform'
-alias 8='_jh_clean_logs'
-alias 9='1 ; 8'
+alias 7='_jh_clean_logs'
+alias 8='1 ; 7'
+alias 9='1 ; 7 ; 2'
 
