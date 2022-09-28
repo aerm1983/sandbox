@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-14 11:49
+# updated:  2022-09-21 08:23
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -65,7 +65,8 @@ ntfsfix:  Fix ntfs filesystem partition or mounting. Example: ntfsfix /media/don
 o:
 od:  Octal/hexadecimal dump of file.  See also 'xxd'.  Options:  -An supress file offset (left index column).  -tx1 hexadecimal format, one-byte grouped.  -w8 number of bytes per line, eight in this case.  -v supress *.  Examples:  od -v -An -tx1 file.bin > file.hex.txt  ;  echo -e 'AAAA\nBBBB\nCCCC\DDDD\nEEEE\nFFFF' | od -v -An -tx1 -w8  ;  
 p:
-parted:  Create labels and partitions (format drive).  Target drive should be unmounted.  See also: 'umount', 'lsblk'.  Actions:  mklabel create label; values 'msdos', 'gpt'.  mkpart create partition; values 'primary', 'logical', 'extended'.  Options:  -a alignment; value 'opt' for optimal.  Examples:  parted -a opt /dev/sdx mklabel msdos 0 9G # prompt message, change 0 to 2048s  ;  parted -a opt /dev/sdx mkpart primary 0 9G # prompt message, change 0 to 2048s  ;  
+parted:  Create labels and partitions (format drive).  Target drive should be unmounted.  See also: 'umount', 'lsblk'.  Actions:  mklabel create label; values 'msdos', 'gpt'.  mkpart create partition; values 'primary', 'logical', 'extended'.  Options:  -a alignment; value 'opt' for optimal.  Examples:  parted -a opt /dev/sdx mklabel msdos 0 9G # prompt message, change 0 to 2048s  ;  parted -a opt /dev/sdx mkpart primary 0 9G # prompt message, change 0 to 2048s  ; 
+patch:  Apply diffs to text files.  See also diff.  Options:  -R reverse.  Examples:  echo 'a' > f1.txt ; echo -e 'a\nb' > f2.txt ; diff f1.txt f2.txt > script.patch  ;  patch f1.txt script.patch  ;  patch -R f1.txt script.patch  ;  
 ping:
 printf:  Print formated, more strict than echo.  Examples:  printf %20s 'hello'  ;  printf %b '\x01\x02\x03'  ; 
 process substitution:  Process stdin/stdout behaves "like a file".  Examples: cat <( ls ) ; ls > >( grep 'txt' ) ;
