@@ -1,6 +1,6 @@
-= = = = = = = = = = = = = = = = = = = = =
-Git Bash for Windows, context menu entry
-= = = = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+Git Bash for Windows, context menu entry - updated 2022-10-05 19:34
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 (1) Navigate to regedit.exe in the Start Menu—or hit Windows Key + R and type regedit.exe—and head to this key: HKEY_CLASSES_ROOT > Directory > Background > shell
 
