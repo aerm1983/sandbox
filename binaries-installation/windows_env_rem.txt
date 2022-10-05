@@ -1,0 +1,147 @@
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-10-05 17:15
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+
+= = = = = = = =
+(1) Reminders:
+= = = = = = = =
+
+(1.1) ACTIVEMQ_HOME bug, use unix folder separator ('/').
+
+(1.2) MAVEN_HOME requires also M2_HOME and MVN_HOME, all with same value.
+
+(1.3) RABBITMQ_HOME requires also RABBITMQ_SERVER, both with same value.
+
+(1.4) Note that %PYTHONHOME% does not use '_'.
+
+(1.5) It's ok to reference variables in %PATH%, see (3).
+
+(1.6) All variables referenced in %PATH% must contain a value (should not refer to other variables), see (2).
+
+(1.7) Despite not forbidden, it's unreliable to use variables referencing other variables in %PATH%.
+
+(1.8) Version specific variables are helpful as as human-reminders (GUI copy-paste), do not reference them in other variables.
+
+
+
+= = = = = = = = = = = = = = = = = 
+(2) USER ENVIRONMENT VARIABLES
+= = = = = = = = = = = = = = = = = 
+
+GIT_HOME
+
+JAVA_8_HOME
+JAVA_11_HOME
+JAVA_HOME
+
+M2_HOME
+MAVEN_HOME
+MVN_HOME
+GRADLE_HOME
+
+ACTIVEMQ_HOME
+ERLANG_HOME
+RABBITMQ_HOME
+RABBITMQ_SERVER
+
+PYTHON_3_10_HOME
+PYTHON_3_9_HOME
+PYTHONHOME
+
+MARIADB_HOME
+HEIDISQL_HOME
+
+FLYWAY_HOME
+
+
+
+= = = = = = = = = = = = = = = = = 
+(3) USER %PATH% VARIABLE CONTENT
+= = = = = = = = = = = = = = = = = 
+
+%GIT_HOME%
+%GIT_HOME%\bin
+
+%JAVA_HOME%\bin
+%M2_HOME%\bin
+%GRADLE_HOME%\bin
+
+%ACTIVEMQ_HOME%\bin
+%ERLANG_HOME%\bin
+%RABBITMQ_HOME%\sbin
+
+%PYTHONHOME%
+%PYTHONHOME%\Scripts
+
+%MARIADB_HOME%\bin
+%HEIDISQL_HOME%
+
+%FLYWAY_HOME%
+
+
+
+= = = = = = = = = = = = = = = = = 
+(4) FAST CMD INSTALL CHECKS
+= = = = = = = = = = = = = = = = = 
+
+where git # also with all other commands
+
+git --version
+
+java -version
+mvn -version
+gradle -version
+
+activemq --version
+
+https://rabbitmq.com/install-windows-manual.html
+https://rabbitmq.com/download.html  -->  windows, binary build
+where erl
+where rabbitmq-server
+rabbitmqctl version
+
+python -V
+pip -V
+python (console) --> import sys --> sys.path --> sys.exit()
+
+mariadb --version
+
+flyway --help | flyway info
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+(5) FREQUENTLY USED WINDOWS CMD COMMANDS, JAVA DEVELOPMENT
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+where git # also with all other commands
+
+mariadbd --console
+
+activemq start
+
+rabbitmq-server
+rabbitmq-server.bat -detached
+
+flyway --help | info | baseline | migrate | clean
+
+echo %PATH%
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+(6) FREQUENTLY USED WEB GUIS, OTHER REMINDERS, JAVA DEVELOPMENT
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+Eureka:
+http://localhost:8761/
+
+ActiveMQ:
+http://localhost:8161/  
+--> admin:admin
+
+RabbitMQ:
+http://localhost:15672/
+--> guest:guest
+
