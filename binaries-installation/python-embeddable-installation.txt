@@ -1,32 +1,66 @@
-= = = = = = = = = = = = = =
-Install python embeddable:
-= = = = = = = = = = = = = =
-(1) Download zip containing embeded python, extract files in appropiate folder
-(2) Test installation in folder, run ".\python -V" to check version
-(3) Download "get-pip.py" through "pypi" site, "pip" package, install instructions
-(4) Run ".\python .\get-pip.py", this will add "Scripts" and "Lib" folders
-(5) In "python[V]._pth" file, add line ".\Lib\site-packages"
-(6) Test installation, run "python -m pip -V", run ".\Scripts\pip -V" to check version
-(7) Add python root folder and "Scripts" folder to environment variable "PATH"
-(8) Rename "python[V]._pth" file to "python[V]._pth.deprecated" (this file prevents correct functioning of "sys.path" in scripts)
-(9) Test a script using "import sys" and "print(str(sys.path))" to check module search paths
-(10) Environment variable %PYTHONPATH% is also an option for module importing
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+Install python embeddable - updated: 2022-10-05 10:51
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
+(1) Download zip containing embeded python, extract files in appropiate folder
+
+(2) Test installation in folder, run ".\python -V" to check version
+
+(3) Download "get-pip.py" through "pypi" site, "pip" package, "install" documentation:
+
+(3.1) https://pypi.org/project/pip/  --> then "install" documentation:
+
+(3.2) https://pip.pypa.io/en/stable/installation/  --> then download script "get-pip.py"
+
+(3.3) https://bootstrap.pypa.io/get-pip.py  --> this is the "get-pip.py" script content
+
+(4) Run ".\python .\get-pip.py", this will add "Scripts" and "Lib" folders
+
+(5) In "python[V]._pth" file, add line ".\Lib\site-packages"
+
+(6) Test installation: run "python -m pip -V", run ".\Scripts\pip -V" to check version
+
+(7) Define %PYTHONHOME% env var, containing directly the path to python folder.
+
+Add "%PYTHONHOME%" and "%PYTHONHOME%\Scripts" to %PATH%.  Important:
+
+(7.1) %PYTHONHOME% cannot refer to other variable, since it's alphabetically after %PATH%, thus such reference may cause trouble.
+
+(7.2) Other variables such as %PYTHON_3_10_7_HOME% may exist, but just for human-reminder purposes; they should not be refered by %PYTHONHOME%.
+
+(8) Start python console, execute: 
+
+(8.1) "import sys", to import sys module
+
+(8.2) "sys.path" to check module search paths
+
+(8.3) "sys.exit()" to exit console
+
+(9) Rename "python[V]._pth" file to "python[V]._pth.deprecated" (this file prevents correct functioning of "sys.path" in scripts).
+
+(10) Execute (6) again.  This time complete file path is not necessary since %PATH% additions done in (7).
+
+(11) Execute (8) again.
+
+(12) Environment variable %PYTHONPATH% is also an option for module importing
 
 
 
 = = = = = = = = = = =
 Some common packages
 = = = = = = = = = = =
-Run "python -m pip list" to check installed packages
+Run "python install ipython".  
 
+Other frequently used packages:
 ipython
 mysql-connector
 pandas
 matplotlib
-
 psycopg2
 SQLAlchemy
 pyqt5 or 6
 python-Levenshtein
 fuzzywuzzy
+
+Run "python -m pip list" to check installed packages.
+
