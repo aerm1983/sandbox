@@ -1,6 +1,6 @@
-= = = = = = = = = = = = =
-MariaDB Binaries Install
-= = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+MariaDB binaries install - updated: 2022-10-05 17:39
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
 (1) Place files in appropiate installation directory

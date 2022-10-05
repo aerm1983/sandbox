@@ -1,6 +1,11 @@
-# NOTE:
-# Key-value pairs are separated by "newline" character
-# Avoid inserting line comments between key and value to prevent errors
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+# SpringToolSuite.ini file sample - updated: 2022-10-05 17:41
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+#
+# NOTES:
+# (1) Key-value pairs are separated by "newline" character
+# (2) Avoid inserting line comments between key and value to prevent errors
+#
 -vm
 /opt/java/jdk-11.0.12/bin/javaw.exe
 -startup

@@ -1,6 +1,6 @@
-= = = = = = = = = = = = = = = = = = = = =
-PostgreSQL v9 Binaries Installation Notes
-= = = = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+PostgreSQL v9 binaries installation notes - updated: 2022-10-05 17:40
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
 
