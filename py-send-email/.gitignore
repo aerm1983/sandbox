@@ -1,0 +1,6 @@
+# temporal info
+info.*.tmp
+
+# compiled files
+**/pyc
+**/*.pyc
