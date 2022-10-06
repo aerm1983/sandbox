@@ -23,8 +23,9 @@ def main(argv):
     user = conf_email['mail']['user']
     password = ''
     try:
+        # print( str(os.environ) ) # debug
         print('Attempting to read password from environment variable "' + conf_email['mail']['password_env_var'] + '"')
-        password = os.environ(conf_email['mail']['password_env_var'])
+        password = os.getenv(conf_email['mail']['password_env_var'])
         if password == '' or password == None : raise Exception()
     except:
         print('ERROR: Email password should preferrable be set in environment variable.')
@@ -53,9 +54,25 @@ def main(argv):
     # email headers
     _from = conf_email['mail']['from']
     toList = conf_email['mail']['to'].split(',')
-    subject = conf_email['mail']['subject']
+    
+    subject = ''
+    try:
+        print('Attempting to read subject from file "' + conf_email['mail']['subject_file'] + '"')
+        file_email_subject = open( conf_email['mail']['subject_file'] )
+        subject = file_email_subject.read()
+        if subject == '' or subject == None : raise Exception()
+    except:
+        print('ERROR: Read subject from file failed')
+        print('ERROR: Attempting to read subject from config file')
+        try:
+            subject = conf_email['mail']['subject']
+            if subject == '' or subject == None : raise Exception()
+        except:
+            print('Subject not defined in txt file, nor in config file')
+            sys.exit(1)
+
     content = text
-    # archivo = conf_email['mail']['archivo']+'20210817'+'.xlsx'
+    # attach_file = conf_email['mail']['archivo']+'20210817'+'.xlsx'
     attach_file_list = conf_email['mail']['attach_file_list'].split(',')
 
     # email server host, port

@@ -1,11 +1,11 @@
 #! /bin/bash
 
-source_dir=$( basename $( pwd ) )
+source_dir='../'$( basename $( pwd ) )
 
 target_dir=${HOME}/Desktop/dm-test
 
-cd ../
+cmd_str='command cp -vr '${source_dir}' '${target_dir}
 
-cp -vr ${source_dir} ${target_dir}
+echo '--> '${cmd_str}
 
-cd ${source_dir}
+eval ${cmd_str}
