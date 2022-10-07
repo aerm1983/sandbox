@@ -17,7 +17,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-07 06:45'
+__ALIAS_LAST_UPDATE__='2022-10-07 07:19'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -63,11 +63,12 @@ WHITE='\033[1;37m'
 alias e='exit'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -lah --color=always'
-alias c='_c_a_c'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
 function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
+alias c='_c_a_c'
+alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
 
 # testing:
 alias lg='ls -a --color=always | grep'
