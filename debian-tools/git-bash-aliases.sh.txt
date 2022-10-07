@@ -17,19 +17,21 @@
 
 
 # Constants required for script
-__alias_last_update__='2022-09-28 12:13'
-__alias_timeout__='0.3'
+__ALIAS_LAST_UPDATE__='2022-10-07 06:45'
+__ALIAS_TIMEOUT__='0.3'
 
 
 # Helping alias. Re-alias to '0' while testing / implementing changes:
+# (this is being temporary tested as a separate script 'update*')
 alias __gba='
-    cp -v ./bash-help.txt ${HOME}/.bash-help ; 
+    cp -v ./bash-help-src.txt ${HOME}/.bash-help-src ; 
     cp -v ./git-bash-aliases.sh.txt ${HOME}/.git-bash-aliases  ; 
     cp -v ./set-java-version.sh.txt ${HOME}/.set-java-version  ; 
     source ${HOME}/.git-bash-aliases ; 
     echo ; 
     h_greeting ; echo ; h ;
-    cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; '
+    cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
+'
 
 
 
@@ -120,7 +122,7 @@ function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type'
 # ---------------------------------------------------
 function h { 
 
-    bh_file=${HOME}/.bash-help
+    bh_file=${HOME}/.bash-help-src
     if [ ! -e ${bh_file} ] 
     then
         echo 'source file does not exist'
@@ -142,10 +144,10 @@ function print_fn {
 }
 
 function h_last_update { 
-    echo ${__alias_last_update__} ; 
+    echo ${__ALIAS_LAST_UPDATE__} ; 
 }
 function h_greeting { 
-    echo 'GBA - updated: '${__alias_last_update__} ; 
+    echo 'GBA - updated: '${__ALIAS_LAST_UPDATE__} ; 
 }
 
 # General aliases -- Windows OS specific
@@ -279,7 +281,7 @@ function _t_k {
 alias tk='_t_k'
 
 
-s='--> Java Helper ('${__alias_last_update__}') \n'
+s='--> Java Helper ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'  jl : jps -l \n'
 s=${s}'  jj : java -jar \n'
 s=${s}'  jjr: java -jar ./${jar_file} > ${log_file} \n'
@@ -295,25 +297,25 @@ alias jh='echo -e "${_jh_s}"'
 # Git Aliases
 # ------------------------------------------------------
 
-alias gs='echo "--> git status"; sleep ${__alias_timeout__}; git status'
-alias gl='echo "--> git log --graph --all --decorate"; sleep ${__alias_timeout__}; git log --graph --all --decorate'
-alias glf='echo "--> git ls-files"; sleep ${__alias_timeout__}; git ls-files'
-alias gb='echo "--> git branch"; sleep ${__alias_timeout__}; git branch'
+alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
+alias gl='echo "--> git log --graph --all --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --all --decorate'
+alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
+alias gb='echo "--> git branch"; sleep ${__ALIAS_TIMEOUT__}; git branch'
 
-alias gch='echo "--> git checkout"; sleep ${__alias_timeout__}; git checkout'
-function ga { echo '--> git add' "${@}" ; sleep ${__alias_timeout__} ; git add "${@}" ; echo ; gs ; } 
-alias gd='echo "--> git diff"; sleep ${__alias_timeout__}; git diff'
-alias gco='echo "--> git commit"; sleep ${__alias_timeout__}; git commit' 
+alias gch='echo "--> git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
+function ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
+alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
+alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
 
-alias grh='echo "--> git reset --hard"; sleep ${__alias_timeout__}; git reset --hard'
-alias gm='echo "--> git merge"; sleep ${__alias_timeout__}; git merge'
+alias grh='echo "--> git reset --hard"; sleep ${__ALIAS_TIMEOUT__}; git reset --hard'
+alias gm='echo "--> git merge"; sleep ${__ALIAS_TIMEOUT__}; git merge'
 
-alias gf='echo "--> git fetch"; sleep ${__alias_timeout__}; git fetch ; echo ; gs';
-alias gpl='echo "--> git pull"; sleep ${__alias_timeout__}; git pull'
-alias gps='echo "--> git push"; sleep ${__alias_timeout__}; git push'
+alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs';
+alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
+alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
 
-s='--> Git Helper ('${__alias_last_update__}') \n'
+s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'  gs : git status \n' 
 s=${s}'  gl : git log --graph --all --decorate \n'
 s=${s}'  glf: git ls-files \n'
@@ -341,9 +343,9 @@ alias gh='echo -e "${_gh_s}"'
 # ------------------------------------------------------
 
 alias wsl='clear ; winpty wsl'
-alias s='echo "--> start"; sleep ${__alias_timeout__}; start'
+alias s='echo "--> start"; sleep ${__ALIAS_TIMEOUT__}; start'
 
-alias xo='echo "--> xdg-open"; sleep ${__alias_timeout__}; xdg-open'
+alias xo='echo "--> xdg-open"; sleep ${__ALIAS_TIMEOUT__}; xdg-open'
 
 
 

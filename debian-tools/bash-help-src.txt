@@ -1,5 +1,5 @@
 # bash help
-# updated:  2022-09-28 12:04
+# updated:  2022-10-07 06:11
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -13,6 +13,7 @@ cmd.exe:  Windows command, useful to execute sentences from git-bash, using opti
 cmd:  See 'cmd.exe', to execute sentences from git-bash.
 cmp:  Compare two binary files.  See 'comm' to compare text files.  Example: cmp file1.bin file2.bin  ;
 comm:  Compare two text files.  Requires previous sorting.  Writes three columns: inFileA, inFileB, inFileAAndFileB.  See 'cmp' for binary files comparison.
+command: Allow to use a native command, bypassing an alias if set.  Example:  command ls # 'ls' is usually aliased as 'ls color=always'  ;  
 cp:  Can be used to copy iso images into unmounted devices for os installation.  Examples:  cp -v debian.iso /dev/sdb  ;  
 crontab:
 cut:  Print fields separated by a delimiter.  Option -d delimiter.  Option -f fields list.  See awk.  Examples:  echo -e '1,A,a\n2,B,b\n3,D,d\n' | cut -d, -f1,2,3  ;  

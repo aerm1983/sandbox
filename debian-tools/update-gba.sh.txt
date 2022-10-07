@@ -1,0 +1,23 @@
+#!/bin/bash
+# SCRIPT UPDATE GIT-BASH-ALIASES
+# updated: 2022-10-07 06:23
+# this is being tested to replace alias '__gba' in 'git-bash-aliases'
+
+# Regular Git-Bash-Aliases files
+
+command cp -v ./bash-help-src.txt ${HOME}/.bash-help-src ; 
+
+command cp -v ./git-bash-aliases.sh.txt ${HOME}/.git-bash-aliases  ; 
+
+command cp -v ./set-java-version.sh.txt ${HOME}/.set-java-version  ; 
+
+command source ${HOME}/.git-bash-aliases ; 
+
+echo ; h_greeting ; echo ; h ;
+
+# Java DM-WM helper
+
+echo ;
+
+command cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
+
