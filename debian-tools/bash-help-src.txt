@@ -1,5 +1,5 @@
-# bash help
-# updated:  2022-10-07 06:11
+# BASH HELP SOURCE
+# BH updated:  2022-10-09 12:43
 a:
 alias:  Make aliases, show aliases. Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Option -p print.  Examples: alias c='clear' ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -7,13 +7,14 @@ apt-file:  Search file in packages (installed or not).  This command uses a repo
 apt:  A workflow to install a program would be: (1) `dpkg` to check if program/package is installed; (2) `apt-file` to search package containing program; (3) `apt` to install package.  See also apt-cache, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  --fix-missing solve faulty package installs.  Examples:  apt search --names-only 'man-db'  ;  apt install --fix-missing 'man-db'  ;  
 awk:  Executes curly brackets if line matches pattern.  Option -F field separator.  Can perform flaoting-point operations.  Backreference \0 is matched string.  See cut.  Examples:  ls -l | awk '/a/ { print $1 " " $3 }'  ;  echo '' | awk '{ print 1.1 + 2.2 }'  ;  echo -e '1|A|a\n2|B|b\n3|C|c' | awk -F '|' '{ print $1 ";" $2 ";" $3 ";" }'  ;  awk ' // { if ( $1 == "A" ) { $2 = "isA" } else if ( $1 == "B" ) { $2 = "isB" } else { $2 = "notANorB" } ; print $1 "|" $2 }' file.txt  ;
 b:
+bash:  Execute subshell, string-script or file-script in new bash-child-process.  Env variable '${$}' is current bash process.  Options:  -c execute string-script.  -x debug.  Examples:  bash # execute subshell  ;  bash -c 'echo ${$} ; ps ;' # execute string-script  ;  bash -x ./file-script.sh # execute file-script with debug  ;  
 basename:  See dirname, realpath
 c:
 cmd.exe:  Windows command, useful to execute sentences from git-bash, using option /C.  See also: 'mountvol'.  Examples:  cmd.exe /C 'mountvol /E'  ;  
 cmd:  See 'cmd.exe', to execute sentences from git-bash.
 cmp:  Compare two binary files.  See 'comm' to compare text files.  Example: cmp file1.bin file2.bin  ;
 comm:  Compare two text files.  Requires previous sorting.  Writes three columns: inFileA, inFileB, inFileAAndFileB.  See 'cmp' for binary files comparison.
-command: Allow to use a native command, bypassing an alias if set.  Example:  command ls # 'ls' is usually aliased as 'ls color=always'  ;  
+command:  Allow to use a native command, bypassing an alias if set.  See also: enable.  Example:  command ls # 'ls' is usually aliased as 'ls color=always'  ;  
 cp:  Can be used to copy iso images into unmounted devices for os installation.  Examples:  cp -v debian.iso /dev/sdb  ;  
 crontab:
 cut:  Print fields separated by a delimiter.  Option -d delimiter.  Option -f fields list.  See awk.  Examples:  echo -e '1,A,a\n2,B,b\n3,D,d\n' | cut -d, -f1,2,3  ;  
@@ -32,7 +33,7 @@ dpkg:  Indicate installed package status (info); also files contained in install
 du:  Disk usage by each directory.  Option '-h' human readable size.
 e:
 echo:  Print string. Careful with expansions from vars, to avoid it use double-quotes.  Example: echo * ; echo "*" ; echo $(ls) ; echo "$(ls)" ; echo "${my var}"
-enable:  Enable, disable or list builtins.  Example:  enable -a  ; enable  -n  ;  enable -n true ;  enable +n true
+enable:  Enable, disable or list builtins.  See builtin help, is adecuate enough.  See also: command.  Options:  -n list disabled builtins or disable builtin if indicated.  Example:  enable -a  ; enable  -n  ;  enable -n true ;  enable +n true
 eval:  Execute bash command from string.  Careful with expansions, use double-quotes, see command 'echo'.   Examples: eval 'echo *' ; eval 'echo "*"' ;
 expect:  Automate command execution after ssh connection.
 f:
