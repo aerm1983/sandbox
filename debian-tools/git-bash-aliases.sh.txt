@@ -7,31 +7,20 @@
 # Put a copy of this file in $HOME folder.
 # Filename: folowing convention, change to '.git-bash-aliases' when copying to $HOME or %USERPROFILE%
 # Insert source hook in bash initialization file:
-#     - linux: '~/.bashrc'.
-#     - windows git-bash: '/etc/profile.d/aliases'.
+#    - linux: '~/.bashrc'.
+#    - windows git-bash: '/etc/profile.d/aliases'.
 # Source hook (edit as convenient):
-#     _srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${_srcfile} ] ; then ; command source ${_srcfile} ; echo $( h_greeting ) ; fi ; command unset _srcfile ; 
+#    _srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${_srcfile} ] ; then ; command source ${_srcfile} ; echo $( h_greeting ) ; fi ; command unset _srcfile ; 
 #
-# REMINDER:
-# If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
+# REMINDERS:
+#    - Script 'update.*' in this folder helps for fast improvement / deployment.
+#    - If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-09 12:23'
+__ALIAS_LAST_UPDATE__='2022-10-09 15:00'
 __ALIAS_TIMEOUT__='0.3'
 
-
-# Helping alias. Re-alias to '0' while testing / implementing changes:
-# (this is being temporary tested as a separate script 'update-gba')
-alias __gba='
-    cp -v ./bash-help-src.txt ${HOME}/.bash-help-src ; 
-    cp -v ./git-bash-aliases.sh.txt ${HOME}/.git-bash-aliases  ; 
-    cp -v ./set-java-version.sh.txt ${HOME}/.set-java-version  ; 
-    source ${HOME}/.git-bash-aliases ; 
-    echo ; 
-    h_greeting ; echo ; h ;
-    cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
-'
 
 
 
@@ -63,6 +52,8 @@ WHITE='\033[1;37m'
 alias e='exit'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -lah --color=always'
+function cd { if [ -z ${1} ] ; then exit ; else command cd ${1} ; ls ; fi ; }
+alias cd='cd'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
@@ -74,8 +65,6 @@ alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
 alias lg='ls -a --color=always | grep'
 alias llg='ls -la --color=always | grep'
 function clg { cd $( ls | grep --color=never $1 ) ; }
-function _cd { if [ -z ${1} ] ; then exit ; else command cd ${1} ; ls ; fi ; }
-alias cd='_cd'
 
 # frequently used directories
 alias cdk='cd ~/Desktop'
