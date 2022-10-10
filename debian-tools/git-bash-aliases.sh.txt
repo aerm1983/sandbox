@@ -1,6 +1,7 @@
 # = = = = = = = = = = 
 # CUSTOMIZED ALIASES
 # = = = = = = = = = = 
+#
 # See constants section below for update date reference.
 #
 # INSTALLATION:
@@ -15,10 +16,13 @@
 # REMINDERS:
 #    - Script 'update.*' in this folder helps for fast improvement / deployment.
 #    - If an alias is to receive input frome pipe, do not use initial 'echo' helping reference.
+#    - Sections from the beginning contain aliases intended for both, Windows and Linux OS.
+#    - Sections at the end are to contain Windows-specific and Linux-specific aliases.
+#
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-09 19:04'
+__ALIAS_LAST_UPDATE__='2022-10-10 07:29'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -328,15 +332,37 @@ alias gh='echo -e "${_gh_s}"'
 
 
 # ------------------------------------------------------
-# Windows OS Aliases
+# Specific Windows OS Aliases
 # ------------------------------------------------------
 
-alias wsl='clear ; winpty wsl'
-alias s='echo "--> start"; sleep ${__ALIAS_TIMEOUT__}; start'
+uname | command grep -P -i '(mingw|window)' > /dev/null
 
-alias xo='echo "--> xdg-open"; sleep ${__ALIAS_TIMEOUT__}; xdg-open'
+__kernel_is_windows__=$( echo $? )
+
+if [ ${__kernel_is_windows__} -eq '0'  ]; then
+    alias wsl='clear ; winpty wsl'
+    alias s='echo "--> start"; sleep ${__ALIAS_TIMEOUT__}; start'
+    alias python='winpty python'
+    alias ipython='winpty ipython'
+fi
+
+unset __kernel_is_windows__
 
 
+
+# ------------------------------------------------------
+# Specific Linux OS Aliases
+# ------------------------------------------------------
+
+uname | command grep -P -i '(linux)' > /dev/null
+
+__kernel_is_linux__=$( echo $? )
+
+if [ ${__kernel_is_linux__} -eq '0'  ]; then
+    alias xo='echo "--> xdg-open"; sleep ${__ALIAS_TIMEOUT__}; xdg-open'
+fi
+
+unset __kernel_is_linux__
 
 
 
