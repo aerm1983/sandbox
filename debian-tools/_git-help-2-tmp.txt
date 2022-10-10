@@ -1,17 +1,58 @@
-# Git Help 2 -- updated: 2022-10-09 22:16
+# Git Help 2 -- updated: 2022-10-10 06:25
 
 
 
-git show:  
+git checkout:
+  Several functions, as numbered below.
+  (1) Checkout commit-id (sync index and tree, clean stage).
+  (2) Checkout specific file from specific commit.
+  (3) Create new branch from current commit-id.
+  (4) Create orphan branch.
+  Git 'checkout' and 'show' share functionality of get specific file from commit-id into the tree.
+  Git 'restore' also does it, into tree and stage, but only from current branch.
+  See also: show, restore.
+Options:
+  -b create new branch on current commit.
+  --orphan create new orphan branch.
+Examples:
+  git checkout <commit-id> # default (1)  ;  
+  git checkout <commit-id> -- <file-name> # specific file from specific commit (2)  ;  
+  git checkout -b # new branch in current commit (3)  ;  
+  git checkout --orphan # new orphan branch (4)  ;  
+  git pull|merge --allow-unrelated-histories # see 'git checkout --orphan'  ;  
+
+
+
+git restore:
+  Sync file in tree/stage with current branch (last commit-id in index).
+  See also: checkout, show.
+Options:
+  --staged discard staged changes in file
+Examples:
+  git restore <file-name> # sync file in tree to index, current branch  ;  
+  git restore --staged <file-name> # discard staged changes in file, current branch  ;  
+
+
+
+git show:
   Show diff-like info regarding specific commit.
+  Also get specific file from specific commit.
 Options:
   --stat summarize files and change count.
 Examples:
-  git show <commit-id> # show diff-like info of commit  ;  
-  git show --stat <commit-id>  ;  
-  git show --stat pretty='' <commit-id>  ;  
-  git show <commit-id>:<file-name> # print to stdout file from commit  ;  
-  git show --pretty='' --name-only <commit-id> # list files in commit  ;  
+  git show <commit-id> # show diff-like info of commit  ;
+  git show --stat <commit-id>  ;
+  git show --stat pretty='' <commit-id>  ;
+  git show <commit-id>:<file-name> # print to stdout file from commit  ;
+  git show --pretty='' --name-only <commit-id> # list files in commit  ;
+
+
+
+git switch:
+  Change branch, synchronize tree.
+  See also: checkout.
+Example:
+  Git switch <branch-name>  ;  
 
 
 
@@ -23,24 +64,9 @@ git cherry-pick:
 Options:
   --no-commit: only modify tree, do not create commit.
 Examples:
-  git cherry-pick <commit-id> # reconstruct <commit-id> on current branch  ;  
-  git cherry-pick <c1>..<c2> # reconstruct commits, not including <c1>  ;  
-  git cherry-pick <c1>^..<c2> # reconstruct commits, including <c1>  ;  
-
-
-
-git checkout:
-  By default, checkout commit (sync index and tree).
-  Also, checkout specific file from specific commit.
-  Aditionally, several other functions, see options.
-Options:
-  -b create new branch on current commit.
-  --orphan create new orphan branch.
-Examples:
-  git checkout <commit-id> # default  ;  
-  git checkout <commit-id> <file-name> # specific file from specific commit  ;  
-  git checkout -b # new branch in current commit  ;  
-  git checkout --orphan # new orphan branch  ;  
+  git cherry-pick <commit-id> # reconstruct <commit-id> on current branch  ;
+  git cherry-pick <c1>..<c2> # reconstruct commits, not including <c1>  ;
+  git cherry-pick <c1>^..<c2> # reconstruct commits, including <c1>  ;
 
 
 
@@ -64,13 +90,5 @@ Examples:
   git stash drop  ;
 
 
-
-git restore:
-  (TODO)
-
-
-
-git switch:
-   (TODO)
 
 
