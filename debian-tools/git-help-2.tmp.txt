@@ -1,0 +1,75 @@
+# Git Help 2 -- updated: 2022-10-09 21:38
+
+
+
+git show:  
+  Show diff-like info regarding specific commit.
+Options:
+  --stat summarize files and change count.
+Examples:
+  git show <commit-id> # show diff-like info of commit  ;  
+  git show --stat <commit-id>  ;  
+  git show <commit-id>:<file-name> # print to stdout file from commit  ;  
+  git show --pretty='' --name-only <commit-id> # list files in commit  ;  
+
+
+
+git cherry-pick:
+  Reconstructs commit(s) over another commit.
+  Under the hood, seems to work as rebase, only differing in resulting branches.
+  Thus, current branch and commits to reconstruct should have a common ancestor.
+  If not so, a merge-conflict will take place (similar situation to merge orphan branch)
+Options:
+  --no-commit: only modify tree, do not create commit.
+Examples:
+  git cherry-pick <commit-id> # reconstruct <commit-id> on current branch  ;  
+  git cherry-pick <c1>..<c2> # reconstruct commits, not including <c1>  ;  
+  git cherry-pick <c1>^..<c2> # reconstruct commits, including <c1>  ;  
+
+
+
+git checkout:
+  By default, checkout commit (sync index and tree).
+  Also, checkout specific file from specific commit.
+  Aditionally, several other functions, see options.
+Options:
+  -b create new branch on current commit.
+  --orphan create new orphan branch.
+Examples:
+  git checkout <commit-id> # default  ;  
+  git checkout <commit-id> <file-name> # specific file from specific commit  ;  
+  git checkout -b # new branch in current commit  ;  
+  git checkout --orphan # new orphan branch  ;  
+
+
+
+git check-ignore:
+  Check if file is being ignore according to .gitignore.
+Option:
+  -v verbose.
+Examples:
+  git check-ignore -v <filename>  ;  
+
+
+
+git stash:
+  Save/manage local, temporal, fast changes.
+  Does not get registered in git reflog.
+  Careful.
+Examples:
+  git stash  ;
+  git stash list  ;  
+  git stash apply  ;
+  git stash drop  ;
+
+
+
+git restore:
+  (TODO)
+
+
+
+git switch:
+   (TODO)
+
+
