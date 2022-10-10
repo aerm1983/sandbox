@@ -9,6 +9,7 @@ Options:
 Examples:
   git show <commit-id> # show diff-like info of commit  ;  
   git show --stat <commit-id>  ;  
+  git show --stat pretty='' <commit-id>  ;  
   git show <commit-id>:<file-name> # print to stdout file from commit  ;  
   git show --pretty='' --name-only <commit-id> # list files in commit  ;  
 
