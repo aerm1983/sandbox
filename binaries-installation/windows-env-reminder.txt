@@ -1,6 +1,7 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-10-05 17:15
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-10-10 08:39
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
 
 
 = = = = = = = =
@@ -54,6 +55,8 @@ HEIDISQL_HOME
 
 FLYWAY_HOME
 
+NPP_HOME
+
 
 
 = = = = = = = = = = = = = = = = = 
@@ -78,6 +81,8 @@ FLYWAY_HOME
 %HEIDISQL_HOME%
 
 %FLYWAY_HOME%
+
+%NPP_HOME%
 
 
 
@@ -144,4 +149,5 @@ http://localhost:8161/
 RabbitMQ:
 http://localhost:15672/
 --> guest:guest
+
 
