@@ -2,7 +2,8 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-10-10 20:30'
+__JH_WMP_UPDATED__='2022-10-11 08:38'
+__JH_RETRY_DELAY_SEC__=15
 
 
 function _jh_kill_service {
@@ -12,6 +13,8 @@ function _jh_kill_service {
     tk
     echo
 }
+
+
 
 function _jh_kill_platform {
     alias 1
@@ -29,26 +32,53 @@ function _jh_kill_platform {
 
 
 
-
 function _jh_start_service {
     cdkj_s
     command cd ${1}
     pwd
     jjr
     command cd ..
-    echo -n 'sleeping 40 secs... '
-    sleep 40
-    echo -e 'done\n'
+    # echo -n 'sleeping 40 secs... ' # original
+    # sleep 40 # original
+    # echo -e 'done\n' # original
+    echo
+    _jh_check_service_started ${1}
+    echo
 }
 
 
-function _jh_restart_platform {
+
+function _jh_check_service_started {
+    cdkj_s
+    command cd ${1}
+    pwd
+    while true ; do
+	echo -n 'check '\'"${1}"\'' is started... '
+        jjrg 'tomcat started' > /dev/null
+	__check_ss__=${?}
+	if [ ${__check_ss__} -eq '0' ] ; then
+	    echo 'yes, wait '${__JH_RETRY_DELAY_SEC__}' sec to continue... '
+	    sleep ${__RETRY_DELAY_SEC__}
+	    command cd ..
+	    break
+        else
+	    echo 'no, retry in '${__JH_RETRY_DELAY_SEC__}' sec'
+	    sleep ${__JH_RETRY_DELAY_SEC__}
+	fi
+    done
+}
+
+
+
+function _jh_start_platform {
 
     __date_ini=$( date )
+    __uxt_ini=$( date +'%s' )
+
     alias 2
     cdkj_s
     sj8
-    _jh_kill_platform
+    sleep 6
 
 
 
@@ -83,9 +113,9 @@ function _jh_restart_platform {
     _jh_start_service usermanagement
     _jh_start_service marketplaceebay
     _jh_start_service mappingmanagement
-    echo -n 'sleeping 40 secs... '
-    sleep 40
-    echo -e 'done\n'
+    # echo -n 'sleeping 40 secs... '
+    # sleep 40
+    # echo -e 'done\n'
     _jh_start_service mailing
 
     _jh_start_service productmanagement
@@ -104,9 +134,13 @@ function _jh_restart_platform {
     # echo  'curl completed'
     # sleep 60 ; echo 'post-curl, 60s pause 1, done'
 
-    echo 'completed'
-    echo 'start: '${__date_ini}
-    echo 'end:   '$( date )
+    
+    __uxt_end=$( date +'%s' )
+    let '__uxt_diff=__uxt_end-__uxt_ini' '__proc_min=__uxt_diff/60' '__proc_sec=__uxt_diff%60' 
+    echo 'WM local deployment completed'
+    echo 'start: '$( date -d '@'${__uxt_ini} )
+    echo 'end:   '$( date -d '@'${__uxt_end} )
+    echo 'total execution time (min:sec) -- '${__proc_min}':'${__proc_sec}
 
 }
 
@@ -136,8 +170,8 @@ function _jh_clean_logs {
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; 0p'
 alias 0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias 1='_jh_kill_platform'
-alias 2='_jh_restart_platform'
+alias 2='_jh_start_platform'
 alias 7='_jh_clean_logs'
-alias 8='1 ; 7 ; # stop, clean'
-alias 9='1 ; 7 ; 2 ; # stop, clean, restart'
+alias 8='1 ; 7 ; # kill, clean'
+alias 9='1 ; 7; 2 ; # kill, clean, start'
 

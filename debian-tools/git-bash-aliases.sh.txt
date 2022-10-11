@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-10 22:22'
+__ALIAS_LAST_UPDATE__='2022-10-11 08:36'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -176,11 +176,13 @@ function _j_j {
         echo 'asigning '\'"${1}"\'' as arg1'
     fi
     
-    if [ -e ./target/*jar ]
-    then
-        jarfile=$( ls ./target/*.jar )
-        _cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '\'${jarfile}\'' & ' # modified
-	echo '--> '"${_cmd_str}"
+    if [ -e ./target/*jar ] ; then
+        tk
+	echo
+	
+	jarfile=$( ls ./target/*.jar )
+        _cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '${jarfile}' & '
+	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
 	unset _cmd_str
@@ -189,6 +191,7 @@ function _j_j {
     fi
 }
 alias jj='_j_j'
+
 
 
 function _j_j_r { 
@@ -200,22 +203,54 @@ function _j_j_r {
     fi
     
     JAR_LOG_FOLDER=${HOME}'/Desktop/log'
-    echo 'jar log folder: '${JAR_LOG_FOLDER}
 
-    if [ -e ./target/*jar ]
-    then
-        jarfile=$( ls ./target/*.jar )
-        _cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '\'${jarfile}\'' &>> '${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) )'.log & '
-	echo '--> '${_cmd_str}
+    if [ -e ./target/*jar ] ; then
+	tk
+	echo
+        
+	jarfile=$( ls ./target/*.jar )
+	# jarlogfile=${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) )'.log'
+	jarlogfile=${JAR_LOG_FOLDER}/$( basename ${jarfile} )'.log'
+	echo 'jarfile: '${jarfile}
+	echo -n '' > ${jarlogfile}
+	echo -e 'jarlogfile cleaned, wc: '$( wc ${jarlogfile} )'\n'
+        
+	_cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '${jarfile}' &>> '${jarlogfile}' & '
+	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
 	unset _cmd_str
     else
         echo 'file ./target/*jar must exist'
     fi
-    
 }
 alias jjr='_j_j_r'
+
+
+
+function _jjrg {
+
+    echo 'arg search, ${1}: '\'"${1}"\'
+    
+    JAR_LOG_FOLDER=${HOME}'/Desktop/log'
+    echo 'jar log folder: '${JAR_LOG_FOLDER}
+
+    if [ -e ./target/*jar ]
+    then
+        jarfile=$( command ls ./target/*.jar )
+        _cmd_str='command grep --color=always -P -i '\'"${1}"\'' '${JAR_LOG_FOLDER}/$( basename $( command ls ./target/*jar ) )'.log'
+        echo "${_cmd_str}"
+        eval ${_cmd_str}
+	__grc__=${?}
+        unset _cmd_str
+	echo 'grep exit code: '${__grc__}
+    else
+        echo 'file ./target/*jar must exist'
+    fi
+    return ${__grc__}
+}
+alias jjrg='_jjrg'
+alias jjrgts='_jjrg '\''tomcat started'\'
 
 
 
@@ -284,10 +319,14 @@ function _t_k {
 alias tk='_t_k'
 
 
-s='--> Java Helper ('${__ALIAS_LAST_UPDATE__}') \n'
+s='--> Java Helper -- updated: ('${__ALIAS_LAST_UPDATE__}') \n'
+s=${s}'(commands are better tuned to be executed from maven project root folder)\n'
 s=${s}'  jl : jps -l \n'
 s=${s}'  jj : java -jar \n'
 s=${s}'  jjr: java -jar ./${jar_file} > ${log_file} \n'
+s=${s}'\n'
+s=${s}'  jjrg: grep -P -i ${1} ${log_file} \n'
+s=${s}'  jjrgts: grep -P -i '\''tomcat started'\'' ${log_file} \n'
 s=${s}'\n'
 s=${s}'  tk : tk \n'
 _jh_s=${s}
