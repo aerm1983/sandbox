@@ -3,7 +3,7 @@
 
 
 # Constants required for script
-__sjv_last_update__='2022-09-07 09:08'
+__SJV_LAST_UPDATE__='2022-10-10 19:00'
 
 
 
@@ -18,10 +18,10 @@ then
     return 1;
 elif [ ${1} = '8' ]
 then
-    cd $JAVA_8_HOME
+    command cd $JAVA_8_HOME
 elif [ ${1} = '11' ]
 then
-    cd $JAVA_11_HOME
+    command cd $JAVA_11_HOME
 else
     echo 'var ${1} should be "8" or "11"'
     return 1;
@@ -34,20 +34,20 @@ path_tmp1=$( sed -E 's/:[^:]+java[/]jdk[^:]+//g' <( echo ${PATH} ) )
 
 
 # append executables dir in new JAVA_HOME to PATH
-cd ./bin
+command cd ./bin
 path_tmp2=${path_tmp1}':'$( pwd )
 PATH=${path_tmp2}
 
 
 # return to initial dir
-cd ${init_dir}
+command cd ${init_dir}
 
 
 # unset temporal vars
 unset path_tmp1 path_tmp2 init_dir
 
 # verifications
-echo '--> set java version | updated: '${__sjv_last_update__}
+echo '--> set java version | updated: '${__SJV_LAST_UPDATE__}
 echo
 echo 'JAVA_HOME: '${JAVA_HOME}
 echo

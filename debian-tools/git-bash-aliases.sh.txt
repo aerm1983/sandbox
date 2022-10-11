@@ -21,10 +21,10 @@
 #
 
 
-# Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-10 08:23'
-__ALIAS_TIMEOUT__='0.3'
 
+# Constants required for script
+__ALIAS_LAST_UPDATE__='2022-10-10 20:26'
+__ALIAS_TIMEOUT__='0.3'
 
 
 
@@ -61,7 +61,8 @@ alias cd='_cd'
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
-alias rmr='rm -vfR'
+function _rm_r { echo '--> rm -vfR '"${@}" ; sleep ${__ALIAS_TIMEOUT__} ; command rm -vfR "${@}" ; echo ; ll ; }
+alias rmr='_rm_r'
 function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
 alias c='_c_a_c'
 alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
@@ -71,11 +72,18 @@ alias lg='ls -a --color=always | grep'
 alias llg='ls -la --color=always | grep'
 function clg { cd $( ls | grep --color=never $1 ) ; }
 
-# frequently used directories
+# frequently used directories (two variants: user, script)
 alias cdk='cd ~/Desktop'
+alias cdk_s='command cd ~/Desktop'
+
 alias cdks='cd ~/Desktop/are-git-sandbox'
+alias cdks_s='command cd ~/Desktop/are-git-sandbox'
+
 alias cdkj='cd ~/Desktop/dm-git-java'
+alias cdkj_s='command cd ~/Desktop/dm-git-java'
+
 alias cdkl='cd ~/Desktop/log'
+alias cdkl_s='command cd ~/Desktop/log'
 
 
 
@@ -173,9 +181,11 @@ function _j_j {
     if [ -e ./target/*jar ]
     then
         jarfile=$( ls ./target/*.jar )
-        echo 'jar filename: '$( basename ${jarfile} )
-        java -Dspring.profiles.active="${1}" -jar ${jarfile} &
-        disown -a
+        _cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '\'${jarfile}\'' & ' # modified
+	echo '--> '"${_cmd_str}"
+	eval ${_cmd_str}
+	disown ${!}
+	unset _cmd_str
     else
         echo 'file ./target/*jar must exist'
     fi
@@ -197,9 +207,11 @@ function _j_j_r {
     if [ -e ./target/*jar ]
     then
         jarfile=$( ls ./target/*.jar )
-        echo 'jar filename: '$( basename ${jarfile} )
-        java -Dspring.profiles.active="${1}" -jar ${jarfile} &>> ${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) ).log &
-        disown -a
+        _cmd_str='java -Dspring.profiles.active='\'"${1}"\'' -jar '\'${jarfile}\'' &>> '${JAR_LOG_FOLDER}/$( basename $( ls ./target/*jar ) )'.log & '
+	echo '--> '${_cmd_str}
+	eval ${_cmd_str}
+	disown ${!}
+	unset _cmd_str
     else
         echo 'file ./target/*jar must exist'
     fi

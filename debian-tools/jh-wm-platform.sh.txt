@@ -1,10 +1,12 @@
 # JAVA HELPER WM PLATFORM
-__jh_wmp_updated__='2022-09-20 14:04'
+# dependencies: git-bash-aliases.sh, set-java-version.sh
+
+__JH_WMP_UPDATED__='2022-10-10 20:30'
 
 
 function _jh_kill_service {
-    cdkj
-    cd ${1}
+    cdkj_s
+    command cd ${1}
     pwd
     tk
     echo
@@ -12,7 +14,7 @@ function _jh_kill_service {
 
 function _jh_kill_platform {
     alias 1
-    cdkj
+    cdkj_s
     _jh_kill_service ui
     _jh_kill_service bulkfileprocessor
     _jh_kill_service productmanagement
@@ -21,18 +23,18 @@ function _jh_kill_platform {
     _jh_kill_service usermanagement
     _jh_kill_service marketplaceebay
     _jh_kill_service microservicesregistry
-    cdkj
+    cdkj_s
 }
 
 
 
 
 function _jh_start_service {
-    cdkj
-    cd ${1}
+    cdkj_s
+    command cd ${1}
     pwd
     jjr
-    cd ..
+    command cd ..
     echo -n 'sleeping 40 secs... '
     sleep 40
     echo -e 'done\n'
@@ -43,7 +45,8 @@ function _jh_restart_platform {
 
     __date_ini=$( date )
     alias 2
-    cdkj
+    cdkj_s
+    sj8
     _jh_kill_platform
 
 
@@ -72,7 +75,7 @@ function _jh_restart_platform {
 
 
 
-    cdkj
+    cdkj_s
 
     _jh_start_service microservicesregistry 
 
@@ -89,7 +92,7 @@ function _jh_restart_platform {
 
     _jh_start_service ui
 
-    cdkj
+    cdkj_s
 
 
 
@@ -109,8 +112,8 @@ function _jh_restart_platform {
 
 
 function _jh_clean_logs {
-    cdk
-    cd log
+    cdk_s
+    command cd log
     echo -n '' > microservices*.jar.log
     echo -n '' > usermanagement*.jar.log
     echo -n '' > marketplaceebay*.jar.log
@@ -123,16 +126,17 @@ function _jh_clean_logs {
     alias 7
     pwd
     ll
-    cdkj
+    cdkj_s
     echo
 }
 
 
 
-alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__jh_wmp_updated__} ; alias 0 1 2 7 8 9 ;'
+alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; 0p'
+alias 0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias 1='_jh_kill_platform'
 alias 2='_jh_restart_platform'
 alias 7='_jh_clean_logs'
-alias 8='1 ; 7'
-alias 9='1 ; 7 ; 2'
+alias 8='1 ; 7 ; # stop, clean'
+alias 9='1 ; 7 ; 2 ; # stop, clean, restart'
 
