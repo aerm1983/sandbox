@@ -1,3 +1,4 @@
+#!/bin/bash
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 # = = = = = = = = = = 
 # CUSTOMIZED ALIASES
 # = = = = = = = = = = 
@@ -23,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-10-10 20:26'
+__ALIAS_LAST_UPDATE__='2022-10-10 22:22'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -121,27 +122,31 @@ function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type'
 # ---------------------------------------------------
 # General aliases - functions, helpers
 # ---------------------------------------------------
+function _bhs_line_expand {
+    command sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(^[^:]+:|Actions?:|Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }'
+}
+
 function h { 
 
-    bh_file=${HOME}/.bash-help-src
-    if [ ! -e ${bh_file} ] 
+    BHS_FILE=${HOME}/.bash-help-src
+    if [ ! -e ${BHS_FILE} ] 
     then
         echo 'source file does not exist'
         return 1
     fi
 
-    grep --color=always 'updated:' ${bh_file}
+    command grep --color=always -P 'updated:' ${BHS_FILE}
 
     if [ -z $1 ]
     then
         echo 'arg ${1} empty'
     else
-        grep --color=always '^'${1}':' ${bh_file} | sed -E '{ s/( {2};)( {2})/\1\n\2/g ; s/(^[^:]+:|Actions?:|Options?:|Examples?:)/\n\1\n/g ; s/(\.)( {2})/\1\n\2/g ; }'
+        command grep --color=always -P '^'${1}':' ${BHS_FILE} | _bhs_line_expand
     fi
 }
 
 function print_fn { 
-    type $1 | tr '\n' ' ' | sed -E 's/[ ]{2,}/ /g' ; 
+    type $1 | tr '\n' ' ' | command sed -E 's/[ ]{2,}/ /g' ; 
 }
 
 function h_last_update { 
@@ -150,13 +155,6 @@ function h_last_update {
 function h_greeting { 
     echo 'GBA - updated: '${__ALIAS_LAST_UPDATE__} ; 
 }
-
-# General aliases -- Windows OS specific
-function npp { 
-    'notepad++' $1 & disown $! ; 
-}
-
-
 
 
 
