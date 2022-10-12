@@ -28,7 +28,7 @@ REMINDER:
 	
 	<groupId>localhost</groupId>
 	<artifactId>web</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.0</version>
 	<name>web</name>
 	<description>SpringBoot2 web fast testing</description>
 	<packaging>jar</packaging>

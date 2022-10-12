@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="trace" monitorInterval="30"><!-- status: trace debug info  -->
+<Configuration status="info" monitorInterval="30"><!-- status: trace debug info  -->
 
     <Properties>
         <!-- Activate build/resources/filtering:true in pom.xml to inject @project.name@ value -->
@@ -14,7 +14,7 @@
     </Appenders>
     
     <Loggers>
-        <Root level="trace"><!-- level: trace debug info -->
+        <Root level="info"><!-- level: trace debug info -->
             <AppenderRef ref="console" />
         </Root>
     </Loggers>
