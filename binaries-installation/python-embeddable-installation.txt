@@ -1,48 +1,50 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-Install python embeddable - updated: 2022-10-05 17:32
+Install python embeddable - updated: 2022-10-12 07:56
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-(1) Download zip containing embeded python, extract files in appropiate folder.
+(1) Windows 10, disable python "app execution alias" using GUI menu.
 
-(2) Test installation in folder, run ".\python -V" to check version.
+(2) Download zip containing embeded python, extract files in appropiate folder.
 
-(3) Download "get-pip.py" through "pypi" site, "pip" package, "install" documentation:
+(3) Test installation in folder, run ".\python -V" to check version.
 
-(3.1) https://pypi.org/project/pip/  --> then "install" documentation.
+(4) Download "get-pip.py" through "pypi" site, "pip" package, "install" documentation:
 
-(3.2) https://pip.pypa.io/en/stable/installation/  --> then download script "get-pip.py".
+(4.1) https://pypi.org/project/pip/  --> then "install" documentation.
 
-(3.3) https://bootstrap.pypa.io/get-pip.py  --> this is the "get-pip.py" script content.
+(4.2) https://pip.pypa.io/en/stable/installation/  --> then download script "get-pip.py".
 
-(4) Run ".\python .\get-pip.py", this will add "Scripts" and "Lib" folders.
+(4.3) https://bootstrap.pypa.io/get-pip.py  --> this is the "get-pip.py" script content.
 
-(5) In "python[V]._pth" file, add line ".\Lib\site-packages".
+(5) Run ".\python .\get-pip.py", this will add "Scripts" and "Lib" folders.
 
-(6) Test installation: run "python -m pip -V", run ".\Scripts\pip -V" to check version.
+(6) In "python[V]._pth" file, add line ".\Lib\site-packages".
 
-(7) Define %PYTHONHOME% env var, containing directly the path to python folder.
+(7) Test installation: run "python -m pip -V", run ".\Scripts\pip -V" to check version.
+
+(8) Define %PYTHONHOME% env var, containing directly the path to python folder.
 
 Add "%PYTHONHOME%" and "%PYTHONHOME%\Scripts" to %PATH%.  Important:
 
-(7.1) %PYTHONHOME% cannot refer to other variable (bug, it's alphabetically after %PATH%, may cause trouble).
+(8.1) %PYTHONHOME% cannot refer to other variable (bug, it's alphabetically after %PATH%, may cause trouble).
 
-(7.2) Other variables such as %PYTHON_3_10_7_HOME% are encouraged, but just as human-helpers (GUI copy-paste).
+(8.2) Other variables such as %PYTHON_3_10_7_HOME% are encouraged, but just as human-helpers (GUI copy-paste).
 
-(8) Start python console, execute: 
+(9) Start python console, execute: 
 
-(8.1) "import sys", to import sys module.
+(9.1) "import sys", to import sys module.
 
-(8.2) "sys.path" to check module search paths.
+(9.2) "sys.path" to check module search paths.
 
-(8.3) "sys.exit()" to exit console.
+(9.3) "sys.exit()" to exit console.
 
-(9) Rename "python[V]._pth" file to "python[V]._pth.deprecated" (this file prevents correct functioning of "sys.path" in scripts).
+(10) Rename "python[V]._pth" file to "python[V]._pth.deprecated" (this file prevents correct functioning of "sys.path" in scripts).
 
-(10) Execute (6) again.  This time complete file path is not necessary since %PATH% additions done in (7).
+(11) Execute (6) again.  This time complete file path is not necessary since %PATH% additions done in (7).
 
-(11) Execute (8) again.
+(12) Execute (8) again.
 
-(12) Environment variable %PYTHONPATH% is also an option for module importing.
+(13) Environment variable %PYTHONPATH% is also an option for module importing.
 
 
 

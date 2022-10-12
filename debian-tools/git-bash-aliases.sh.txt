@@ -136,7 +136,8 @@ function h {
     fi
 
     h_greeting
-    command grep --color=always -P 'updated:' ${BHS_FILE}
+    # command grep --color=always -P 'updated:' ${BHS_FILE} # deprecated
+    command head -1 ${BHS_FILE}
 
     if [ -z $1 ]
     then

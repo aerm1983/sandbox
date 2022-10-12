@@ -1,0 +1,55 @@
+MINIKUBE INSTALL -- updated: 2022-10-12 07:44
+
+(1) Install Windows Subsystem for Linux (WSL).  Command checks:
+
+where wsl
+
+wsl --help
+
+wsl --list
+
+wsl --list --running
+
+wsl --update
+
+
+
+(2) Install Docker Desktop
+
+
+
+(3) Get Minikube installer:
+
+where winget
+
+winget install minikube
+
+There are other options (exe installer, chocolatey, etc)
+
+Several files should be downloaded (400MB, 1.5GB), progress indicator may act faulty.
+
+Check download activity with TaskManager, Network column.
+
+
+
+(4) Config and run Minikube the first time:
+
+where minikube
+
+minikube help|status
+
+minikube delete
+
+minikube config set driver docker
+
+minikube start|stop
+
+minikube start --driver=docker # optional
+
+
+
+(5) Check kubectl is available:
+
+where kubectl
+
+

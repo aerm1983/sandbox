@@ -1,4 +1,4 @@
-# BASH HELP SOURCE -- updated: 2022-10-10 22:00
+# BHS -- updated: 2022-10-12 08:00
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -51,10 +51,12 @@ jp2a:  Convert jpeg to ascii.
 k:
 l:
 less:  Buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  -G highlight search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
+let:  Perform integer arithmetic calculations, assign result to variable.  Examples:  let 'b=2^16-1' 'mins=total_secs/60' 'secs=total_sec%60'  ;  
 ln:  Create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
 lsblk:  List block devices, label can be displayed.  See also: 'mount', 'umount', 'parted'.  Options:  -O show all fields/columns.  Examples:  lsblk  ;  lsblk -O | less -M -S  ;  
 lspci:  List devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
+minikube:  Manage Kubernetes single cluster for local development.  Actions help, status, delete, stop, start, start --driver=docker,  config set driver docker.  Examples:  minikube status  ;  minikube config set driver docker  ;  
 mount:  Without params lists mounted points and info. With params mount points or devices.  See also: 'umount', 'lsblk', 'mountvol' (windows).  Examples:  mount ; mount -o 'remount,rw' /dev/sda2
 mountvol:  Windows command, equivalent to Unix 'mount'.  With no args, shows help and lists volumes available, mounted and not mounted.  See also 'cmd.exe'.  Options:  /P unmount.  /E enable automatic mountig of new volumes.  Examples:  cmd.exe /C 'mountvol'  ;  cmd.exe /C 'mountvol F:\ /P' # unmount F drive  ;  cmd.exe /C 'mountvol F:\ \\?\Volume{96d242db-1b4f-11ed-ab66-d8cb8a835833}\' # mount specified volume as F drive  ;  cmd.exe /C 'mountvol /E' # enable automatic mounting of new volumes  ;  
 n:
@@ -109,7 +111,9 @@ where:  Windows command, equivalent to unix 'which'.  See also: 'cmd.exe', 'task
 which:  Indicate if executable file is available from $PATH.  Windows equivalent is 'where'.  See also type.  Examples:  which ls  ;  which pwd # 'pwd' can be builtin or executable  ; 
 who:  List users signed in.
 whoami:  Current shell user.
+winget:  Windows command, download installers.  See also: cmd.exe, where, winpty.  Example:  winget install minikube  ;  
 winpty:  Necessary sometimes in git-bash to execute Windows-based programs like wsl, python, ipython, openssl.  Examples:  winpty python  ;  
+wsl:  Windows command, execute Linux shells, Docker, other.  Options:  --help help.  --list list available distributions.  --list --running list running distributions.  --update update.  -d --distribution run specific distribution.  Examples:  wsl --list  ;  
 x:
 xxd:  Hexadecimal dump of file or stdin.  Useful as reminder of special/control ascii chars/bytes.  See also 'od'.  Options:  -c output columns (16 by default).  -ps simple hexadecimal dump.  -r along with -ps, reverse operation (hexadecimal to binary).  Examples:  echo -e -n 'A\x1fB' | xxd  ;  xxd -c8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 y:
