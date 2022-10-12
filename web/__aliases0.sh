@@ -1,7 +1,10 @@
 #! /bin/bash
-
-# first run: source ./__aliases0.sh
-# after: use alias 0
+#
+# NOTES:
+# (1) First run: source ./__aliases0.sh
+# (2) After: use alias 0
+# (3) Aliases 0x are deprecated by jh (java-helpers) in gba
+#
 
 
 # custom alias - reload this script
