@@ -1,0 +1,33 @@
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+# SpringToolSuite.ini file sample - updated: 2022-10-12 12:37
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+#
+# NOTES:
+# (1) Key-value pairs are separated by "newline" character.
+# (2) Avoid inserting line comments between key and value to prevent errors.
+# (3) STS seems to update this file, without user intervention.
+# (4) Final line '-javaagent:...': lombok, version higher than 1.18.20, add manually.
+#
+-startup
+plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+--launcher.library
+plugins/org.eclipse.equinox.launcher.win32.win32.x86_64_1.2.500.v20220509-0833
+-product
+org.springframework.boot.ide.branding.sts4
+--launcher.defaultAction
+openFile
+-vm
+plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_18.0.1.v20220515-1614/jre/bin
+-vmargs
+--add-opens=java.base/java.io=ALL-UNNAMED
+--add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+--add-opens=java.base/java.net=ALL-UNNAMED
+--add-opens=java.base/sun.security.ssl=ALL-UNNAMED
+-Dosgi.requiredJavaVersion=11
+-Dosgi.dataAreaRequiresExplicitInit=true
+-Xms512m
+-Xmx2048m
+--illegal-access=permit
+--add-modules=ALL-SYSTEM
+-javaagent:D:\opt\sts\sts-4.11.0\lombok-1.18.24.jar
+
