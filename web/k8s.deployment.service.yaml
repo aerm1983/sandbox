@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myimage-depl
+  labels:
+    app: myimage-label
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myimage-label
+  template:
+    metadata:
+      labels:
+        # app: myimage-temp # does not work
+        # app: myimage-depl # does not work
+        app: myimage-label
+    spec:
+      containers:
+      - name: myimagename
+        image: local/myimage:0c
+        # added because local image:
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 10000
+        env:
+        - name: __APP_USER_NAME__
+          valueFrom:
+            secretKeyRef:
+              name: app-web-secret
+              key: app-user-name
+        - name: __APP_PASS_WORD__
+          valueFrom:
+            secretKeyRef:
+              name: app-web-secret
+              key: app-pass-word
+        - name: __APP_OTHER_SERVICE_URL___
+          valueFrom:
+            configMapKeyRef:
+              name: app-web-config
+              key: app-other-service-url
+      # added because local image:
+      # restartPolicy: Never
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myimage-service
+spec:
+  # type: ClusterIP # default
+  type: NodePort
+  selector:
+    app: myimage-label
+    # app.kubernetes.io/name: MyApp
+  ports:
+    - protocol: TCP
+      port: 10000
+      targetPort: 10000
+      nodePort: 30100
+
+#
+# MINIKUBE, DEPLOY LOCALLY BUILT DOCKER IMAGES
+# https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d
+# add to deployment:  spec -> template -> spec -> containers -> imagePullPolicy : Never # OK
+# add to deployment:  spec -> template -> spec -> restartPolicy : Never # suppressed, kubectl apply error message
+# # you might be in external docker environment, not minikube-internal docker environment.
+# minikube docker-env
+# eval $(minikube -p minikube docker-env)
+# # now check you are in minikube-internal docker environment: docker image ls -a
+#
+#
+# MINIKUBE, EXPOSE SERVICE (WINDOWS)
+# https://stackoverflow.com/questions/60710171/minikube-ip-is-not-reachable
+# minikube service myimage-service # creates a deamon listening on 127.0.0.1:{new-assigned-port}
+#
+#
+#
+#
