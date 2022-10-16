@@ -1,10 +1,18 @@
 #!/bin/bash -x
 
+# --tag {user}/{name}:{version}
+# example: --tag local/myimage:0
+# {user} and {version} are optional
+
 clear
+
 mvn clean package
+
 docker container stop mycontainer
 docker container rm -f mycontainer
-docker image rm -f myimage:0
-docker build --tag myimage:0 .
-docker run --publish 10000:10000 --name mycontainer myimage:0 > log.log & 
+
+docker image rm -f myimage
+docker build --tag myimage . 
+
+docker run --publish 10000:10000 --name mycontainer myimage > log.log & 
 

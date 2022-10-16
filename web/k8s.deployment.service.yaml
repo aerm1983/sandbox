@@ -62,19 +62,29 @@ spec:
       nodePort: 30100
 
 #
-# MINIKUBE, DEPLOY LOCALLY BUILT DOCKER IMAGES
+# (1) MINIKUBE, DEPLOY LOCALLY BUILT DOCKER IMAGES
 # https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d
+#
 # add to deployment:  spec -> template -> spec -> containers -> imagePullPolicy : Never # OK
 # add to deployment:  spec -> template -> spec -> restartPolicy : Never # suppressed, kubectl apply error message
-# # you might be in external docker environment, not minikube-internal docker environment.
-# minikube docker-env
-# eval $(minikube -p minikube docker-env)
-# # now check you are in minikube-internal docker environment: docker image ls -a
+#
+# docker-cli points to default installation, it should be pointed to internal-minikube installation.
+# preliminary checks, run: minikube info ; minikube profile list ; minikube options ; docker info | grep -i name ; docker image ls
+# run: minikube --profile minikube docker-env # --profile also -p ; if profile 'minikube' is unique, this flag is not required
+# run: eval $(minikube -p minikube docker-env)
+#
+# run again docker preliminary checks
+#
+# suggested aliases:
+# run: alias mde="eval $( minikube --profile minikube docker-env )"
+# run: alias mdeu="eval $( minikube --profile minikube docker-env | sed -E 's/export ([A-Z_]+)=.*/unset \1/g' )"
 #
 #
-# MINIKUBE, EXPOSE SERVICE (WINDOWS)
+#
+# (2) MINIKUBE, EXPOSE SERVICE (WINDOWS)
 # https://stackoverflow.com/questions/60710171/minikube-ip-is-not-reachable
-# minikube service myimage-service # creates a deamon listening on 127.0.0.1:{new-assigned-port}
+# create a deamon listening on 127.0.0.1:{new-assigned-port}, send to bg if convenient:
+# run: minikube service myimage-service
 #
 #
 #

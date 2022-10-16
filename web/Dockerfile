@@ -1,5 +1,8 @@
 #! docker build
 
+# not necessary, gain some time before execution:
+# docker pull eclipse-temurin:8-jre-alpine
+
 # FROM openjdk:alpine # deprecated
 FROM eclipse-temurin:8-jre-alpine
 
