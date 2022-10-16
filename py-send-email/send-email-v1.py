@@ -72,8 +72,40 @@ def main(argv):
             sys.exit(1)
 
     content = text
+
+
+
+
+
+
     # attach_file = conf_email['mail']['archivo']+'20210817'+'.xlsx'
-    attach_file_list = conf_email['mail']['attach_file_list'].split(',')
+    # attach_file_list = conf_email['mail']['attach_file_list'].split(',') # original
+    attach_file_list = None
+    try:
+        print('Attempting to read attach_file_list from file "' + conf_email['mail']['attach_file_list_file'] + '"')
+        file_email_atach_file_list = open( conf_email['mail']['attach_file_list_file'] )
+        attach_file_list = str( file_email_atach_file_list.read() ).split(',')
+        if attach_file_list == None or ( len(attach_file_list) == 1 and len(attach_file_list[0]) == 0 ) : raise Exception()
+    except:
+        print('ERROR: Read attach_file_list from file failed') # WARN?
+        print('ERROR: Attempting to read attach_file_list from config file') # WARN?
+        try:
+            attach_file_list = conf_email['mail']['attach_file_list'].split(',')
+            if attach_file_list == None or ( len(attach_file_list) == 1 and len(attach_file_list[0]) == 0 ) : # raise Exception()
+                attach_file_list = None
+        except:
+            print('This exception should never happen')
+            sys.exit(1)
+    print('email attach file list:' + str(attach_file_list))
+
+
+
+
+
+
+
+
+
 
     # email server host, port
     gmail = smtplib.SMTP(smtp_server, 587)
