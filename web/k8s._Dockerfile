@@ -16,7 +16,8 @@ RUN mkdir -pv /opt/app/target
 
 COPY ${JARFILE} /opt/app/target/japp.jar
 
-# ENTRYPOINT  java -jar "/app.jar"
-CMD ["java", "-jar", "/opt/app/target/japp.jar"]
 
+# ENTRYPOINT  java -jar "/app.jar"
+# do not use single quotes (') into double quotes array elements
+CMD ["java", "-Dspring.profiles.active=prod", "-jar", "/opt/app/target/japp.jar"]
 
