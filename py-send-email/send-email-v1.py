@@ -92,7 +92,8 @@ def main(argv):
         try:
             attach_file_list = conf_email['mail']['attach_file_list'].split(',')
             if attach_file_list == None or ( len(attach_file_list) == 1 and len(attach_file_list[0]) == 0 ) : # raise Exception()
-                attach_file_list = None
+                # attach_file_list = None # fails
+                pass
         except:
             print('This exception should never happen')
             sys.exit(1)
