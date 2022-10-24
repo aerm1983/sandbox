@@ -69,6 +69,9 @@ public class S extends WebSecurityConfigurerAdapter {
 			.antMatchers("/", "/js/**", "/css/**") // discouraged, just as example
 			.permitAll()
 			
+			.antMatchers("/actuator/**") // test actuator endpoints, just as example
+			.permitAll()
+			
 			.antMatchers("/**") // recommended closing condition
 			.hasRole("ADMIN")
 			
