@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2022-10-05 17:39
+MariaDB binaries install - updated: 2022-10-25 17:23
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -28,3 +28,10 @@ Review "mariadb-install-db" command
 
 (5) Start server daemon:
 mariadbd --console
+
+It's also possible to start several services, each referring to a specific ini file:
+mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
+mariadbd --defaults-file=/etc/mariadb/maria.ini --console
+
+In each .ini file, adjust 'datadir' and 'port' as convenient.
+

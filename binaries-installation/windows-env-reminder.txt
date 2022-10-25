@@ -121,9 +121,12 @@ flyway --help | flyway info
 (5) FREQUENTLY USED WINDOWS CMD COMMANDS, JAVA DEVELOPMENT
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
-where git # also with all other commands
+where git # also with all other commands (windows 'where' is equivalent to unix 'which')
 
 mariadbd --console
+
+mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
+mariadbd --defaults-file=/etc/mariadb/maria.ini --console
 
 activemq start
 
