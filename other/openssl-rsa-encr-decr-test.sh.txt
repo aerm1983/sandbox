@@ -1,0 +1,44 @@
+#! /bin/bash
+# updated 2022-10-30 06:30
+# execute from directory containing this script
+# results in './out' folder
+
+# init actions
+clear
+echo -e "\n***** INIT ACTIONS *****"
+rm -vfR ./out
+mkdir -pv ./out
+cd ./out
+pwd
+
+
+
+
+
+# generate private key, small for practice
+echo -e "***** PRIVATE KEY *****"
+openssl genrsa 512 > mykey
+cat mykey
+openssl rsa -in mykey -text -noout
+
+# generate public key
+echo -e "***** PUBLIC KEY *****"
+openssl rsa -in mykey -pubout > mykey.pub
+cat mykey.pub
+openssl rsa -in mykey.pub -pubin -text -noout
+
+# encrypt message
+# message should be short, given small private key size
+echo -e "***** MESSAGE: ORIGINAL, ENCRYPTED, DECRYPTED *****"
+echo 'hello world' > message.ori.txt
+openssl rsautl -encrypt -inkey mykey.pub -pubin -in message.ori.txt > message.encr
+openssl rsautl -decrypt -inkey mykey -in message.encr > message.dec.txt
+
+
+
+
+# end actions
+echo -e "***** END ACTIONS *****"
+cd ..
+pwd
+

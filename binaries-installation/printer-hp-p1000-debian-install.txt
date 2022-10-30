@@ -1,0 +1,16 @@
+# printer hp p1005, debian installation
+# updated: 2022-10-30 06:42
+
+(1) Execute: aptitude install cups 
+
+(2) check cups at browser: localhost:631
+
+(3) Execute: adduser don lpadmin
+
+(4) Execute: aptitude install hplip 
+
+# ( hp linux interfaces )
+
+(5) Execute: hp-setup 
+
+# ( later check printer at cups, see 2 )

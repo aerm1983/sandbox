@@ -1,0 +1,11 @@
+#! /bin/bash
+
+mkdir ../f;
+
+for i in {0..6}; do
+    for j in {0..9}; do
+        filename=../out/_${i}${j} ;
+        echo 'content of file' > ${filename} ;
+        echo ${filename}: $(cat ${filename}) ;
+    done;
+done;
