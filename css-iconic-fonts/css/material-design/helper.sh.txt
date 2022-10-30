@@ -1,0 +1,9 @@
+ curl -s -i http://localhost:8080/template/global/fonts/material-design/material-design.woff2?v=2.2.0 | dd bs=1c count=512
+
+
+dd bs=1c count=18 if=./material-design.woff2.damaged | xxd
+
+
+dd bs=1c count=14 if=./material-design.woff2 | xxd
+
+
