@@ -1,0 +1,12 @@
+I would like to know:
+
+(1) Working hour value in USD, frequency of payment
+
+(2) Instrument or means for payment
+
+(3) Do you require to install software which captures screenshots and keyboard input?
+
+(4) Duration of contract or project, in what phase is it (new development or mainly legacy)
+
+(5) What is the company policy regarding extra hours, activities out of regular schedule?
+
