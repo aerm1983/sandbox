@@ -1,31 +1,51 @@
-= = = = = = = = = = = = =
-WASHING
-Updated: 2022-04-17 15:45
-= = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = =
+WASHINNG -- updated: 2022-10-22 07:30
+= = = = = = = = = = = = = = = = = = =
 
 
 
-= = = = = = = = = = = = = =
-Soap, washing machine test
-= = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = =
+Reference units, measures:
+= = = = = = = = = = = = = = = = = = =
+1 cup: 240 ml (standard kitchen unit measure)
+1 coffee cup: 100 ml (personalized unit measure)
 
-Components:
-water, 10 liters
-soap powder, 100 ml
-(concentration 1% in volume)
 
-Preparation:
-Soak cloathes keeping water/soap powder proportions
-Measure total volume of soaking containers used
-Thirty (30) liter soaked clothes volume is medium capacity charge
-Normal cycle, medium capacity, takes 45 min
 
-Notes:
+= = = = = = = = = = = = = = = = = = =
+Notes, washing by hand:
+= = = = = = = = = = = = = = = = = = =
+Soap powder concentration: 
+  minimum: 0.15% ; 15ml in 10L
+  better:  0.20% ; 20ml in 10L
+Requires manual mixing effort.
+Do not soak more than 20 min.
 
-Whirpool washing machine, full water capacity: 90 liters
-Whirpool washing machine, small charge (2nd position, 2/3 capacity, aprox 60 liters), powder soap amount: 100 ml (on small cofee cup)
-Whirpool washing machine, small charge (2nd position, 2/3 capacity, aprox 60 liters), powder soap concentration: ( 100 ml / 60 000ml ) = 0.16%
 
-Whirpool washing machine, small charge (2nd position, 2/3 capacity, aprox 60 liters): 3 blue jeans, 5 t-shirts, two bermudas.
-Whirpool washing machine, full charge (4th position, full capacity): 2 thick individual bed covers, 4 thin individual bed covers
+
+= = = = = = = = = = = = = = = = = = =
+Washing machine, preparation:
+= = = = = = = = = = = = = = = = = = =
+Soak cloathes keeping water/soap powder proportions.
+Measure total volume of soaking containers used.
+Thirty (30) liter soaked clothes volume, process with medium capacity charge (position 3/4).
+Normal cycle, medium capacity, takes 45 min.
+
+
+
+= = = = = = = = = = = = = = = = = = =
+GO Whirpool washing machine:
+= = = = = = = = = = = = = = = = = = =
+Large charge (position 4/4): 90 liters
+Medium charge (position 3/4): 75 liters
+Ssmall charge (position 2/4): 60 liters
+
+Soap powder amount/ concentration references: 
+  minimum: 0.16% ; 100 ml in 60L (2/4) ; 150 ml in 90L (4/4)
+  better:  0.20% ; 133 ml in 60L (2/4) ; 200 ml in 90L (4/4)
+(1 cofee cup: 100 ml)
+(0.12% ; concentration resulted in defficient washing)
+
+Small charge (60L, 2/4): 3 blue jeans, 5 t-shirts, two bermudas
+Large charge (90L, 4/4): 2 thick individual bed covers, 4 thin individual bed covers
 
