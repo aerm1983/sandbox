@@ -1,20 +1,20 @@
-= = = = = = = = = = = = = = = = = = =
-WASHINNG -- updated: 2022-10-22 07:30
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
+WASHINNG -- updated: 2022-11-02 07:55
+= = = = = = = = = = = = = = = = = = = = = = = = =
 
 
 
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Reference units, measures:
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 1 cup: 240 ml (standard kitchen unit measure)
 1 coffee cup: 100 ml (personalized unit measure)
 
 
 
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Notes, washing by hand:
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Soap powder concentration: 
   minimum: 0.15% ; 15ml in 10L
   better:  0.20% ; 20ml in 10L
@@ -23,9 +23,9 @@ Do not soak more than 20 min.
 
 
 
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Washing machine, preparation:
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Soak cloathes keeping water/soap powder proportions.
 Measure total volume of soaking containers used.
 Thirty (30) liter soaked clothes volume, process with medium capacity charge (position 3/4).
@@ -33,9 +33,9 @@ Normal cycle, medium capacity, takes 45 min.
 
 
 
-= = = = = = = = = = = = = = = = = = =
-GO Whirpool washing machine:
-= = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = =
+GO Whirpool washing machine, soap concentration
+= = = = = = = = = = = = = = = = = = = = = = = = =
 Large charge (position 4/4): 90 liters
 Medium charge (position 3/4): 75 liters
 Ssmall charge (position 2/4): 60 liters
@@ -49,3 +49,13 @@ Soap powder amount/ concentration references:
 Small charge (60L, 2/4): 3 blue jeans, 5 t-shirts, two bermudas
 Large charge (90L, 4/4): 2 thick individual bed covers, 4 thin individual bed covers
 
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = =
+GO Whirpool washing machine, other info
+= = = = = = = = = = = = = = = = = = = = = = = = =
+
+GO tank, diameter: 0.71m
+GO tank, height: 2.05m
+GO tank, volume: 811.6 liter
+GO tank, number of washing processes possible, with 3/4 (75L) charge: 4.5
