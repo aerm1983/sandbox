@@ -1,0 +1,22 @@
+current time:  2022-10-19T07:28:46Z
+init log time: 2022-10-19T06:28:46Z
+cluster: my-cluster
+pod: my-pod
+
+pwd, command: 
+~/dm-test/sbin
+./log-script-vX.sh arg1 arg2 arg3
+
+obtain k8s log:
+--
+wc:  124 2895 35454 ../tmp/test/recent.log
+
+success sequences discarded, pattern:
+command grep -P -v '^$' ../tmp/folder/recent.log > ../tmp/folder/success-pre.log
+wc:  124 2895 35454 ../folder/success-pre.log
+
+success results considered, pattern (not found):
+command grep -P '__(success|ok)__' ../tmp/folder/success-pre.log > ../tmp/folder/success.log
+_cmd_str_exit_code=0
+wc:  1 9 64 ../tmp/folder/success.log
+

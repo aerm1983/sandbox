@@ -1,0 +1,7 @@
+[smtp]
+smtp_server=smtp.gmail.com
+
+[login]
+user=myusername@gmail.com
+password=mypassword
+# password_env_var=PY_EMAIL_PASSWORD

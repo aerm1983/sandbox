@@ -1,0 +1,13 @@
+= = = = = HEAD = = = = =
+2022-10-19T06:40:00.009182376Z 19/10/2022 - 06:40:00.003 [BULKFILEPROCESSOR] [scheduling-6][INFO][c.d.w.b.s.PriceScheduledTask] [Request: ] [StoreId: ]-- Start createPriceReport() - 
+2022-10-19T06:40:00.010757882Z 19/10/2022 - 06:40:00.010 [BULKFILEPROCESSOR] [scheduling-6][WARN][c.z.h.p.PoolBase] [Request: ] [StoreId: ]-- HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection@703a189 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value. - 
+2022-10-19T06:40:00.021037293Z 19/10/2022 - 06:40:00.020 [BULKFILEPROCESSOR] [scheduling-6][WARN][c.z.h.p.PoolBase] [Request: ] [StoreId: ]-- HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection@1ed714ab (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value. - 
+2022-10-19T06:40:00.025483100Z 19/10/2022 - 06:40:00.025 [BULKFILEPROCESSOR] [scheduling-6][WARN][c.z.h.p.PoolBase] [Request: ] [StoreId: ]-- HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection@79905ac8 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value. - 
+2022-10-19T06:40:00.029672142Z 19/10/2022 - 06:40:00.029 [BULKFILEPROCESSOR] [scheduling-6][WARN][c.z.h.p.PoolBase] [Request: ] [StoreId: ]-- HikariPool-1 - Failed to validate connection com.mysql.jdbc.JDBC4Connection@6305a39a (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value. - 
+
+= = = = = TAIL = = = = =
+2022-10-19T07:20:10.239931452Z 19/10/2022 - 07:20:10.238 [BULKFILEPROCESSOR] [scheduling-8][INFO][c.d.w.b.a.u.AuthenticationClient] [Request: ] [StoreId: ]-- Finish getAuthHeader() - 
+2022-10-19T07:20:10.256722068Z 19/10/2022 - 07:20:10.255 [BULKFILEPROCESSOR] [scheduling-8][INFO][c.d.w.b.s.StockScheduledTask] [Request: ] [StoreId: ]-- Will be generated a stock report for storeId X, marketplace Y, and site Z. - 
+2022-10-19T07:20:10.291991897Z 19/10/2022 - 07:20:10.290 [BULKFILEPROCESSOR] [scheduling-8][INFO][c.d.w.b.s.StockScheduledTask] [Request: ] [StoreId: ]-- Not data for report - 
+2022-10-19T07:20:10.293265871Z 19/10/2022 - 07:20:10.292 [BULKFILEPROCESSOR] [scheduling-8][INFO][c.d.w.b.s.StockScheduledTask] [Request: ] [StoreId: ]-- Finish createStockReport() - 
+this is an artificial __success__ pattern, for testing purposes
