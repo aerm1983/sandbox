@@ -1,0 +1,6 @@
+
+https://developers.google.com
+
+https://console.cloud.google.com/
+
+https://developers.google.com/chat/api/guides/auth/service-accounts?hl=en_US
