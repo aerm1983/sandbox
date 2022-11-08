@@ -2,9 +2,42 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-10-26 19:46'
+__JH_WMP_UPDATED__='2022-11-08 18:50'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
+
+
+
+function _jh_clean_logs {
+    cdk_s
+    command cd log
+
+    echo -n '' > microservices*.jar.log
+
+    echo -n '' > usermanagement*.jar.log
+
+    echo -n '' > marketplaceebay*.jar.log
+    echo -n '' > marketplacemirakl*.jar.log
+    echo -n '' > merchantlogisfashion*.jar.log
+
+    echo -n '' > mapping*.jar.log
+    echo -n '' > productmanagement*.jar.log
+    echo -n '' > ordermanagement*.jar.log
+    echo -n '' > bulkfile*.jar.log
+
+    echo -n '' > mailing*.jar.log
+
+    echo -n '' > template-generator*.jar.log
+    echo -n '' > ui*.jar.log
+
+    clear ; echo 'refreshing...' ; sleep 1 ; clear ;
+    alias 7
+    pwd
+    ll
+    cdkj_s
+    echo
+}
+
 
 
 function _jh_kill_service {
@@ -20,14 +53,23 @@ function _jh_kill_service {
 function _jh_kill_platform {
     alias 1
     cdkj_s
+
     _jh_kill_service ui
     _jh_kill_service template-generator
-    _jh_kill_service bulkfileprocessor
-    _jh_kill_service productmanagement
+
     _jh_kill_service mailing
+
+    _jh_kill_service bulkfileprocessor
+    _jh_kill_service ordermanagement
+    _jh_kill_service productmanagement
     _jh_kill_service mappingmanagement
-    _jh_kill_service usermanagement
+
+    _jh_kill_service merchantlogisfashion
+    _jh_kill_service marketplacemirakl
     _jh_kill_service marketplaceebay
+
+    _jh_kill_service usermanagement
+
     _jh_kill_service microservicesregistry
     cdkj_s
 }
@@ -40,9 +82,6 @@ function _jh_start_service {
     pwd
     jjr
     command cd ..
-    # echo -n 'sleeping 40 secs... ' # original
-    # sleep 40 # original
-    # echo -e 'done\n' # original
     echo
     _jh_check_service_started ${1}
     echo
@@ -80,11 +119,12 @@ function _jh_start_platform {
     alias 2
     cdkj_s
     sj8
+    echo
     sleep ${__JH_TIMEOUT_CONTINUE_SEC__}
 
 
 
-
+    ### bulkfileprocessor testing, block 1/2, begin ###
     # flyway clean
     # flyway baseline
 
@@ -105,6 +145,7 @@ function _jh_start_platform {
     # echo $?
 
     # echo
+    ### bulkfileprocessor testing, block 1/2, end ###
 
 
 
@@ -113,15 +154,17 @@ function _jh_start_platform {
     _jh_start_service microservicesregistry 
 
     _jh_start_service usermanagement
-    _jh_start_service marketplaceebay
-    _jh_start_service mappingmanagement
-    # echo -n 'sleeping 40 secs... '
-    # sleep 40
-    # echo -e 'done\n'
-    _jh_start_service mailing
 
+    _jh_start_service marketplaceebay
+    _jh_start_service marketplacemirakl
+    _jh_start_service merchantlogisfashion
+
+    _jh_start_service mappingmanagement
     _jh_start_service productmanagement
+    _jh_start_service ordermanagement
     _jh_start_service bulkfileprocessor
+
+    _jh_start_service mailing
 
     _jh_start_service template-generator
     _jh_start_service ui
@@ -130,12 +173,15 @@ function _jh_start_platform {
 
 
 
+    ### bulkfileprocessor testing, block 2/2, begin ###
     # sleep 60 ; echo 'pre-curl, 60s pause 1, done'
     # sleep 30 ; echo 'pre-curl, 30s pause 2, done'
     # --location
     # curl -s -i --request POST --header 'Content-Type: application/json' --data-raw '{"filename": "ebay_product_test_4.9_ALBERTO.csv","job":"product","storeId":"do-commerce"}' --url 'http://localhost:8283/v1/event/ftp'
     # echo  'curl completed'
     # sleep 60 ; echo 'post-curl, 60s pause 1, done'
+    ### bulkfileprocessor testing, block 2/2, end ###
+
 
     
     __uxt_end=$( date +'%s' )
@@ -149,28 +195,6 @@ function _jh_start_platform {
 
 
 
-function _jh_clean_logs {
-    cdk_s
-    command cd log
-    echo -n '' > microservices*.jar.log
-    echo -n '' > usermanagement*.jar.log
-    echo -n '' > marketplaceebay*.jar.log
-    echo -n '' > mapping*.jar.log
-    echo -n '' > mailing*.jar.log
-    echo -n '' > productmanagement*.jar.log
-    echo -n '' > bulk*.jar.log
-    echo -n '' > template-generator*.jar.log
-    echo -n '' > ui*.jar.log
-    clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 7
-    pwd
-    ll
-    cdkj_s
-    echo
-}
-
-
-
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
 alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
@@ -179,5 +203,4 @@ alias 2='_jh_start_platform'
 alias 7='_jh_clean_logs'
 alias 8='1 ; 7 ;         # kill, clean'
 alias 9='1 ; 7; _0s; 2 ; # kill, clean, start'
-
 
