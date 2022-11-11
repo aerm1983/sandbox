@@ -34,7 +34,7 @@ public class AlbertoJmsAmqConsumer {
 			
 			Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			
-			Destination destination = session.createQueue("TEST.FOO");
+			Destination destination = session.createQueue("alberto_queue");
 			
 			MessageConsumer mConsumer = session.createConsumer(destination) ;
 			

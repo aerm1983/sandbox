@@ -32,7 +32,7 @@ public class AlbertoJmsAmqProducer {
 			
 			Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			
-			Destination destination = session.createQueue("TEST.FOO");
+			Destination destination = session.createQueue("alberto_queue");
 			
 			MessageProducer mProducer = session.createProducer(destination) ;
 			

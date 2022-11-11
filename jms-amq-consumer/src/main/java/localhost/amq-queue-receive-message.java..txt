@@ -1,0 +1,105 @@
+// https://simplesassim.wordpress.com/2013/11/07/how-to-receive-a-message-from-an-apache-activemq-queue-with-java/
+// 2022-11-11 15:45
+
+
+// JAX-RS
+
+import java.io.IOException;
+ 
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
+ 
+@WebServlet(name = "SampleActiveMQServlet", value = "/")
+public class SampleActiveMQServlet extends HttpServlet {
+ 
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    Client client = ClientBuilder.newClient();
+ 
+    Response res = client.target("http://host:8161/api/message/SampleQueue").queryParam("type", "queue").request().get();
+ 
+    resp.getWriter().println(res.readEntity(String.class));
+ 
+    client.close();
+  }
+ 
+}
+
+// JMS
+
+import static java.lang.System.out;
+ 
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
+ 
+import org.apache.activemq.ActiveMQConnectionFactory;
+ 
+public class ActiveMQSample {
+ 
+  public static void main(String[] args) throws Exception {
+    ConnectionFactory connFactory = new ActiveMQConnectionFactory();
+ 
+    Connection conn = connFactory.createConnection();
+ 
+    Session sess = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+ 
+    Destination dest = sess.createQueue("SampleQueue");
+ 
+    MessageConsumer cons = sess.createConsumer(dest);
+ 
+    conn.start();
+ 
+    Message msg = cons.receive();
+ 
+    out.println(msg);
+ 
+    conn.close();
+  }
+ 
+}
+
+
+// WEBSOCKET
+
+import static java.lang.System.out;
+ 
+import java.io.IOException;
+ 
+import javax.websocket.ClientEndpoint;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.RemoteEndpoint;
+import javax.websocket.Session;
+ 
+@ClientEndpoint
+public class SampleActiveMQEndpoint {
+ 
+  @OnMessage
+  public void onMessage(String msg) {
+ 
+    if (msg.startsWith("MESSAGE"))
+      out.println(msg);
+ 
+  }
+ 
+  @OnOpen
+  public void onOpen(Session sess) throws IOException {
+    RemoteEndpoint.Basic remote = sess.getBasicRemote();
+ 
+    remote.sendText("CONNECT\n\n\0");
+ 
+    remote.sendText("SUBSCRIBE\ndestination:SampleQueue\n\nack:auto\n\n0");
+ 
+    remote.sendText("DISCONNECT\n\n\0");
+  }
+ 
+}
