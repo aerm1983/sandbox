@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" monitorInterval="30">
+
+    <Properties>
+        <!-- Activate build/resources/filtering:true in pom.xml to inject @project.name@ value -->
+        <Property name="LOG_PATTERN_CONSOLE_MONO">%d{yyyy-MM-dd HH:mm:ss.SSS} %p @project.name@ %c{1.} %M %L %m%n</Property>
+        <Property name="LOG_PATTERN_CONSOLE_COLOR">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%p} %magenta{@project.name@} %cyan{%c{1.}} %green{%M} %yellow{%L} %m%n</Property>
+    </Properties>
+    
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE_COLOR}" />
+        </Console>
+    </Appenders>
+    
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+    
+</Configuration>
