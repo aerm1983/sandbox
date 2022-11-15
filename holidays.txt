@@ -1,0 +1,51 @@
+date,holiday,tags
+2022-01-01,--------------------------------------------------------JAN,
+2022-01-17,Edelmira Zamaro,birthdate
+2022-01-30,Manuel Joves,birthdate
+2022-02-01,--------------------------------------------------------FEB,
+2022-03-01,--------------------------------------------------------MAR,
+2022-03-01,Javier Hernandez MPM-OPAP,birthdate
+2022-03-10,Mr Julio Engineer-MPM baker,birthdate
+2022-03-10,VE Medic day,holiday
+2022-04-01,--------------------------------------------------------APR,
+2022-04-15,Sarahi Nava,birthdate
+2022-04-25,Sofia Hiller MPM-OPAP,birthdate
+2022-04-29,Yanibel de Jesus MPM-OPAP,birthdate
+2022-05-01,--------------------------------------------------------MAY,
+2022-05-10,Pedro Rivas San Jose Church,birthdate
+2022-05-12,VE Nurse day,holiday
+2022-05-15,William Cautela MPM-S2,birthdate
+2022-05-22,Onias Sosa JP2,birthdate
+2022-05-26,Jacqueline Martinez Alanis-P,birthdate
+2022-05-29,Humberto Ramirez,birthdate
+2022-06-01,--------------------------------------------------------JUN,
+2022-06-14,Rafael Ferreira Alanis-P,birthdate
+2022-06-22,Milexis Duran MPM-OPAP,birthdate
+2022-06-30,Aaron Nava,birthdate
+2022-07-01,--------------------------------------------------------JUL,
+2022-07-28,VE HC,birthdate
+2022-07-28,VE MPM-OPAP,birthdate
+2022-08-01,--------------------------------------------------------AGO,
+2022-09-01,--------------------------------------------------------SEP,
+2022-09-01,Luisana Angeli MPM-OPAP,birthdate
+2022-09-10,Lisara Linares JP2,birthdate
+2022-09-19,Orquidea Villegas MPM-OPAP,birthdate
+2022-09-22,Mary G Marquina,birthdate
+2022-09-24,Gabriela Mora Hart,birthdate 
+2022-09-30,Mary I Marquina Nena,birthdate
+2022-10-01,--------------------------------------------------------OCT,
+2022-10-14,Nancy Hernandez MPM-OPAP,birthdate
+2022-10-22,Josefa Marquina,birthdate
+2022-10-22,Diego Hernan Pena,birthdate 
+2022-10-28,VE Engineers day,holiday
+2022-10-28,Damary Lozano MPM-OPAP,birthdate
+2022-10-28,Yazmin Ramirez MPM-OPAP,birthdate
+2022-11-01,--------------------------------------------------------NOV,
+2022-11-14,Ana Vielma JP2-MPM,birthdate
+2022-11-17,Liomary Lamas,birthdate
+2022-11-30,Josefina A Marquina,birthdate 
+2022-12-01,--------------------------------------------------------DEC,
+2022-12-01,Pharmacist day, holiday
+2022-12-13,Robin Martinez MPM-OPAP,birthdate
+2022-12-23,Jean Carlos Sosa JP2,birthdate
+2022-12-24,Akram Habib,birthdate
