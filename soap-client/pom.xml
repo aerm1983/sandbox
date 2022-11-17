@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+REMINDER:
+
+(1) To inject variables from pom.xml into resources files:
+(1.1) In pom.xml, plugins section, filtering should be enabled.
+(1.2) Delimiter '@' is defined by SpringBoot2 maven plugin.
+(1.3) Without it, delimiter is '${}' .
+
+(2) JSP has limited support:
+(2.1) JSP files are always read from "src/main/webapp/WEB-INF/jsp/" folder.
+(2.2) Project packaging should be WAR.  Project can be standalone-run or server-deployed.
+(2.3) Application properties "spring.mvc.view.prefix=/WEB-INF/jsp/" and "spring.mvc.view.suffix=.jsp" should be enabled.
+(2.4) If project is packaged as JAR, JSPs are not read (see SpringBoot2 documentation, JSP limitaions).
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+ 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.3</version>
+	</parent>
+	
+	<groupId>localhost</groupId>
+	<artifactId>soap-client</artifactId>
+	<version>0.0.0</version>
+	<description>SpringBoot2 soap-client fast test</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<project.versionDate>2022-02-22 13:00</project.versionDate>
+		<project.versionComment>mockup para bm, hash sha-384 in http header, hash calculation and validation</project.versionComment>
+		<maven.test.skip>false</maven.test.skip>
+	</properties>
+
+	<dependencies>
+				
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+		    	<!-- logging -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<!--  		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-test</artifactId>
+		    <scope>test</scope>
+		</dependency>
+		-->
+		
+ 
+ 		<!-- 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		-->
+
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-web-services</artifactId>
+ 		</dependency>
+
+		<!--  
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		-->
+
+		<!--  
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		-->
+
+		<!-- 
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		-->
+        
+		<!-- uncomment only when debugging -->
+		<!-- --> 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<!-- <optional>true</optional> -->
+		</dependency>
+
+		<!-- -->
+		<dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        
+ 		<dependency>
+ 			<groupId>com.fasterxml.jackson.dataformat</groupId>
+ 			<artifactId>jackson-dataformat-xml</artifactId>
+ 		</dependency>
+        
+	</dependencies>
+
+	<build>
+		<!-- default is "${project.name}-${project.version}.jar" -->
+		<!-- <finalName>web</finalName> -->
+		
+		<plugins>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+		
+		<resources>
+		
+			<!-- binary files should not receive injected variables -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+			<!-- only text files should receive injected variables -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+		        <includes>
+			        <include>**/*.properties</include>
+			        <include>**/*.yml</include>
+			        <include>**/*.yaml</include>
+			        <include>**/*.xml</include>
+		        </includes>
+			</resource>
+
+		</resources>
+				
+	</build>
+
+</project>
