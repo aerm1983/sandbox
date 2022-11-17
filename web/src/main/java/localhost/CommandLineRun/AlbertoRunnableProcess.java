@@ -11,13 +11,14 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 	
 	private static Logger log = LoggerFactory.getLogger(AlbertoRunnableProcess.class);
 	
+	// static attributes can not be injected
+	
 	@Override
-	public
-	void run(String... args) throws Exception {
+	public void run(String... args) throws Exception {
 		main(args);
 	}
 
-	public static void main(String[] args) {
+	public void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		log.debug("debugging RP!");
