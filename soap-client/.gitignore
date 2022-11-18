@@ -1,8 +1,10 @@
 HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
-**/SoapFull/*
-**/SoapFull/**/*
+
+### special folder to ignore in git
+**/__gitignore/*
+**/__gitignore/**/*
 
 ### STS ###
 .apt_generated
