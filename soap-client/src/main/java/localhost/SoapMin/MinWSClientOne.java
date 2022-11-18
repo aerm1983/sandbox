@@ -43,29 +43,92 @@ public class MinWSClientOne {
     + "</soap:Body>"
     + "</soap:Envelope>";
     
-    private static final String MESSAGE_LOGIN_DEP2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+    private static final String strCodAge = "002896";
+    private static final String strCodCli = "1023";
+    private static final String strDepartamento = "11";
+    private static final String strPass = "B19325789";
+
+    // private static final String URL = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/"
+    private static final String url = "http://ws.envialia.com/SOAP?service=LoginService";
+    
+    // LoginDep2
+    private static final String messageLoginDep2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
     + "<soap:Envelope "
     + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
     + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
     + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
     + "<soap:Body>"
     + "<LoginWSService___LoginDep2>"
-    + "<strCodAge>" + "001234" + "</strCodAge>"
-    + "<strCodCli>" + "1234" + "</strCodCli>"
-    + "<strDepartamento>" + "99" + "</strDepartamento>"
-    + "<strPass>" + "Z12345678" + "</strPass>"
+    + "<strCodAge>" + strCodAge + "</strCodAge>"
+    + "<strCodCli>" + strCodCli + "</strCodCli>"
+    + "<strDepartamento>" + strDepartamento + "</strDepartamento>"
+    + "<strPass>" + strPass + "</strPass>"
     + "</LoginWSService___LoginDep2>"
     + "</soap:Body>"
     + "</soap:Envelope>";
+    private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
+
+    // LoginCli2
+    private static final String messageLoginCli2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+    + "<soap:Envelope "
+    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+    + "<soap:Body>"
+    + "<LoginWSService___LoginCli2>"
+    + "<strCodAge>" + strCodAge + "</strCodAge>"
+    + "<strCliente>" + strCodCli + "</strCliente>"
+    + "<strPass>" + strPass + "</strPass>"
+    + "</LoginWSService___LoginCli2>"
+    + "</soap:Body>"
+    + "</soap:Envelope>";
+    private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
+    
+    // Login2
+    private static final String messageLogin2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+    + "<soap:Envelope "
+    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+    + "<soap:Body>"
+    + "<LoginWSService___Login2>"
+    + "<strUsuario>" + strCodAge + strCodCli + "</strUsuario>"
+    + "<strPass>" + strPass + "</strPass>"
+    + "</LoginWSService___Login2>"
+    + "</soap:Body>"
+    + "</soap:Envelope>";
+    private static final String soapActionLogin2 = "urn:envialianet-LoginWSService#Login2";
     
     
-    // private static final String url = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/"
-    private static final String url = "http://ws.envialia.com/SOAP?service=LoginService";
+    
+    
+    
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
     
     
-    public void simpleSoapConsumption() {
+    public void simpleSoapConsumptionPre(String ws) {
+
+    	String message = null;
+    	String soapAction = null;
+    	
+    	if ("LoginDep2".equalsIgnoreCase(ws)) {
+    		message = messageLoginDep2;
+    		soapAction = soapActionLoginDep2;
+    	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
+    		message = messageLoginCli2;
+    		soapAction = soapActionLoginCli2; 
+    	} else if ("Login2".equalsIgnoreCase(ws)) {
+    		message = messageLogin2;
+    		soapAction = soapActionLogin2; 
+    	}
+		
+		// execute
+    	simpleSoapConsumption(message, soapAction);
+    	
+    }
+    
+    public void simpleSoapConsumption(String message, String soapAction) {
     	try {
         	
     		// transformer factory
@@ -73,7 +136,7 @@ public class MinWSClientOne {
     		final Transformer transformer = transformerFactory.newTransformer();
     		
     		// message to send
-    		StringReader readerForSource = new StringReader(MESSAGE_LOGIN_DEP2);
+    		StringReader readerForSource = new StringReader(message);
         	final StreamSource streamSource = new StreamSource(readerForSource);
             
             // message to receive
@@ -84,14 +147,17 @@ public class MinWSClientOne {
             webServiceTemplate.setDefaultUri(url);
             
             // logging reference, url
-            log.info("url: {}", url);
+            log.info("url: {}", webServiceTemplate.getDefaultUri());
             
             // logging reference, reader buffer
             char[] charArray = new char[500];
     		readerForSource.read(charArray);
             readerForSource.reset();
             String readerBufferString = new String(charArray);
-            log.info("requestBody: {}", readerBufferString);
+            log.info("requestMessage: {}", readerBufferString);
+            
+            // logging reference, soapAction
+            log.info("soapAction: {}", soapAction);
             
             // execute soap service call
             webServiceTemplate.sendAndReceive(
@@ -105,7 +171,7 @@ public class MinWSClientOne {
     	            	}
     	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
     	            	SoapMessage senderSoapMessage = (SoapMessage)webServiceMessage; 
-    	            	senderSoapMessage.setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
+    	            	senderSoapMessage.setSoapAction(soapAction);
     	            	return;
     	            }
         		},
@@ -121,7 +187,7 @@ public class MinWSClientOne {
     	            	}
     	            	SoapMessage receiverSoapMessage = (SoapMessage)webServiceMessage;
 	            	    String responseBody = writerForResult.toString();	            	    
-	            	    log.info("responseBody: {}", responseBody);
+	            	    log.info("responseMessage: {}", responseBody);
                     	return null;
                     }
                 }

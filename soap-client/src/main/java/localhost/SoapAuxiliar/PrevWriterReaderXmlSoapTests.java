@@ -1,4 +1,4 @@
-package localhost.SoapMin;
+package localhost.SoapAuxiliar;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -26,6 +26,8 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.SoapMessageCreationException;
 import org.springframework.ws.transport.WebServiceMessageSender;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 
 @Service
@@ -159,6 +161,22 @@ public class PrevWriterReaderXmlSoapTests {
     	    log.error("e: ", e);
     	}
     }
+    
+    
+    public void pojoToXml() {
+        try {
+           XmlMapper xmlMapper = new XmlMapper();
+           PojoLoginDep2 pojo = new PojoLoginDep2();
+           pojo.setStrCodAge("001234");
+           pojo.setStrCodCli("1234");
+           pojo.setStrDepartamento("99");
+           pojo.setStrPass("Z12345678");
+           String xml = xmlMapper.writeValueAsString(pojo);
+           log.info("xml: {}", xml);
+        } catch(Exception e) {
+           log.error("e: ", e);
+        }
+     }
 
 
     
