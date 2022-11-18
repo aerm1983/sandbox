@@ -14,7 +14,7 @@
     </Appenders>
     
     <Loggers>
-        <Root level="info"><!-- level: trace debug info -->
+        <Root level="trace"><!-- level: trace debug info -->
             <AppenderRef ref="console" />
         </Root>
     </Loggers>

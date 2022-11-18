@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -18,7 +23,10 @@ import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceMessageExtractor;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.soap.SoapMessage;
+import org.springframework.ws.soap.saaj.SaajSoapMessage;
+import org.w3c.dom.Node;
 
 
 @Service
@@ -43,29 +51,51 @@ public class MinWSClientOne {
     + "</soap:Body>"
     + "</soap:Envelope>";
     
-    private static final String strCodAge = "002896";
-    private static final String strCodCli = "1023";
-    private static final String strDepartamento = "11";
-    private static final String strPass = "B19325789";
+    private static final String strCodAge = "001234";
+    private static final String strCodCli = "1234";
+    private static final String strDepartamento = "99";
+    private static final String strPass = "Z12345678";
 
     // private static final String URL = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/"
     private static final String url = "http://ws.envialia.com/SOAP?service=LoginService";
     
     // LoginDep2
-    private static final String messageLoginDep2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-    + "<soap:Envelope "
-    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-    + "<soap:Body>"
+    private static final String messageLoginDep2 = "" // "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+    // + "<soapenv:Envelope "
+    // + "xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+    // + "xmlns:tem=\"http://tempuri.org/\" "
+    // + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+    // + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " 
+    // + ">"
+    // + "<soapenv:Header>"
+    // + "<tem:ROClientIDHeader>"
+    // + "<tem:ID></tem:ID>"
+    // + "</tem:ROClientIDHeader>"
+    // + "</soapenv:Header>"
+    // + "<soapenv:Body>"
+    
+    // original:
+    /*
+    + "<tem:LoginWSService___LoginDep2>"
+    + "<tem:strCodAge>" + strCodAge + "</tem:strCodAge>"
+    + "<tem:strCodCli>" + strCodCli + "</tem:strCodCli>"
+    + "<tem:strDepartamento>" + strDepartamento + "</tem:strDepartamento>"
+    + "<tem:strPass>" + strPass + "</tem:strPass>"
+    + "</tem:LoginWSService___LoginDep2>"
+    */
+
+    // modified
     + "<LoginWSService___LoginDep2>"
     + "<strCodAge>" + strCodAge + "</strCodAge>"
     + "<strCodCli>" + strCodCli + "</strCodCli>"
     + "<strDepartamento>" + strDepartamento + "</strDepartamento>"
     + "<strPass>" + strPass + "</strPass>"
     + "</LoginWSService___LoginDep2>"
-    + "</soap:Body>"
-    + "</soap:Envelope>";
+
+    		
+    // + "</soapenv:Body>"
+    // + "</soapenv:Envelope>"
+    ;
     private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
 
     // LoginCli2
@@ -150,7 +180,7 @@ public class MinWSClientOne {
             log.info("url: {}", webServiceTemplate.getDefaultUri());
             
             // logging reference, reader buffer
-            char[] charArray = new char[500];
+            char[] charArray = new char[600];
     		readerForSource.read(charArray);
             readerForSource.reset();
             String readerBufferString = new String(charArray);
@@ -170,8 +200,41 @@ public class MinWSClientOne {
     	            		log.error("e: ", e);
     	            	}
     	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
-    	            	SoapMessage senderSoapMessage = (SoapMessage)webServiceMessage; 
-    	            	senderSoapMessage.setSoapAction(soapAction);
+    	            	SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage;
+    	            	senderSoapMessage.setSoapAction(soapAction); // debug - is this necessary?
+    	            	
+    	            	
+    	            	// adjust namespace in body child elements, begin
+    	            	try {
+        	            	SaajSoapMessage senderSaajSoapMessage = (SaajSoapMessage) webServiceMessage;
+        	            	SOAPMessage senderSOAPMessage = senderSaajSoapMessage.getSaajMessage();
+        	            	
+        	            	SOAPPart senderSOAPPart = senderSOAPMessage.getSOAPPart();
+        	            	SOAPEnvelope senderSOAPEnvelope = senderSOAPPart.getEnvelope();
+        	            	
+        	            	SOAPBody senderSOAPBody = senderSOAPMessage.getSOAPBody();
+        	            	SOAPHeader senderSOAPHeader = senderSOAPMessage.getSOAPHeader();
+        	            	
+        	            	senderSOAPEnvelope.addNamespaceDeclaration("tem", "http://tempuri.org");
+
+        	            	Node firstChild = senderSOAPBody.getFirstChild();
+        	            	firstChild.setPrefix("tem");
+        	            	Node nextSibling = null;
+        	            	
+        	            	do {
+        	            		nextSibling = firstChild.getNextSibling();
+        	            		nextSibling.setPrefix("tem");
+        	            		firstChild = nextSibling;
+        	            		if ( firstChild.getNextSibling() == null) break;
+        	            	} while (true);
+        	            	
+    	            	} catch (Exception e) {
+    	            		log.error("e: ", e);
+    	            	}
+    	            	// adjust namespace in body child elements, end
+    	            	
+    	            	
+    	            	
     	            	return;
     	            }
         		},
@@ -185,7 +248,7 @@ public class MinWSClientOne {
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	SoapMessage receiverSoapMessage = (SoapMessage)webServiceMessage;
+    	            	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage;
 	            	    String responseBody = writerForResult.toString();	            	    
 	            	    log.info("responseMessage: {}", responseBody);
                     	return null;

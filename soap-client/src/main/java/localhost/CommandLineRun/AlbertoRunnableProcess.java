@@ -38,8 +38,6 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 		// ResponseEntity<?> response = shippingManager.getStatusModified();
 		// log.info("response: {}", response);
 		
-		// prevWriterReaderXmlSoap.smallXmlTransformTest();
-		
 		// prevWriterReaderXmlSoap.smallStringWriterReaderTest();
 		
 		/* 
@@ -50,11 +48,13 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 		}
 		*/
 		
+		// prevWriterReaderXmlSoap.smallXmlTransformTest();
+		
 		// prevWriterReaderXmlSoap.pojoToXml();
 		
 		// log.info("args0, args1, args2: {}, {}", args[0], args[1], args[2]);
 		
-		minWSClientOne.simpleSoapConsumptionPre("LoginCli2");
+		minWSClientOne.simpleSoapConsumptionPre("LoginDep2");
 
 	}
 

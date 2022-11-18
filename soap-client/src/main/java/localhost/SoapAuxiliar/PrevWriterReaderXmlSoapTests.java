@@ -41,6 +41,12 @@ public class PrevWriterReaderXmlSoapTests {
 	
 	private static final String MESSAGE_0 = "<xml>blabla</xml>";
 	
+    private static final String strCodAge = "001234";
+    private static final String strCodCli = "1234";
+    private static final String strDepartamento = "99";
+    private static final String strPass = "Z12345678";
+
+	
     private static final String MESSAGE_1 = "<?xml version=\"1.0\"?>"
     + "<soap:Envelope "
     + "xmlns:soap=\"http://www.w3.org/2001/12/soap-envelope\" "
@@ -52,20 +58,25 @@ public class PrevWriterReaderXmlSoapTests {
     + "</soap:Body>"
     + "</soap:Envelope>";
     
-    private static final String MESSAGE_LOGIN_DEP2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-    + "<soap:Envelope "
-    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-    + "<soap:Body>"
-    + "<LoginWSService___LoginDep2>"
-    + "<strCodAge>" + "001234" + "</strCodAge>"
-    + "<strCodCli>" + "1234" + "</strCodCli>"
-    + "<strDepartamento>" + "88" + "</strDepartamento>"
-    + "<strPass>" + "Z12345678" + "</strPass>"
-    + "</LoginWSService___LoginDep2>"
-    + "</soap:Body>"
-    + "</soap:Envelope>";
+    private static final String messageLoginDep2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+    + "<soapenv:Envelope "
+    + "xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
+    + "xmlns:tem=\"http://tempuri.org/\" "
+    + ">"
+    + "<soapenv:Header>"
+    + "<tem:ROClientIDHeader>"
+    + "<tem:ID></tem:ID>"
+    + "</tem:ROClientIDHeader>"
+    + "</soapenv:Header>"
+    + "<soapenv:Body>"
+    + "<tem:LoginWSService___LoginDep2>"
+    + "<tem:strCodAge>" + strCodAge + "</tem:strCodAge>"
+    + "<tem:strCodCli>" + strCodCli + "</tem:strCodCli>"
+    + "<tem:strDepartamento>" + strDepartamento + "</tem:strDepartamento>"
+    + "<tem:strPass>" + strPass + "</tem:strPass>"
+    + "</tem:LoginWSService___LoginDep2>"
+    + "</soapenv:Body>"
+    + "</soapenv:Envelope>";
     
     
     // private static final String url = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/"
@@ -148,7 +159,7 @@ public class PrevWriterReaderXmlSoapTests {
     
     public void smallXmlTransformTest() {
     	try {
-    	    StreamSource source = new StreamSource(new StringReader(MESSAGE_LOGIN_DEP2));
+    	    StreamSource source = new StreamSource(new StringReader(messageLoginDep2));
     	    StringWriter writer = new StringWriter();
     	    StreamResult result = new StreamResult(writer);
     	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -261,7 +272,7 @@ public class PrevWriterReaderXmlSoapTests {
     		final Transformer transformer = transformerFactory.newTransformer();
     		
     		// message to send
-    		StringReader readerForSource = new StringReader(MESSAGE_LOGIN_DEP2);
+    		StringReader readerForSource = new StringReader(messageLoginDep2);
         	final StreamSource streamSource = new StreamSource(readerForSource);
             
             // message to receive
