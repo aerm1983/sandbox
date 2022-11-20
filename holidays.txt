@@ -44,6 +44,7 @@ date,holiday,tags -- updated: 2022-11-17 20:58
 2022-11-14,Ana Vielma JP2-MPM,birthdate
 2022-11-17,VE Economists day,holiday
 2022-11-17,Liomary Lamas,birthdate
+2022-11-25,Yurberli,birthdate
 2022-11-30,Josefina A Marquina,birthdate 
 2022-12-01,--------------------------------------------------------DEC,
 2022-12-01,Pharmacist day, holiday
