@@ -28,6 +28,7 @@ import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.w3c.dom.Node;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
@@ -201,6 +202,10 @@ public class MinWSClientOne {
     		// execute
         	String responseMessage = (String) simpleSoapConsumption(requestMessage, soapAction);
         	PojoLoginDep2Response responsePojo = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
+        	
+        	ObjectMapper objectMapper = new ObjectMapper();
+        	String responseJsonString = objectMapper.writeValueAsString(responsePojo);
+        	log.info("responseJsonString: {}", responseJsonString);
         	
         	return;
     		
