@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import localhost.SoapAuxiliar.PrevWriterReaderXmlSoapTests;
-// import localhost.SoapFull.ShippingManager;
-import localhost.SoapMin.MinWSClientOne;
+import localhost.SoapMinAuxiliar.PrevWriterReaderXmlSoapTests;
+import localhost.SoapMinMain.MinWSClientOne;
 
 @Component
-public class AlbertoRunnableProcess implements CommandLineRunner{
+public class MinSoapCommandLineRunner implements CommandLineRunner{
 	
-	private static Logger log = LoggerFactory.getLogger(AlbertoRunnableProcess.class);
+	private static Logger log = LoggerFactory.getLogger(MinSoapCommandLineRunner.class);
 	
 	// @Autowired
 	// private ShippingManager shippingManager;
@@ -30,15 +29,8 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 	}
 
 	public void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		// log.debug("debugging RP!");
 		// log.info("hello world RP!");
-		
-		// ResponseEntity<?> response = shippingManager.getStatusModified();
-		// log.info("response: {}", response);
-		
-		// prevWriterReaderXmlSoap.smallStringWriterReaderTest();
 		
 		/* 
 		try {
@@ -51,10 +43,9 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 		// prevWriterReaderXmlSoap.smallXmlTransformTest();
 		
 		// prevWriterReaderXmlSoap.pojoToXml();
+		// prevWriterReaderXmlSoap.xmlToPojo();;
 		
-		// log.info("args0, args1, args2: {}, {}", args[0], args[1], args[2]);
-		
-		minWSClientOne.simpleSoapConsumptionPre("LoginDep2");
+		minWSClientOne.simpleSoapConsumptionPojoWrapper("LoginDep2");
 
 	}
 

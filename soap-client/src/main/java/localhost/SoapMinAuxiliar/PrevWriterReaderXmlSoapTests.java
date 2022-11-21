@@ -1,4 +1,4 @@
-package localhost.SoapAuxiliar;
+package localhost.SoapMinAuxiliar;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -175,7 +175,7 @@ public class PrevWriterReaderXmlSoapTests {
     
     
     public void pojoToXml() {
-        try {
+    	try {
            XmlMapper xmlMapper = new XmlMapper();
            PojoLoginDep2 pojo = new PojoLoginDep2();
            pojo.setStrCodAge("001234");
@@ -190,145 +190,17 @@ public class PrevWriterReaderXmlSoapTests {
      }
 
 
-    
-    /*
-    public void setDefaultUri(String defaultUri) {
-        webServiceTemplate.setDefaultUri(defaultUri);
-    }
-    */
-    
-    // send to the configured default URI
-    /*
-    public void simpleSendAndReceive() {
-        StreamSource source = new StreamSource(new StringReader(MESSAGE));
-        StreamResult result = new StreamResult(System.out);
-        webServiceTemplate.sendSourceAndReceiveToResult(source, result);
-    }
-    */
-
-    
-    
-    // send to an explicit URI
-    public void customSendAndReceiveOne() {
-    	
-    	Boolean mReceived = null;
-    	
+    public void xmlToPojo() {
     	try {
-    		
-            StreamSource source = new StreamSource(new StringReader(MESSAGE_0));
-            StreamResult result = new StreamResult(System.out);
-            
-            // original
-            // webServiceTemplate.sendSourceAndReceiveToResult("http://localhost:8080/AnotherWebService", source, result);
-            
-            // modified
-            // mReceived = webServiceTemplate.sendSourceAndReceiveToResult("http://demo5636922.mockable.io/http://demo5636922.mockable.io/", source, result);
-            
-            // modified
-            mReceived = webServiceTemplate.sendSourceAndReceiveToResult(
-            		"http://demo5636922.mockable.io/http://demo5636922.mockable.io/", 
-            		source, 
-            		new WebServiceMessageCallback() {
-
-		                public void doWithMessage(WebServiceMessage message) {
-		                	log.info("doWithMessage(), begin");
-		                    // ((SoapMessage)message).setSoapAction("http://tempuri.org/Action");
-		                    ((SoapMessage)message).setSoapAction("Get");
-		                	log.info("doWithMessage(), end");
-		                }
-		            }, 
-                    /*
-            		new WebServiceMessageExtractor() {
-		                public Object extractData(WebServiceMessage message) throws IOException
-		                    // do your own transforms with message.getPayloadResult()
-		                    //     or message.getPayloadSource()
-		                }
-		            },
-		            */            		
-            		result
-            ); 
-    	
-    	} catch (WebServiceTransformerException wstfe) {
-    		log.error("wstfe: ", wstfe);
-    	} catch (WebServiceTransportException wstpe) {
-    		log.error("wstpe: ", wstpe);
-    	} catch (SoapMessageCreationException smce) {
-    		log.error("smce: ", smce);
-    	} catch (Exception e) {
-    		log.error("e: ", e);
-    	}
-    	
-    	log.info("mReceived: {}", mReceived);
-        
+           XmlMapper xmlMapper = new XmlMapper();
+           PojoLoginDep2 pojo  = xmlMapper.readValue(
+        		   "<PojoLoginDep2><strCodAge>001234</strCodAge><strCodCli>1234</strCodCli><strDepartamento>99</strDepartamento><strPass>Z12345678</strPass></PojoLoginDep2>", 
+        		   PojoLoginDep2.class
+        		   );
+           log.info("pojo: {}", pojo);
+        } catch(Exception e) {
+           log.error("e: ", e);
+        }
     }
-    
-    
-    
-    public void simpleSoapConsumption() {
-    	try {
-        	
-    		// transformer factory
-    		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    		final Transformer transformer = transformerFactory.newTransformer();
-    		
-    		// message to send
-    		StringReader readerForSource = new StringReader(messageLoginDep2);
-        	final StreamSource streamSource = new StreamSource(readerForSource);
-            
-            // message to receive
-    	    StringWriter writerForResult = new StringWriter();
-    	    final StreamResult streamResult = new StreamResult(writerForResult);
-
-    	    // default url
-            webServiceTemplate.setDefaultUri(url);
-            
-            // logging reference, url
-            log.info("url: {}", url);
-            
-            // logging reference, reader buffer
-            char[] charArray = new char[500];
-    		readerForSource.read(charArray);
-            readerForSource.reset();
-            String readerBufferString = new String(charArray);
-            log.info("requestBody: {}", readerBufferString);
-            
-            // execute soap service call
-            webServiceTemplate.sendAndReceive(
-        		new WebServiceMessageCallback() {
-    	            public void doWithMessage(WebServiceMessage webServiceMessage) {
-    	            	Result senderResult = webServiceMessage.getPayloadResult();
-    	            	try {
-    	            		transformer.transform(streamSource, senderResult);	
-    	            	} catch (Exception e) {
-    	            		log.error("e: ", e);
-    	            	}
-    	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
-    	            	SoapMessage senderSoapMessage = (SoapMessage)webServiceMessage; 
-    	            	senderSoapMessage.setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
-    	            	return;
-    	            }
-        		},
-                new WebServiceMessageExtractor<Object>() {
-                    public Object extractData(WebServiceMessage webServiceMessage) throws IOException {
-                        // do your own transforms with message.getPayloadResult()
-                        //     or message.getPayloadSource()
-                    	Source receiverSource = webServiceMessage.getPayloadSource();
-    	            	try {
-    	            	    transformer.transform(receiverSource, streamResult);
-    	            	} catch (Exception e) {
-    	            		log.error("e: ", e);
-    	            	}
-    	            	SoapMessage receiverSoapMessage = (SoapMessage)webServiceMessage;
-	            	    String responseBody = writerForResult.toString();	            	    
-	            	    log.info("responseBody: {}", responseBody);
-                    	return null;
-                    }
-                }
-    		);
-    	} catch (Exception e) {
-    		log.error("e: ", e);
-    	}
-    }
-    
 
 }

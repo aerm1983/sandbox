@@ -67,11 +67,16 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-        
+		
  		<dependency>
  			<groupId>com.fasterxml.jackson.dataformat</groupId>
  			<artifactId>jackson-dataformat-xml</artifactId>
  		</dependency>
+ 		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-jaxb-annotations</artifactId>
+		</dependency>
         
 	</dependencies>
 

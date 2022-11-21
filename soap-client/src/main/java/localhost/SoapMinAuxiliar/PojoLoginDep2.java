@@ -1,4 +1,4 @@
-package localhost.SoapAuxiliar;
+package localhost.SoapMinAuxiliar;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -5,6 +5,7 @@ HELP.md
 ### special folder to ignore in git
 **/__gitignore/*
 **/__gitignore/**/*
+log.log
 
 ### STS ###
 .apt_generated

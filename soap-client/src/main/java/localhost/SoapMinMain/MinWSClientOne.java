@@ -1,4 +1,4 @@
-package localhost.SoapMin;
+package localhost.SoapMinMain;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -27,6 +27,12 @@ import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.w3c.dom.Node;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+
+import localhost.SoapMinAuxiliar.PojoLoginDep2;
+import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
 
 
 @Service
@@ -137,7 +143,7 @@ public class MinWSClientOne {
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
     
     
-    public void simpleSoapConsumptionPre(String ws) {
+    public void simpleSoapConsumptionXmlWrapper(String ws) {
 
     	String message = null;
     	String soapAction = null;
@@ -158,7 +164,54 @@ public class MinWSClientOne {
     	
     }
     
-    public void simpleSoapConsumption(String message, String soapAction) {
+
+    
+    public void simpleSoapConsumptionPojoWrapper(String ws) {
+    	
+    	try {
+    		
+        	XmlMapper xmlMapper = new XmlMapper();
+    		JaxbAnnotationModule module = new JaxbAnnotationModule();
+    		xmlMapper.registerModule(module);
+        	
+        	String requestMessage = null;
+        	String soapAction = null;
+        	
+        	if ("LoginDep2".equalsIgnoreCase(ws)) {
+        		
+        		PojoLoginDep2 requestPojo = new PojoLoginDep2();
+        		requestPojo.setStrCodAge(strCodAge);
+        		requestPojo.setStrCodCli(strCodCli);
+        		requestPojo.setStrDepartamento(strDepartamento);
+        		requestPojo.setStrPass(strPass);
+        		
+        		requestMessage = xmlMapper.writeValueAsString(requestPojo);
+        		soapAction = soapActionLoginDep2;
+
+        	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
+        		// TODO
+        		requestMessage = messageLoginCli2;
+        		soapAction = soapActionLoginCli2; 
+        	} else if ("Login2".equalsIgnoreCase(ws)) {
+        		// TODO
+        		requestMessage = messageLogin2;
+        		soapAction = soapActionLogin2; 
+        	}
+    		
+    		// execute
+        	String responseMessage = (String) simpleSoapConsumption(requestMessage, soapAction);
+        	PojoLoginDep2Response responsePojo = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
+        	
+        	return;
+    		
+    	} catch (Exception e) {
+    		log.error("e: ", e);
+    	}
+
+    }
+    
+    
+    public Object simpleSoapConsumption(String message, String soapAction) {
     	try {
         	
     		// transformer factory
@@ -175,6 +228,12 @@ public class MinWSClientOne {
 
     	    // default url
             webServiceTemplate.setDefaultUri(url);
+
+            // xml mapper
+        	XmlMapper xmlMapper = new XmlMapper();
+    		JaxbAnnotationModule module = new JaxbAnnotationModule();
+    		xmlMapper.registerModule(module);
+
             
             // logging reference, url
             log.info("url: {}", webServiceTemplate.getDefaultUri());
@@ -190,7 +249,7 @@ public class MinWSClientOne {
             log.info("soapAction: {}", soapAction);
             
             // execute soap service call
-            webServiceTemplate.sendAndReceive(
+            Object responseObject = webServiceTemplate.sendAndReceive(
         		new WebServiceMessageCallback() {
     	            public void doWithMessage(WebServiceMessage webServiceMessage) {
     	            	Result senderResult = webServiceMessage.getPayloadResult();
@@ -249,14 +308,19 @@ public class MinWSClientOne {
     	            		log.error("e: ", e);
     	            	}
     	            	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage;
-	            	    String responseBody = writerForResult.toString();	            	    
-	            	    log.info("responseMessage: {}", responseBody);
-                    	return null;
+	            	    String responseBodyStr = writerForResult.toString();	            	    
+	            	    log.info("responseBodyStr: {}", responseBodyStr);
+                    	return responseBodyStr;
+                    	// return null // debug
                     }
                 }
     		);
+            
+            return responseObject;
+            
     	} catch (Exception e) {
     		log.error("e: ", e);
+    		return null;
     	}
     }
     
