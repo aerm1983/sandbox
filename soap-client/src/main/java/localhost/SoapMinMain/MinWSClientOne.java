@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
@@ -26,12 +27,13 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
-import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
+import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRef;
+import localhost.SoapMinAuxiliar.PojoConsEstadosRefResponse;
 import localhost.SoapMinAuxiliar.PojoLoginDep2;
 import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
 
@@ -46,25 +48,15 @@ public class MinWSClientOne {
 	// private static final String MESSAGE = null;
 	
 	private static final String MESSAGE_0 = "<xml>blabla</xml>";
-	
-    private static final String MESSAGE_1 = "<?xml version=\"1.0\"?>"
-    + "<soap:Envelope "
-    + "xmlns:soap=\"http://www.w3.org/2001/12/soap-envelope\" "
-    + "soap:encodingStyle=\"http://www.w3.org/2001/12/soap-encoding\">"
-    + "<soap:Body xmlns:m=\"http://www.example.org/stock\">"
-    + "<m:GetStockPriceResponse>"
-    + "<m:Price>34.5</m:Price>"
-    + "</m:GetStockPriceResponse>"
-    + "</soap:Body>"
-    + "</soap:Envelope>";
     
     private static final String strCodAge = "001234";
     private static final String strCodCli = "1234";
     private static final String strDepartamento = "99";
     private static final String strPass = "Z12345678";
 
-    // private static final String URL = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/"
-    private static final String url = "http://ws.envialia.com/SOAP?service=LoginService";
+    private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
+    private static final String urlLoginDep2 = "http://ws.envialia.com/SOAP?service=LoginService";
+    private static final String urlConsEnvEstadosRef = "http://ws.envialia.com/SOAP?service=WebService";
     
     // LoginDep2
     private static final String messageLoginDep2 = "" // "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -104,6 +96,8 @@ public class MinWSClientOne {
     // + "</soapenv:Envelope>"
     ;
     private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
+    private static final String soapActionConsEnvEstadosRef = "urn:envialianet-WebServService#ConsEnvEstadosRef";
+    
 
     // LoginCli2
     private static final String messageLoginCli2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -120,48 +114,35 @@ public class MinWSClientOne {
     + "</soap:Body>"
     + "</soap:Envelope>";
     private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
-    
-    // Login2
-    private static final String messageLogin2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-    + "<soap:Envelope "
-    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-    + "<soap:Body>"
-    + "<LoginWSService___Login2>"
-    + "<strUsuario>" + strCodAge + strCodCli + "</strUsuario>"
-    + "<strPass>" + strPass + "</strPass>"
-    + "</LoginWSService___Login2>"
-    + "</soap:Body>"
-    + "</soap:Envelope>";
-    private static final String soapActionLogin2 = "urn:envialianet-LoginWSService#Login2";
-    
-    
-    
-    
-    
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
     
+
     
     public void simpleSoapConsumptionXmlWrapper(String ws) {
 
-    	String message = null;
+    	String url = null;
     	String soapAction = null;
+    	String idSessionHeader = null;
+    	String requestMessage = null;
+
     	
     	if ("LoginDep2".equalsIgnoreCase(ws)) {
-    		message = messageLoginDep2;
+    		url = urlLoginDep2;
     		soapAction = soapActionLoginDep2;
+    		idSessionHeader = null;
+    		requestMessage = messageLoginDep2;
     	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
-    		message = messageLoginCli2;
-    		soapAction = soapActionLoginCli2; 
-    	} else if ("Login2".equalsIgnoreCase(ws)) {
-    		message = messageLogin2;
-    		soapAction = soapActionLogin2; 
+    	   	url = null; // TODO, define
+        	idSessionHeader = null;
+    		soapAction = soapActionLoginCli2;
+    		requestMessage = messageLoginCli2;
+     	} else {
+    		return;
     	}
 		
 		// execute
-    	simpleSoapConsumption(message, soapAction);
+    	simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     	
     }
     
@@ -170,42 +151,66 @@ public class MinWSClientOne {
     public void simpleSoapConsumptionPojoWrapper(String ws) {
     	
     	try {
-    		
+
         	XmlMapper xmlMapper = new XmlMapper();
     		JaxbAnnotationModule module = new JaxbAnnotationModule();
     		xmlMapper.registerModule(module);
-        	
-        	String requestMessage = null;
+        	ObjectMapper objectMapper = new ObjectMapper();
+    		
+        	String url = null;
+        	String idSessionHeader = null;
+    		String requestMessage = null;
         	String soapAction = null;
+        	
+        	String responseMessage = null;
+        	String responseJsonString = null;
         	
         	if ("LoginDep2".equalsIgnoreCase(ws)) {
         		
-        		PojoLoginDep2 requestPojo = new PojoLoginDep2();
-        		requestPojo.setStrCodAge(strCodAge);
-        		requestPojo.setStrCodCli(strCodCli);
-        		requestPojo.setStrDepartamento(strDepartamento);
-        		requestPojo.setStrPass(strPass);
+        		PojoLoginDep2 requestPojoLoginDep2 = new PojoLoginDep2();
+        		requestPojoLoginDep2.setStrCodAge(strCodAge);
+        		requestPojoLoginDep2.setStrCodCli(strCodCli);
+        		requestPojoLoginDep2.setStrDepartamento(strDepartamento);
+        		requestPojoLoginDep2.setStrPass(strPass);
         		
-        		requestMessage = xmlMapper.writeValueAsString(requestPojo);
+        		url = urlLoginDep2;
         		soapAction = soapActionLoginDep2;
+        		idSessionHeader = null;
+        		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
+        		
 
         	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
         		// TODO
         		requestMessage = messageLoginCli2;
         		soapAction = soapActionLoginCli2; 
         	} else if ("Login2".equalsIgnoreCase(ws)) {
-        		// TODO
-        		requestMessage = messageLogin2;
-        		soapAction = soapActionLogin2; 
+        		return;
         	}
     		
     		// execute
-        	String responseMessage = (String) simpleSoapConsumption(requestMessage, soapAction);
-        	PojoLoginDep2Response responsePojo = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
+        	responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+        	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
         	
-        	ObjectMapper objectMapper = new ObjectMapper();
-        	String responseJsonString = objectMapper.writeValueAsString(responsePojo);
-        	log.info("responseJsonString: {}", responseJsonString);
+        	responseJsonString = objectMapper.writeValueAsString(pojoLoginDep2Response);
+        	log.info("responseJsonString, LoginDep2: {}", responseJsonString);
+        	
+        	
+        	if ("LoginDep2".equalsIgnoreCase(ws)) {
+        		PojoConsEnvEstadosRef pojoConsEnvEstadosRef = new PojoConsEnvEstadosRef();
+        		pojoConsEnvEstadosRef.setStrRef("1234");
+        		
+        		url = urlConsEnvEstadosRef;
+        		soapAction = soapActionConsEnvEstadosRef;
+        		idSessionHeader = pojoLoginDep2Response.getStrSesion();
+        		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstadosRef);
+        		
+        		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+            	PojoConsEstadosRefResponse pojoConsEstadosRefResponse = xmlMapper.readValue(responseMessage, PojoConsEstadosRefResponse.class);
+            	
+            	responseJsonString = objectMapper.writeValueAsString(pojoConsEstadosRefResponse);
+            	log.info("responseJsonString, ConsEnvEstadosRef: {}", responseJsonString);
+
+        	}
         	
         	return;
     		
@@ -215,8 +220,9 @@ public class MinWSClientOne {
 
     }
     
+
     
-    public Object simpleSoapConsumption(String message, String soapAction) {
+    public Object simpleSoapConsumptionWithHeader(String url, String soapAction, String idSessionHeader, String message) {
     	try {
         	
     		// transformer factory
@@ -242,6 +248,12 @@ public class MinWSClientOne {
             
             // logging reference, url
             log.info("url: {}", webServiceTemplate.getDefaultUri());
+
+            // logging reference, soapAction
+            log.info("soapAction: {}", soapAction);
+            
+            // logging reference, soapAction
+            log.info("idSessionHeader: {}", idSessionHeader);
             
             // logging reference, reader buffer
             char[] charArray = new char[600];
@@ -250,8 +262,6 @@ public class MinWSClientOne {
             String readerBufferString = new String(charArray);
             log.info("requestMessage: {}", readerBufferString);
             
-            // logging reference, soapAction
-            log.info("soapAction: {}", soapAction);
             
             // execute soap service call
             Object responseObject = webServiceTemplate.sendAndReceive(
@@ -266,38 +276,51 @@ public class MinWSClientOne {
     	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
     	            	SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage;
     	            	senderSoapMessage.setSoapAction(soapAction); // debug - is this necessary?
-    	            	
-    	            	
-    	            	// adjust namespace in body child elements, begin
-    	            	try {
-        	            	SaajSoapMessage senderSaajSoapMessage = (SaajSoapMessage) webServiceMessage;
-        	            	SOAPMessage senderSOAPMessage = senderSaajSoapMessage.getSaajMessage();
-        	            	
-        	            	SOAPPart senderSOAPPart = senderSOAPMessage.getSOAPPart();
-        	            	SOAPEnvelope senderSOAPEnvelope = senderSOAPPart.getEnvelope();
-        	            	
-        	            	SOAPBody senderSOAPBody = senderSOAPMessage.getSOAPBody();
-        	            	SOAPHeader senderSOAPHeader = senderSOAPMessage.getSOAPHeader();
-        	            	
-        	            	senderSOAPEnvelope.addNamespaceDeclaration("tem", "http://tempuri.org");
 
-        	            	Node firstChild = senderSOAPBody.getFirstChild();
-        	            	firstChild.setPrefix("tem");
-        	            	Node nextSibling = null;
-        	            	
-        	            	do {
-        	            		nextSibling = firstChild.getNextSibling();
-        	            		nextSibling.setPrefix("tem");
-        	            		firstChild = nextSibling;
-        	            		if ( firstChild.getNextSibling() == null) break;
-        	            	} while (true);
-        	            	
+    	            	// required vars, begin
+	            		SaajSoapMessage senderSaajSoapMessage = (SaajSoapMessage) webServiceMessage;
+    	            	SOAPMessage senderSOAPMessage = senderSaajSoapMessage.getSaajMessage();
+    	            	SOAPPart senderSOAPPart = senderSOAPMessage.getSOAPPart();
+    	            	
+    	            	SOAPEnvelope senderSOAPEnvelope = null;
+    	            	SOAPBody senderSOAPBody = null;
+    	            	SOAPHeader senderSOAPHeader = null;
+    	            	try {
+    	            		senderSOAPEnvelope = senderSOAPPart.getEnvelope();
+    	            		senderSOAPBody = senderSOAPMessage.getSOAPBody();
+    	            		senderSOAPHeader = senderSOAPMessage.getSOAPHeader();
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	// adjust namespace in body child elements, end
+    	            	// required vars, end
     	            	
+    	            	try {
+        	            	// adjust namespace in body child elements, begin
+        	            	senderSOAPEnvelope.addNamespaceDeclaration("tem", "http://tempuri.org");
+        	            	
+        	            	// trying to manually add prefix to SOAP-body child nodes fails
+        	            	// senderSOAPBody.getFirstChild().setPrefix("tem"); // fail, exception
+        	            	
+        	            	// adjust namespace in body child elements, end
+    	            	} catch (Exception e) {
+    	            		log.error("e: ", e);
+    	            	}
     	            	
+    	            	try {
+        	            	// add header, begin
+        	            	SOAPElement roClientIDHeaderHSE = senderSOAPHeader.addChildElement("ROClientIDHeader","tem");  // "ROClientIDHeader"
+        	            	SOAPElement idHSE = roClientIDHeaderHSE.addChildElement("ID", "tem");
+        	            	if ( idSessionHeader != null && !idSessionHeader.isEmpty() ) {
+        	            		idHSE.addTextNode(idSessionHeader);
+        	            	/*
+        	            	} else {
+        	            		idHSE.addTextNode("");
+    	            		*/
+        	            	}
+        	            	// add header, end
+    	            	} catch (Exception e) {
+    	            		log.error("e: ", e);
+    	            	}
     	            	
     	            	return;
     	            }
