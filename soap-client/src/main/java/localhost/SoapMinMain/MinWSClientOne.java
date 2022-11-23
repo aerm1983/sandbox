@@ -3,6 +3,7 @@ package localhost.SoapMinMain;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Scanner;
 
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
@@ -230,8 +231,9 @@ public class MinWSClientOne {
     		final Transformer transformer = transformerFactory.newTransformer();
     		
     		// message to send
-    		StringReader readerForSource = new StringReader(message);
-        	final StreamSource streamSource = new StreamSource(readerForSource);
+    		StringReader stringReaderForSource = new StringReader(message);
+    		StringReader stringReaderForSourceToLog = new StringReader(message);
+        	final StreamSource streamSource = new StreamSource(stringReaderForSource);
             
             // message to receive
     	    StringWriter writerForResult = new StringWriter();
@@ -256,11 +258,23 @@ public class MinWSClientOne {
             log.info("idSessionHeader: {}", idSessionHeader);
             
             // logging reference, reader buffer
-            char[] charArray = new char[600];
-    		readerForSource.read(charArray);
-            readerForSource.reset();
-            String readerBufferString = new String(charArray);
-            log.info("requestMessage: {}", readerBufferString);
+            Scanner scanner = null;
+            String sRFSToLogStr = null;
+            try {
+                scanner = new Scanner(stringReaderForSourceToLog).useDelimiter("\\A");
+                sRFSToLogStr = scanner.hasNext() ? scanner.next() : "";
+                scanner.close();
+                log.info("requestMessage: {}", sRFSToLogStr);
+            } catch (Exception e) {
+            	log.error("e: ", e);
+            }
+
+            
+            // char[] charArray = new char[600];
+    		// readerForSource.read(charArray);
+            
+            // String readerBufferString = new String(charArray);
+            
             
             
             // execute soap service call
