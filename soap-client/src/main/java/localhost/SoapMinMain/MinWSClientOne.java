@@ -33,8 +33,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
+import localhost.SoapMinAuxiliar.PojoConsEnvEstados;
 import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRef;
-import localhost.SoapMinAuxiliar.PojoConsEstadosRefResponse;
+import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRefResponse;
+import localhost.SoapMinAuxiliar.PojoConsEnvEstadosResponse;
+import localhost.SoapMinAuxiliar.PojoConsEnvio2;
+import localhost.SoapMinAuxiliar.PojoConsEnvio2Response;
 import localhost.SoapMinAuxiliar.PojoLoginDep2;
 import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
 
@@ -54,66 +58,19 @@ public class MinWSClientOne {
     private static final String strCodCli = "1234";
     private static final String strDepartamento = "99";
     private static final String strPass = "Z12345678";
+    
+    private static final String albaran = "0141289842";
 
     private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
     private static final String urlLoginDep2 = "http://ws.envialia.com/SOAP?service=LoginService";
+    private static final String urlConsEnvio2 = "http://ws.envialia.com/SOAP?service=WebService";
+    private static final String urlConsEnvEstados = "http://ws.envialia.com/SOAP?service=WebService";
     private static final String urlConsEnvEstadosRef = "http://ws.envialia.com/SOAP?service=WebService";
     
-    // LoginDep2
-    private static final String messageLoginDep2 = "" // "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-    // + "<soapenv:Envelope "
-    // + "xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-    // + "xmlns:tem=\"http://tempuri.org/\" "
-    // + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-    // + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " 
-    // + ">"
-    // + "<soapenv:Header>"
-    // + "<tem:ROClientIDHeader>"
-    // + "<tem:ID></tem:ID>"
-    // + "</tem:ROClientIDHeader>"
-    // + "</soapenv:Header>"
-    // + "<soapenv:Body>"
-    
-    // original:
-    /*
-    + "<tem:LoginWSService___LoginDep2>"
-    + "<tem:strCodAge>" + strCodAge + "</tem:strCodAge>"
-    + "<tem:strCodCli>" + strCodCli + "</tem:strCodCli>"
-    + "<tem:strDepartamento>" + strDepartamento + "</tem:strDepartamento>"
-    + "<tem:strPass>" + strPass + "</tem:strPass>"
-    + "</tem:LoginWSService___LoginDep2>"
-    */
-
-    // modified
-    + "<LoginWSService___LoginDep2>"
-    + "<strCodAge>" + strCodAge + "</strCodAge>"
-    + "<strCodCli>" + strCodCli + "</strCodCli>"
-    + "<strDepartamento>" + strDepartamento + "</strDepartamento>"
-    + "<strPass>" + strPass + "</strPass>"
-    + "</LoginWSService___LoginDep2>"
-
-    		
-    // + "</soapenv:Body>"
-    // + "</soapenv:Envelope>"
-    ;
     private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
+    private static final String soapActionConsEnvio2 = "urn:envialianet-WebServService#ConsEnvio2";
+    private static final String soapActionConsEnvEstados = "urn:envialianet-WebServService#ConsEnvEstados";
     private static final String soapActionConsEnvEstadosRef = "urn:envialianet-WebServService#ConsEnvEstadosRef";
-    
-
-    // LoginCli2
-    private static final String messageLoginCli2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-    + "<soap:Envelope "
-    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-    + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-    + "<soap:Body>"
-    + "<LoginWSService___LoginCli2>"
-    + "<strCodAge>" + strCodAge + "</strCodAge>"
-    + "<strCliente>" + strCodCli + "</strCliente>"
-    + "<strPass>" + strPass + "</strPass>"
-    + "</LoginWSService___LoginCli2>"
-    + "</soap:Body>"
-    + "</soap:Envelope>";
     private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
@@ -132,12 +89,12 @@ public class MinWSClientOne {
     		url = urlLoginDep2;
     		soapAction = soapActionLoginDep2;
     		idSessionHeader = null;
-    		requestMessage = messageLoginDep2;
+    		requestMessage = "xml here";
     	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
     	   	url = null; // TODO, define
         	idSessionHeader = null;
     		soapAction = soapActionLoginCli2;
-    		requestMessage = messageLoginCli2;
+    		requestMessage = "xml here";
      	} else {
     		return;
     	}
@@ -149,10 +106,12 @@ public class MinWSClientOne {
     
 
     
-    public void simpleSoapConsumptionPojoWrapper(String ws) {
+    public void simpleSoapConsumptionPojoWrapper() {
     	
     	try {
-
+    		
+    		// general objects
+    		
         	XmlMapper xmlMapper = new XmlMapper();
     		JaxbAnnotationModule module = new JaxbAnnotationModule();
     		xmlMapper.registerModule(module);
@@ -166,29 +125,19 @@ public class MinWSClientOne {
         	String responseMessage = null;
         	String responseJsonString = null;
         	
-        	if ("LoginDep2".equalsIgnoreCase(ws)) {
-        		
-        		PojoLoginDep2 requestPojoLoginDep2 = new PojoLoginDep2();
-        		requestPojoLoginDep2.setStrCodAge(strCodAge);
-        		requestPojoLoginDep2.setStrCodCli(strCodCli);
-        		requestPojoLoginDep2.setStrDepartamento(strDepartamento);
-        		requestPojoLoginDep2.setStrPass(strPass);
-        		
-        		url = urlLoginDep2;
-        		soapAction = soapActionLoginDep2;
-        		idSessionHeader = null;
-        		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
-        		
 
-        	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
-        		// TODO
-        		requestMessage = messageLoginCli2;
-        		soapAction = soapActionLoginCli2; 
-        	} else if ("Login2".equalsIgnoreCase(ws)) {
-        		return;
-        	}
+        	// LoginDep2
+        	PojoLoginDep2 requestPojoLoginDep2 = new PojoLoginDep2();
+    		requestPojoLoginDep2.setStrCodAge(strCodAge);
+    		requestPojoLoginDep2.setStrCodCli(strCodCli);
+    		requestPojoLoginDep2.setStrDepartamento(strDepartamento);
+    		requestPojoLoginDep2.setStrPass(strPass);
     		
-    		// execute
+    		url = urlLoginDep2;
+    		soapAction = soapActionLoginDep2;
+    		idSessionHeader = null;
+    		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
+
         	responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
         	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
         	
@@ -196,23 +145,47 @@ public class MinWSClientOne {
         	log.info("responseJsonString, LoginDep2: {}", responseJsonString);
         	
         	
-        	if ("LoginDep2".equalsIgnoreCase(ws)) {
-        		PojoConsEnvEstadosRef pojoConsEnvEstadosRef = new PojoConsEnvEstadosRef();
-        		pojoConsEnvEstadosRef.setStrRef("1234");
-        		
-        		url = urlConsEnvEstadosRef;
-        		soapAction = soapActionConsEnvEstadosRef;
-        		idSessionHeader = pojoLoginDep2Response.getStrSesion();
-        		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstadosRef);
-        		
-        		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
-            	PojoConsEstadosRefResponse pojoConsEstadosRefResponse = xmlMapper.readValue(responseMessage, PojoConsEstadosRefResponse.class);
-            	
-            	responseJsonString = objectMapper.writeValueAsString(pojoConsEstadosRefResponse);
-            	log.info("responseJsonString, ConsEnvEstadosRef: {}", responseJsonString);
-
-        	}
+        	// ConsEnvio2
+    		PojoConsEnvio2 pojoConsEnvio2 = new PojoConsEnvio2();
+    		pojoConsEnvio2.setStrCodAgeCargo(strCodAge);
+    		pojoConsEnvio2.setStrAlbaran(albaran);
+    		
+    		url = urlConsEnvio2;
+    		soapAction = soapActionConsEnvio2;
+    		idSessionHeader = pojoLoginDep2Response.getStrSesion();
+    		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvio2);
+    		
+    		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+    		// responseMessage = responseMessage.replace("&lt;", "<").replace("&gt;", ">");
+    		log.info("responseMessage: {}", responseMessage);
+        	PojoConsEnvio2Response pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, PojoConsEnvio2Response.class);
         	
+        	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvio2Response);
+        	log.info("responseJsonString, ConsEnvio2: {}", responseJsonString);
+        	
+        	
+        	// ConsEnvEstados
+    		PojoConsEnvEstados pojoConsEnvEstados = new PojoConsEnvEstados();
+    		pojoConsEnvEstados.setStrCodAgeCargo(strCodAge);
+    		pojoConsEnvEstados.setStrCodAgeOri(strCodAge);
+    		pojoConsEnvEstados.setStrAlbaran(albaran);
+    		
+    		url = urlConsEnvEstados;
+    		soapAction = soapActionConsEnvEstados;
+    		idSessionHeader = pojoLoginDep2Response.getStrSesion();
+    		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstados);
+    		
+    		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+    		// responseMessage = responseMessage.replace("&lt;", "<").replace("&gt;", ">");
+    		log.info("responseMessage: {}", responseMessage);
+        	PojoConsEnvEstadosResponse pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, PojoConsEnvEstadosResponse.class);
+        	
+        	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvEstadosResponse);
+        	log.info("responseJsonString, ConsEnvEstados: {}", responseJsonString);
+        	log.info(pojoConsEnvEstadosResponse.getStrEnvEstados());
+        	
+
+        	// end
         	return;
     		
     	} catch (Exception e) {
@@ -350,7 +323,11 @@ public class MinWSClientOne {
     	            		log.error("e: ", e);
     	            	}
     	            	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage;
-	            	    String responseBodyStr = writerForResult.toString();	            	    
+    	            	String responseBodyStr = writerForResult.toString();
+
+    	            	// correction, pre-processing
+	            	    // responseBodyStr = responseBodyStr.replace("&lt;", "<").replace("&gt;", ">");
+	            	    
 	            	    log.info("responseBodyStr: {}", responseBodyStr);
                     	return responseBodyStr;
                     	// return null // debug

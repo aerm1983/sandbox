@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import localhost.SoapMinAuxiliar.PrevWriterReaderXmlSoapTests;
+import localhost.SoapMinAuxiliar.TestWriterReaderXmlSoap;
 import localhost.SoapMinMain.MinWSClientOne;
 
 @Component
@@ -18,7 +18,7 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 	// private ShippingManager shippingManager;
 
 	@Autowired
-	PrevWriterReaderXmlSoapTests prevWriterReaderXmlSoap;
+	TestWriterReaderXmlSoap testWriterReaderXmlSoap;
 	
 	@Autowired
 	private MinWSClientOne minWSClientOne;
@@ -34,18 +34,19 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 		
 		/* 
 		try {
-			prevWriterReaderXmlSoap.smallFileWriterReaderTest();
+			testWriterReaderXmlSoap.smallFileWriterReaderTest();
 		} catch (Exception e) {
 			log.error("e: ", e);
 		}
 		*/
 		
-		// prevWriterReaderXmlSoap.smallXmlTransformTest();
+		// testWriterReaderXmlSoap.smallXmlTransformTest();
 		
-		// prevWriterReaderXmlSoap.pojoToXml();
-		// prevWriterReaderXmlSoap.xmlToPojo();;
+		// testWriterReaderXmlSoap.pojoToXml();
 		
-		minWSClientOne.simpleSoapConsumptionPojoWrapper("LoginDep2");
+		// testWriterReaderXmlSoap.xmlToPojo();
+		
+		minWSClientOne.simpleSoapConsumptionPojoWrapper();
 
 	}
 
