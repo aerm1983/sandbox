@@ -1,10 +1,13 @@
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# SpringToolSuite.ini file sample - updated: 2022-10-05 17:41
+# SpringToolSuite.ini sample v1 - updated: 2022-11-25 08:16
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 #
 # NOTES:
 # (1) Key-value pairs are separated by "newline" character
 # (2) Avoid inserting line comments between key and value to prevent errors
+# (3) Verify if adjustments on VM are really necessary (late STS versions come with its own JRE included)
+# (4) Final line '-javaagent...', absolute path is not necessary, paths are relative to STS root folder
+# (5) Lombok source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
 #
 -vm
 /opt/java/jdk-11.0.12/bin/javaw.exe
