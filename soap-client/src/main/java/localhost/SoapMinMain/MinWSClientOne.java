@@ -182,7 +182,7 @@ public class MinWSClientOne {
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvEstadosResponse);
         	log.info("responseJsonString, ConsEnvEstados: {}", responseJsonString);
-        	log.info(pojoConsEnvEstadosResponse.getStrEnvEstados());
+        	// log.info(pojoConsEnvEstadosResponse.getStrEnvEstados());
         	
 
         	// end
@@ -241,14 +241,6 @@ public class MinWSClientOne {
             } catch (Exception e) {
             	log.error("e: ", e);
             }
-
-            
-            // char[] charArray = new char[600];
-    		// readerForSource.read(charArray);
-            
-            // String readerBufferString = new String(charArray);
-            
-            
             
             // execute soap service call
             Object responseObject = webServiceTemplate.sendAndReceive(

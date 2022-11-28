@@ -42,9 +42,13 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 		
 		// testWriterReaderXmlSoap.smallXmlTransformTest();
 		
-		// testWriterReaderXmlSoap.pojoToXml();
+		// testWriterReaderXmlSoap.jacksonPojoToXml();
+		// testWriterReaderXmlSoap.jacksonXmlToPojo();
+
+		// testWriterReaderXmlSoap.jaxbPojoToXml();
+		// testWriterReaderXmlSoap.jaxbXmlToPojo();
 		
-		// testWriterReaderXmlSoap.xmlToPojo();
+		
 		
 		minWSClientOne.simpleSoapConsumptionPojoWrapper();
 

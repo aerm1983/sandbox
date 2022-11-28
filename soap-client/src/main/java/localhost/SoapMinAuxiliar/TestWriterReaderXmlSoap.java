@@ -5,7 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -26,7 +33,12 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.SoapMessageCreationException;
 import org.springframework.ws.transport.WebServiceMessageSender;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
@@ -184,9 +196,16 @@ public class TestWriterReaderXmlSoap {
     }
     
     
-    public void pojoToXml() {
+    public void jacksonPojoToXml() {
+    	
+    	/*
+    	// case 1, begin
     	try {
            XmlMapper xmlMapper = new XmlMapper();
+			JaxbAnnotationModule module = new JaxbAnnotationModule();
+			xmlMapper.registerModule(module);
+			xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
            PojoLoginDep2 pojo = new PojoLoginDep2();
            pojo.setStrCodAge("001234");
            pojo.setStrCodCli("1234");
@@ -197,14 +216,41 @@ public class TestWriterReaderXmlSoap {
         } catch(Exception e) {
            log.error("e: ", e);
         }
+    	// case 1, end
+        */
+    	
+    	
+    	// case 2, begin
+    	try {
+            XmlMapper xmlMapper = new XmlMapper();
+    		JaxbAnnotationModule module = new JaxbAnnotationModule();
+    		xmlMapper.registerModule(module);
+    		xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            
+            PojoEnvioEstado pojo = new PojoEnvioEstado();
+            pojo.setdFecHoraAlta("2021-01-01");
+            pojo.setiId("1");;
+            pojo.setvCodTipoEst("A");;
+
+            String xml = xmlMapper.writeValueAsString(pojo);
+            log.info("xml: {}", xml);
+         } catch(Exception e) {
+            log.error("e: ", e);
+         }
+    	// case 2, end
+
+    	
+    	
      }
 
 
-    public void xmlToPojo() {
+    @SuppressWarnings("unchecked")
+	public void jacksonXmlToPojo() {
     	
     	XmlMapper xmlMapper = new XmlMapper();
 		JaxbAnnotationModule module = new JaxbAnnotationModule();
 		xmlMapper.registerModule(module);
+		xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -212,7 +258,8 @@ public class TestWriterReaderXmlSoap {
 		String jsonStr = null;
 		
     	
-		// case 1:
+		// case 1, begin
+		/**/
 		log.info(" CASE 1");
 		
 		
@@ -230,11 +277,13 @@ public class TestWriterReaderXmlSoap {
            log.error("e: ", e);
         }
     	log.info("jsonStr: {}", jsonStr);
+    	/**/
+		// case 1, end
     	
     	
     	
-    	
-		// case 2:
+		// case 2 begin
+		/**/
 		log.info(" CASE 2");
 		
 		// soap-client, LoginDep2Response good
@@ -250,13 +299,15 @@ public class TestWriterReaderXmlSoap {
            log.error("e: ", e);
         }
     	log.info("jsonStr: {}", jsonStr);
-
+		/**/
+		// case 2 end
     	
     	
         
     	
     	
-    	// case 3:
+    	// case 3 begin
+		/*
 		log.info(" CASE 3");
     	
     	// bad encoded character
@@ -284,35 +335,236 @@ public class TestWriterReaderXmlSoap {
     		log.error("e: ", e);
     	}
     	log.info("jsonStr: {}", jsonStr);
+    	*/
+		// case 3 end
+		
     	
     	
-    	// case 4 ConsEnvios2Response attributes processing
-    	/*
-		log.info(" CASE 4");
-    	
-    	xmlStr = "<CONSULTA><ENVIOS V_COD_AGE_CARGO=\"002896\" V_COD_AGE_ORI=\"002896\" V_ALBARAN=\"0141289842\" D_FECHA=\"11/10/2022 00:00:00\" V_COD_AGE_DES=\"002896\" V_COD_TIPO_SERV=\"24\" V_COD_CLI=\"1023\" V_COD_CLI_DEP=\"11\" V_NOM_ORI=\"Logisfashion\" V_TIPO_VIA_ORI=\"\" V_DIR_ORI=\"Av. Larona, 7\" V_NUM_ORI=\"\" V_PISO_ORI=\"\" V_POB_ORI=\"Cabanillas del Campo\" V_CP_ORI=\"19171\" V_COD_PRO_ORI=\"19\" V_TLF_ORI=\"34 949 32 96 00\" V_NOM_DES=\"El Corte Ingl▒s Goya 0003\" V_TIPO_VIA_DES=\"\" V_DIR_DES=\"Calle de Goya, 85\" V_NUM_DES=\"\" V_PISO_DES=\"\" V_POB_DES=\"Madrid\" V_CP_DES=\"28001\" V_COD_PRO_DES=\"28\" V_TLF_DES=\"+34914329300\" I_DOC=\"0\" I_PAQ=\"1\" I_BUL=\"1\" F_PESO_ORI=\"1\" F_ALTO_ORI=\"9.56\" F_ANCHO_ORI=\"9.56\" F_LARGO_ORI=\"9.56\" F_PESO_VOLPES=\"0.9\" F_ALTO_VOLPES=\"24.0045321975935\" F_ANCHO_VOLPES=\"24.0045321975935\" F_LARGO_VOLPES=\"24.0045321975935\" F_REEMBOLSO=\"0\" F_VALOR=\"99.95\" F_ANTICIPO=\"0\" F_COB_CLI=\"0\" F_PORTE_DEB=\"0\" V_OBS=\"\" D_FEC_ENTR=\"11/11/2022 00:00:00\" B_SABADO=\"False\" B_TECLE_DES=\"False\" B_RETORNO=\"False\" B_GEST_ORI=\"False\" B_GEST_DES=\"False\" B_ANULADO=\"False\" B_ACUSE=\"False\" V_COD_REP=\"2012\" V_COD_USU_ALTA=\"\" V_REF=\"PC000025|#|0010090066626292022\" V_ASOCIADO_RET=\"\" V_TIPO_ASOC=\"\" V_COD_SAL_RUTA=\"\" V_TIPO_ENV=\"L\" F_BASE_IMP=\"0\" F_IMPUESTO=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" B_VALIDADO=\"True\" B_CLIENTE=\"True\" B_PORTE_DEB_CLI=\"False\" V_COD_AGE_ALTA=\"002896\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" U_GUID=\"{C4FA7FD6-91AB-47CA-BD1B-BD3942921891}\" V_PERS_CONTACTO=\"\" V_COD_PAIS=\"\" V_COD_REC_ASOC=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\" V_FRANJA_HORARIA=\" \" SD_HORA_ENV_INI=\"12/30/1899 00:00:00\" SD_HORA_ENV_FIN=\"12/30/1899 00:00:00\" V_DES_MOVILES=\"\" V_DES_DIR_EMAILS=\"\"/></CONSULTA>";
-		PojoConsEnvio2Response pojoConsEnvio2Response = null; // define pojo!
-		jsonStr = null;
+        
+        
+        // case 4 begin
+		// ConsEnvEstados attributes processing
+    	log.info("case 4");
 
+    	// xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+    	xmlStr = "<ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\" />";
+    	
+		PojoEnvioEstado envioEstado  = null;
+		jsonStr = null;
+		
 		log.info("xmlStr: {}", xmlStr);
     	
-    	try {
-    		// TODO: pojo!
-    		pojoConsEnvio2Response = xmlMapper.readValue(xmlStr, PojoConsEnvio2Response.class);
-    		jsonStr = objectMapper.writeValueAsString(pojoConsEnvio2Response);
-    	} catch (Exception e) {
-    		log.error("e: ", e);
-    	}
+		try {
+			envioEstado = xmlMapper.readValue(xmlStr, PojoEnvioEstado.class);
+			jsonStr = objectMapper.writeValueAsString(envioEstado);
+        } catch(Exception e) {
+           log.error("e: ", e);
+        }
     	log.info("jsonStr: {}", jsonStr);
-    	*/
+
+        // case 4 end
 
     	
-    	// case 5, ConsEnvEstados attributes processing
-    	/*
-    	xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
-    	*/
     	
+        // case 5 begin
+		// ConsEnvEstados attributes processing
+    	log.info("case 5");
+
+    	xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+    	// xmlStr = "<ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\" />";
+    	
+		ArrayList<PojoEnvioEstado> envioEstadoList  = new ArrayList<PojoEnvioEstado>();
+		jsonStr = null;
+		
+		log.info("xmlStr: {}", xmlStr);
+    	
+		try {
+			envioEstadoList = xmlMapper.readValue(xmlStr, envioEstadoList.getClass());
+			jsonStr = objectMapper.writeValueAsString(envioEstadoList);
+        } catch(Exception e) {
+           log.error("e: ", e);
+        }
+    	log.info("jsonStr: {}", jsonStr);
+
+        // case 5 end
+
+    	
+    	
+    	
+    	// case 6 begin 
+		// ConsEnvEstados attributes processing
+    	/**/
+    	log.info("case 6");
+
+    	xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+    	
+    	DocumentBuilderFactory dbc = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dbuilder;
+        
+        String vCodTipoEst = null;
+        String dFecHoraAlta = null;
+        
+        log.info(xmlStr);
+
+        try {
+            
+        	dbuilder = dbc.newDocumentBuilder();
+            
+        	Document doc = dbuilder.parse(new InputSource(new StringReader(xmlStr)));
+            NodeList nl = doc.getElementsByTagName("ENV_ESTADOS");
+            
+            // TODO: PojoEnvioEstadoElement with XmlAccesType.PROPERTY
+            
+            for(int i = 0 ; i < nl.getLength(); i++){
+	            Element e = (Element)nl.item(i);
+	            vCodTipoEst = e.getAttribute("V_COD_TIPO_EST");
+	            dFecHoraAlta = e.getAttribute("D_FEC_HORA_ALTA");
+	            log.info("i, vCodTipoEst, dFecHoraAlta: {}, {}, {}", i, vCodTipoEst, dFecHoraAlta);
+            }
+    
+        } catch (Exception e) {
+            log.error("e: ", e);
+        }
+		/**/
+        // case 6 end
+        
+
+        
+    	return;
     	
     }
+    
+    
+    @SuppressWarnings("unchecked")
+    public void jaxbXmlToPojo () {
+    	
+    	String xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+		ArrayList<PojoEnvioEstado> envioEstadoList  = new ArrayList<PojoEnvioEstado>();
+		String jsonStr = null;
+  	
+    	JAXBContext jaxbContext = null;
+    	Unmarshaller unmarshaller = null;
+    	StreamSource source = new StreamSource(new StringReader(xmlStr));
+    	
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		log.info("xmlStr: {}", xmlStr);
+    	try {
+    		jaxbContext = JAXBContext.newInstance(envioEstadoList.getClass());   
+    		unmarshaller = jaxbContext.createUnmarshaller();
+    		envioEstadoList = (ArrayList<PojoEnvioEstado>) unmarshaller.unmarshal(source);
+    		jsonStr = objectMapper.writeValueAsString(envioEstadoList);
+    		
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+    	log.info("jsonStr: {}", jsonStr);
+    			
+
+    	
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    public void jaxbPojoToXml () {
+    	
+    	// case 1 begin
+    	// log.info("case 1");
+    	// String xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+    	String xmlStr = null;
+		PojoEnvioEstado pojoEnvioEstado = new PojoEnvioEstado(); 
+		pojoEnvioEstado.setdFecHoraAlta("2021-01-01");
+		pojoEnvioEstado.setiId("1");
+		pojoEnvioEstado.setvCodTipoEst("A");
+		
+		String jsonStr = null;
+  	
+    	JAXBContext jaxbContext = null;
+    	Marshaller marshaller = null;
+	    StringWriter writer = new StringWriter();
+	    StreamResult result = new StreamResult(writer);
+   	
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		try {
+			jsonStr = objectMapper.writeValueAsString(pojoEnvioEstado);	
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+		log.info("jsonStr: {}", jsonStr);
+		
+    	try {
+    		jaxbContext = JAXBContext.newInstance(pojoEnvioEstado.getClass());   
+    		marshaller = jaxbContext.createMarshaller();
+    		// marshaller.marshal(envioEstadoList, result);
+    		marshaller.marshal(pojoEnvioEstado, System.out);
+    		xmlStr = writer.toString();
+    		
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+    	log.info("xmlStr: {}", xmlStr);
+    	
+    	// case 1 end
+
+    	
+    	
+    	
+    	// case 2 begin
+    	log.info("case 2");
+    	// String xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
+    	/*
+    	// String xmlStr = null;
+		ArrayList<PojoEnvioEstado> envioEstadoList  = new ArrayList<PojoEnvioEstado>();
+		
+		pojoEnvioEstado = null; 
+		
+		pojoEnvioEstado =new PojoEnvioEstado();
+		pojoEnvioEstado.setdFecHoraAlta("2021-01-01");
+		pojoEnvioEstado.setiId("1");
+		pojoEnvioEstado.setvCodTipoEst("A");
+		envioEstadoList.add(pojoEnvioEstado);
+		
+		pojoEnvioEstado = new PojoEnvioEstado();
+		pojoEnvioEstado.setdFecHoraAlta("2022-02-02");
+		pojoEnvioEstado.setiId("2");
+		pojoEnvioEstado.setvCodTipoEst("B");
+		envioEstadoList.add(pojoEnvioEstado);
+		
+		jsonStr = null;
+  	
+    	jaxbContext = null;
+    	marshaller = null;
+	    writer = new StringWriter();
+	    result = new StreamResult(writer);
+   	
+		objectMapper = new ObjectMapper();
+		
+		try {
+			jsonStr = objectMapper.writeValueAsString(envioEstadoList);	
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+		log.info("jsonStr: {}", jsonStr);
+		
+    	try {
+    		jaxbContext = JAXBContext.newInstance(envioEstadoList.getClass());   
+    		marshaller = jaxbContext.createMarshaller();
+    		// marshaller.marshal(envioEstadoList, result);
+    		marshaller.marshal(envioEstadoList, System.out);
+    		xmlStr = writer.toString();
+    		
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+    	log.info("xmlStr: {}", xmlStr);
+    	*/
+    	// case 2 end
+    			
+
+    	
+    }
+
+    
 
 }
