@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-10-12 12:01
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-11-29 17:14
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -91,6 +91,8 @@ CXF_HOME
 
 %NPP_HOME%
 
+%CXV_HOME%\bin
+
 
 
 = = = = = = = = = = = = = = = = = 
@@ -160,5 +162,51 @@ http://localhost:8161/
 RabbitMQ:
 http://localhost:15672/
 --> guest:guest
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = =
+(7) WINDOWS, ENABLE LONG PATHS AND FILENAMES
+= = = = = = = = = = = = = = = = = = = = = = = =
+
+(7.1) Windows Home:
+
+Open "Registry Editor"
+
+Go to "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem"
+
+Set key "LongPathsEnabled" to "1"
+
+(7.2) Windows Pro:
+
+Open "gpedit"
+
+Go to:
+
+  Computer Configuration > 
+
+    Administrative Templates > 
+
+      System > 
+
+      Filesystem
+
+Policty "Enable Win32 long paths", enable
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = 
+(8) CHANGE PASSWORD FOR ROOT USER IN WINDOWS WSL
+= = = = = = = = = = = = = = = = = = = = = = = = = 
+
+(8.1) Into Windows CMD, execute "debian config --default-user root", to login as root as default user without prompting for password.
+
+(8.2) Start WSL, logged on user should be root.
+
+(8.3) In WSL (Bash), execute "passwd", enter new password for root.
+
+(8.4) Exit from WSL-Bash.
+
+(8.5) Into Windows CMD, execute "debian config --default-user don", to login by default as normal user.
 
 
