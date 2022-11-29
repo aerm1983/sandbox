@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-Git Bash for Windows, context menu entry - updated 2022-11-29 17:45
+Git Bash for Windows, context menu entry - updated 2022-11-29 18:04
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -34,14 +34,36 @@ In the Value data section, put the path to the executable file for the applicati
 
 
 
-(3) Estructure
+(3) Estructure, Git-Bash
 
 HKEY_CLASSES_ROOT > 
     Directory > 
         Background > 
             shell > 
                 '---> Git-Bash here !' > 
-                    'command' : 'C:\opt\git\git-2.35.0\git-bash.exe --cd=%v'
+                    command >
+                        object-value : 'C:\opt\git\git-2.35.0\git-bash.exe --cd=%v'
                 '---> Cmd here !' > 
-                    'command' : 'cmd'
+                    command >
+                        object-value : 'cmd'
+
+
+(4)  Notepad
+
+(4.1) Same procedure, but path is: "Computer\HKEY_CLASSES_ROOT\*\shell\--> Notepad++ here!\command"
+
+Value for object into "command": 'C:\opt\notepad\notepad-8.0.0\notepad++.exe %1'
+
+(In this case, "*" is not a special char, but an actual folder/key).
+
+
+
+(5) Estructure, Notepad
+
+HKEY_CLASSES_ROOT > 
+    * > 
+        shell > 
+            '---> Notepad++ here!' > 
+                command
+                    object-value : 'C:\opt\notepad\notepad-8.0.0\notepad++.exe %1'
 
