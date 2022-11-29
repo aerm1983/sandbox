@@ -1,26 +1,47 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-Git Bash for Windows, context menu entry - updated 2022-10-05 19:34
+Git Bash for Windows, context menu entry - updated 2022-11-29 17:45
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-(1) Navigate to regedit.exe in the Start Menu—or hit Windows Key + R and type regedit.exe—and head to this key: HKEY_CLASSES_ROOT > Directory > Background > shell
 
-(2) Right-click shell and select New > Key. Name the key the application you'd like to add to the context menu.
 
-(3) Now right-click the new key you just made and once again select New > Key. Name the key "command" in all lowercase.
+(1) Long recipe
 
-(4) In the new command key folder you just made, double-click the (Default) key located on the right-hand side of the window. In the Value data section, put the path to the executable file for the application you'd like to add to the context menu and hit OK.
+(1.1) Open "regedit.exe" 
 
-(5) Same procedure can be done to add a "Cmd here" entry.
+(1.2) Go to: "HKEY_CLASSES_ROOT\Directory\Background\shell"
 
-"regedit.exe" entry, using path input:
-Computer\HKEY_CLASSES_ROOT\Directory\Background\shell\---> Git-Bash here !\command
-Computer\HKEY_CLASSES_ROOT\Directory\Background\shell\---> Cmd here !\command
+(1.3) Right-click "shell" (left pane), select "New > Key". Name the new folder/key "git-bash here!" (left pane).
+
+(1.4) Right-click the new "key folder" just created (left pane), again select "New > Key". Name the new folder/key "command", in all lowercase (strict).
+
+(1.5) Into the new "command" folder/key created, double-click the (default) key on the right pane. 
+
+In the Value data section, put the path to the executable file for the application you'd like to add to the context menu and hit OK.
+
+(1.6) Same procedure can be done to add a "Cmd here" entry.
+
+
+
+(2) Short recipe
+
+(2.1) Open "regedit.exe"
+
+(2.2) Go to "Computer\HKEY_CLASSES_ROOT\Directory\Background\shell\"
+
+(2.3) Create to folder/keys: "---> Git-Bash here!\command"
+
+(2.4) Edit the key into "command" folder with value: "C:\opt\git\git-2.35.0\git-bash.exe --cd=%v"
+
+
+
+(3) Estructure
 
 HKEY_CLASSES_ROOT > 
     Directory > 
         Background > 
             shell > 
                 '---> Git-Bash here !' > 
-                    'command' : 'C:\opt\git\git-2.35.0\git-bash.exe'
+                    'command' : 'C:\opt\git\git-2.35.0\git-bash.exe --cd=%v'
                 '---> Cmd here !' > 
                     'command' : 'cmd'
+
