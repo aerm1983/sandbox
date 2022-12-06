@@ -72,7 +72,9 @@ public class UserRestController {
 			// @PathVariable String myName
 	) {
 		
-		return userDao.findAll();
+		int z = 0;
+		ArrayList<UserPojo> userPojoList = userDao.findAll();
+		return userPojoList;
 	}
 	
 	
