@@ -1,6 +1,7 @@
 HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+.temp*.jar
 
 ### special folder to ignore in git
 **/__gitignore/*

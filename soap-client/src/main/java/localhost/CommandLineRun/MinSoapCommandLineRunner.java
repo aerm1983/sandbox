@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import localhost.SoapMinAuxiliar.TestWriterReaderXmlSoap;
+import localhost.SoapMinMain.EnvialiaService;
 import localhost.SoapMinMain.MinWSClientOne;
 
 @Component
@@ -22,6 +23,9 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 	
 	@Autowired
 	private MinWSClientOne minWSClientOne;
+	
+	@Autowired 
+	EnvialiaService envialiaService;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -50,7 +54,9 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 		
 		
 		
-		minWSClientOne.simpleSoapConsumptionPojoWrapper();
+		// minWSClientOne.simpleSoapConsumptionPojoWrapper();
+		
+		envialiaService.getDeliveryDate();
 
 	}
 

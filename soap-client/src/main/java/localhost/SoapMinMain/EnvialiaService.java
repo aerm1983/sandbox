@@ -40,33 +40,45 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import localhost.SoapMinAuxiliar.PojoConsEnvEstados;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRef;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRefResponse;
 import localhost.SoapMinAuxiliar.PojoConsEnvEstadosResponse;
 import localhost.SoapMinAuxiliar.PojoConsEnvio2;
 import localhost.SoapMinAuxiliar.PojoConsEnvio2Response;
 import localhost.SoapMinAuxiliar.PojoLoginDep2;
 import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
+import localhost.__gitignore.DeprecateSoapFull.TestEnvialia.credentials.EnvialiaCredentials;
 
 
 @Service
-public class MinWSClientOne {
+public class EnvialiaService {
 	
-	private static Logger log = LogManager.getLogger(MinWSClientOne.class);
+	private static Logger log = LogManager.getLogger(EnvialiaService.class);
 
     
+    private static final String strCodAge = EnvialiaCredentials.strCodAge;
+    private static final String strCodCli = EnvialiaCredentials.strCodCli;
+    private static final String strDepartamento = EnvialiaCredentials.strDepartamento;;
+    private static final String strPass = EnvialiaCredentials.strPass;
+
+    /*
     private static final String strCodAge = "001234";
     private static final String strCodCli = "1234";
     private static final String strDepartamento = "99";
     private static final String strPass = "Z12345678";
+    */
+    
+    // tracking test cases
+    private static final String tracking = "0028960141289842";
+    // private static final String tracking = "0028960139822698";
+    // private static final String tracking = "0028960140010676";
     
     // albaran test cases
     // private static final String albaran = "0141289842";
-    private static final String albaran = "0139822698";
+    // private static final String albaran = "0139822698";
     // private static final String albaran = "0140010676";
     
 
     private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
+    
     private static final String urlLoginDep2 = "http://ws.envialia.com/SOAP?service=LoginService";
     private static final String urlConsEnvio2 = "http://ws.envialia.com/SOAP?service=WebService";
     private static final String urlConsEnvEstados = "http://ws.envialia.com/SOAP?service=WebService";
@@ -79,41 +91,16 @@ public class MinWSClientOne {
     private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
-    
 
     
-    public void simpleSoapConsumptionXmlWrapper(String ws) {
-
-    	String url = null;
-    	String soapAction = null;
-    	String idSessionHeader = null;
-    	String requestMessage = null;
-
-    	
-    	if ("LoginDep2".equalsIgnoreCase(ws)) {
-    		url = urlLoginDep2;
-    		soapAction = soapActionLoginDep2;
-    		idSessionHeader = null;
-    		requestMessage = "xml here";
-    	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
-    	   	url = null; // TODO, define
-        	idSessionHeader = null;
-    		soapAction = soapActionLoginCli2;
-    		requestMessage = "xml here";
-     	} else {
-    		return;
-    	}
-		
-		// execute
-    	simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
-    	
-    }
-    
-
-    
-    public void simpleSoapConsumptionPojoWrapper() {
+    public void getDeliveryDate() {
     	
     	try {
+    		
+    		// ENVIALIA, get albaran from tracking
+    		String albaran = tracking.substring(6);
+    		log.info("tracking: {} ; albaran: {}", tracking, albaran);
+    		
     		
     		// ENVIALIA, general objects
     		
@@ -149,7 +136,7 @@ public class MinWSClientOne {
     		idSessionHeader = null;
     		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
 
-        	responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+        	responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
         	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoLoginDep2Response);
@@ -167,9 +154,7 @@ public class MinWSClientOne {
     		idSessionHeader = pojoLoginDep2Response.getStrSesion();
     		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvio2);
     		
-    		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
-    		// responseMessage = responseMessage.replace("&lt;", "<").replace("&gt;", ">");
-    		log.info("responseMessage: {}", responseMessage);
+    		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
         	PojoConsEnvio2Response pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, PojoConsEnvio2Response.class);
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvio2Response);
@@ -210,7 +195,7 @@ public class MinWSClientOne {
     		idSessionHeader = pojoLoginDep2Response.getStrSesion();
     		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstados);
     		
-    		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+    		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		log.info("responseMessage: {}", responseMessage);
         	PojoConsEnvEstadosResponse pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, PojoConsEnvEstadosResponse.class);
         	
@@ -259,7 +244,7 @@ public class MinWSClientOne {
     
 
     
-    public Object simpleSoapConsumptionWithHeader(String url, String soapAction, String idSessionHeader, String message) {
+    public Object soapConsumptionWithHeader(String url, String soapAction, String idSessionHeader, String message) {
     	try {
         	
     		// transformer factory
@@ -383,7 +368,7 @@ public class MinWSClientOne {
     	            	// correction, pre-processing
 	            	    // responseBodyStr = responseBodyStr.replace("&lt;", "<").replace("&gt;", ">");
 	            	    
-	            	    log.info("responseBodyStr: {}", responseBodyStr);
+	            	    // log.info("responseBodyStr: {}", responseBodyStr); // debug
                     	return responseBodyStr;
                     	// return null // debug
                     }
