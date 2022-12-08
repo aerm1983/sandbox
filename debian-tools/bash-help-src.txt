@@ -1,4 +1,4 @@
-# BHS -- updated: 2022-12-08 10:25
+# BHS -- updated: 2022-12-08 10:45
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -90,7 +90,7 @@ split:  Split file
 stty:  Config / properties of shell.  Option 'size' to get screen size.  Example: stty size  ;
 systemctl:  Check / manage services.  Actions:  enable|disable related to system startup.  Examples:  systemctl list-units --type=service --state=running  ;  systemctl status tomcat9  ;  systemctl disable tomcat 9 # disable at startup  ;  
 t:
-tar:  Create or extract Tape ARchive.  Options:  -c create new TAR.  -x extract from existing TAR.  -f TAR file on which create or extract will operate.  -v verbose output.  See also: 'jar'.  Examples:  tar -xvf existing-file.tar # extract content from 'existing-file.tar'  ;  tar -cvf new-file.tar 'readme.txt' # create 'new-file.tar' containing 'readme.txt'  ;  
+tar:  Create or extract Tape ARchive.  See also 'jar'.  Options:  -c create new TAR.  -x extract from existing TAR.  -f TAR file on which create or extract will operate.  -v verbose output.  Examples:  tar -xvf existing-file.tar # extract content from 'existing-file.tar'  ;  tar -cvf new-file.tar 'readme.txt' # create 'new-file.tar' containing 'readme.txt'  ;  
 taskkill:  Windows command, equivalent to unix 'kill -SIGKILL'.  When executing from git-bash, forward-slash should be doubled.  See also: 'cmd.exe', 'kill'.  Examples:  taskkill //f //pid 1234  ;  cmd.exe /C 'taskkill /f /pid 1234'  ;   
 time:  Count time a process take to run.  Example: time sleep 5 ;
 timeout:  Kill a process after n seconds.  Exmample: timeout 2 sleep 5 ;
