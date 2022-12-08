@@ -1,0 +1,61 @@
+#!/bin/bash
+# updated: 2022-12-08 10:30
+
+### MAIN SCRIPT ###
+
+cd "/data/archivos"
+pwd
+
+FILE_1="$(ls | grep -P --color=never "my_excel_01_.*""$( date +"%Y-%m-%d" )"".*[.]xlsx")"
+FILE_2="$(ls | grep -P --color=never "my_excel_02_.*""$( date +"%Y-%m-%d" )"".*[.]xlsx")"
+FILE_3="$(ls | grep -P --color=never "my_excel_03_.*""$( date +"%Y-%m-%d" )"".*[.]xlsx")"
+FILE_4="$(ls | grep -P --color=never "my_excel_02_.*""$( date +"%Y-%m-%d" )"".*[.]xlsx")"
+
+echo "file 1:" $FILE_1
+echo "file 2:" $FILE_2
+echo "file 3:" $FILE_3
+echo "file 4:" $FILE_4
+
+
+HOST="127.0.0.1"
+USER="USER"
+PASSWD="PASSWD"
+FILE="test-file.txt"
+OUT_FTP_FILE="/home/user/out.ftp.txt"
+
+
+ftp -n $HOST <<FTP_SCRIPT > $OUT_FTP_FILE
+quote USER $USER
+quote PASS $PASSWD
+cd /path/to/target/folder/
+binary
+put $FILE_1
+put $FILE_2
+put $FILE_3
+put $FILE_4
+quit
+FTP_SCRIPT
+
+
+
+
+### MINIMAL SMAPLE SCRIPT ###
+
+FTPLOG=/temp/ftplogfile
+ftp -inv <<! > $FTPLOG
+open server
+user ftp pwd
+put filename
+close
+quit
+!
+
+FTP_SUCCESS_MSG="226 Transfer complete"
+if fgrep "$FTP_SUCCESS_MSG" $FTPLOG ;then
+   echo "ftp OK"
+else
+   echo "ftp Error: "$OUT
+fi
+exit 0
+
+
