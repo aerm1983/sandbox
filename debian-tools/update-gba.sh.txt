@@ -1,6 +1,6 @@
 #!/bin/bash
 # SCRIPT UPDATE GIT-BASH-ALIASES
-# updated: 2022-10-12 10:27
+# updated: 2022-12-14 09:36
 # this is being tested to replace alias '__gba' in 'git-bash-aliases'
 
 # Regular Git-Bash-Aliases files
@@ -19,7 +19,7 @@ echo ; h_greeting ; echo ; h ;
 
 echo ;
 
-# command cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
-echo 'WARNING, REM: update on jh-wm-platform.sh.txt disabled!'
+command cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
+# echo 'WARNING, REM: update on jh-wm-platform.sh.txt disabled!'
 
 

@@ -2,33 +2,35 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-11-08 19:20'
+__JH_WMP_UPDATED__='2022-12-14 14:58'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 
 
 
+### main functions
+
 function _jh_clean_logs {
     cdk_s
     command cd log
 
-    echo -n '' > microservices*.jar.log
+    command rm -v microservices*.jar.log
 
-    echo -n '' > usermanagement*.jar.log
+    command rm -v usermanagement*.jar.log
 
-    echo -n '' > marketplaceebay*.jar.log
-    echo -n '' > marketplacemirakl*.jar.log
-    echo -n '' > merchantlogisfashion*.jar.log
+    command rm -v marketplacemirakl*.jar.log
+    command rm -v marketplaceebay*.jar.log
 
-    echo -n '' > mapping*.jar.log
-    echo -n '' > productmanagement*.jar.log
-    echo -n '' > ordermanagement*.jar.log
-    echo -n '' > bulk*.jar.log
+    command rm -v mapping*.jar.log
+    command rm -v productmanagement*.jar.log
+    command rm -v ordermanagement*.jar.log
+    command rm -v bulk*.jar.log
 
-    echo -n '' > mailing*.jar.log
+    command rm -v merchantlogisfashion*.jar.log
 
-    echo -n '' > template-generator*.jar.log
-    echo -n '' > ui*.jar.log
+    command rm -v mailing*.jar.log
+    command rm -v template-generator*.jar.log
+    command rm -v ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
     alias 7
@@ -56,21 +58,22 @@ function _jh_kill_platform {
 
     _jh_kill_service ui
     _jh_kill_service template-generator
-
     _jh_kill_service mailing
+    
+    _jh_kill_service merchantlogisfashion
 
     _jh_kill_service bulkfileprocessor
     _jh_kill_service ordermanagement
     _jh_kill_service productmanagement
     _jh_kill_service mappingmanagement
 
-    _jh_kill_service merchantlogisfashion
     _jh_kill_service marketplacemirakl
     _jh_kill_service marketplaceebay
 
     _jh_kill_service usermanagement
 
     _jh_kill_service microservicesregistry
+
     cdkj_s
 }
 
@@ -122,32 +125,8 @@ function _jh_start_platform {
     echo
     sleep ${__JH_TIMEOUT_CONTINUE_SEC__}
 
-
-
-    ### bulkfileprocessor testing, block 1/2, begin ###
-    # flyway clean
-    # flyway baseline
-
-    # mariadb_user='root'
-    # mariadb_password='1234'
-    # mariadb_db='bulkfileprocessor'
-
-    # mariadb_sql_delete="DELETE FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
-    # mariadb_bash_delete='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_delete}\'
-    # echo "${mariadb_bash_delete}"
-    # eval "${mariadb_bash_delete}"
-    # echo $?
-
-    # mariadb_sql_select="SELECT * FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
-    # mariadb_bash_select='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_select}\'
-    # echo "${mariadb_bash_select}"
-    # eval "${mariadb_bash_select}"
-    # echo $?
-
-    # echo
-    ### bulkfileprocessor testing, block 1/2, end ###
-
-
+    ### bulkfileprocessor_test_block1
+    # bulkfileprocessor_test_block1
 
     cdkj_s
 
@@ -155,34 +134,24 @@ function _jh_start_platform {
 
     _jh_start_service usermanagement
 
-    # _jh_start_service marketplaceebay
     _jh_start_service marketplacemirakl
-    _jh_start_service merchantlogisfashion
+    _jh_start_service marketplaceebay
 
     _jh_start_service mappingmanagement
     _jh_start_service productmanagement
     _jh_start_service ordermanagement
     _jh_start_service bulkfileprocessor
 
-    _jh_start_service mailing
+    _jh_start_service merchantlogisfashion
 
+    _jh_start_service mailing
     _jh_start_service template-generator
     _jh_start_service ui
 
     cdkj_s
 
-
-
-    ### bulkfileprocessor testing, block 2/2, begin ###
-    # sleep 60 ; echo 'pre-curl, 60s pause 1, done'
-    # sleep 30 ; echo 'pre-curl, 30s pause 2, done'
-    # --location
-    # curl -s -i --request POST --header 'Content-Type: application/json' --data-raw '{"filename": "ebay_product_test_4.9_ALBERTO.csv","job":"product","storeId":"do-commerce"}' --url 'http://localhost:8283/v1/event/ftp'
-    # echo  'curl completed'
-    # sleep 60 ; echo 'post-curl, 60s pause 1, done'
-    ### bulkfileprocessor testing, block 2/2, end ###
-
-
+    ### bulkfileprocessor_test_block2
+    # bulkfileprocessor_test_block2
     
     __uxt_end=$( date +'%s' )
     let '__uxt_diff=__uxt_end-__uxt_ini' '__proc_min=__uxt_diff/60' '__proc_sec=__uxt_diff%60' 
@@ -195,12 +164,180 @@ function _jh_start_platform {
 
 
 
+
+### auxiliar / testing functions
+
+
+function _jh_backup_service_localalberto {
+    cdkj_s
+    command cd ${1}
+    echo '--> backup localalberto files from '\'$( pwd  )\'
+    command cp -v pom.xml.localalberto '../zlocalalberto/z'${1}'/'
+    command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/'
+    command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/'
+    command cd ..
+    echo
+}
+
+function _jh_backup_platform_localalberto {
+    cdkj_s
+    echo -e '--> backup localalberto files, whole platform\n'
+
+    _jh_backup_service_localalberto microservicesregistry 
+
+    _jh_backup_service_localalberto usermanagement
+
+    _jh_backup_service_localalberto marketplacemirakl
+    _jh_backup_service_localalberto marketplaceebay
+
+    _jh_backup_service_localalberto mappingmanagement
+    _jh_backup_service_localalberto productmanagement
+    _jh_backup_service_localalberto ordermanagement
+    _jh_backup_service_localalberto bulkfileprocessor
+
+    _jh_backup_service_localalberto merchantlogisfashion
+
+    _jh_backup_service_localalberto mailing
+    _jh_backup_service_localalberto template-generator
+    _jh_backup_service_localalberto ui
+    
+}
+
+function _jh_restore_service_localalberto {
+    cdkj_s
+    command cd ${1}
+    echo '--> restore localalberto files to '\'$( pwd  )\'
+    command cp -v '../zlocalalberto/z'${1}'/pom.xml.localalberto' ./ 
+    command cp -v '../zlocalalberto/z'${1}'/application-localalberto.yml' ./src/main/resources/
+    command cp -v '../zlocalalberto/z'${1}'/log4j2-localalberto.xml' ./src/main/resources/
+    command cp -v ./pom.xml.localalberto ./pom.xml
+    command cd ..
+    echo
+}
+
+function _jh_restore_platform_localalberto {
+    cdkj_s
+    echo -e '--> restore localalberto files, whole platform\n'
+    echo
+
+    _jh_restore_service_localalberto microservicesregistry 
+
+    _jh_restore_service_localalberto usermanagement
+
+    _jh_restore_service_localalberto marketplacemirakl
+    _jh_restore_service_localalberto marketplaceebay
+
+    _jh_restore_service_localalberto mappingmanagement
+    _jh_restore_service_localalberto productmanagement
+    _jh_restore_service_localalberto ordermanagement
+    _jh_restore_service_localalberto bulkfileprocessor
+
+    _jh_restore_service_localalberto merchantlogisfashion
+
+    _jh_restore_service_localalberto mailing
+    _jh_restore_service_localalberto template-generator
+    _jh_restore_service_localalberto ui
+    
+}
+
+
+function _jh_compile_service {
+    cdkj_s
+    command cd ${1}
+    echo '--> compile service in '\'$( pwd  )\'
+    tk
+    command cp -v ./pom.xml.localalberto ./pom.xml
+    echo -n 'compiling...'
+    command mvn clean package -Dmaven.test.skip=true &> /dev/null
+    echo 'exit code from mvn: '${?}
+    command cd ..
+    echo
+}
+
+
+function _jh_compile_platform {
+    cdkj_s
+    echo -e '--> compile, whole platform\n'
+    sj8
+    echo
+
+    # _jh_compile_service microservicesregistry 
+
+    # _jh_compile_service usermanagement
+
+    # _jh_compile_service marketplacemirakl
+    # _jh_compile_service marketplaceebay
+
+    # _jh_compile_service mappingmanagement
+    # _jh_compile_service productmanagement
+    # _jh_compile_service ordermanagement
+    # _jh_compile_service bulkfileprocessor
+
+    # _jh_compile_service merchantlogisfashion
+
+    _jh_compile_service mailing
+    # _jh_compile_service template-generator
+    # _jh_compile_service ui
+    
+}
+
+
+
+
+
+function bulkfileprocessor_test_block1 {
+    ### bulkfileprocessor testing, block 1/2, begin ###
+    flyway clean
+    flyway baseline
+
+    mariadb_user='root'
+    mariadb_password='1234'
+    mariadb_db='bulkfileprocessor'
+
+    mariadb_sql_delete="DELETE FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
+    mariadb_bash_delete='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_delete}\'
+    echo "${mariadb_bash_delete}"
+    eval "${mariadb_bash_delete}"
+    echo $?
+
+    mariadb_sql_select="SELECT * FROM bulkfileprocessor.flyway_schema_history WHERE true ;"
+    mariadb_bash_select='mariadb --database='\'${mariadb_db}\'' --user='\'${mariadb_user}\'' --password='\'${mariadb_password}\'' --vertical --execute='\'${mariadb_sql_select}\'
+    echo "${mariadb_bash_select}"
+    eval "${mariadb_bash_select}"
+    echo $?
+
+    echo
+    ### bulkfileprocessor testing, block 1/2, end ###
+}
+
+function bulkfileprocessor_test_block2 {
+    ### bulkfileprocessor testing, block 2/2, begin ###
+    sleep 60 ; echo 'pre-curl, 60s pause 1, done'
+    sleep 30 ; echo 'pre-curl, 30s pause 2, done'
+    # --location
+    curl -s -i --request POST --header 'Content-Type: application/json' --data-raw '{"filename": "ebay_product_test_4.9_ALBERTO.csv","job":"product","storeId":"do-commerce"}' --url 'http://localhost:8283/v1/event/ftp'
+    echo  'curl completed'
+    sleep 60 ; echo 'post-curl, 60s pause 1, done'
+    ### bulkfileprocessor testing, block 2/2, end ###
+}
+
+
+
+### aliases
+
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
-alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 7 ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 3b 3r; echo ; alias 4 ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
+
 alias 1='_jh_kill_platform'
 alias 2='_jh_start_platform'
+
+alias 3b='_jh_backup_platform_localalberto'
+alias 3r='_jh_restore_platform_localalberto'
+alias 4='_jh_compile_platform'
+
 alias 7='_jh_clean_logs'
+
 alias 8='1 ; 7 ;         # kill, clean'
 alias 9='1 ; 7; _0s; 2 ; # kill, clean, start'
 
