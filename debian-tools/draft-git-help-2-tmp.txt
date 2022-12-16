@@ -1,4 +1,4 @@
-# Git Help 2 -- updated: 2022-10-10 06:25
+# Git Help 2 -- updated: 2022-12-16 03:16
 
 
 
@@ -24,13 +24,15 @@ Examples:
 
 
 git restore:
-  Sync file in tree/stage with current branch (last commit-id in index).
+  Restore file from branch (index) or remove file from stage.
   See also: checkout, show.
 Options:
-  --staged discard staged changes in file
+  --source branch index to restore file from; current branch if not indicated
+  --staged remove file from stage
 Examples:
-  git restore <file-name> # sync file in tree to index, current branch  ;  
-  git restore --staged <file-name> # discard staged changes in file, current branch  ;  
+  git restore <file-name> # restore file from current branch index;
+  git restore --source dev <file-name> # restore file from branch 'dev' index ;
+  git restore --staged <file-name> # remove file from stage ;
 
 
 

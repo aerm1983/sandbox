@@ -2,7 +2,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-12-14 14:58'
+__JH_WMP_UPDATED__='2022-12-16 03:21'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 
@@ -135,18 +135,18 @@ function _jh_start_platform {
     _jh_start_service usermanagement
 
     _jh_start_service marketplacemirakl
-    _jh_start_service marketplaceebay
+    # _jh_start_service marketplaceebay
 
-    _jh_start_service mappingmanagement
-    _jh_start_service productmanagement
+    # _jh_start_service mappingmanagement
+    # _jh_start_service productmanagement
     _jh_start_service ordermanagement
-    _jh_start_service bulkfileprocessor
+    # _jh_start_service bulkfileprocessor
 
-    _jh_start_service merchantlogisfashion
+    # _jh_start_service merchantlogisfashion
 
-    _jh_start_service mailing
-    _jh_start_service template-generator
-    _jh_start_service ui
+    # _jh_start_service mailing
+    # _jh_start_service template-generator
+    # _jh_start_service ui
 
     cdkj_s
 
@@ -175,6 +175,7 @@ function _jh_backup_service_localalberto {
     command cp -v pom.xml.localalberto '../zlocalalberto/z'${1}'/'
     command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/'
     command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/'
+    command git restore --source=dev pom.xml
     command cd ..
     echo
 }
@@ -275,7 +276,7 @@ function _jh_compile_platform {
 
     # _jh_compile_service merchantlogisfashion
 
-    _jh_compile_service mailing
+    # _jh_compile_service mailing
     # _jh_compile_service template-generator
     # _jh_compile_service ui
     
