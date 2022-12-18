@@ -4,7 +4,7 @@
 
 
 # Constants required for script
-__SJV_LAST_UPDATE__='2022-10-10 19:00'
+__SJV_LAST_UPDATE__='2022-12-17 21:44'
 
 
 
@@ -49,10 +49,10 @@ unset path_tmp1 path_tmp2 init_dir
 
 # verifications
 echo '--> set java version | updated: '${__SJV_LAST_UPDATE__}
-echo
-echo 'JAVA_HOME: '${JAVA_HOME}
-echo
-echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) )
-echo
+# echo
+# echo 'JAVA_HOME: '${JAVA_HOME} # debugging
+# echo
+# echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) ) # debugging
+# echo
 java -version
 

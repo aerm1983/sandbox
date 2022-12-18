@@ -2,15 +2,16 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-12-16 03:21'
+__JH_WMP_UPDATED__='2022-12-17 22:49'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
+__JH_GIT_CHECKOUT_FAIL_FILE__='zgit-checkout-fail.tmp'
 
 
 
 ### main functions
 
-function _jh_clean_logs {
+function _jh_remove_logs {
     cdk_s
     command cd log
 
@@ -40,6 +41,36 @@ function _jh_clean_logs {
     echo
 }
 
+
+function _jh_truncate_logs {
+    cdk_s
+    command cd log
+
+    command echo -n '' > microservices*.jar.log
+
+    command echo -n '' > usermanagement*.jar.log
+
+    command echo -n '' > marketplacemirakl*.jar.log
+    command echo -n '' > marketplaceebay*.jar.log
+
+    command echo -n '' > mapping*.jar.log
+    command echo -n '' > productmanagement*.jar.log
+    command echo -n '' > ordermanagement*.jar.log
+    command echo -n '' > bulk*.jar.log
+
+    command echo -n '' > merchantlogisfashion*.jar.log
+
+    command echo -n '' > mailing*.jar.log
+    command echo -n '' > template-generator*.jar.log
+    command echo -n '' > ui*.jar.log
+
+    clear ; echo 'refreshing...' ; sleep 1 ; clear ;
+    alias 7
+    pwd
+    ll
+    cdkj_s
+    echo
+}
 
 
 function _jh_kill_service {
@@ -168,7 +199,7 @@ function _jh_start_platform {
 ### auxiliar / testing functions
 
 
-function _jh_backup_service_localalberto {
+function _jh_backup_localalberto_service {
     cdkj_s
     command cd ${1}
     echo '--> backup localalberto files from '\'$( pwd  )\'
@@ -180,27 +211,27 @@ function _jh_backup_service_localalberto {
     echo
 }
 
-function _jh_backup_platform_localalberto {
+function _jh_backup_localalberto_platform {
     cdkj_s
     echo -e '--> backup localalberto files, whole platform\n'
 
-    _jh_backup_service_localalberto microservicesregistry 
+    _jh_backup_localalberto_service microservicesregistry 
 
-    _jh_backup_service_localalberto usermanagement
+    _jh_backup_localalberto_service usermanagement
 
-    _jh_backup_service_localalberto marketplacemirakl
-    _jh_backup_service_localalberto marketplaceebay
+    _jh_backup_localalberto_service marketplacemirakl
+    _jh_backup_localalberto_service marketplaceebay
 
-    _jh_backup_service_localalberto mappingmanagement
-    _jh_backup_service_localalberto productmanagement
-    _jh_backup_service_localalberto ordermanagement
-    _jh_backup_service_localalberto bulkfileprocessor
+    _jh_backup_localalberto_service mappingmanagement
+    _jh_backup_localalberto_service productmanagement
+    _jh_backup_localalberto_service ordermanagement
+    _jh_backup_localalberto_service bulkfileprocessor
 
-    _jh_backup_service_localalberto merchantlogisfashion
+    _jh_backup_localalberto_service merchantlogisfashion
 
-    _jh_backup_service_localalberto mailing
-    _jh_backup_service_localalberto template-generator
-    _jh_backup_service_localalberto ui
+    _jh_backup_localalberto_service mailing
+    _jh_backup_localalberto_service template-generator
+    _jh_backup_localalberto_service ui
     
 }
 
@@ -285,6 +316,89 @@ function _jh_compile_platform {
 
 
 
+function _jh_git_fetch_service {
+    cdkj_s
+    command cd ${1}
+    echo '--> git fetch service in '\'$( pwd  )\'
+    command git fetch
+    echo 'exit code from git fetch: '${?}
+    command cd ..
+    echo
+}
+
+
+function _jh_git_fetch_platform {
+    cdkj_s
+    echo -e '--> git fetch, whole platform\n'
+
+    _jh_git_fetch_service microservicesregistry 
+
+    _jh_git_fetch_service usermanagement
+
+    _jh_git_fetch_service marketplacemirakl
+    _jh_git_fetch_service marketplaceebay
+
+    _jh_git_fetch_service mappingmanagement
+    _jh_git_fetch_service productmanagement
+    _jh_git_fetch_service ordermanagement
+    _jh_git_fetch_service bulkfileprocessor
+
+    _jh_git_fetch_service merchantlogisfashion
+
+    _jh_git_fetch_service mailing
+    _jh_git_fetch_service template-generator
+    _jh_git_fetch_service ui
+    
+}
+
+
+
+
+function _jh_git_checkout_pull_dev_service {
+    cdkj_s
+    command cd ${1}
+    echo '--> git checkout pull dev service in '\'$( pwd  )\'
+    command git checkout dev
+    _tmp_ec=${?}
+    if [ ${_tmp_ec} -ne '0' ]; then
+        echo $(basename $(pwd)) >> ../${__JH_GIT_CHECKOUT_FAIL_FILE__}
+    fi
+    echo 'exit code from git fetch: '${_tmp_ec}
+    command cd ..
+    echo
+}
+
+
+function _jh_git_checkout_pull_dev_platform {
+    cdkj_s
+    echo -e '--> git checkout pull dev, whole platform\n'
+    echo -e $(date)'\n''check projects:' > ${__JH_GIT_CHECKOUT_FAIL_FILE__}
+
+    _jh_git_checkout_pull_dev_service microservicesregistry 
+
+    _jh_git_checkout_pull_dev_service usermanagement
+
+    _jh_git_checkout_pull_dev_service marketplacemirakl
+    _jh_git_checkout_pull_dev_service marketplaceebay
+
+    _jh_git_checkout_pull_dev_service mappingmanagement
+    _jh_git_checkout_pull_dev_service productmanagement
+    _jh_git_checkout_pull_dev_service ordermanagement
+    _jh_git_checkout_pull_dev_service bulkfileprocessor
+
+    _jh_git_checkout_pull_dev_service merchantlogisfashion
+
+    _jh_git_checkout_pull_dev_service mailing
+    _jh_git_checkout_pull_dev_service template-generator
+    _jh_git_checkout_pull_dev_service ui
+    
+    cat ${__JH_GIT_CHECKOUT_FAIL_FILE__}
+    
+}
+
+
+
+
 
 function bulkfileprocessor_test_block1 {
     ### bulkfileprocessor testing, block 1/2, begin ###
@@ -327,18 +441,22 @@ function bulkfileprocessor_test_block2 {
 ### aliases
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
-alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 3b 3r; echo ; alias 4 ; echo ; alias 7 ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 3bc 3rt ; echo ; alias 4 ; echo ; alias 5f 5c ; echo ; alias 7t 7r ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias 1='_jh_kill_platform'
 alias 2='_jh_start_platform'
 
-alias 3b='_jh_backup_platform_localalberto'
-alias 3r='_jh_restore_platform_localalberto'
+alias 3bc='_jh_backup_localalberto_platform'
+alias 3rt='_jh_restore_platform_localalberto'
 alias 4='_jh_compile_platform'
 
-alias 7='_jh_clean_logs'
+alias 5f='_jh_git_fetch_platform'
+alias 5c='_jh_git_checkout_pull_dev_platform'
 
-alias 8='1 ; 7 ;         # kill, clean'
-alias 9='1 ; 7; _0s; 2 ; # kill, clean, start'
+alias 7t='_jh_truncate_logs'
+alias 7r='_jh_remove_logs'
+
+alias 8='1 ; 7r ;         # kill, clean'
+alias 9='1 ; 7r; _0s; 2 ; # kill, clean, start'
 
