@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-12-18 03:14
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-12-18 08:00
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -89,7 +89,7 @@ NPP_HOME
 
 %VISUALVM_HOME%\bin
 %FLYWAY_HOME%\bin
-%CXV_HOME%\bin
+%CXF_HOME%\bin
 
 %NPP_HOME%
 

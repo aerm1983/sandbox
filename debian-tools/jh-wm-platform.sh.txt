@@ -2,10 +2,11 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-12-17 22:49'
+__JH_WMP_UPDATED__='2022-12-18 07:44'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
-__JH_GIT_CHECKOUT_FAIL_FILE__='zgit-checkout-fail.tmp'
+__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
+__JH_GIT_COMPILE_FAIL_FILE__='zgit-compile-fail.tmp'
 
 
 
@@ -235,7 +236,7 @@ function _jh_backup_localalberto_platform {
     
 }
 
-function _jh_restore_service_localalberto {
+function _jh_restore_localalberto_service {
     cdkj_s
     command cd ${1}
     echo '--> restore localalberto files to '\'$( pwd  )\'
@@ -247,28 +248,28 @@ function _jh_restore_service_localalberto {
     echo
 }
 
-function _jh_restore_platform_localalberto {
+function _jh_restore_localalberto_platform {
     cdkj_s
     echo -e '--> restore localalberto files, whole platform\n'
     echo
 
-    _jh_restore_service_localalberto microservicesregistry 
+    _jh_restore_localalberto_service microservicesregistry 
 
-    _jh_restore_service_localalberto usermanagement
+    _jh_restore_localalberto_service usermanagement
 
-    _jh_restore_service_localalberto marketplacemirakl
-    _jh_restore_service_localalberto marketplaceebay
+    _jh_restore_localalberto_service marketplacemirakl
+    _jh_restore_localalberto_service marketplaceebay
 
-    _jh_restore_service_localalberto mappingmanagement
-    _jh_restore_service_localalberto productmanagement
-    _jh_restore_service_localalberto ordermanagement
-    _jh_restore_service_localalberto bulkfileprocessor
+    _jh_restore_localalberto_service mappingmanagement
+    _jh_restore_localalberto_service productmanagement
+    _jh_restore_localalberto_service ordermanagement
+    _jh_restore_localalberto_service bulkfileprocessor
 
-    _jh_restore_service_localalberto merchantlogisfashion
+    _jh_restore_localalberto_service merchantlogisfashion
 
-    _jh_restore_service_localalberto mailing
-    _jh_restore_service_localalberto template-generator
-    _jh_restore_service_localalberto ui
+    _jh_restore_localalberto_service mailing
+    _jh_restore_localalberto_service template-generator
+    _jh_restore_localalberto_service ui
     
 }
 
@@ -281,7 +282,13 @@ function _jh_compile_service {
     command cp -v ./pom.xml.localalberto ./pom.xml
     echo -n 'compiling...'
     command mvn clean package -Dmaven.test.skip=true &> /dev/null
-    echo 'exit code from mvn: '${?}
+    _tmp_ec=${?}
+    if [ ${_tmp_ec} -ne '0' ]; then
+        echo $(basename $(pwd)) >> ../${__JH_GIT_COMPILE_FAIL_FILE__}
+    fi
+    echo 'exit code from mvn: '${_tmp_ec}
+
+    
     command cd ..
     echo
 }
@@ -291,25 +298,28 @@ function _jh_compile_platform {
     cdkj_s
     echo -e '--> compile, whole platform\n'
     sj8
+    echo -e $(date)'\n''"compile" fail on project(s):' > ${__JH_GIT_COMPILE_FAIL_FILE__}
     echo
 
-    # _jh_compile_service microservicesregistry 
+    _jh_compile_service microservicesregistry 
 
-    # _jh_compile_service usermanagement
+    _jh_compile_service usermanagement
 
-    # _jh_compile_service marketplacemirakl
-    # _jh_compile_service marketplaceebay
+    _jh_compile_service marketplacemirakl
+    _jh_compile_service marketplaceebay
 
-    # _jh_compile_service mappingmanagement
-    # _jh_compile_service productmanagement
-    # _jh_compile_service ordermanagement
-    # _jh_compile_service bulkfileprocessor
+    _jh_compile_service mappingmanagement
+    _jh_compile_service productmanagement
+    _jh_compile_service ordermanagement
+    _jh_compile_service bulkfileprocessor
 
-    # _jh_compile_service merchantlogisfashion
+    _jh_compile_service merchantlogisfashion
 
-    # _jh_compile_service mailing
-    # _jh_compile_service template-generator
-    # _jh_compile_service ui
+    _jh_compile_service mailing
+    _jh_compile_service template-generator
+    _jh_compile_service ui
+    
+    cat ${__JH_GIT_COMPILE_FAIL_FILE__}
     
 }
 
@@ -358,12 +368,25 @@ function _jh_git_checkout_pull_dev_service {
     cdkj_s
     command cd ${1}
     echo '--> git checkout pull dev service in '\'$( pwd  )\'
+
     command git checkout dev
     _tmp_ec=${?}
     if [ ${_tmp_ec} -ne '0' ]; then
-        echo $(basename $(pwd)) >> ../${__JH_GIT_CHECKOUT_FAIL_FILE__}
+        echo $(basename $(pwd)) >> ../${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
+        echo 'exit code from git fetch: '${_tmp_ec}
+        return ${_tmp_ec}
     fi
     echo 'exit code from git fetch: '${_tmp_ec}
+    
+    command git pull
+    _tmp_ec=${?}
+    if [ ${_tmp_ec} -ne '0' ]; then
+        echo $(basename $(pwd)) >> ../$${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
+        echo 'exit code from git pull: '${_tmp_ec}
+        return ${_tmp_ec}
+    fi
+    echo 'exit code from git pull: '${_tmp_ec}
+
     command cd ..
     echo
 }
@@ -372,7 +395,7 @@ function _jh_git_checkout_pull_dev_service {
 function _jh_git_checkout_pull_dev_platform {
     cdkj_s
     echo -e '--> git checkout pull dev, whole platform\n'
-    echo -e $(date)'\n''check projects:' > ${__JH_GIT_CHECKOUT_FAIL_FILE__}
+    echo -e $(date)'\n''"checkout-pull-dev" fail on project(s):' > ${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
 
     _jh_git_checkout_pull_dev_service microservicesregistry 
 
@@ -392,7 +415,7 @@ function _jh_git_checkout_pull_dev_platform {
     _jh_git_checkout_pull_dev_service template-generator
     _jh_git_checkout_pull_dev_service ui
     
-    cat ${__JH_GIT_CHECKOUT_FAIL_FILE__}
+    cat ${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
     
 }
 
@@ -441,22 +464,24 @@ function bulkfileprocessor_test_block2 {
 ### aliases
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
-alias _0p='alias 0 ; echo ; alias 1 2 ; echo ; alias 3bc 3rt ; echo ; alias 4 ; echo ; alias 5f 5c ; echo ; alias 7t 7r ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 4 4a ; echo ; alias 5f 5cp ; echo ; alias 7t 7r ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias 1='_jh_kill_platform'
 alias 2='_jh_start_platform'
 
-alias 3bc='_jh_backup_localalberto_platform'
-alias 3rt='_jh_restore_platform_localalberto'
-alias 4='_jh_compile_platform'
+alias 3b='_jh_backup_localalberto_platform'
+alias 3r='_jh_restore_localalberto_platform'
+
+alias 4='_jh_compile_platform # cycle: 3b ; 5f ;   5cp ; 3r ;   4'
+alias 4a='3b ; 5f ; 5cp ; 3r ; 4'
 
 alias 5f='_jh_git_fetch_platform'
-alias 5c='_jh_git_checkout_pull_dev_platform'
+alias 5cp='_jh_git_checkout_pull_dev_platform'
 
 alias 7t='_jh_truncate_logs'
 alias 7r='_jh_remove_logs'
 
-alias 8='1 ; 7r ;         # kill, clean'
-alias 9='1 ; 7r; _0s; 2 ; # kill, clean, start'
+alias 8='1 ; 7r ;         # kill_platform, remove_logs'
+alias 9='1 ; 7r; _0s; 2 ; # 8, start_platform'
 
