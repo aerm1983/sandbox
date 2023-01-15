@@ -2,7 +2,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-12-18 07:44'
+__JH_WMP_UPDATED__='2022-01-15 17:30'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -35,7 +35,7 @@ function _jh_remove_logs {
     command rm -v ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 7
+    alias 7r
     pwd
     ll
     cdkj_s
@@ -66,7 +66,7 @@ function _jh_truncate_logs {
     command echo -n '' > ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 7
+    alias 7t
     pwd
     ll
     cdkj_s
@@ -162,7 +162,7 @@ function _jh_start_platform {
 
     cdkj_s
 
-    _jh_start_service microservicesregistry 
+    _jh_start_service microservicesregistry
 
     _jh_start_service usermanagement
 
@@ -204,10 +204,11 @@ function _jh_backup_localalberto_service {
     cdkj_s
     command cd ${1}
     echo '--> backup localalberto files from '\'$( pwd  )\'
-    command cp -v pom.xml.localalberto '../zlocalalberto/z'${1}'/'
-    command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/'
-    command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/'
-    command git restore --source=dev pom.xml
+    find ./src -name '*localalberto*' | while read myfile; do command cp -v ${myfile} '../zlocalalberto/z'${1}'/'; done;
+    # command cp -v pom.xml.localalberto '../zlocalalberto/z'${1}'/' # deprecated
+    # command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/' # deprecated
+    # command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/' # deprecated
+    command git restore --source=dev pom.xml # deprecation pending
     command cd ..
     echo
 }
@@ -240,10 +241,11 @@ function _jh_restore_localalberto_service {
     cdkj_s
     command cd ${1}
     echo '--> restore localalberto files to '\'$( pwd  )\'
-    command cp -v '../zlocalalberto/z'${1}'/pom.xml.localalberto' ./ 
+    # command cp -v '../zlocalalberto/z'${1}'/pom.xml.localalberto' ./  # deprecated
+    # command cp -v ./pom.xml.localalberto ./pom.xml  # deprecated
+    # command cp -v '../zlocalalberto/z'${1}'/log4j2-localalberto.xml' ./src/main/resources/  # deprecated
     command cp -v '../zlocalalberto/z'${1}'/application-localalberto.yml' ./src/main/resources/
-    command cp -v '../zlocalalberto/z'${1}'/log4j2-localalberto.xml' ./src/main/resources/
-    command cp -v ./pom.xml.localalberto ./pom.xml
+    command cp -v '../zlocalalberto/z'${1}'/CLR_localalberto.java' ./
     command cd ..
     echo
 }

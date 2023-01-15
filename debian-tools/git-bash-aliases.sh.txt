@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-12-18 05:57'
+__ALIAS_LAST_UPDATE__='2022-12-19 11:26'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -229,7 +229,7 @@ function _j_j {
 	echo
 	
 	jarfile=$( ls ./target/*.jar )
-    _cmd_str='javaw -Xms32m -Xmx512m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone
+    _cmd_str='javaw -Xms8m -Xmx128m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
@@ -264,7 +264,7 @@ function _j_j_r {
 	echo -n '' > ${jarlogfile}
 	echo -e 'jarlogfile cleaned, wc: '$( wc ${jarlogfile} )'\n'
         
-	_cmd_str='javaw -Xms32m -Xmx512m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
+	_cmd_str='javaw -Xms8m -Xmx128m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}

@@ -1,5 +1,5 @@
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# SpringToolSuite.ini sample v2 - updated: 2022-11-25 17:10
+# SpringToolSuite.ini sample v2 - updated: 2022-12-20 02:36
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 #
 # NOTES:
@@ -29,15 +29,15 @@ plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_18.0.1.v20220515
 --add-opens=java.base/sun.security.ssl=ALL-UNNAMED
 -Dosgi.requiredJavaVersion=11
 -Dosgi.dataAreaRequiresExplicitInit=true
--Xms512m
--Xmx2048m
+-Xms32m
+-Xmx1024m
 --illegal-access=permit
 --add-modules=ALL-SYSTEM
 # lombok
 -javaagent:D:\opt\sts\sts-4.11.0\lombok-1.18.24.jar
 # GUI icon scaling
--Dswt.enable.autoScale=true
--Dswt.autoScale=130
+-Dswt.enable.autoScale=false
+-Dswt.autoScale=100
 -Dswt.autoScale.method=nearest
 
 
