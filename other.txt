@@ -1,0 +1,9 @@
+= = = = = = = = = = = = = = = = = = =
+OTHER -- updated: 2022-12-28 11:00
+= = = = = = = = = = = = = = = = = = =
+
+electricity cost, europe, 1KWH = 0.17 EUR on 2022-dec; before it was 1/4
+
+Alphas Tech, init on 2022-07-15; first two weeks were trainig.  Domobility, init on 2022-08-01
+
+

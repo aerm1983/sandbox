@@ -1,7 +1,6 @@
-= = = = = = = = = = = = =
-COOKING
-Updated: 2022-12-08 15:52
-= = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = =
+COOKING -- updated: 2022-12-28 10:50
+= = = = = = = = = = = = = = = = = = =
 
 
 
@@ -261,6 +260,21 @@ Preparation:
 Boil panela into water
 Let rest when panela is completely disolved
 Add lemon
+
+
+
+= = = =
+JELLY
+= = = =
+Components:
+water, 2 cups
+jelly powder, 85 grams
+
+Preparation:
+Boil 1 water cup
+Add jelly powder
+Add 1 cold water cup
+Cool down in fridge
 
 
 

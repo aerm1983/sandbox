@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<!-- updated: 2022-12-29 09:42 -->
+
+<head>
+
+<style>
+
+* {
+font-family: Arial;
+font-size: 12.5pt;
+}
+
+
+body {
+ margin-left: 1em;
+}
+
+table, th, td {
+border-style: solid;
+border-width: 1px;
+border-collapse: collapse;
+}
+
+th.number, td.number {
+text-align: right;
+}
+
+</style>
+
+<script>
+
+foodType = ["protein", "grain", "vegetable", "sausage", "beverage" ];
+
+buyType = ["basic", "advanced"];
+
+foodDescription = {
+
+"protein":[
+{"name":"red meat","unit":"Kg","unitPriceUSD":9.2},
+{"name":"chicken","unit":"Kg","unitPriceUSD":4.0},
+{"name":"tuna","unit":"can 170g","unitPriceUSD":2.3},
+{"name":"white cheese","unit":"Kg","unitPriceUSD":6.5},
+{"name":"yellow cheese","unit":"Kg","unitPriceUSD":20.0},
+{"name":"polish wienner","unit":"pack 470g","unitPriceUSD":1.8}
+],
+
+"grain":[
+{"name":"rice","unit":"Kg","unitPriceUSD":1.4},
+{"name":"wheat flour","unit":"Kg","unitPriceUSD":1.4},
+{"name":"corn flour","unit":"Kg","unitPriceUSD":1.4},
+{"name":"arveja","unit":"Kg","unitPriceUSD":1.2},
+],
+
+"vegetable":[
+{"name":"potato","unit":"Kg","unitPriceUSD":2.5},
+{"name":"onion","unit":"Kg","unitPriceUSD":1.5},
+{"name":"tomato","unit":"Kg","unitPriceUSD":2.0}
+],
+
+"sausage":[
+{"name":"butter","unit":"pot 250g","unitPriceUSD":1.5}
+],
+
+"beverage":[
+{"name":"coffee","unit":"bag 200g","unitPriceUSD":3.0},
+{"name":"milk","unit":"bag 1L","unitPriceUSD":1.7}
+]
+
+}
+;
+
+
+fd = foodDescription;
+fdp = fd.protein;
+fdg = fd.grain;
+fdv = fd.vegetable;
+fds = fd.sausage;
+fdb = fd.beverage;
+
+
+
+foodWeekBuy = {
+"protein":[
+{"fd":fdp[0],"quantity":0.6,"buyTypeId":0},
+{"fd":fdp[1],"quantity":2.5,"buyTypeId":0},
+{"fd":fdp[2],"quantity":1.0,"buyTypeId":0},
+{"fd":fdp[3],"quantity":0.6,"buyTypeId":0},
+{"fd":fdp[5],"quantity":2.0,"buyTypeId":0},
+{"fd":fdp[0],"quantity":0.4,"buyTypeId":1},
+{"fd":fdp[2],"quantity":1.0,"buyTypeId":1},
+{"fd":fdp[3],"quantity":0.4,"buyTypeId":1},
+{"fd":fdp[4],"quantity":0.25,"buyTypeId":1},
+{"fd":fdp[5],"quantity":2.0,"buyTypeId":1},
+],
+
+"grain":[
+{"fd":fdg[0],"quantity":1.0,"buyTypeId":0},
+{"fd":fdg[1],"quantity":1.0,"buyTypeId":0},
+{"fd":fdg[2],"quantity":1.0,"buyTypeId":0},
+{"fd":fdg[3],"quantity":1.0,"buyTypeId":0}
+],
+
+"vegetable":[
+{"fd":fdv[0],"quantity":1.75,"buyTypeId":0},
+{"fd":fdv[1],"quantity":0.45,"buyTypeId":0},
+{"fd":fdv[2],"quantity":1.0,"buyTypeId":0}
+],
+
+"sausage":[
+{"fd":fds[0],"quantity":1.0,"buyTypeId":0}
+],
+
+
+"beverage":[
+{"fd":fdb[0],"quantity":1.0,"buyTypeId":0},
+{"fd":fdb[1],"quantity":3.0,"buyTypeId":0}
+]
+
+};
+
+
+
+foodWeekResult = {
+"basicTotalPriceUSD": 0.0,
+"advancedTotalPriceUSD": 0.0,
+"protein": { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" },
+"grain": { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" },
+"vegetable": { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" },
+"sausage": { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" },
+"beverage": { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" }
+
+}
+
+
+function getTableHtml(e, eGroupName) {
+
+    tableHeaderStr = "<p>" + eGroupName + "</p>"
+    + "<table>"
+    + "<thead>"
+    + "<tr>"
+    + "<th>name</th>"
+    + "<th>unit</th>"
+    + "<th>unitPrice</th>"
+    + "<th>quantity</th>"
+    + "<th>buyTypeId</th>"
+    + "<th>totalPriceUSD</th>"
+    + "</tr>"
+    + "</thead>"
+    + "<tbody>"
+    ;
+
+    tableRowStr = ""
+    basicTotalPriceUSD = 0;
+    advancedTotalPriceUSD = 0;
+
+    for (i = 0 ; i < e.length ; i++) {
+
+        e[i].totalPriceUSD = parseFloat( e[i].fd.unitPriceUSD  ) * parseFloat( e[i].quantity ) ;
+        basicTotalPriceUSD += e[i].totalPriceUSD ;
+        advancedTotalPriceUSD += e[i].totalPriceUSD ;
+
+        tableRowStr += "<tr>"
+            + "<td>" + e[i].fd.name + "</td>"
+            + "<td>" + e[i].fd.unit + "</td>"
+            + "<td class='number' >" + e[i].fd.unitPriceUSD.toFixed(2)  + "</td>"
+            + "<td class='number' >" + e[i].quantity + "</td>"
+            + "<td class='number' >" + e[i].buyTypeId + "</td>"
+            + "<td class='number' >" + e[i].totalPriceUSD.toFixed(2) + "</td>"
+            + "</tr>"
+            ;
+
+    }
+
+    tableFooterStr = "</tbody>"
+    + "</table>"
+    + "<p>" + eGroupName + ", basic total cost: " + basicTotalPriceUSD.toFixed(2) +  ", advanced total cost: " + advancedTotalPriceUSD.toFixed(2)  + "</p>"
+    ;
+    
+    result = { "basicTotalPriceUSD": 0.0, "advancedTotalPriceUSD": 0.0, "tableStr": "" };
+    result.basicTotalPriceUSD = basicTotalPriceUSD ;
+    result.advancedTotalPriceUSD = advancedTotalPriceUSD ;
+    result.tableStr = tableHeaderStr + tableRowStr + tableFooterStr ;
+    
+    return result;
+
+}
+
+
+
+
+
+
+</script>
+
+
+</head>
+
+
+<body>
+<div id="proteinDiv"></div>
+<div id="grainDiv"></div>
+<div id="vegetableDiv"></div>
+<div id="sausageDiv"></div>
+<div id="beverageDiv"></div>
+</body>
+
+<script>
+
+// results
+
+foodWeekResult.protein = getTableHtml(foodWeekBuy.protein, "Protein");
+foodWeekResult.grain = getTableHtml(foodWeekBuy.grain, "Grain");
+foodWeekResult.vegetable = getTableHtml(foodWeekBuy.vegetable, "Vegetable");
+foodWeekResult.sausage = getTableHtml(foodWeekBuy.sausage, "Sausage");
+foodWeekResult.beverage = getTableHtml(foodWeekBuy.beverage, "Beverage");
+
+// write html
+
+document.getElementById("proteinDiv").innerHTML = foodWeekResult.protein.tableStr;
+document.getElementById("grainDiv").innerHTML = foodWeekResult.grain.tableStr;
+document.getElementById("vegetableDiv").innerHTML = foodWeekResult.vegetable.tableStr;
+document.getElementById("sausageDiv").innerHTML = foodWeekResult.sausage.tableStr;
+document.getElementById("beverageDiv").innerHTML = foodWeekResult.beverage.tableStr;
+
+
+</script>
+
+</html>
+
