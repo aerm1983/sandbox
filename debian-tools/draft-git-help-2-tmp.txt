@@ -1,4 +1,4 @@
-# Git Help 2 -- updated: 2022-12-16 03:16
+# Git Help 2 -- updated: 2023-01-23 11:20
 
 
 
@@ -78,6 +78,15 @@ Option:
   -v verbose.
 Examples:
   git check-ignore -v <filename>  ;  
+
+
+
+git status
+  Check stage, files pending to commit, ignored files, others.
+Option:
+  --ignored show ignored files by .gitignore rules
+Examples:
+  git status --ignored  ;  
 
 
 

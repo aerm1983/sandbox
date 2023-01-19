@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2022-12-19 11:26'
+__ALIAS_LAST_UPDATE__='2023-01-19 11:20'
 __ALIAS_TIMEOUT__='0.3'
 
 
@@ -58,7 +58,7 @@ alias e='exit'
 alias z='command'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -lah --color=always'
-function _cd { if [ -z ${1} ] ; then exit ; else command cd ${1} ; ls ; fi ; }
+function _cd { if [ -z ${1} ] ; then return ; else command cd ${1} ; ls ; fi ; }
 alias cd='_cd'
 alias cp='cp -v'
 alias cpr='cp -vr'
@@ -362,6 +362,7 @@ alias jh='echo -e "${_jh_s}"'
 # ------------------------------------------------------
 
 alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
+alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --all --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --all --decorate'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 alias gb='echo "--> git branch"; sleep ${__ALIAS_TIMEOUT__}; git branch'
@@ -381,6 +382,7 @@ alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
 s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'  gs : git status \n' 
+s=${s}'  gsi: git status --ignored \n' 
 s=${s}'  gl : git log --graph --all --decorate \n'
 s=${s}'  glf: git ls-files \n'
 s=${s}'  gb : git branch \n'
