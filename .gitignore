@@ -1,5 +1,4 @@
 HELP.md
-/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -49,8 +48,8 @@ HELP.md
 hs_err_pid*
 
 # spring-boot 4, eclipse #
-/bin/
-/target/
+/**/bin/
+/**/target/
 /.mvn/
 mvnw
 mvnw.cmd

@@ -8,12 +8,12 @@ public class Sandbox {
 		
 		Account acc = new Account();
 		
-		acc.setId(new Long(1));
-		acc.setHost("smtp.gmail.com");
-		acc.setPort(new Integer(25));
-		acc.setUsername("myusername");
-		acc.setPassword("mypassword");
-		acc.setSalt("00000");
+		acc.setId(new Long(1)); // 1
+		acc.setHost("smtp.gmail.com"); // "smtp.gmail.com"
+		acc.setPort(new Integer(587)); // gmail 587, standard 25 
+		acc.setUsername("myusername"); // "myusername" 
+		acc.setPassword("mypassword"); // "mypassword" 
+		acc.setSalt("00000"); // "00000"
 		
 		
 		// SecurityConfig sc = new SecurityConfig();
@@ -26,8 +26,8 @@ public class Sandbox {
 		}
 		
 		System.out.println("password: \"" + acc_enc.getPassword() + "\"");
-		System.out.println("iv: \"" + bytesToHex(acc_enc.getIv()) + "\"");
-		System.out.println("encode: \"" + bytesToHex(acc_enc.getEncode()) + "\"");
+		System.out.println("iv (b64): \"" + bytesToHex(acc_enc.getIv()) + "\"");
+		System.out.println("encode (b64): \"" + bytesToHex(acc_enc.getEncode()) + "\"");
 		
 		
 		
