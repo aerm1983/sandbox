@@ -1,9 +1,10 @@
 #!/bin/bash
 # SCRIPT UPDATE GIT-BASH-ALIASES
-# updated: 2022-12-14 09:36
-# this is being tested to replace alias '__gba' in 'git-bash-aliases'
+# updated: 2023-01-29 18:07
 
-# Regular Git-Bash-Aliases files
+
+
+### Regular Git-Bash-Aliases files
 
 command cp -v ./bash-help-src.txt ${HOME}/.bash-help-src ; 
 
@@ -15,7 +16,9 @@ command source ${HOME}/.git-bash-aliases ;
 
 echo ; h_greeting ; echo ; h ;
 
-# Java DM-WM helper
+
+
+### Java DM-WM helper
 
 echo ;
 

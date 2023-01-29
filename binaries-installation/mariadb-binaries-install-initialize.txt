@@ -1,37 +1,157 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2022-10-25 17:23
+MariaDB binaries install - updated: 2023-01-29 17:40
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
 
 
 (1) Place files in appropiate installation directory
 
 
+
 (2) At cmd, "bin" folder, run "mariadb --help", check default locations for file "my.ini"; root directory installation is usually indicated
 
 
+
 (3) Content of file "my.ini":
+
 [mysqld]
+
+# main properties
+
 datadir=/opt/mariadb/mariadb-10.6.5/data
+
 port=3306
+
+max_connections=10
+
 innodb_buffer_pool_size=1269M
+
 character-set-server=utf8
+
+# timeouts (waiting time before disconnect), in seconds
+
+### connection package from client
+
+connect_timeout = 10
+
+### input data from client (example: client batch process)
+
+net_read_timeout = 30
+
+### lifetime of idle client connection
+
+wait_timeout = 600
+
+### overrides "wait_timeout" in interactive client connection
+
+interactive_timeout = 600
+
+
 [client]
+
 port=3306
+
 plugin-dir=/opt/mariadb/mariadb-10.6.5/lib/plugin
 
 
+
 (4) Pending: 
+
 How to make initial connection? 
+
 How to configure superuser "root", its password? 
+
 Review "mariadb-install-db" command
 
 
+
 (5) Start server daemon:
+
 mariadbd --console
 
 It's also possible to start several services, each referring to a specific ini file:
+
 mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
+
 mariadbd --defaults-file=/etc/mariadb/maria.ini --console
 
 In each .ini file, adjust 'datadir' and 'port' as convenient.
 
+
+
+(6) Test Mariadb client, from shell/cmd:
+
+Execution, interactive console/shell (test need of winpty):
+
+winpty mysql --user=root --host=127.0.0.1 --port=3306 --database=information_schema --password=1234
+
+
+Execution, batch console/shell (test need of winpty):
+
+winpty mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234 -e 'select 1 as my_integer;'
+
+echo 'select 1 as myint' | mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234
+
+mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234 < <( echo 'select 1 as myint;' )
+
+
+Other console/shell options:
+
+-p: prompt for password
+
+-e, --execute "SELECT 1 AS my_integer;": execute sql
+
+-E, --vertical: transpose result, columns as rows
+
+--connection-timeout=30: set 30 secs to wait for connection package before disconnect
+
+
+Console output options:
+
+-t, --table: human-friendly output, not useful for post-processing
+
+-B, --batch: connect as non-interactive client, output is silent (tabbed) with column names
+
+-s, --silent: tabbed output, no column names, see batch option
+
+-X, --xml: xml output
+
+-H, --html: html output
+
+--column-names: print column names (see options batch, silent)
+
+--line-numbers: print line number on error
+
+-v: verbose output
+
+
+
+(7) Check variables from client (parameters in my.ini):
+
+SHOW VARIABLES LIKE '%timeout%';
+
+SHOW TABLES WHERE Tables_in_information_schema LIKE '%variable%'
+
+SELECT * FROM global_variables LIMIT 1
+
+SELECT * FROM global_variables WHERE variable_name LIKE '%timeout%'
+
+
+
+(8) Check processlist from client (connected clients):
+
+SHOW PROCESSLIST;
+
+SELECT * FROM information_schema.`PROCESSLIST` WHERE TRUE AND HOST LIKE '51.210.159%';
+
+
+
+(9) Check databases, tables, status from client:
+
+SHOW DATABASES LIKE '%dev%';
+
+SHOW TABLES LIKE '%product%';
+
+SHOW OPEN TABLES LIKE '%product%';
+
+SHOW STATUS LIKE '%connection%';

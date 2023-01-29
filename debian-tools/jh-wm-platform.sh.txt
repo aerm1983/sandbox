@@ -1,8 +1,9 @@
+
 #!/bin/bash
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-01-15 17:30'
+__JH_WMP_UPDATED__='2022-01-29 18:15'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -35,7 +36,7 @@ function _jh_remove_logs {
     command rm -v ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 7r
+    alias _0rl
     pwd
     ll
     cdkj_s
@@ -66,7 +67,7 @@ function _jh_truncate_logs {
     command echo -n '' > ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias 7t
+    alias _0tl
     pwd
     ll
     cdkj_s
@@ -85,7 +86,7 @@ function _jh_kill_service {
 
 
 function _jh_kill_platform {
-    alias 1
+    alias _0kp
     cdkj_s
 
     _jh_kill_service ui
@@ -151,7 +152,7 @@ function _jh_start_platform {
     __date_ini=$( date )
     __uxt_ini=$( date +'%s' )
 
-    alias 2
+    alias _0sp
     cdkj_s
     sj8
     echo
@@ -166,12 +167,12 @@ function _jh_start_platform {
 
     _jh_start_service usermanagement
 
-    _jh_start_service marketplacemirakl
+    # _jh_start_service marketplacemirakl
     # _jh_start_service marketplaceebay
 
     # _jh_start_service mappingmanagement
     # _jh_start_service productmanagement
-    _jh_start_service ordermanagement
+    # _jh_start_service ordermanagement
     # _jh_start_service bulkfileprocessor
 
     # _jh_start_service merchantlogisfashion
@@ -213,6 +214,7 @@ function _jh_backup_localalberto_service {
     echo
 }
 
+
 function _jh_backup_localalberto_platform {
     cdkj_s
     echo -e '--> backup localalberto files, whole platform\n'
@@ -237,6 +239,7 @@ function _jh_backup_localalberto_platform {
     
 }
 
+
 function _jh_restore_localalberto_service {
     cdkj_s
     command cd ${1}
@@ -249,6 +252,7 @@ function _jh_restore_localalberto_service {
     command cd ..
     echo
 }
+
 
 function _jh_restore_localalberto_platform {
     cdkj_s
@@ -276,7 +280,10 @@ function _jh_restore_localalberto_platform {
 }
 
 
-function _jh_compile_service {
+
+
+# experimental, deprecate?
+function _jh_EXP_compile_service {
     cdkj_s
     command cd ${1}
     echo '--> compile service in '\'$( pwd  )\'
@@ -296,39 +303,10 @@ function _jh_compile_service {
 }
 
 
-function _jh_compile_platform {
-    cdkj_s
-    echo -e '--> compile, whole platform\n'
-    sj8
-    echo -e $(date)'\n''"compile" fail on project(s):' > ${__JH_GIT_COMPILE_FAIL_FILE__}
-    echo
-
-    _jh_compile_service microservicesregistry 
-
-    _jh_compile_service usermanagement
-
-    _jh_compile_service marketplacemirakl
-    _jh_compile_service marketplaceebay
-
-    _jh_compile_service mappingmanagement
-    _jh_compile_service productmanagement
-    _jh_compile_service ordermanagement
-    _jh_compile_service bulkfileprocessor
-
-    _jh_compile_service merchantlogisfashion
-
-    _jh_compile_service mailing
-    _jh_compile_service template-generator
-    _jh_compile_service ui
-    
-    cat ${__JH_GIT_COMPILE_FAIL_FILE__}
-    
-}
 
 
-
-
-function _jh_git_fetch_service {
+# experimental, deprecate?
+function _jh_EXP_git_fetch_service {
     cdkj_s
     command cd ${1}
     echo '--> git fetch service in '\'$( pwd  )\'
@@ -339,34 +317,10 @@ function _jh_git_fetch_service {
 }
 
 
-function _jh_git_fetch_platform {
-    cdkj_s
-    echo -e '--> git fetch, whole platform\n'
-
-    _jh_git_fetch_service microservicesregistry 
-
-    _jh_git_fetch_service usermanagement
-
-    _jh_git_fetch_service marketplacemirakl
-    _jh_git_fetch_service marketplaceebay
-
-    _jh_git_fetch_service mappingmanagement
-    _jh_git_fetch_service productmanagement
-    _jh_git_fetch_service ordermanagement
-    _jh_git_fetch_service bulkfileprocessor
-
-    _jh_git_fetch_service merchantlogisfashion
-
-    _jh_git_fetch_service mailing
-    _jh_git_fetch_service template-generator
-    _jh_git_fetch_service ui
-    
-}
 
 
-
-
-function _jh_git_checkout_pull_dev_service {
+# experimental, deprecate?
+function _jh_EXP_git_checkout_pull_dev_service { 
     cdkj_s
     command cd ${1}
     echo '--> git checkout pull dev service in '\'$( pwd  )\'
@@ -392,35 +346,6 @@ function _jh_git_checkout_pull_dev_service {
     command cd ..
     echo
 }
-
-
-function _jh_git_checkout_pull_dev_platform {
-    cdkj_s
-    echo -e '--> git checkout pull dev, whole platform\n'
-    echo -e $(date)'\n''"checkout-pull-dev" fail on project(s):' > ${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
-
-    _jh_git_checkout_pull_dev_service microservicesregistry 
-
-    _jh_git_checkout_pull_dev_service usermanagement
-
-    _jh_git_checkout_pull_dev_service marketplacemirakl
-    _jh_git_checkout_pull_dev_service marketplaceebay
-
-    _jh_git_checkout_pull_dev_service mappingmanagement
-    _jh_git_checkout_pull_dev_service productmanagement
-    _jh_git_checkout_pull_dev_service ordermanagement
-    _jh_git_checkout_pull_dev_service bulkfileprocessor
-
-    _jh_git_checkout_pull_dev_service merchantlogisfashion
-
-    _jh_git_checkout_pull_dev_service mailing
-    _jh_git_checkout_pull_dev_service template-generator
-    _jh_git_checkout_pull_dev_service ui
-    
-    cat ${__JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__}
-    
-}
-
 
 
 
@@ -466,24 +391,19 @@ function bulkfileprocessor_test_block2 {
 ### aliases
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
-alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 4 4a ; echo ; alias 5f 5cp ; echo ; alias 7t 7r ; echo ; alias 8 9 ;'
+
+alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
-alias 1='_jh_kill_platform'
-alias 2='_jh_start_platform'
+alias _0kp='_jh_kill_platform'
+alias _0sp='_jh_start_platform'
+
+alias _0tl='_jh_truncate_logs'
+alias _0rl='_jh_remove_logs'
 
 alias 3b='_jh_backup_localalberto_platform'
 alias 3r='_jh_restore_localalberto_platform'
 
-alias 4='_jh_compile_platform # cycle: 3b ; 5f ;   5cp ; 3r ;   4'
-alias 4a='3b ; 5f ; 5cp ; 3r ; 4'
-
-alias 5f='_jh_git_fetch_platform'
-alias 5cp='_jh_git_checkout_pull_dev_platform'
-
-alias 7t='_jh_truncate_logs'
-alias 7r='_jh_remove_logs'
-
-alias 8='1 ; 7r ;         # kill_platform, remove_logs'
-alias 9='1 ; 7r; _0s; 2 ; # 8, start_platform'
+alias 8='_0kp ; _0rl ;         # 8 kill_platform, remove_logs'
+alias 9='_0kp ; _0rl ; _0s; _0sp ; # 9, start_platform'
 
