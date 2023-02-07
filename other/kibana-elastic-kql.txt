@@ -1,0 +1,5 @@
+KIBANA / ELASTIC
+KQL:
+kubernetes.pod_name : "merch#%/log@$fas*!-" and log : "014229238"
+kubernetes.pod_name : "merch#%/log@$fas*!-" and @timestamp : "Jan 16, 2023"
+

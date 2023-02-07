@@ -1,4 +1,4 @@
-MINIKUBE INSTALL -- updated: 2022-10-12 07:44
+MINIKUBE INSTALL, KUBERNETES -- updated: 2023-02-06 19:23
 
 (1) Install Windows Subsystem for Linux (WSL).  Command checks:
 
@@ -51,5 +51,21 @@ minikube start --driver=docker # optional
 (5) Check kubectl is available:
 
 where kubectl
+
+
+
+(6) TODO -- ORDER:
+
+KUBECTL LOGS
+
+k='kubectl --kubeconfig kubeconfig-pro-log##fas####-##.yml'
+
+$k get pods
+
+$k get pods | command grep merch###log##fas#### | awk '{print $1}'
+
+$k describe pod merch###log##fas###-846##6b###-s2### > out.describe.txt
+
+$k logs merch###log##fas####-846##6b###-s2### --container merch###log##fas#### > out.log.txt
 
 

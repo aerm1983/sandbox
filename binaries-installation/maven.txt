@@ -1,0 +1,67 @@
+= = = = = = = = = = = = = = = = = = = =
+MAVEN -- updated: 2023-02-06 19:14
+= = = = = = = = = = = = = = = = = = = =
+
+
+
+(1) check maven
+
+mvn -version
+
+mvn -help
+
+
+
+(2) overview of plugin "help" and its goals:
+
+mvn help:help
+
+
+
+(3) describe phases (list of "domain:plugin:goal"), current pom.xml:
+
+mvn help:describe -Dcmd=compile
+
+mvn help:describe -Dcmd=package
+
+
+
+(4) plugin:help (equivalent to help:describe -Dplugin=<...>), current pom.xml:
+
+mvn clean:help
+
+mvn resources:help
+
+mvn compiler:help
+
+mvn surefire:help -Ddetail
+
+mvn jar:help
+
+mvn install:help
+
+mvn spring-boot:help -Ddetail
+
+
+
+(5) describe specific plugin:goal (see previous "plugin:help"):
+
+mvn help:describe -Dcmd=clean:clean
+
+mvn help:describe -Dcmd=surefire:test -Ddetail
+
+mvn help:describe -Dcmd=spring-boot:repackage
+
+
+
+(6) typical mvn command to build jar:
+
+mvn clean package -Dmaven.test.skip=true
+
+
+
+(7) execution when changing only properties/ymls:
+
+mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true
+
+

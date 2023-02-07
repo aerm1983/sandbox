@@ -1,9 +1,8 @@
-
 #!/bin/bash
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-01-29 18:15'
+__JH_WMP_UPDATED__='2022-02-06 22:00'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -13,18 +12,72 @@ __JH_GIT_COMPILE_FAIL_FILE__='zgit-compile-fail.tmp'
 
 ### main functions
 
-function _jh_remove_logs {
+
+
+function _jh_start_platform {
+
+    __date_ini=$( date )
+    __uxt_ini=$( date +'%s' )
+
+    alias _0sp
+    cdkj_s
+    sj8
+    echo
+    sleep ${__JH_TIMEOUT_CONTINUE_SEC__}
+
+    ### bulkfileprocessor_test_block1
+    # bulkfileprocessor_test_block1
+
+    cdkj_s
+
+    _jh_start_service microservicesregistry
+
+    _jh_start_service usermanagement
+    _jh_start_service mappingmanagement
+
+    # _jh_start_service marketplacemirakl
+    # _jh_start_service marketplaceebay
+    # _jh_start_service marketplacearise
+    
+    # _jh_start_service productmanagement
+    # _jh_start_service ordermanagement
+    # _jh_start_service bulkfileprocessor
+
+    # _jh_start_service merchantlogisfashion
+
+    # _jh_start_service mailing
+    # _jh_start_service template-generator
+    # _jh_start_service ui
+
+    cdkj_s
+
+    ### bulkfileprocessor_test_block2
+    # bulkfileprocessor_test_block2
+    
+    __uxt_end=$( date +'%s' )
+    let '__uxt_diff=__uxt_end-__uxt_ini' '__proc_min=__uxt_diff/60' '__proc_sec=__uxt_diff%60' 
+    echo 'WM local deployment completed'
+    echo 'start: '$( date -d '@'${__uxt_ini} )
+    echo 'end:   '$( date -d '@'${__uxt_end} )
+    echo 'total execution time (min:sec) -- '${__proc_min}':'${__proc_sec}
+
+}
+
+
+
+function _jh_remove_logs_platform {
     cdk_s
     command cd log
 
     command rm -v microservices*.jar.log
 
     command rm -v usermanagement*.jar.log
+    command rm -v mapping*.jar.log
 
     command rm -v marketplacemirakl*.jar.log
     command rm -v marketplaceebay*.jar.log
+    command rm -v marketplacearise*.jar.log    
 
-    command rm -v mapping*.jar.log
     command rm -v productmanagement*.jar.log
     command rm -v ordermanagement*.jar.log
     command rm -v bulk*.jar.log
@@ -36,7 +89,7 @@ function _jh_remove_logs {
     command rm -v ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias _0rl
+    alias _0rlp
     pwd
     ll
     cdkj_s
@@ -44,18 +97,34 @@ function _jh_remove_logs {
 }
 
 
-function _jh_truncate_logs {
+
+function _jh_remove_log_service {
+    cdk_s
+    command cd log
+    command rm -v ${1}*.jar.log
+    # clear ; echo 'refreshing...' ; sleep 1 ; clear ;
+    # alias _0rls
+    # pwd
+    # ll
+    cdkj_s
+    echo
+}
+
+
+
+function _jh_truncate_logs_platform {
     cdk_s
     command cd log
 
     command echo -n '' > microservices*.jar.log
 
     command echo -n '' > usermanagement*.jar.log
+    command echo -n '' > mapping*.jar.log
 
     command echo -n '' > marketplacemirakl*.jar.log
     command echo -n '' > marketplaceebay*.jar.log
-
-    command echo -n '' > mapping*.jar.log
+    command echo -n '' > marketplacearise*.jar.log
+    
     command echo -n '' > productmanagement*.jar.log
     command echo -n '' > ordermanagement*.jar.log
     command echo -n '' > bulk*.jar.log
@@ -67,7 +136,7 @@ function _jh_truncate_logs {
     command echo -n '' > ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
-    alias _0tl
+    alias _0tlp
     pwd
     ll
     cdkj_s
@@ -76,6 +145,7 @@ function _jh_truncate_logs {
 
 
 function _jh_kill_service {
+    alias _0ks
     cdkj_s
     command cd ${1}
     pwd
@@ -98,11 +168,12 @@ function _jh_kill_platform {
     _jh_kill_service bulkfileprocessor
     _jh_kill_service ordermanagement
     _jh_kill_service productmanagement
-    _jh_kill_service mappingmanagement
 
     _jh_kill_service marketplacemirakl
     _jh_kill_service marketplaceebay
-
+    _jh_kill_service marketplacearise
+    
+    _jh_kill_service mappingmanagement
     _jh_kill_service usermanagement
 
     _jh_kill_service microservicesregistry
@@ -147,54 +218,35 @@ function _jh_check_service_started {
 
 
 
-function _jh_start_platform {
+function _jh_restart_service {
 
-    __date_ini=$( date )
-    __uxt_ini=$( date +'%s' )
-
-    alias _0sp
+    alias _0rs
+    
     cdkj_s
+    
+    if [ -z ${1} ] ; then
+        echo '${arg1} is empty, should be valid directory/microservice; exit'
+        return 1
+    elif [ ! -d ${1}  ] ; then
+        echo '${arg1} is not valid directory/microservice; exit'
+        return 1
+    fi
+    
+    echo
     sj8
     echo
-    sleep ${__JH_TIMEOUT_CONTINUE_SEC__}
-
-    ### bulkfileprocessor_test_block1
-    # bulkfileprocessor_test_block1
-
-    cdkj_s
-
-    _jh_start_service microservicesregistry
-
-    _jh_start_service usermanagement
-
-    # _jh_start_service marketplacemirakl
-    # _jh_start_service marketplaceebay
-
-    # _jh_start_service mappingmanagement
-    # _jh_start_service productmanagement
-    # _jh_start_service ordermanagement
-    # _jh_start_service bulkfileprocessor
-
-    # _jh_start_service merchantlogisfashion
-
-    # _jh_start_service mailing
-    # _jh_start_service template-generator
-    # _jh_start_service ui
-
-    cdkj_s
-
-    ### bulkfileprocessor_test_block2
-    # bulkfileprocessor_test_block2
     
-    __uxt_end=$( date +'%s' )
-    let '__uxt_diff=__uxt_end-__uxt_ini' '__proc_min=__uxt_diff/60' '__proc_sec=__uxt_diff%60' 
-    echo 'WM local deployment completed'
-    echo 'start: '$( date -d '@'${__uxt_ini} )
-    echo 'end:   '$( date -d '@'${__uxt_end} )
-    echo 'total execution time (min:sec) -- '${__proc_min}':'${__proc_sec}
-
+    cdkj_s
+    _jh_remove_log_service ${1}
+    
+    cdkj_s
+    _jh_kill_service ${1}
+    
+    cdkj_s
+    _jh_start_service ${1}
+    
+    cdkj_s
 }
-
 
 
 
@@ -206,7 +258,7 @@ function _jh_backup_localalberto_service {
     command cd ${1}
     echo '--> backup localalberto files from '\'$( pwd  )\'
     find ./src -name '*localalberto*' | while read myfile; do command cp -v ${myfile} '../zlocalalberto/z'${1}'/'; done;
-    # command cp -v pom.xml.localalberto '../zlocalalberto/z'${1}'/' # deprecated
+    command cp -v ./pom.xml.localalberto '../zlocalalberto/z'${1}'/' # deprecation pending
     # command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/' # deprecated
     # command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/' # deprecated
     command git restore --source=dev pom.xml # deprecation pending
@@ -222,11 +274,12 @@ function _jh_backup_localalberto_platform {
     _jh_backup_localalberto_service microservicesregistry 
 
     _jh_backup_localalberto_service usermanagement
+    _jh_backup_localalberto_service mappingmanagement
 
     _jh_backup_localalberto_service marketplacemirakl
     _jh_backup_localalberto_service marketplaceebay
-
-    _jh_backup_localalberto_service mappingmanagement
+    _jh_backup_localalberto_service marketplacearise
+    
     _jh_backup_localalberto_service productmanagement
     _jh_backup_localalberto_service ordermanagement
     _jh_backup_localalberto_service bulkfileprocessor
@@ -262,11 +315,12 @@ function _jh_restore_localalberto_platform {
     _jh_restore_localalberto_service microservicesregistry 
 
     _jh_restore_localalberto_service usermanagement
+    _jh_restore_localalberto_service mappingmanagement
 
     _jh_restore_localalberto_service marketplacemirakl
     _jh_restore_localalberto_service marketplaceebay
+    _jh_restore_localalberto_service marketplacearise
 
-    _jh_restore_localalberto_service mappingmanagement
     _jh_restore_localalberto_service productmanagement
     _jh_restore_localalberto_service ordermanagement
     _jh_restore_localalberto_service bulkfileprocessor
@@ -392,18 +446,21 @@ function bulkfileprocessor_test_block2 {
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
 alias _0sp='_jh_start_platform'
+alias _0ks='_jh_kill_service'
+alias _0rs='_jh_restart_service'
 
-alias _0tl='_jh_truncate_logs'
-alias _0rl='_jh_remove_logs'
+alias _0tlp='_jh_truncate_logs_platform'
+alias _0rlp='_jh_remove_logs_platform'
 
 alias 3b='_jh_backup_localalberto_platform'
 alias 3r='_jh_restore_localalberto_platform'
 
-alias 8='_0kp ; _0rl ;         # 8 kill_platform, remove_logs'
-alias 9='_0kp ; _0rl ; _0s; _0sp ; # 9, start_platform'
+alias 7='_0rs '
+alias 8='_0kp ; _0rlp ;         # 8 kill_platform, remove_logs'
+alias 9='_0kp ; _0rlp ; _0s; _0sp ; # 9, start_platform'
 

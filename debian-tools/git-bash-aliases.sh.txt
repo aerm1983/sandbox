@@ -24,8 +24,9 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-01-19 11:20'
+__ALIAS_LAST_UPDATE__='2023-02-06 21:56'
 __ALIAS_TIMEOUT__='0.3'
+__JH_XMX__='256m'
 
 
 
@@ -176,8 +177,9 @@ function h_greeting {
 alias sj8='. ~/.set-java-version 8'
 alias sj11='. ~/.set-java-version 11'
 
-alias mc='mvn clean'
-alias mcp='mvn clean package -Dmaven.test.skip=true'
+alias mc='echo "--> mvn clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean'
+alias mcp='echo "--> mvn clean package -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean package -Dmaven.test.skip=true'
+alias mrjr='echo "--> mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true'
 
 
 
@@ -229,7 +231,7 @@ function _j_j {
 	echo
 	
 	jarfile=$( ls ./target/*.jar )
-    _cmd_str='javaw -Xms8m -Xmx128m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone
+    _cmd_str='javaw -Xms8m -Xmx'${__JH_XMX__}' -Dspring.profiles.active='"${1}"' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
@@ -264,7 +266,7 @@ function _j_j_r {
 	echo -n '' > ${jarlogfile}
 	echo -e 'jarlogfile cleaned, wc: '$( wc ${jarlogfile} )'\n'
         
-	_cmd_str='javaw -Xms8m -Xmx128m -Dspring.profiles.active='"${1}"' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
+	_cmd_str='javaw -Xms8m -Xmx'${__JH_XMX__}' -Dspring.profiles.active='"${1}"' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
@@ -340,17 +342,18 @@ alias jl='_j_l'
 
 s='--> Java Helper -- updated: ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'(commands are better tuned to be executed from maven project root folder)\n'
-s=${s}'  jl : jps -l \n'
-s=${s}'  jj : java -jar \n'
-s=${s}'  jjr: java -jar ./${jar_file} > ${log_file} \n'
+s=${s}'  jl  : jps -l \n'
+s=${s}'  jj  : java -jar \n'
+s=${s}'  jjr : java -jar ./${jar_file} > ${log_file} \n'
 s=${s}'\n'
-s=${s}'  jjrg: grep -P -i ${1} ${log_file} \n'
+s=${s}'  jjrg  : grep -P -i ${1} ${log_file} \n'
 s=${s}'  jjrgts: grep -P -i '\''tomcat started'\'' ${log_file} \n'
 s=${s}'\n'
-s=${s}'  mc:  mvn clean \n'
-s=${s}'  mcp: mvn clean package -Dmaven.test.skip=true \n'
+s=${s}'  mc  : mvn clean \n'
+s=${s}'  mcp : mvn clean package -Dmaven.test.skip=true \n'
+s=${s}'  mrjr: mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true \n'
 s=${s}'\n'
-s=${s}'  tk : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'
+s=${s}'  tk  : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'
 _jh_s=${s}
 unset s
 alias jh='echo -e "${_jh_s}"'

@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2023-01-29 17:40
+MariaDB binaries install - updated: 2023-02-06 19:34
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -83,23 +83,23 @@ In each .ini file, adjust 'datadir' and 'port' as convenient.
 
 Execution, interactive console/shell (test need of winpty):
 
-winpty mysql --user=root --host=127.0.0.1 --port=3306 --database=information_schema --password=1234
+winpty mysql --user=root --password=1234 --host=127.0.0.1 --port=3306 --database=information_schema
 
 
-Execution, batch console/shell (test need of winpty):
+Execution, batch console/shell (test need of --database, -D):
 
-winpty mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234 -e 'select 1 as my_integer;'
+mysql -B -u root --password=1234 -h 127.0.0.1 -P 3306 -D information_schema -e 'select 1 as my_integer;'
 
-echo 'select 1 as myint' | mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234
+echo 'select 1 as myint' | mysql -B -u root --password=1234 -h 127.0.0.1 -P 3306
 
-mysql -B -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234 < <( echo 'select 1 as myint;' )
+mysql -B -u root --password=1234 -h 127.0.0.1 -P 3306 < <( echo 'select 1 as myint;' )
 
 
 Other console/shell options:
 
 -p: prompt for password
 
--e, --execute "SELECT 1 AS my_integer;": execute sql
+-e, --execute "SELECT 1 AS my_integer;": execute sql, connection is set as non-interactive
 
 -E, --vertical: transpose result, columns as rows
 
@@ -126,7 +126,7 @@ Console output options:
 
 
 
-(7) Check variables from client (parameters in my.ini):
+(7.1) Check variables from client (parameters in my.ini):
 
 SHOW VARIABLES LIKE '%timeout%';
 
@@ -138,7 +138,7 @@ SELECT * FROM global_variables WHERE variable_name LIKE '%timeout%'
 
 
 
-(8) Check processlist from client (connected clients):
+(7.2) Check processlist from client (connected clients):
 
 SHOW PROCESSLIST;
 
@@ -146,7 +146,7 @@ SELECT * FROM information_schema.`PROCESSLIST` WHERE TRUE AND HOST LIKE '51.210.
 
 
 
-(9) Check databases, tables, status from client:
+(7.3) Check databases, tables, status from client:
 
 SHOW DATABASES LIKE '%dev%';
 
@@ -155,3 +155,57 @@ SHOW TABLES LIKE '%product%';
 SHOW OPEN TABLES LIKE '%product%';
 
 SHOW STATUS LIKE '%connection%';
+
+
+
+(7.4) TEMPORAL, ORDER, TODO:
+
+USE information_schema ;
+
+-- variables
+SHOW SESSION VARIABLES LIKE '%wait%timeout%' ; -- wait_timeout
+SHOW SESSION VARIABLES LIKE '%int%timeout%' ; -- interactive_timeout
+SHOW SESSION VARIABLES LIKE '%read%timeout%' ; -- net_read_timeout
+SHOW SESSION VARIABLES LIKE '%max%conn%' ; -- max_connections, extra_max_connections
+SHOW SESSION VARIABLES LIKE '%timeout%' ; -- other
+
+-- status
+SHOW GLOBAL STATUS ;
+SHOW GLOBAL STATUS LIKE '%thread%conn%'; -- threads_connected
+SHOW GLOBAL STATUS LIKE '%connections%'; -- connections (total/accumulated), max_used_connections (peak/max demand)
+SHOW GLOBAL STATUS LIKE '%conn%'; -- other
+SELECT CONNECTION_ID(); -- current session connection_id
+
+-- processlist
+SHOW PROCESSLIST ;
+
+-- table from constants, several rows
+SELECT 1 AS my_int UNION SELECT 2 UNION SELECT 3 ;
+
+
+
+(7.5) TEMPORAL, ORDER, TODO:
+
+-- test "wait_timeout"
+-- how to test "net_read_timeout"?
+{ sleep 0 ; echo 'select connection_id();' ; echo "show global variables like '%wait%timeout%';" ; echo "show global variables like '%read%timeout%';" ; sleep 0 ; echo 'select connection_id();' ; echo 'show processlist;' ; sleep 0 ; } | mysql -s -u root -h 127.0.0.1 -P 3306 -D information_schema --password=1234 ;
+
+
+
+(8) mysqldump, commandline utility:
+
+mysqldump -u root --password=1234 -h localhost -P 3306 -B db01 db02 db03 | tr -d '\r' > dump-file.sql
+
+mysqldump -u root --password=1234 -h localhost -P 3306 --add-drop-database --add-drop-table --skip-extended-insert --databases db01 db02 > dump-file.sql
+
+
+Options:
+
+B, --databases: databases to include in dump file
+
+--add-drop-database
+
+--add-drop-table
+
+--skip-extended-insert: individual INSERT for each table row
+

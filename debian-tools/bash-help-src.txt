@@ -1,4 +1,4 @@
-# BHS -- updated: 2022-01-19 14:00
+# BHS -- updated: 2022-02-03 11:37
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example: apt-cache search --names-only 'aptitude'
@@ -51,7 +51,7 @@ join:  Join two files, according to a common field (default: first field ).  See
 jp2a:  Convert jpeg to ascii.
 k:
 l:
-less:  Buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines.  -s chop empty lines.  -I case insensitive search.  -G highlight search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
+less:  Buffer file for readingon secreen.  Options described a contination are for prompt at screen bottom.  Options:  -R raw or display colors.  -M long prompt, works along option -n.  -m short prompt.  -N line number column.  -n line number in prompt.  -J status column.  -S chop long lines, line wrap.  -s hide multiple empty lines.  -I case insensitive search.  -G highlight search.  Actions:  / - search forward.  ? - search backward.  n - next search result.  N -  previous search result.  & -  filter or grep.
 let:  Perform integer arithmetic calculations, assign result to variable.  Examples:  let 'b=2^16-1' 'mins=total_secs/60' 'secs=total_sec%60'  ;  
 ln:  Create link.  By default, hard link.  Option -s to create soft link.  Careful in MinGW, soft links are not just 'pointers to filenames' as in Linux.  Check always links with ls -li.
 lsblk:  List block devices, label can be displayed.  See also: 'mount', 'umount', 'parted'.  Options:  -O show all fields/columns.  Examples:  lsblk  ;  lsblk -O | less -M -S  ;  
