@@ -1,4 +1,4 @@
-package localhost.SoapMinAuxiliar;
+package localhost.SoapTest;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -42,6 +42,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+
+import localhost.SoapMinAuxiliar.PojoEnvioEstado;
+import localhost.SoapMinAuxiliar.PojoLoginDep2;
+import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
+import localhost.__gitignore.envialia.apachecxf.Login.LoginWSServiceLoginDep2;
+import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
 
 
 @Service
@@ -466,7 +472,7 @@ public class TestWriterReaderXmlSoap {
     
     
     @SuppressWarnings("unchecked")
-    public void jaxbPojoToXml () {
+    public void jaxbPojoToXmlFalse () {
     	
     	// case 1 begin
     	// log.info("case 1");
@@ -567,4 +573,50 @@ public class TestWriterReaderXmlSoap {
 
     
 
+    
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    public void jaxbMarshalPojoToXmlAgain () {
+    	
+    	String xmlStr = null;
+    	LoginWSServiceLoginDep2 loginWSServiceLoginDep2 = new LoginWSServiceLoginDep2();
+    	loginWSServiceLoginDep2.setStrCodAge(EnvialiaCredentials.strCodAge);
+    	loginWSServiceLoginDep2.setStrCodCli(EnvialiaCredentials.strCodCli);
+    	loginWSServiceLoginDep2.setStrDepartamento(EnvialiaCredentials.strDepartamento);
+    	loginWSServiceLoginDep2.setStrPass(EnvialiaCredentials.strPass);
+  	
+    	JAXBContext jaxbContext = null;
+    	Marshaller marshaller = null;
+	    StringWriter writer = new StringWriter();
+	    // StreamResult result = new StreamResult(writer); // not necessary
+		
+    	try {
+    		jaxbContext = JAXBContext.newInstance(loginWSServiceLoginDep2.getClass());   
+    		
+    		marshaller = jaxbContext.createMarshaller();
+    		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+    		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+    		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+    		
+    		marshaller.marshal(loginWSServiceLoginDep2, writer);
+    		xmlStr = writer.toString();
+    		
+		} catch (Exception e) {
+			log.error("e: ", e);
+		}
+    	log.info("xmlStr: {}", xmlStr);
+    	
+
+    	
+    	
+    	
+    }
+
+    
+    
+    
+    
+    
 }

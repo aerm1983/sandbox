@@ -5,6 +5,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Scanner;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.SOAPBody;
@@ -13,10 +15,12 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -32,6 +36,7 @@ import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
@@ -45,7 +50,7 @@ import localhost.SoapMinAuxiliar.PojoConsEnvio2;
 import localhost.SoapMinAuxiliar.PojoConsEnvio2Response;
 import localhost.SoapMinAuxiliar.PojoLoginDep2;
 import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
-import localhost.__gitignore.DeprecateSoapFull.TestEnvialia.credentials.EnvialiaCredentials;
+import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
 
 
 @Service
@@ -117,7 +122,10 @@ public class EnvialiaService {
         	String responseMessage = null;
         	String responseJsonString = null;
         	
-        	String xmlStr = null;
+        	JAXBContext jaxbContext = null;
+        	Marshaller marshaller = null;
+        	StringWriter stringWriter = null;
+
         	DocumentBuilderFactory dbc = DocumentBuilderFactory.newInstance();
             DocumentBuilder dbuilder;
 
@@ -134,36 +142,62 @@ public class EnvialiaService {
     		url = urlLoginDep2;
     		soapAction = soapActionLoginDep2;
     		idSessionHeader = null;
-    		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
+
+    		// requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2); // initial implementation, fails
+    		try {
+        		jaxbContext = JAXBContext.newInstance(requestPojoLoginDep2.getClass());   
+        		marshaller = jaxbContext.createMarshaller();
+        		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+        		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+        		stringWriter = new StringWriter();
+        		marshaller.marshal(requestPojoLoginDep2, stringWriter);
+        		requestMessage = stringWriter.toString();
+    		} catch (Exception e) {
+    			log.error("e: ", e);
+    		}
+        	log.info("requestMessage: {}", requestMessage);
 
         	responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+        	log.info("responseMessage: {}", responseMessage);
         	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
-        	
         	responseJsonString = objectMapper.writeValueAsString(pojoLoginDep2Response);
         	log.info("responseJsonString, LoginDep2: {}", responseJsonString);
         	
         	
         	// ENVIALIA, ConsEnvio2
-        	
-    		PojoConsEnvio2 pojoConsEnvio2 = new PojoConsEnvio2();
-    		pojoConsEnvio2.setStrCodAgeCargo(strCodAge);
-    		pojoConsEnvio2.setStrAlbaran(albaran);
+    		PojoConsEnvio2 requestPojoConsEnvio2 = new PojoConsEnvio2();
+    		requestPojoConsEnvio2.setStrCodAgeCargo(strCodAge);
+    		requestPojoConsEnvio2.setStrAlbaran(albaran);
     		
     		url = urlConsEnvio2;
     		soapAction = soapActionConsEnvio2;
     		idSessionHeader = pojoLoginDep2Response.getStrSesion();
-    		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvio2);
+    		
+    		// requestMessage = xmlMapper.writeValueAsString(pojoConsEnvio2); // initial implementation, fails
+        	try {
+        		jaxbContext = JAXBContext.newInstance(requestPojoConsEnvio2.getClass());   
+        		marshaller = jaxbContext.createMarshaller();
+        		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+        		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+        		stringWriter = new StringWriter();
+        		marshaller.marshal(requestPojoConsEnvio2, stringWriter);
+        		requestMessage = stringWriter.toString();
+    		} catch (Exception e) {
+    			log.error("e: ", e);
+    		}
+        	log.info("requestMessage: {}", requestMessage);
     		
     		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
+    		log.info("responseMessage: {}", responseMessage);
         	PojoConsEnvio2Response pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, PojoConsEnvio2Response.class);
-        	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvio2Response);
         	log.info("responseJsonString, ConsEnvio2: {}", responseJsonString);
         	
         	
         	// ENVIALIA, ConsEnvio2, obtain V_COD_AGE_ORI Y V_COD_AGE_CARGO
-        	xmlStr = pojoConsEnvio2Response.getStrEnvio();
-            
+        	String xmlStr = pojoConsEnvio2Response.getStrEnvio();
             String vCodAgeOri = null;
             String vCodAgeCargo = null;
 
@@ -181,31 +215,43 @@ public class EnvialiaService {
                 log.error("e: ", e);
             }
         	
+            
+            
         	// ENVIALIA, ConsEnvEstados
-        	
-    		PojoConsEnvEstados pojoConsEnvEstados = new PojoConsEnvEstados();
-    		// pojoConsEnvEstados.setStrCodAgeCargo(strCodAge);
-    		// pojoConsEnvEstados.setStrCodAgeOri(strCodAge);
-    		pojoConsEnvEstados.setStrCodAgeCargo(vCodAgeCargo);
-    		pojoConsEnvEstados.setStrCodAgeOri(vCodAgeOri);
-    		pojoConsEnvEstados.setStrAlbaran(albaran);
+            
+    		PojoConsEnvEstados requestPojoConsEnvEstados = new PojoConsEnvEstados();
+    		requestPojoConsEnvEstados.setStrCodAgeCargo(vCodAgeCargo);
+    		requestPojoConsEnvEstados.setStrCodAgeOri(vCodAgeOri);
+    		requestPojoConsEnvEstados.setStrAlbaran(albaran);
     		
     		url = urlConsEnvEstados;
     		soapAction = soapActionConsEnvEstados;
     		idSessionHeader = pojoLoginDep2Response.getStrSesion();
-    		requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstados);
+    		
+    		// requestMessage = xmlMapper.writeValueAsString(pojoConsEnvEstados); // initial implementation, fails
+        	try {
+        		jaxbContext = JAXBContext.newInstance(requestPojoConsEnvEstados.getClass());   
+        		marshaller = jaxbContext.createMarshaller();
+        		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+        		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+        		stringWriter = new StringWriter();
+        		marshaller.marshal(requestPojoConsEnvEstados, stringWriter);
+        		requestMessage = stringWriter.toString();
+    		} catch (Exception e) {
+    			log.error("e: ", e);
+    		}
+        	log.info("requestMessage: {}", requestMessage);
     		
     		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		log.info("responseMessage: {}", responseMessage);
         	PojoConsEnvEstadosResponse pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, PojoConsEnvEstadosResponse.class);
-        	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvEstadosResponse);
         	log.info("responseJsonString, ConsEnvEstados: {}", responseJsonString);
         	
         	
         	// ENVIALIA, ConsEnvEstados, obtain delivery date, V_COD_TIPO_EST="4", D_FEC_HORA_ALTA
         	xmlStr = pojoConsEnvEstadosResponse.getStrEnvEstados();
-            
             String vCodTipoEst = null;
             String dFecHoraAlta = null;
 
@@ -231,8 +277,6 @@ public class EnvialiaService {
                 log.error("e: ", e);
             }
 
-        	
-
         	// end
         	return;
     		
@@ -244,21 +288,25 @@ public class EnvialiaService {
     
 
     
-    public Object soapConsumptionWithHeader(String url, String soapAction, String idSessionHeader, String message) {
+    public Object soapConsumptionWithHeader(String url, String soapAction, String idSessionHeader, String requestMessage) {
     	try {
         	
     		// transformer factory
     		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    		final Transformer transformer = transformerFactory.newTransformer();
+    		Transformer transformer = transformerFactory.newTransformer();
+    		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+    		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+    		transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+    		transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
     		
     		// message to send
-    		StringReader stringReaderForSource = new StringReader(message);
-    		StringReader stringReaderForSourceToLog = new StringReader(message);
-        	final StreamSource streamSource = new StreamSource(stringReaderForSource);
+    		StringReader stringReaderForSource = new StringReader(requestMessage);
+    		StringReader stringReaderForSourceToLog = new StringReader(requestMessage);
+        	StreamSource streamSource = new StreamSource(stringReaderForSource);
             
             // message to receive
     	    StringWriter writerForResult = new StringWriter();
-    	    final StreamResult streamResult = new StreamResult(writerForResult);
+    	    StreamResult streamResult = new StreamResult(writerForResult);
 
     	    // default url
             webServiceTemplate.setDefaultUri(url);
@@ -290,19 +338,38 @@ public class EnvialiaService {
             	log.error("e: ", e);
             }
             
+            
             // execute soap service call
             Object responseObject = webServiceTemplate.sendAndReceive(
         		new WebServiceMessageCallback() {
     	            public void doWithMessage(WebServiceMessage webServiceMessage) {
+    	            	
+    	            	SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage; // debug
+    	            	
+    	            	// debug, begin
+    	            	Document documentDebug_Ini = senderSoapMessage.getDocument(); 
+    	            	DOMSource domSourceDebug_Ini = new DOMSource(documentDebug_Ini);
+    	        	    StringWriter stringWriterForResultDebug_Ini = new StringWriter();
+    	        	    StreamResult streamResultDebug_Ini = new StreamResult(stringWriterForResultDebug_Ini);
+    	        	    try {
+    	        	    	transformer.transform(domSourceDebug_Ini, streamResultDebug_Ini);
+    	        	    } catch (Exception e) {
+    	        	    	log.error("e:", e);
+    	        	    }
+    	        	    log.info("debug, sender, documentDebug_Ini: {}", stringWriterForResultDebug_Ini.toString());
+    	        	    // debug, end
+
+    	            	
+    	            	
+    	            	
     	            	Result senderResult = webServiceMessage.getPayloadResult();
     	            	try {
     	            		transformer.transform(streamSource, senderResult);	
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
-    	            	SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage;
-    	            	senderSoapMessage.setSoapAction(soapAction); // debug - is this necessary?
+    	            	// SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage; // initial implementation
+    	            	senderSoapMessage.setSoapAction(soapAction);
 
     	            	// required vars, begin
 	            		SaajSoapMessage senderSaajSoapMessage = (SaajSoapMessage) webServiceMessage;
@@ -313,64 +380,92 @@ public class EnvialiaService {
     	            	SOAPBody senderSOAPBody = null;
     	            	SOAPHeader senderSOAPHeader = null;
     	            	try {
+    	            		senderSOAPMessage.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
     	            		senderSOAPEnvelope = senderSOAPPart.getEnvelope();
-    	            		senderSOAPBody = senderSOAPMessage.getSOAPBody();
     	            		senderSOAPHeader = senderSOAPMessage.getSOAPHeader();
+    	            		senderSOAPBody = senderSOAPMessage.getSOAPBody();
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	// required vars, end
     	            	
+    	            	// soap-envelope    	            	
     	            	try {
-        	            	// adjust namespace in body child elements, begin
         	            	senderSOAPEnvelope.addNamespaceDeclaration("tem", "http://tempuri.org");
-        	            	
-        	            	// trying to manually add prefix to SOAP-body child nodes fails
-        	            	// senderSOAPBody.getFirstChild().setPrefix("tem"); // fail, exception
-        	            	
-        	            	// adjust namespace in body child elements, end
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
     	            	
+    	            	// soap-header
     	            	try {
-        	            	// add header, begin
         	            	SOAPElement roClientIDHeaderHSE = senderSOAPHeader.addChildElement("ROClientIDHeader","tem");  // "ROClientIDHeader"
         	            	SOAPElement idHSE = roClientIDHeaderHSE.addChildElement("ID", "tem");
         	            	if ( idSessionHeader != null && !idSessionHeader.isEmpty() ) {
         	            		idHSE.addTextNode(idSessionHeader);
-        	            	/*
-        	            	} else {
-        	            		idHSE.addTextNode("");
-    	            		*/
         	            	}
-        	            	// add header, end
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
+    	            	
+	            		// soap-body    	            	
+    	            	try {
+    	            		Node bodyNode = senderSOAPBody.getFirstChild();
+    	            		bodyNode.setPrefix("tem");
+    	            		Node bodyNodeChild = bodyNode.getFirstChild();
+    	            		while ( bodyNodeChild != null  ) {
+    	            			bodyNodeChild.setPrefix("tem");
+    	            			bodyNodeChild = bodyNodeChild.getNextSibling();
+    	            		}
+    	            		
+    	            	} catch (Exception e) {
+    	            		log.error("e: ", e);
+    	            	}
+    	            	
+    	            	// debug, begin
+    	            	Document documentDebug_Fin = senderSoapMessage.getDocument(); 
+    	            	DOMSource domSourceDebug_Fin = new DOMSource(documentDebug_Fin);
+    	        	    StringWriter stringWriterForResultDebug_Fin = new StringWriter();
+    	        	    StreamResult streamResultDebug_Fin = new StreamResult(stringWriterForResultDebug_Fin);
+    	        	    try {
+    	        	    	transformer.transform(domSourceDebug_Fin, streamResultDebug_Fin);
+    	        	    } catch (Exception e) {
+    	        	    	log.error("e:", e);
+    	        	    }
+    	        	    log.info("debug, sender, documentDebug_Fin: {}", stringWriterForResultDebug_Fin.toString());
+    	        	    // debug, end
+
     	            	
     	            	return;
     	            }
         		},
                 new WebServiceMessageExtractor<Object>() {
                     public Object extractData(WebServiceMessage webServiceMessage) throws IOException {
-                        // do your own transforms with message.getPayloadResult()
-                        //     or message.getPayloadSource()
+                    	
+                    	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage; // debug 
+                    	
+    	            	// debug, begin
+    	            	Document documentDebug_Ini = receiverSoapMessage.getDocument(); 
+    	            	DOMSource domSourceDebug_Ini = new DOMSource(documentDebug_Ini);
+    	        	    StringWriter stringWriterForResultDebug_Ini = new StringWriter();
+    	        	    StreamResult streamResultDebug_Ini = new StreamResult(stringWriterForResultDebug_Ini);
+    	        	    try {
+    	        	    	transformer.transform(domSourceDebug_Ini, streamResultDebug_Ini);
+    	        	    } catch (Exception e) {
+    	        	    	log.error("e:", e);
+    	        	    }
+    	        	    log.info("debug, receiver, documentDebug_Ini: {}", stringWriterForResultDebug_Ini.toString());
+    	        	    // debug, end
+                    	
+                        // do your own transforms with message.getPayloadResult() or message.getPayloadSource()
                     	Source receiverSource = webServiceMessage.getPayloadSource();
     	            	try {
     	            	    transformer.transform(receiverSource, streamResult);
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage;
+    	            	// SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage; // initial implementation
     	            	String responseBodyStr = writerForResult.toString();
-
-    	            	// correction, pre-processing
-	            	    // responseBodyStr = responseBodyStr.replace("&lt;", "<").replace("&gt;", ">");
-	            	    
-	            	    // log.info("responseBodyStr: {}", responseBodyStr); // debug
+    	            	
                     	return responseBodyStr;
-                    	// return null // debug
                     }
                 }
     		);

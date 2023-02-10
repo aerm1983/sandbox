@@ -22,6 +22,7 @@
 		<project.versionDate>2022-02-22 13:00</project.versionDate>
 		<project.versionComment>mockup para bm, hash sha-384 in http header, hash calculation and validation</project.versionComment>
 		<maven.test.skip>false</maven.test.skip>
+		<cxf.version>3.5.5</cxf.version>
 	</properties>
 
 	<dependencies>
@@ -63,10 +64,12 @@
 		</dependency>
 
 		<!-- -->
+		<!--
 		<dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        -->
 		
  		<dependency>
  			<groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -77,6 +80,37 @@
 		    <groupId>com.fasterxml.jackson.module</groupId>
 		    <artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
+		
+		<!-- dependency added: apache cxf simple, did not work -->
+		<!--
+		<dependency>
+    		<groupId>org.apache.cxf</groupId>
+    		<artifactId>cxf-rt-frontend-simple</artifactId>
+    		<version>3.5.5</version>
+		</dependency>
+		-->
+		<!-- also did not work, pretended to initiate WebServer -->
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxws -->
+		<!--
+		<dependency>
+    		<groupId>org.apache.cxf</groupId>
+    		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+    		<version>3.5.5</version>
+    		<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.cxf</groupId>
+    		<artifactId>cxf-rt-transports-http</artifactId>
+    		<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-rt-transports-http-jetty</artifactId>
+		    <version>${cxf.version}</version>
+		</dependency>
+		-->
+		
+		
         
 	</dependencies>
 

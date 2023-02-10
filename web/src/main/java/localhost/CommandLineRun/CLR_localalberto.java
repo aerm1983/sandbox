@@ -2,16 +2,35 @@ package localhost.CommandLineRun;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class AlbertoRunnableProcess implements CommandLineRunner{
+public class CLR_localalberto implements CommandLineRunner{
 	
-	private static Logger log = LoggerFactory.getLogger(AlbertoRunnableProcess.class);
+	private static Logger log = LoggerFactory.getLogger(CLR_localalberto.class);
 	
 	// static attributes can not be injected
+	
+	@Value("${spring.application.name}")
+    private String springApplicationName;
+	
+	@Value("${server.port}")
+    private String serverPort;
+	
+	/*
+	@Value("${spring.datasource.url}")
+    private String springDatasourceUrl;
+	
+	@Value("${spring.datasource.hikari.max-lifetime}")
+    private String springDatasourceHikariMaxLifetime;
+
+	@Value("${spring.datasource.hikari.maximum-pool-size}")
+    private String springDatasourceHikariMaximumPoolSize;
+    */
+
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -23,6 +42,8 @@ public class AlbertoRunnableProcess implements CommandLineRunner{
 		
 		// log.debug("debugging Runnable Process!");
 		log.info("hello world Runnable Proccess!");
+		log.info("spring.application.name: {}", springApplicationName);
+		log.info("server.port: {}", serverPort);
 		
 		String argsStr = "'";
 		int i = 0;
