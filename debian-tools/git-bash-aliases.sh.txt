@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-02-09 11:37'
+__ALIAS_LAST_UPDATE__='2023-02-09 18:06'
 __ALIAS_TIMEOUT__='0.3'
 __JH_XMX__='256m'
 __JH_SPRING_PROFILES_ACTIVE__='localalberto' # comma separated values, no whitespace
@@ -182,6 +182,7 @@ alias sj11='. ~/.set-java-version 11'
 alias mc='echo "--> mvn clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean'
 alias mcc='echo "--> mvn clean compile -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean compile -Dmaven.test.skip=true'
 alias mcp='echo "--> mvn clean package -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean package -Dmaven.test.skip=true'
+alias mci='echo "--> mvn clean install -U -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean install -U -Dmaven.test.skip=true'
 alias mrjr='echo "--> mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true'
 
 
@@ -355,6 +356,7 @@ s=${s}'\n'
 s=${s}'  mc  : mvn clean \n'
 s=${s}'  mcc : mvn clean compile -Dmaven.test.skip=true \n'
 s=${s}'  mcp : mvn clean package -Dmaven.test.skip=true \n'
+s=${s}'  mci : mvn clean install -U -Dmaven.test.skip=true \n'
 s=${s}'  mrjr: mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true \n'
 s=${s}'\n'
 s=${s}'  tk  : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'

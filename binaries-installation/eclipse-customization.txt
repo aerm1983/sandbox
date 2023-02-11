@@ -1,0 +1,110 @@
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ECLIPSE CUSTOMIZATION -- updated 2023-02-11 03:26
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+
+
+(1) Download links: "Download packages" or "Eclipse packages", then "Eclipse IDE for Java Developers", zip file.
+
+Sugested installation folder: "/opt/eclipse/eclipse-java-YYYY.MM.R".
+
+
+
+(2) Check/adjust values in "eclipse.ini" file.
+
+(2.1) Workspace; default recommended might be ok:
+
+(-vmargs ...)
+
+-Dosgi.instance.area.default=@user.home/eclipse-workspace
+
+It might be useful to enable long paths/filenames in Windows-OS environment, to avoid crashes.
+
+(2.2) Edit memory management, original values are 256m and 2048m:
+
+(-vmargs ...)
+
+-Xms32m
+
+-Xmx1024m
+
+(2.3) Add lombook library in eclipse.ini and in eclipse root folder:
+
+(-vmargs ...)
+
+-javaagent:lombok-1.18.24.jar
+
+Lombok source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
+
+
+
+(3) Adjust maven local repository path
+
+(3.1) Adjust external 'settings.xml' file in 'Global' and 'User' fields:
+
+Window -> Preferences -> Maven -> User Settings
+
+(3.2) Check correct path of '.m2' folder:
+
+Window -> Preferences -> Java -> Build Path -> Classpath Variables
+
+
+
+(4) Adjust default JRE for workspace
+
+(4.1) Add or edit available JREs:
+
+Window -> Preferences -> Java -> Installed JREs
+
+Default eclipse JRE can be eliminated, leaving only customized ones.
+
+(4.2) Verify default workspace JRE:
+
+Window -> Preferences -> Java -> Build Path -> Classpath Variables
+
+
+
+(5) Set dark colors for IDE:
+
+(Darkest Dark Theme from Eclipse-Marketplace is not necessary).
+
+(5.1) Select 'dark' in 'theme' selector at:
+
+Window -> General -> Apearance
+
+(5.2) Next indication seems deprecated (since "Dark Theme" plugin is not necessary):
+
+Window -> Preferences -> DevStyle
+
+Select 'Primary Colors' as icon-style.
+
+
+
+(6) Add lombok to ini file (do not add empty lines)
+
+(-vmargs ...)
+
+-javaagent:lombok-1.18.24.jar
+
+
+
+(7) Optional, really not recommended, add icon scaling to ini file (do not add empty lines):
+
+(-vmargs ...)
+
+-Dswt.enable.autoScale=true
+
+-Dswt.autoScale=120
+
+-Dswt.autoScale.method=nearest
+
+
+
+(8) Test eclipse.
+
+(8.1) Use debgugger with a simple project, when asked by window/prompt, click on remember to switch to debugging view.
+
+(8.2) Check lombook, pojo with annotations @Getter, @Setter, @NoArgsConstructor should not indicate error/warning.
+
+
+

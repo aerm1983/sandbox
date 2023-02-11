@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = =
-MAVEN -- updated: 2023-02-06 19:14
+MAVEN -- updated: 2023-02-10 07:30
 = = = = = = = = = = = = = = = = = = = =
 
 
@@ -38,9 +38,11 @@ mvn surefire:help -Ddetail
 
 mvn jar:help
 
+mvn spring-boot:help -Ddetail
+
 mvn install:help
 
-mvn spring-boot:help -Ddetail
+mvn eclipse:help
 
 
 
@@ -51,6 +53,8 @@ mvn help:describe -Dcmd=clean:clean
 mvn help:describe -Dcmd=surefire:test -Ddetail
 
 mvn help:describe -Dcmd=spring-boot:repackage
+
+mvn help:describe -Dcmd=eclipse:clean
 
 
 
@@ -64,4 +68,15 @@ mvn clean package -Dmaven.test.skip=true
 
 mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true
 
+
+
+(8) force dependencies update:
+
+mvn clean install -U -Dmaven.test.skip=true
+
+
+
+(9) remove eclipse project files:
+
+mvn eclipse:clean
 

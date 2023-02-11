@@ -1,0 +1,55 @@
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+# Eclipse.ini sample v2 - updated: 2023-02-11 03:26
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+#
+# NOTES:
+# (01) This is a reference file, do not overwrite original in installation, just make line additions.
+# (02) Key-value pairs are separated by "newline" character.
+# (03) Avoid inserting line comments between key and value to prevent errors.
+# (04) Eclipse makes updates on this file, without user intervention.
+# (05) Verify if adjustments on VM are really necessary (late Eclipse versions come with its own JRE included)
+# (06) Workspace, if provided, use default: "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
+# (07) Memory, original values are 256 and 2048.
+# (08) Lombok: version higher than 1.18.20, add manually.
+# (09) Lombok: absolute path is not necessary, paths are relative to Eclipse root folder
+# (10) Lombok: source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
+# (11) GUI icon scaling: better not to implement.
+# (12) GUI icon scaling, if implemented, also tweak DPI Scaling in properties/compatibility of Eclipse launcher
+# (13) Maybe not mandatory but recommended, erase comment lines between parameters definitions, see notes 01-04.
+#
+-startup
+plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
+--launcher.library
+plugins/org.eclipse.equinox.launcher.win32.win32.x86_64_1.2.500.v20220509-0833
+-product
+org.eclipse.epp.package.java.product
+-showsplash
+org.eclipse.epp.package.common
+--launcher.defaultAction
+openFile
+-vm
+plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_18.0.1.v20220515-1614/jre/bin
+-vmargs
+# --add-opens=java.base/java.io=ALL-UNNAMED
+# --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+# --add-opens=java.base/java.net=ALL-UNNAMED
+# --add-opens=java.base/sun.security.ssl=ALL-UNNAMED
+-Dosgi.requiredJavaVersion=11
+# workspace
+-Dosgi.instance.area.default=@user.home/eclipse-workspace
+-Dosgi.dataAreaRequiresExplicitInit=true
+-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true
+-Dsun.java.command=Eclipse
+# memory
+-Xms32m
+-Xmx1024m
+--illegal-access=permit
+--add-modules=ALL-SYSTEM
+# lombok
+-javaagent:lombok-1.18.24.jar
+# GUI icon scaling
+-Dswt.enable.autoScale=false
+-Dswt.autoScale=100
+-Dswt.autoScale.method=nearest
+
+
