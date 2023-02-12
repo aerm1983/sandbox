@@ -1,21 +1,26 @@
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# Eclipse.ini sample v2 - updated: 2023-02-11 03:26
+# Eclipse.ini sample v2 - updated: 2023-02-12 09:02
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 #
+# See also: https://wiki.eclipse.org/Eclipse.ini
+#
 # NOTES:
-# (01) This is a reference file, do not overwrite original in installation, just make line additions.
+# (01) This is a reference file, do not overwrite original file from installation, just make line additions/editions.
 # (02) Key-value pairs are separated by "newline" character.
 # (03) Avoid inserting line comments between key and value to prevent errors.
 # (04) Eclipse makes updates on this file, without user intervention.
-# (05) Verify if adjustments on VM are really necessary (late Eclipse versions come with its own JRE included)
-# (06) Workspace, if provided, use default: "-Dosgi.instance.area.default=@user.home/eclipse-workspace"
-# (07) Memory, original values are 256 and 2048.
-# (08) Lombok: version higher than 1.18.20, add manually.
-# (09) Lombok: absolute path is not necessary, paths are relative to Eclipse root folder
-# (10) Lombok: source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
-# (11) GUI icon scaling: better not to implement.
-# (12) GUI icon scaling, if implemented, also tweak DPI Scaling in properties/compatibility of Eclipse launcher
-# (13) Maybe not mandatory but recommended, erase comment lines between parameters definitions, see notes 01-04.
+# (05) Verify if adjustments on VM are really necessary (late Eclipse versions come with its own JRE included).
+# (06) Add/adjust configuration area.
+# (07) Add/adjust workspace area.
+# (08) Add/adjust heap memory size.
+# (09) Add/adjust Lombok:
+# (09.02) source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
+# (09.01) use version higher than 1.18.20
+# (09.01) absolute path is not necessary, paths are relative to Eclipse root install folder
+# (10) GUI icon scaling: 
+# (10.01) optional, better not to implement.
+# (10.02) if implemented, also tweak DPI Scaling in properties/compatibility of Eclipse launcher.
+# (11) Maybe not mandatory but recommended, erase comment lines between parameters definitions, see notes 01-04.
 #
 -startup
 plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar
@@ -35,12 +40,18 @@ plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_18.0.1.v20220515
 # --add-opens=java.base/java.net=ALL-UNNAMED
 # --add-opens=java.base/sun.security.ssl=ALL-UNNAMED
 -Dosgi.requiredJavaVersion=11
-# workspace
--Dosgi.instance.area.default=@user.home/eclipse-workspace
+# configuration area
+# -Dosgi.configuration.area=@user.home/.eclipse # default
+-Dosgi.configuration.area=file:/D:/opt/_eclipse-java-YYYY.MM.R-configuration
+# workspace area
+# -Dosgi.instance.area.default=@user.home/eclipse-workspace # default
+-Dosgi.instance.area.default=file:/D:/opt/_eclipse-java-YYYY.MM.R-workspace
 -Dosgi.dataAreaRequiresExplicitInit=true
 -Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true
 -Dsun.java.command=Eclipse
-# memory
+# heap memory size
+# -Xms256m # default
+# -Xmx2048m # default
 -Xms32m
 -Xmx1024m
 --illegal-access=permit

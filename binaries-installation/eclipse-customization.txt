@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-ECLIPSE CUSTOMIZATION -- updated 2023-02-11 03:26
+ECLIPSE CUSTOMIZATION -- updated 2023-02-12 09:06
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -10,17 +10,25 @@ Sugested installation folder: "/opt/eclipse/eclipse-java-YYYY.MM.R".
 
 
 
-(2) Check/adjust values in "eclipse.ini" file.
+(2) Before start Eclipse, check/adjust values in "eclipse.ini" file.
 
-(2.1) Workspace; default recommended might be ok:
+See also: https://wiki.eclipse.org/Eclipse.ini
+
+(2.1) Configuration area (default value: "@user.home/.eclipse"):
 
 (-vmargs ...)
 
--Dosgi.instance.area.default=@user.home/eclipse-workspace
+-Dosgi.configuration.area=file:/D:/opt/_eclipse-java-YYYY.MM.R-configuration
+
+(2.2) Workspace area (default value:"@user.home/eclipse-workspace" ):
+
+(-vmargs ...)
+
+-Dosgi.instance.area.default=file:/D:/opt/_eclipse-java-YYYY.MM.R-workspace
 
 It might be useful to enable long paths/filenames in Windows-OS environment, to avoid crashes.
 
-(2.2) Edit memory management, original values are 256m and 2048m:
+(2.3) Edit heap memory size (default: 256m and 2048m):
 
 (-vmargs ...)
 
@@ -28,7 +36,7 @@ It might be useful to enable long paths/filenames in Windows-OS environment, to 
 
 -Xmx1024m
 
-(2.3) Add lombook library in eclipse.ini and in eclipse root folder:
+(2.4) Add lombook library in eclipse.ini and in eclipse root folder:
 
 (-vmargs ...)
 
@@ -38,41 +46,69 @@ Lombok source: https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.24/
 
 
 
-(3) Adjust maven local repository path
+(3) Start Eclipse, adjust Workspace.
 
-(3.1) Adjust external 'settings.xml' file in 'Global' and 'User' fields:
+(3.1) Pick new or existing workspace folder:
+
+File > Switch Workspace > Other...
+
+Suggested folder: "D:/opt/_eclipse-YYYY.MM.R-workspace/" (see 2.2, "workspace area" in "eclipse.ini").
+
+(3.2) Edit workspace history:
+
+Window > Preferences > General > Startup and Shutdown > Workspaces
+
+(3.3) Manage window titles (enable workspace-full-path, product-name, perspective):
+
+Window > Preferences > General > Workspace
+
+(3.4) Manage build options (disable save and build automatically):
+
+Window > Preferences > General > Workspace > Build
+
+
+
+(4) Adjust maven local repository path
+
+(4.1) Adjust external 'settings.xml' file in 'Global' and 'User' fields:
 
 Window -> Preferences -> Maven -> User Settings
 
-(3.2) Check correct path of '.m2' folder:
+(4.2) Check correct path of '.m2' (or '_m2') folder:
 
 Window -> Preferences -> Java -> Build Path -> Classpath Variables
 
 
 
-(4) Adjust default JRE for workspace
+(5) Adjust default JRE and compilation-settings for workspace
 
-(4.1) Add or edit available JREs:
+(5.1) Add or edit available JREs:
 
 Window -> Preferences -> Java -> Installed JREs
 
-Default eclipse JRE can be eliminated, leaving only customized ones.
+Optional: default eclipse JRE can be eliminated, leaving only customized ones.
 
-(4.2) Verify default workspace JRE:
+(5.2) Verify default workspace JRE:
 
 Window -> Preferences -> Java -> Build Path -> Classpath Variables
 
+(5.3) Compilation is done by JDK indicated in '-vm' option, 'eclipse.ini' file.
+
+Compilation settings (JDK version),  adjusted at:
+
+Window -> Preferences -> Java > Compiler
 
 
-(5) Set dark colors for IDE:
+
+(6) Set dark colors for IDE:
 
 (Darkest Dark Theme from Eclipse-Marketplace is not necessary).
 
-(5.1) Select 'dark' in 'theme' selector at:
+(6.1) Select 'dark' in 'theme' selector at:
 
 Window -> General -> Apearance
 
-(5.2) Next indication seems deprecated (since "Dark Theme" plugin is not necessary):
+(6.2) Next indication seems deprecated (since "Dark Theme" plugin is not necessary):
 
 Window -> Preferences -> DevStyle
 
@@ -80,7 +116,7 @@ Select 'Primary Colors' as icon-style.
 
 
 
-(6) Add lombok to ini file (do not add empty lines)
+(7) Add lombok to ini file (do not add empty lines)
 
 (-vmargs ...)
 
@@ -88,7 +124,15 @@ Select 'Primary Colors' as icon-style.
 
 
 
-(7) Optional, really not recommended, add icon scaling to ini file (do not add empty lines):
+(8) Test eclipse
+
+(8.1) Use debgugger with a simple project, when asked by window/prompt, click on remember to switch to debugging view.
+
+(8.2) Check lombook, pojo with annotations @Getter, @Setter, @NoArgsConstructor should not indicate error/warning.
+
+
+
+(9) Optional, really not recommended, add icon scaling to ini file (do not add empty lines):
 
 (-vmargs ...)
 
@@ -100,11 +144,21 @@ Select 'Primary Colors' as icon-style.
 
 
 
-(8) Test eclipse.
+(10) Some usage notes.
 
-(8.1) Use debgugger with a simple project, when asked by window/prompt, click on remember to switch to debugging view.
+(10.1) Project Nature:
 
-(8.2) Check lombook, pojo with annotations @Getter, @Setter, @NoArgsConstructor should not indicate error/warning.
+- Java/Maven/SpringBoot: like Java/Maven.
+
+- Java/Maven: there is pom.xml, compiled files in 'target' folder, jar file generated, compilation and execution managed from commandline (maven) or ide (eclipse).
+
+- Java: no pom.xml, compiled files in 'bin' folder, compilation and execution from commandline is cumbersome (jdk: java, javac, jar), better managed from ide (eclipse run/debug configuration).
+
+(10.2) Workspace temporal files mainly in: "/{workspace}/.metadata/.plugins/org.eclipse.jdt.core".
+
+When Eclipse is closed or up with no projects open, can be 30MB.
+
+Each project increments workspac temporal files, depending on its size, ~100-300MB.
 
 
 
