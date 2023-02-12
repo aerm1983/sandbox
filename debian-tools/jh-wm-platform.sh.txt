@@ -1,13 +1,14 @@
 #!/bin/bash
+#!/bin/bash
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2022-02-06 22:00'
+__JH_WMP_UPDATED__='2022-02-11 15:56'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
 __JH_GIT_COMPILE_FAIL_FILE__='zgit-compile-fail.tmp'
-
+__JH_RESTORE_DIR__='__RESTORE_LOALB__'
 
 
 ### main functions
@@ -44,6 +45,7 @@ function _jh_start_platform {
     # _jh_start_service bulkfileprocessor
 
     # _jh_start_service merchantlogisfashion
+    # _jh_start_service carrierseur
 
     # _jh_start_service mailing
     # _jh_start_service template-generator
@@ -83,6 +85,7 @@ function _jh_remove_logs_platform {
     command rm -v bulk*.jar.log
 
     command rm -v merchantlogisfashion*.jar.log
+    command rm -v carrierseur*.jar.log
 
     command rm -v mailing*.jar.log
     command rm -v template-generator*.jar.log
@@ -130,6 +133,7 @@ function _jh_truncate_logs_platform {
     command echo -n '' > bulk*.jar.log
 
     command echo -n '' > merchantlogisfashion*.jar.log
+    command echo -n '' > carrierseur*.jar.log
 
     command echo -n '' > mailing*.jar.log
     command echo -n '' > template-generator*.jar.log
@@ -163,6 +167,7 @@ function _jh_kill_platform {
     _jh_kill_service template-generator
     _jh_kill_service mailing
     
+    _jh_kill_service carrierseur
     _jh_kill_service merchantlogisfashion
 
     _jh_kill_service bulkfileprocessor
@@ -258,6 +263,7 @@ function _jh_backup_localalberto_service {
     command cd ${1}
     echo '--> backup localalberto files from '\'$( pwd  )\'
     find ./src -name '*localalberto*' | while read myfile; do command cp -v ${myfile} '../zlocalalberto/z'${1}'/'; done;
+    command cp -v ./*localalberto.launch '../zlocalalberto/z'${1}'/'
     command cp -v ./pom.xml.localalberto '../zlocalalberto/z'${1}'/' # deprecation pending
     # command cp -v ./src/main/resources/application-localalberto.yml '../zlocalalberto/z'${1}'/' # deprecated
     # command cp -v ./src/main/resources/log4j2-localalberto.xml '../zlocalalberto/z'${1}'/' # deprecated
@@ -285,6 +291,7 @@ function _jh_backup_localalberto_platform {
     _jh_backup_localalberto_service bulkfileprocessor
 
     _jh_backup_localalberto_service merchantlogisfashion
+    _jh_backup_localalberto_service carrierseur
 
     _jh_backup_localalberto_service mailing
     _jh_backup_localalberto_service template-generator
@@ -296,18 +303,28 @@ function _jh_backup_localalberto_platform {
 function _jh_restore_localalberto_service {
     cdkj_s
     command cd ${1}
-    echo '--> restore localalberto files to '\'$( pwd  )\'
+    command rm -vfR ./${__JH_RESTORE_DIR__}
+    command mkdir -v ./${__JH_RESTORE_DIR__}
+    echo '--> restore localalberto files to folder '\'$( pwd  )'/'${__JH_RESTORE_DIR__}\'
     # command cp -v '../zlocalalberto/z'${1}'/pom.xml.localalberto' ./  # deprecated
     # command cp -v ./pom.xml.localalberto ./pom.xml  # deprecated
     # command cp -v '../zlocalalberto/z'${1}'/log4j2-localalberto.xml' ./src/main/resources/  # deprecated
-    command cp -v '../zlocalalberto/z'${1}'/application-localalberto.yml' ./src/main/resources/
-    command cp -v '../zlocalalberto/z'${1}'/CLR_localalberto.java' ./
+    # command cp -v '../zlocalalberto/z'${1}'/application-localalberto.yml' ./src/main/resources/ # deprecated
+    # command cp -v '../zlocalalberto/z'${1}'/CLR_localalberto.java' ./ # deprecated
+    command cp -v '../zlocalalberto/z'${1}'/'* ./${__JH_RESTORE_DIR__}
+    
     command cd ..
     echo
 }
 
 
+
 function _jh_restore_localalberto_platform {
+    
+    _jh_clean_restore_dir_localalberto_platform
+    echo 'existing restore dirs were eliminated, now re-create them and do restore'
+    sleep ${__JH_TIMEOUT_CONTINUE_SEC__}
+    
     cdkj_s
     echo -e '--> restore localalberto files, whole platform\n'
     echo
@@ -326,6 +343,7 @@ function _jh_restore_localalberto_platform {
     _jh_restore_localalberto_service bulkfileprocessor
 
     _jh_restore_localalberto_service merchantlogisfashion
+    _jh_restore_localalberto_service carrierseur
 
     _jh_restore_localalberto_service mailing
     _jh_restore_localalberto_service template-generator
@@ -333,6 +351,44 @@ function _jh_restore_localalberto_platform {
     
 }
 
+
+
+function _jh_clean_restore_dir_localalberto_service {
+    cdkj_s
+    command cd ${1}
+    command rm -vfR ./${__JH_RESTORE_DIR__}
+    command cd ..
+    echo
+}
+
+
+
+function _jh_clean_restore_dir_localalberto_platform {
+    cdkj_s
+    echo -e '--> clean restore dirs for localalberto files, whole platform\n'
+    echo
+
+    _jh_clean_restore_dir_localalberto_service microservicesregistry 
+
+    _jh_clean_restore_dir_localalberto_service usermanagement
+    _jh_clean_restore_dir_localalberto_service mappingmanagement
+
+    _jh_clean_restore_dir_localalberto_service marketplacemirakl
+    _jh_clean_restore_dir_localalberto_service marketplaceebay
+    _jh_clean_restore_dir_localalberto_service marketplacearise
+
+    _jh_clean_restore_dir_localalberto_service productmanagement
+    _jh_clean_restore_dir_localalberto_service ordermanagement
+    _jh_clean_restore_dir_localalberto_service bulkfileprocessor
+
+    _jh_clean_restore_dir_localalberto_service merchantlogisfashion
+    _jh_clean_restore_dir_localalberto_service carrierseur
+
+    _jh_clean_restore_dir_localalberto_service mailing
+    _jh_clean_restore_dir_localalberto_service template-generator
+    _jh_clean_restore_dir_localalberto_service ui
+    
+}
 
 
 
@@ -446,7 +502,7 @@ function bulkfileprocessor_test_block2 {
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r ; echo ; alias 7 ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r 3c ; echo ; alias 7 ; echo ; alias 8 9 ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
@@ -459,6 +515,7 @@ alias _0rlp='_jh_remove_logs_platform'
 
 alias 3b='_jh_backup_localalberto_platform'
 alias 3r='_jh_restore_localalberto_platform'
+alias 3c='_jh_clean_restore_dir_localalberto_platform'
 
 alias 7='_0rs '
 alias 8='_0kp ; _0rlp ;         # 8 kill_platform, remove_logs'
