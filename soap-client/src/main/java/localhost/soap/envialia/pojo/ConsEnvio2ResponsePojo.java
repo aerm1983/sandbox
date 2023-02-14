@@ -1,5 +1,5 @@
 
-package localhost.SoapMinAuxiliar;
+package localhost.soap.envialia.pojo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="strEnvEstadosRef" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="strEnvio" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "strEnvEstadosRef"
+    "strEnvio"
 })
-@XmlRootElement(name = "WebServService___ConsEnvEstadosRefResponse")
-public class PojoConsEnvEstadosRefResponse {
+@XmlRootElement(name = "WebServService___ConsEnvio2Response")
+public class ConsEnvio2ResponsePojo {
 
     @XmlElement(required = true)
-    protected String strEnvEstadosRef;
+    protected String strEnvio;
 
     /**
-     * Gets the value of the strEnvEstadosRef property.
+     * Gets the value of the strEnvio property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getStrEnvEstadosRef() {
-        return strEnvEstadosRef;
+    public String getStrEnvio() {
+        return strEnvio;
     }
 
     /**
-     * Sets the value of the strEnvEstadosRef property.
+     * Sets the value of the strEnvio property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setStrEnvEstadosRef(String value) {
-        this.strEnvEstadosRef = value;
+    public void setStrEnvio(String value) {
+        this.strEnvio = value;
     }
 
 }

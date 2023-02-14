@@ -1,4 +1,4 @@
-package localhost.SoapMinAuxiliar;
+package localhost.soap.envialia.pojo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
     "strPass"
 })
 @XmlRootElement(name = "LoginWSService___LoginDep2")
-public class PojoLoginDep2 {
+public class LoginDep2Pojo {
 
     @XmlElement(required = true)
     protected String strCodAge;

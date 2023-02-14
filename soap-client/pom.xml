@@ -18,7 +18,11 @@
 	<packaging>jar</packaging>
 
 	<properties>
+		<!-- maven-native properties -->
 		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- customized properties -->		
 		<project.versionDate>2022-02-22 13:00</project.versionDate>
 		<project.versionComment>mockup para bm, hash sha-384 in http header, hash calculation and validation</project.versionComment>
 		<maven.test.skip>false</maven.test.skip>
@@ -30,18 +34,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<exclusions>
-		    	<!-- logging -->
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 
  		<dependency>
@@ -55,22 +47,6 @@
 			</exclusions>
  		</dependency>
         
-		<!-- uncomment only when debugging -->
-		<!-- --> 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<!-- <optional>true</optional> -->
-		</dependency>
-
-		<!-- -->
-		<!--
-		<dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        -->
-		
  		<dependency>
  			<groupId>com.fasterxml.jackson.dataformat</groupId>
  			<artifactId>jackson-dataformat-xml</artifactId>
@@ -79,6 +55,17 @@
 		<dependency>
 		    <groupId>com.fasterxml.jackson.module</groupId>
 		    <artifactId>jackson-module-jaxb-annotations</artifactId>
+		</dependency>
+		
+		<!-- added dependency, envialia ws headers -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- added dependency, envialia ws headers -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
 		</dependency>
 		
 		<!-- dependency added: apache cxf simple, did not work -->
@@ -109,8 +96,6 @@
 		    <version>${cxf.version}</version>
 		</dependency>
 		-->
-		
-		
         
 	</dependencies>
 
@@ -126,13 +111,10 @@
 		</plugins>
 		
 		<resources>
-		
-			<!-- binary files should not receive injected variables -->
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>false</filtering>
 			</resource>
-			<!-- only text files should receive injected variables -->
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>

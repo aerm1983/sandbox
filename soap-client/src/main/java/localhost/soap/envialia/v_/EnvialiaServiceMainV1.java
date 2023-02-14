@@ -1,4 +1,4 @@
-package localhost.SoapMinMain;
+package localhost.soap.envialia.v_;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -27,7 +27,6 @@ import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceMessageExtractor;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.w3c.dom.Document;
@@ -39,20 +38,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
-import localhost.SoapMinAuxiliar.PojoConsEnvEstados;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRef;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosRefResponse;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosResponse;
-import localhost.SoapMinAuxiliar.PojoConsEnvio2;
-import localhost.SoapMinAuxiliar.PojoConsEnvio2Response;
-import localhost.SoapMinAuxiliar.PojoLoginDep2;
-import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
+import localhost.soap.envialia.pojo.ConsEnvEstadosPojo;
+import localhost.soap.envialia.pojo.ConsEnvEstadosResponsePojo;
+import localhost.soap.envialia.pojo.ConsEnvio2Pojo;
+import localhost.soap.envialia.pojo.ConsEnvio2ResponsePojo;
+import localhost.soap.envialia.pojo.LoginDep2Pojo;
+import localhost.soap.envialia.pojo.LoginDep2ResponsePojo;
 
 
 @Service
-public class MinWSClientOne {
+public class EnvialiaServiceMainV1 {
 	
-	private static Logger log = LogManager.getLogger(MinWSClientOne.class);
+	private static Logger log = LogManager.getLogger(EnvialiaServiceMainV1.class);
 
     
     private static final String strCodAge = "001234";
@@ -66,50 +63,22 @@ public class MinWSClientOne {
     // private static final String albaran = "0140010676";
     
 
-    private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
+    // private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
     private static final String urlLoginDep2 = "http://ws.envialia.com/SOAP?service=LoginService";
     private static final String urlConsEnvio2 = "http://ws.envialia.com/SOAP?service=WebService";
     private static final String urlConsEnvEstados = "http://ws.envialia.com/SOAP?service=WebService";
-    private static final String urlConsEnvEstadosRef = "http://ws.envialia.com/SOAP?service=WebService";
     
     private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
     private static final String soapActionConsEnvio2 = "urn:envialianet-WebServService#ConsEnvio2";
     private static final String soapActionConsEnvEstados = "urn:envialianet-WebServService#ConsEnvEstados";
-    private static final String soapActionConsEnvEstadosRef = "urn:envialianet-WebServService#ConsEnvEstadosRef";
-    private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
     
-
-    
-    public void simpleSoapConsumptionXmlWrapper(String ws) {
-
-    	String url = null;
-    	String soapAction = null;
-    	String idSessionHeader = null;
-    	String requestMessage = null;
-
-    	
-    	if ("LoginDep2".equalsIgnoreCase(ws)) {
-    		url = urlLoginDep2;
-    		soapAction = soapActionLoginDep2;
-    		idSessionHeader = null;
-    		requestMessage = "xml here";
-    	} else if ("LoginCli2".equalsIgnoreCase(ws)) {
-    	   	url = null; // TODO, define
-        	idSessionHeader = null;
-    		soapAction = soapActionLoginCli2;
-    		requestMessage = "xml here";
-     	} else {
-    		return;
-    	}
-		
-		// execute
-    	simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
-    	
+    public void main () {
+    	log.info("hello from {}!", this.getClass());
+    	simpleSoapConsumptionPojoWrapper();
     }
     
-
     
     public void simpleSoapConsumptionPojoWrapper() {
     	
@@ -138,7 +107,7 @@ public class MinWSClientOne {
 
         	// ENVIALIA, LoginDep2
             
-        	PojoLoginDep2 requestPojoLoginDep2 = new PojoLoginDep2();
+        	LoginDep2Pojo requestPojoLoginDep2 = new LoginDep2Pojo();
     		requestPojoLoginDep2.setStrCodAge(strCodAge);
     		requestPojoLoginDep2.setStrCodCli(strCodCli);
     		requestPojoLoginDep2.setStrDepartamento(strDepartamento);
@@ -150,7 +119,7 @@ public class MinWSClientOne {
     		requestMessage = xmlMapper.writeValueAsString(requestPojoLoginDep2);
 
         	responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
-        	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
+        	LoginDep2ResponsePojo pojoLoginDep2Response = xmlMapper.readValue(responseMessage, LoginDep2ResponsePojo.class);
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoLoginDep2Response);
         	log.info("responseJsonString, LoginDep2: {}", responseJsonString);
@@ -158,7 +127,7 @@ public class MinWSClientOne {
         	
         	// ENVIALIA, ConsEnvio2
         	
-    		PojoConsEnvio2 pojoConsEnvio2 = new PojoConsEnvio2();
+    		ConsEnvio2Pojo pojoConsEnvio2 = new ConsEnvio2Pojo();
     		pojoConsEnvio2.setStrCodAgeCargo(strCodAge);
     		pojoConsEnvio2.setStrAlbaran(albaran);
     		
@@ -170,7 +139,7 @@ public class MinWSClientOne {
     		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		// responseMessage = responseMessage.replace("&lt;", "<").replace("&gt;", ">");
     		log.info("responseMessage: {}", responseMessage);
-        	PojoConsEnvio2Response pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, PojoConsEnvio2Response.class);
+        	ConsEnvio2ResponsePojo pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, ConsEnvio2ResponsePojo.class);
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvio2Response);
         	log.info("responseJsonString, ConsEnvio2: {}", responseJsonString);
@@ -198,7 +167,7 @@ public class MinWSClientOne {
         	
         	// ENVIALIA, ConsEnvEstados
         	
-    		PojoConsEnvEstados pojoConsEnvEstados = new PojoConsEnvEstados();
+    		ConsEnvEstadosPojo pojoConsEnvEstados = new ConsEnvEstadosPojo();
     		// pojoConsEnvEstados.setStrCodAgeCargo(strCodAge);
     		// pojoConsEnvEstados.setStrCodAgeOri(strCodAge);
     		pojoConsEnvEstados.setStrCodAgeCargo(vCodAgeCargo);
@@ -212,7 +181,7 @@ public class MinWSClientOne {
     		
     		responseMessage = (String) simpleSoapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		log.info("responseMessage: {}", responseMessage);
-        	PojoConsEnvEstadosResponse pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, PojoConsEnvEstadosResponse.class);
+        	ConsEnvEstadosResponsePojo pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, ConsEnvEstadosResponsePojo.class);
         	
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvEstadosResponse);
         	log.info("responseJsonString, ConsEnvEstados: {}", responseJsonString);
@@ -221,7 +190,7 @@ public class MinWSClientOne {
         	// ENVIALIA, ConsEnvEstados, obtain delivery date, V_COD_TIPO_EST="4", D_FEC_HORA_ALTA
         	xmlStr = pojoConsEnvEstadosResponse.getStrEnvEstados();
             
-            String vCodTipoEst = null;
+            // String vCodTipoEst = null;
             String dFecHoraAlta = null;
 
             try {
@@ -297,7 +266,8 @@ public class MinWSClientOne {
             Scanner scanner = null;
             String sRFSToLogStr = null;
             try {
-                scanner = new Scanner(stringReaderForSourceToLog).useDelimiter("\\A");
+                scanner = new Scanner(stringReaderForSourceToLog);
+        		scanner.useDelimiter("\\A");
                 sRFSToLogStr = scanner.hasNext() ? scanner.next() : "";
                 scanner.close();
                 log.info("requestMessage: {}", sRFSToLogStr);
@@ -315,9 +285,9 @@ public class MinWSClientOne {
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	// ((SoapMessage)webServiceMessage).setSoapAction("urn:envialianet-LoginWSService#LoginDep2");
+
     	            	SoapMessage senderSoapMessage = (SoapMessage) webServiceMessage;
-    	            	senderSoapMessage.setSoapAction(soapAction); // debug - is this necessary?
+    	            	senderSoapMessage.setSoapAction(soapAction);
 
     	            	// required vars, begin
 	            		SaajSoapMessage senderSaajSoapMessage = (SaajSoapMessage) webServiceMessage;
@@ -335,21 +305,22 @@ public class MinWSClientOne {
     	            		log.error("e: ", e);
     	            	}
     	            	// required vars, end
-    	            	
+
+    	            	// adjust namespace in body child elements, begin
     	            	try {
-        	            	// adjust namespace in body child elements, begin
         	            	senderSOAPEnvelope.addNamespaceDeclaration("tem", "http://tempuri.org");
         	            	
         	            	// trying to manually add prefix to SOAP-body child nodes fails
-        	            	// senderSOAPBody.getFirstChild().setPrefix("tem"); // fail, exception
+        	            	senderSOAPBody.getFirstChild().setPrefix("tem"); // fail, exception
         	            	
-        	            	// adjust namespace in body child elements, end
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
+    	            	// adjust namespace in body child elements, end
+
     	            	
+    	            	// add header, begin
     	            	try {
-        	            	// add header, begin
         	            	SOAPElement roClientIDHeaderHSE = senderSOAPHeader.addChildElement("ROClientIDHeader","tem");  // "ROClientIDHeader"
         	            	SOAPElement idHSE = roClientIDHeaderHSE.addChildElement("ID", "tem");
         	            	if ( idSessionHeader != null && !idSessionHeader.isEmpty() ) {
@@ -359,10 +330,10 @@ public class MinWSClientOne {
         	            		idHSE.addTextNode("");
     	            		*/
         	            	}
-        	            	// add header, end
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
+    	            	// add header, end
     	            	
     	            	return;
     	            }
@@ -377,7 +348,7 @@ public class MinWSClientOne {
     	            	} catch (Exception e) {
     	            		log.error("e: ", e);
     	            	}
-    	            	SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage;
+    	            	// SoapMessage receiverSoapMessage = (SoapMessage) webServiceMessage; // not used
     	            	String responseBodyStr = writerForResult.toString();
 
     	            	// correction, pre-processing

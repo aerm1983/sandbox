@@ -1,9 +1,14 @@
-package localhost.SoapMinMain;
+package localhost.soap.envialia.v_;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -24,16 +29,25 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceMessageExtractor;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
+import org.springframework.ws.transport.WebServiceConnection;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpComponentsConnection;
+import org.springframework.ws.transport.http.HttpComponentsMessageSender;
+import org.springframework.ws.transport.http.HttpUrlConnection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,19 +58,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
-import localhost.SoapMinAuxiliar.PojoConsEnvEstados;
-import localhost.SoapMinAuxiliar.PojoConsEnvEstadosResponse;
-import localhost.SoapMinAuxiliar.PojoConsEnvio2;
-import localhost.SoapMinAuxiliar.PojoConsEnvio2Response;
-import localhost.SoapMinAuxiliar.PojoLoginDep2;
-import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
 import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
+import localhost.soap.envialia.pojo.ConsEnvEstadosPojo;
+import localhost.soap.envialia.pojo.ConsEnvEstadosResponsePojo;
+import localhost.soap.envialia.pojo.ConsEnvio2Pojo;
+import localhost.soap.envialia.pojo.ConsEnvio2ResponsePojo;
+import localhost.soap.envialia.pojo.LoginDep2Pojo;
+import localhost.soap.envialia.pojo.LoginDep2ResponsePojo;
+
+import org.apache.http.Header;
 
 
 @Service
-public class EnvialiaService {
+public class EnvialiaServiceMainV2 {
 	
-	private static Logger log = LogManager.getLogger(EnvialiaService.class);
+	private static Logger log = LogManager.getLogger(EnvialiaServiceMainV2.class);
 
     
     private static final String strCodAge = EnvialiaCredentials.strCodAge;
@@ -82,20 +98,23 @@ public class EnvialiaService {
     // private static final String albaran = "0140010676";
     
 
-    private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
+    // private static final String urlMockable = "http://demo5636922.mockable.io/http://demo5636922.mockable.io/";
     
     private static final String urlLoginDep2 = "http://ws.envialia.com/SOAP?service=LoginService";
     private static final String urlConsEnvio2 = "http://ws.envialia.com/SOAP?service=WebService";
     private static final String urlConsEnvEstados = "http://ws.envialia.com/SOAP?service=WebService";
-    private static final String urlConsEnvEstadosRef = "http://ws.envialia.com/SOAP?service=WebService";
     
     private static final String soapActionLoginDep2 = "urn:envialianet-LoginWSService#LoginDep2";
     private static final String soapActionConsEnvio2 = "urn:envialianet-WebServService#ConsEnvio2";
     private static final String soapActionConsEnvEstados = "urn:envialianet-WebServService#ConsEnvEstados";
-    private static final String soapActionConsEnvEstadosRef = "urn:envialianet-WebServService#ConsEnvEstadosRef";
-    private static final String soapActionLoginCli2 = "urn:envialianet-LoginWSService#LoginCli2";
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
+    
+    
+    public void main () {
+    	log.info("hello from {}!", this.getClass());
+    	getDeliveryDate();
+    }
 
     
     public void getDeliveryDate() {
@@ -128,12 +147,192 @@ public class EnvialiaService {
 
         	DocumentBuilderFactory dbc = DocumentBuilderFactory.newInstance();
             DocumentBuilder dbuilder;
+            
 
+            
+            
+            HttpComponentsMessageSender httpComponentsMessageSender = new HttpComponentsMessageSender();
+            webServiceTemplate.setMessageSender( httpComponentsMessageSender );
+            
+            // webServiceTemplate, set interceptors to print http request headers 
+            ClientInterceptor[] interceptors = webServiceTemplate.getInterceptors();
+            
+            interceptors = (ClientInterceptor[]) ArrayUtils.add(interceptors, new ClientInterceptor() {
+              @Override
+              public boolean handleRequest(MessageContext messageContext) throws WebServiceClientException {
+            	  
+              	WebServiceConnection webServiceConnection = TransportContextHolder.getTransportContext().getConnection();
+              	HttpComponentsConnection connection = (HttpComponentsConnection) webServiceConnection;
+              	
+              	// HttpUrlConnection wsConnection = (HttpUrlConnection) webServiceConnection;
+              	// HttpURLConnection jnConnection = wsConnection.getConnection();
+              	
+              	
+              	/*
+              	Map<String,List<String>> requestMap = jnConnection.getRequestProperties();
+              	Set<String> requestKeysSet = requestMap.keySet();
+              	Iterator<String> requestKeyIterator = requestKeysSet.iterator();
+              	*/
+              	
+              	/* 
+              	String request = "";
+              	String reqKey = null;
+              	List<String> reqKeyList = null;
+              	// List<String> reqKeyListElem = null;
+              	
+              	while ( requestKeyIterator != null & requestKeyIterator.hasNext() ) {
+              		reqKey = requestKeyIterator.next();
+              		request = reqKey + ": ";
+              		
+              		reqKeyList = requestMap.get(reqKey);
+              		
+              		for (String reqKeyListElem : reqKeyList) {
+              			request += reqKeyListElem + ", ";
+              		}
+              		
+              		request += " ; ";
+              		
+              	}
+              	*/
+              	
+              	log.info("request {}", "TODO_0");
+              	
+              	
+              	
+              	/*
+              	try {
+  					// wsConnection.close();
+  				} catch (IOException e) {
+  					log.error("e: ", e);
+  				}
+  				*/
+              	
+              	
+              	/*
+                  String requestHeaders = "";
+                  for(Header header : connection.getHttpPost().getAllHeaders()) {
+                  	requestHeaders += header.getName() + ": " + header.getValue() + "; ";
+                  }
+
+                  String responseHeaders = "";
+                  for(Header header : connection.getHttpResponse().getAllHeaders()) {
+                  	responseHeaders += header.getName() + ": " + header.getValue() + "; ";
+                  }
+
+                  // System.out.println("Request HTTP Headers : "+requestHeaders);
+                  // System.out.println("Response HTTP Headers : "+responseHeaders);
+                  
+                  log.debug("SOAP - http request headers: {}", requestHeaders);
+                  log.debug("SOAP - http response headers: {}", responseHeaders);
+  				*/
+                  
+                
+            	  
+            	  
+            	  
+                return true;
+              }
+
+              @Override
+              public boolean handleResponse(MessageContext messageContext) throws WebServiceClientException {
+                return true;
+              }
+
+              @Override
+              public boolean handleFault(MessageContext messageContext) throws WebServiceClientException {
+                return true;
+              }
+
+              @Override
+              public void afterCompletion(MessageContext messageContext, Exception ex) throws WebServiceClientException {
+            	
+            	WebServiceMessage webServiceMessage = messageContext.getRequest();
+            	
+            	try {
+					webServiceMessage.writeTo(System.out);
+				} catch (Exception e) {
+					log.error("_______ e: ", e);
+				}
+            	  
+            	  
+            	WebServiceConnection webServiceConnection = TransportContextHolder.getTransportContext().getConnection();
+            	HttpComponentsConnection connection = (HttpComponentsConnection) webServiceConnection;
+            	// HttpUrlConnection wsConnection = (HttpUrlConnection) webServiceConnection;
+            	// HttpURLConnection jnConnection = wsConnection.getConnection();
+            	
+            	/*
+            	Map<String,List<String>> requestMap = jnConnection.getRequestProperties();
+            	Set<String> requestKeysSet = requestMap.keySet();
+            	Iterator<String> requestKeyIterator = requestKeysSet.iterator();
+
+            	String request = "";
+            	String reqKey = null;
+            	List<String> reqKeyList = null;
+            	// List<String> reqKeyListElem = null;
+            	
+            	while ( requestKeyIterator != null & requestKeyIterator.hasNext() ) {
+            		reqKey = requestKeyIterator.next();
+            		request = reqKey + ": ";
+            		
+            		reqKeyList = requestMap.get(reqKey);
+            		
+            		for (String reqKeyListElem : reqKeyList) {
+            			request += reqKeyListElem + ", ";
+            		}
+            		
+            		request += " ; ";
+            		
+            	}
+            	*/
+            	
+            	log.info("request {}", "TODO");
+            	
+            	
+            	
+            	/*
+            	try {
+					// wsConnection.close();
+				} catch (IOException e) {
+					log.error("e: ", e);
+				}
+				*/
+            	
+            	
+            	/* */
+                String requestHeaders = "";
+                for(Header header : connection.getHttpPost().getAllHeaders()) {
+                	requestHeaders += header.getName() + ": " + header.getValue() + "; ";
+                }
+
+                String responseHeaders = "";
+                for(Header header : connection.getHttpResponse().getAllHeaders()) {
+                	responseHeaders += header.getName() + ": " + header.getValue() + "; ";
+                }
+
+                // System.out.println("Request HTTP Headers : "+requestHeaders);
+                // System.out.println("Response HTTP Headers : "+responseHeaders);
+                
+                log.info("SOAP - http request headers: {}", requestHeaders);
+                log.info("SOAP - http response headers: {}", responseHeaders);
+				
+                
+              }
+            });
+
+            webServiceTemplate.setInterceptors(interceptors);
+
+            
+            interceptors = webServiceTemplate.getInterceptors();
+            
+
+            
+            
+            
         	
 
         	// ENVIALIA, LoginDep2
             
-        	PojoLoginDep2 requestPojoLoginDep2 = new PojoLoginDep2();
+        	LoginDep2Pojo requestPojoLoginDep2 = new LoginDep2Pojo();
     		requestPojoLoginDep2.setStrCodAge(strCodAge);
     		requestPojoLoginDep2.setStrCodCli(strCodCli);
     		requestPojoLoginDep2.setStrDepartamento(strDepartamento);
@@ -160,13 +359,13 @@ public class EnvialiaService {
 
         	responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
         	log.info("responseMessage: {}", responseMessage);
-        	PojoLoginDep2Response pojoLoginDep2Response = xmlMapper.readValue(responseMessage, PojoLoginDep2Response.class);
+        	LoginDep2ResponsePojo pojoLoginDep2Response = xmlMapper.readValue(responseMessage, LoginDep2ResponsePojo.class);
         	responseJsonString = objectMapper.writeValueAsString(pojoLoginDep2Response);
         	log.info("responseJsonString, LoginDep2: {}", responseJsonString);
         	
         	
         	// ENVIALIA, ConsEnvio2
-    		PojoConsEnvio2 requestPojoConsEnvio2 = new PojoConsEnvio2();
+    		ConsEnvio2Pojo requestPojoConsEnvio2 = new ConsEnvio2Pojo();
     		requestPojoConsEnvio2.setStrCodAgeCargo(strCodAge);
     		requestPojoConsEnvio2.setStrAlbaran(albaran);
     		
@@ -191,7 +390,7 @@ public class EnvialiaService {
     		
     		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		log.info("responseMessage: {}", responseMessage);
-        	PojoConsEnvio2Response pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, PojoConsEnvio2Response.class);
+        	ConsEnvio2ResponsePojo pojoConsEnvio2Response = xmlMapper.readValue(responseMessage, ConsEnvio2ResponsePojo.class);
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvio2Response);
         	log.info("responseJsonString, ConsEnvio2: {}", responseJsonString);
         	
@@ -219,7 +418,7 @@ public class EnvialiaService {
             
         	// ENVIALIA, ConsEnvEstados
             
-    		PojoConsEnvEstados requestPojoConsEnvEstados = new PojoConsEnvEstados();
+    		ConsEnvEstadosPojo requestPojoConsEnvEstados = new ConsEnvEstadosPojo();
     		requestPojoConsEnvEstados.setStrCodAgeCargo(vCodAgeCargo);
     		requestPojoConsEnvEstados.setStrCodAgeOri(vCodAgeOri);
     		requestPojoConsEnvEstados.setStrAlbaran(albaran);
@@ -245,7 +444,7 @@ public class EnvialiaService {
     		
     		responseMessage = (String) soapConsumptionWithHeader(url, soapAction, idSessionHeader, requestMessage);
     		log.info("responseMessage: {}", responseMessage);
-        	PojoConsEnvEstadosResponse pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, PojoConsEnvEstadosResponse.class);
+        	ConsEnvEstadosResponsePojo pojoConsEnvEstadosResponse = xmlMapper.readValue(responseMessage, ConsEnvEstadosResponsePojo.class);
         	responseJsonString = objectMapper.writeValueAsString(pojoConsEnvEstadosResponse);
         	log.info("responseJsonString, ConsEnvEstados: {}", responseJsonString);
         	

@@ -1,4 +1,4 @@
-package localhost.CommandLineRunner;
+package localhost.soap.apahcecxf;
 
 import javax.xml.soap.SOAPHeader;
 import javax.xml.ws.BindingProvider;
@@ -10,79 +10,26 @@ import javax.xml.ws.Holder;
 // import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import localhost.SoapMinMain.EnvialiaService;
-import localhost.SoapMinMain.MinWSClientOne;
-import localhost.SoapTest.TestWriterReaderXmlSoap;
-
-import localhost.__gitignore.envialia.apachecxf.Login.LoginWSService;
-import localhost.__gitignore.envialia.apachecxf.Login.LoginWSServiceLoginDep2;
-import localhost.__gitignore.envialia.apachecxf.Login.LoginWSServiceLoginDep2Response;
-import localhost.__gitignore.envialia.apachecxf.Login.LoginWSService_Service;
-import localhost.__gitignore.envialia.apachecxf.Login.ObjectFactory;
-import localhost.__gitignore.envialia.apachecxf.Login.ROClientIDHeader;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSService;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSServiceLoginDep2;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSServiceLoginDep2Response;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSService_Service;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.ObjectFactory;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.ROClientIDHeader;
 import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
 
 @Component
-public class MinSoapCommandLineRunner implements CommandLineRunner{
+public class EnvialiaApacheCxfMain{
 	
-	private static Logger log = LoggerFactory.getLogger(MinSoapCommandLineRunner.class);
-	
-	// @Autowired
-	// private ShippingManager shippingManager;
+	private static Logger log = LoggerFactory.getLogger(EnvialiaApacheCxfMain.class);
 
-	@Autowired
-	TestWriterReaderXmlSoap testWriterReaderXmlSoap;
-	
-	@Autowired
-	private MinWSClientOne minWSClientOne;
-	
-	@Autowired 
-	EnvialiaService envialiaService;
-	
-	@Override
-	public void run(String... args) throws Exception {
-		main(args);
-	}
-
-	public void main(String[] args) {
+	public void main() {
 		
-		log.info("hello world RP!");
-		
-		// testWriterReaderXmlSoap.jaxbMarshalPojoToXmlAgain();
-		
-		/* 
-		try {
-			testWriterReaderXmlSoap.smallFileWriterReaderTest();
-		} catch (Exception e) {
-			log.error("e: ", e);
-		}
-		*/
-		
-		// testWriterReaderXmlSoap.smallXmlTransformTest();
-		
-		// testWriterReaderXmlSoap.jacksonPojoToXml();
-		// testWriterReaderXmlSoap.jacksonXmlToPojo();
-
-		// testWriterReaderXmlSoap.jaxbPojoToXml();
-		// testWriterReaderXmlSoap.jaxbXmlToPojo();
-		
-		
-		
-		// minWSClientOne.simpleSoapConsumptionPojoWrapper();
-		
-		envialiaService.getDeliveryDate();
-		
-		
-	}
-	
-	
-	public void cxfWebServiceClient() {
+		log.info("hello from {}!", this.getClass());
 		
 		// This is the closest apache-cxf implementation attempted.
 		// Disadvantages
@@ -122,6 +69,7 @@ public class MinSoapCommandLineRunner implements CommandLineRunner{
 		// clientProxy.getInInterceptors().add(new LoggingInInterceptor());
 		// clientProxy.getOutInterceptors().add(new LoggingOutInterceptor()); 
 		
+		// LoginWSServiceLoginDep2Response loginWSServiceLoginDep2Response = clientPort.loginDep2(loginWSServiceLoginDep2, holder); // did not work
 		LoginWSServiceLoginDep2Response loginWSServiceLoginDep2Response = clientPort.loginDep2(loginWSServiceLoginDep2, null);
 		
 		String json = null;

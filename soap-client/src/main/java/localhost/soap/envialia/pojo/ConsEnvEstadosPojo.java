@@ -1,5 +1,5 @@
 
-package localhost.SoapMinAuxiliar;
+package localhost.soap.envialia.pojo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
     "strAlbaran"
 })
 @XmlRootElement(name = "WebServService___ConsEnvEstados")
-public class PojoConsEnvEstados {
+public class ConsEnvEstadosPojo {
 
     @XmlElement(required = true)
     protected String strCodAgeCargo;

@@ -1,4 +1,4 @@
-package localhost.SoapTest;
+package localhost.soap.envialia.test;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -43,17 +43,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
-import localhost.SoapMinAuxiliar.PojoEnvioEstado;
-import localhost.SoapMinAuxiliar.PojoLoginDep2;
-import localhost.SoapMinAuxiliar.PojoLoginDep2Response;
-import localhost.__gitignore.envialia.apachecxf.Login.LoginWSServiceLoginDep2;
+import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSServiceLoginDep2;
 import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
+import localhost.soap.envialia.pojo.LoginDep2Pojo;
+import localhost.soap.envialia.pojo.LoginDep2ResponsePojo;
 
 
 @Service
-public class TestWriterReaderXmlSoap {
+public class TestWriterReaderXmlSoapMain {
 	
-	private static Logger log = LogManager.getLogger(TestWriterReaderXmlSoap.class);
+	private static Logger log = LogManager.getLogger(TestWriterReaderXmlSoapMain.class);
 
     // private static final String MESSAGE = "<?xml version=\"1.0\"?><message xmlns=\"http://tempuri.org\">Hello Web Service World</message>";
 	// private static final String MESSAGE = "";
@@ -105,6 +104,12 @@ public class TestWriterReaderXmlSoap {
     
 
     private final WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
+    
+    public void main () {
+    	smallXmlCorrector();
+    	smallStringWriterReaderTest();
+    }
+    
     
     
     public void smallXmlCorrector () {
@@ -226,26 +231,6 @@ public class TestWriterReaderXmlSoap {
         */
     	
     	
-    	// case 2, begin
-    	try {
-            XmlMapper xmlMapper = new XmlMapper();
-    		JaxbAnnotationModule module = new JaxbAnnotationModule();
-    		xmlMapper.registerModule(module);
-    		xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            
-            PojoEnvioEstado pojo = new PojoEnvioEstado();
-            pojo.setdFecHoraAlta("2021-01-01");
-            pojo.setiId("1");;
-            pojo.setvCodTipoEst("A");;
-
-            String xml = xmlMapper.writeValueAsString(pojo);
-            log.info("xml: {}", xml);
-         } catch(Exception e) {
-            log.error("e: ", e);
-         }
-    	// case 2, end
-
-    	
     	
      }
 
@@ -271,13 +256,13 @@ public class TestWriterReaderXmlSoap {
 		
 		// original, minimal:
 		xmlStr = "<PojoLoginDep2><strCodAge>001234</strCodAge><strCodCli>1234</strCodCli><strDepartamento>99</strDepartamento><strPass>Z12345678</strPass></PojoLoginDep2>";
-		PojoLoginDep2 pojoLoginDep2  = null;
+		LoginDep2Pojo pojoLoginDep2  = null;
 		jsonStr = null;
 		
 		log.info("xmlStr: {}", xmlStr);
     	
 		try {
-           pojoLoginDep2 = xmlMapper.readValue(xmlStr, PojoLoginDep2.class);
+           pojoLoginDep2 = xmlMapper.readValue(xmlStr, LoginDep2Pojo.class);
            jsonStr = objectMapper.writeValueAsString(pojoLoginDep2);
         } catch(Exception e) {
            log.error("e: ", e);
@@ -294,12 +279,12 @@ public class TestWriterReaderXmlSoap {
 		
 		// soap-client, LoginDep2Response good
 		xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><v1:LoginWSService___LoginDep2Response xmlns:v1=\"http://tempuri.org/\"><v1:Result>true</v1:Result><v1:strCodAgeOut>002896</v1:strCodAgeOut><v1:strCodCliOut>1023</v1:strCodCliOut><v1:strCod>11</v1:strCod><v1:strNom>GANT - LOGISFASHION</v1:strNom><v1:strCodCR>CT</v1:strCodCR><v1:strTipo>5</v1:strTipo><v1:strVersion>0.00.71</v1:strVersion><v1:strError>0</v1:strError><v1:strSesion>{42B6978E-149B-44A2-B66A-27EDA7F8F19D}</v1:strSesion><v1:strURLDetSegEnv>http://seguimiento.envialia.com/envialianetweb/detalle_envio.php?servicio={GUID}&amp;fecha={FECHA}</v1:strURLDetSegEnv></v1:LoginWSService___LoginDep2Response>";
-		PojoLoginDep2Response pojoLoginDep2Response  = null;
+		LoginDep2ResponsePojo pojoLoginDep2Response  = null;
 		jsonStr = null;
 		
 		log.info("xmlStr: {}", xmlStr);
 		try {
-           pojoLoginDep2Response = xmlMapper.readValue(xmlStr, PojoLoginDep2Response.class);
+           pojoLoginDep2Response = xmlMapper.readValue(xmlStr, LoginDep2ResponsePojo.class);
            jsonStr = objectMapper.writeValueAsString(pojoLoginDep2Response);
         } catch(Exception e) {
            log.error("e: ", e);
@@ -344,57 +329,6 @@ public class TestWriterReaderXmlSoap {
     	*/
 		// case 3 end
 		
-    	
-    	
-        
-        
-        // case 4 begin
-		// ConsEnvEstados attributes processing
-    	log.info("case 4");
-
-    	// xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
-    	xmlStr = "<ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\" />";
-    	
-		PojoEnvioEstado envioEstado  = null;
-		jsonStr = null;
-		
-		log.info("xmlStr: {}", xmlStr);
-    	
-		try {
-			envioEstado = xmlMapper.readValue(xmlStr, PojoEnvioEstado.class);
-			jsonStr = objectMapper.writeValueAsString(envioEstado);
-        } catch(Exception e) {
-           log.error("e: ", e);
-        }
-    	log.info("jsonStr: {}", jsonStr);
-
-        // case 4 end
-
-    	
-    	
-        // case 5 begin
-		// ConsEnvEstados attributes processing
-    	log.info("case 5");
-
-    	xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
-    	// xmlStr = "<ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\" />";
-    	
-		ArrayList<PojoEnvioEstado> envioEstadoList  = new ArrayList<PojoEnvioEstado>();
-		jsonStr = null;
-		
-		log.info("xmlStr: {}", xmlStr);
-    	
-		try {
-			envioEstadoList = xmlMapper.readValue(xmlStr, envioEstadoList.getClass());
-			jsonStr = objectMapper.writeValueAsString(envioEstadoList);
-        } catch(Exception e) {
-           log.error("e: ", e);
-        }
-    	log.info("jsonStr: {}", jsonStr);
-
-        // case 5 end
-
-    	
     	
     	
     	// case 6 begin 
@@ -444,6 +378,8 @@ public class TestWriterReaderXmlSoap {
     @SuppressWarnings("unchecked")
     public void jaxbXmlToPojo () {
     	
+    	/*
+    	
     	String xmlStr = "<CONSULTA><ENV_ESTADOS I_ID=\"1\" V_COD_TIPO_EST=\"0\" D_FEC_HORA_ALTA=\"11/08/2022 12:54:48\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"1023\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"2\" V_COD_TIPO_EST=\"1\" D_FEC_HORA_ALTA=\"11/10/2022 18:56:36\" V_COD_USU_ALTA=\"19020\" V_COD_AGE_ALTA=\"\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"3\" V_COD_TIPO_EST=\"11\" D_FEC_HORA_ALTA=\"11/11/2022 03:31:53\" V_COD_USU_ALTA=\"28A24\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"4\" V_COD_TIPO_EST=\"2\" D_FEC_HORA_ALTA=\"11/11/2022 08:19:19\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/><ENV_ESTADOS I_ID=\"5\" V_COD_TIPO_EST=\"4\" D_FEC_HORA_ALTA=\"11/11/2022 10:02:30\" V_COD_USU_ALTA=\"\" V_COD_AGE_ALTA=\"002896\" V_COD_REP_ALTA=\"2012\" V_COD_CLI_ALTA=\"\" V_COD_CLI_DEP_ALTA=\"\" V_CAMPO_1=\"NA\" V_CAMPO_2=\"\" V_CAMPO_3=\"\" V_CAMPO_4=\"\" B_CAMPO_5=\"False\"/></CONSULTA>";
 		ArrayList<PojoEnvioEstado> envioEstadoList  = new ArrayList<PojoEnvioEstado>();
 		String jsonStr = null;
@@ -465,6 +401,8 @@ public class TestWriterReaderXmlSoap {
 			log.error("e: ", e);
 		}
     	log.info("jsonStr: {}", jsonStr);
+    	
+    	*/
     			
 
     	
@@ -473,6 +411,8 @@ public class TestWriterReaderXmlSoap {
     
     @SuppressWarnings("unchecked")
     public void jaxbPojoToXmlFalse () {
+    	
+    	/*
     	
     	// case 1 begin
     	// log.info("case 1");
@@ -512,7 +452,7 @@ public class TestWriterReaderXmlSoap {
     	log.info("xmlStr: {}", xmlStr);
     	
     	// case 1 end
-
+		*/
     	
     	
     	

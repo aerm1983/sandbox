@@ -1,5 +1,5 @@
 
-package localhost.SoapMinAuxiliar;
+package localhost.soap.envialia.pojo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.XmlType;
     "strURLDetSegEnv"
 })
 @XmlRootElement(name = "LoginWSService___LoginDep2Response")
-public class PojoLoginDep2Response {
+public class LoginDep2ResponsePojo {
 
     @XmlElement(name = "Result")
     protected boolean result;
