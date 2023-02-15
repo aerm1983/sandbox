@@ -2,6 +2,8 @@ package localhost.sandbox;
 
 import localhost.sandbox.history.off.InheritancePolymorphism.InheritancePolymorphismMain;
 import localhost.sandbox.history.on.Miscellaneous.MiscellaneousMain;
+import localhost.sandbox.history.on.Properties.PropertiesMain;
+import localhost.sandbox.history.on.Properties.SystemPropertiesMain;
 import localhost.sandbox.history.on.String.StringMain;
 
 public class SandboxMain {
@@ -10,7 +12,10 @@ public class SandboxMain {
 	
 		// StringMain.main();
 		// InheritancePolymorphismMain.main();
-		MiscellaneousMain.main();
+		// MiscellaneousMain.main();
+		// SystemPropertiesMain.main();
+		PropertiesMain.main();
+		
 		
 	}
 	
