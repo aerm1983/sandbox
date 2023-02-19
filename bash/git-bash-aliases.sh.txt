@@ -12,7 +12,7 @@
 #    - linux: '~/.bashrc'.
 #    - windows git-bash: '/etc/profile.d/aliases'.
 # Source hook (edit as convenient):
-#    _srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${_srcfile} ] ; then ; command source ${_srcfile} ; echo $( h_greeting ) ; fi ; command unset _srcfile ; 
+#    _srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${_srcfile} ] ; then ; command source ${_srcfile} ; echo $( h_greeting ) ; __jh_set_java_version 8 ; fi ; command unset _srcfile ; command cd ~/Desktop ;
 #
 # REMINDERS:
 #    - Script 'update.*' in this folder helps for fast improvement / deployment.
@@ -24,9 +24,11 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-02-09 18:06'
+__ALIAS_LAST_UPDATE__='2023-02-19 15:11'
 __ALIAS_TIMEOUT__='0.3'
+__JH_XMS__='32m'
 __JH_XMX__='256m'
+__JH_XMX_DEFAULT__=${__JH_XMX__}
 __JH_SPRING_PROFILES_ACTIVE__='localalberto' # comma separated values, no whitespace
 __JH_JAR_LOG_HOME__=${HOME}'/Desktop/log'
 
@@ -88,6 +90,9 @@ alias cdks_s='command cd ~/Desktop/are-git-sandbox'
 
 alias cdkj='cd ~/Desktop/dm-git-java'
 alias cdkj_s='command cd ~/Desktop/dm-git-java'
+
+alias cdka='cd ~/Desktop/dm-git-aux'
+alias cdka_s='command cd ~/Desktop/dm-git-aux'
 
 alias cdkl='cd ~/Desktop/log'
 alias cdkl_s='command cd ~/Desktop/log'
@@ -176,14 +181,74 @@ function h_greeting {
 # Java Aliases - java automation
 # ------------------------------------------------------
 
-alias sj8='. ~/.set-java-version 8'
-alias sj11='. ~/.set-java-version 11'
-
 alias mc='echo "--> mvn clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean'
 alias mcc='echo "--> mvn clean compile -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean compile -Dmaven.test.skip=true'
 alias mcp='echo "--> mvn clean package -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean package -Dmaven.test.skip=true'
 alias mci='echo "--> mvn clean install -U -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean install -U -Dmaven.test.skip=true'
 alias mrjr='echo "--> mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true'
+
+# alias g = 'echo "--> ./gradlew ... "; sleep ${__ALIAS_TIMEOUT__}; ./gradlew'
+
+
+
+function __jh_set_java_version {
+
+    # save initial dir into var
+    init_dir=$( pwd )
+
+
+    # redefine JAVA_HOME
+    if [ -z ${1} ]
+    then
+        echo 'var ${1} should be "8" or "11"'
+        return 1;
+    elif [ ${1} = '8' ]
+    then
+        command cd $JAVA_8_HOME
+    elif [ ${1} = '11' ]
+    then
+        command cd $JAVA_11_HOME
+    elif [ ${1} = '17' ]
+    then
+        command cd $JAVA_17_HOME
+    else
+        echo 'var ${1} should be "8" or "11"'
+        return 1;
+    fi
+    JAVA_HOME=$( pwd )
+
+
+    # delete current jdk from PATH
+    path_tmp1=$( sed -E 's/:[^:]+java[/]jdk[^:]+//g' <( echo ${PATH} ) ) 
+
+
+    # append executables dir in new JAVA_HOME to PATH
+    command cd ./bin
+    path_tmp2=${path_tmp1}':'$( pwd )
+    PATH=${path_tmp2}
+
+
+    # return to initial dir
+    command cd ${init_dir}
+
+
+    # unset temporal vars
+    unset path_tmp1 path_tmp2 init_dir
+
+    # verifications
+    echo '--> set java version | updated: '${__SJV_LAST_UPDATE__}
+    # echo
+    # echo 'JAVA_HOME: '${JAVA_HOME} # debugging
+    # echo
+    # echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) ) # debugging
+    # echo
+    java -version
+
+}
+
+alias sj8='__jh_set_java_version 8'
+alias sj11='__jh_set_java_version 11'
+alias sj17='__set_java_version 17'
 
 
 
@@ -344,6 +409,22 @@ alias jl='_j_l'
 
 
 
+function _g {
+
+if [ -e ./gradlew ] ; then
+    echo '--> ./gradlew '${*}
+    ./gradlew ${*}
+else
+    echo 'file '\''./gradlew'\'' does not exist in current dir'
+fi
+
+
+}
+
+alias g='_g'
+
+
+
 s='--> Java Helper -- updated: ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'(commands are better tuned to be executed from maven project root folder)\n'
 s=${s}'  jl  : jps -l \n'
@@ -358,6 +439,8 @@ s=${s}'  mcc : mvn clean compile -Dmaven.test.skip=true \n'
 s=${s}'  mcp : mvn clean package -Dmaven.test.skip=true \n'
 s=${s}'  mci : mvn clean install -U -Dmaven.test.skip=true \n'
 s=${s}'  mrjr: mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true \n'
+s=${s}'\n'
+s=${s}'  g   : ./gradlew \n'
 s=${s}'\n'
 s=${s}'  tk  : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'
 _jh_s=${s}

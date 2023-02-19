@@ -1,0 +1,43 @@
+= = = = = = = = = = = = = = = = = = = = = = 
+GRADLE HELP -- updated: 2022-02-18 19:30
+= = = = = = = = = = = = = = = = = = = = = = 
+
+
+(1) Gradle can contain several projects, each consisting of several tasks.
+
+
+(2) File "settings.gradle" for initialization; file "build.gradle" for configuration and execution.
+
+
+(3) Use de wrapper, it's good idea to alias it:
+
+alias g='./gradlew'
+
+ 
+(4) Get help about current project ("build.gradle" should exist in current dir):
+
+./gradlew help
+
+./gradlew help projects
+
+Note that "./gradlew --help" is help about command itself, not about project.
+
+
+(5) Get list of tasks available in current project:
+
+./gradlew tasks
+
+
+(6) Get help about an specific task:
+
+./gradlew help --task bootRun
+
+
+(7) Most used commands while testing SpringBoot project:
+
+./gradlew clean
+
+./gradlew build
+
+./gradlew bootRun
+

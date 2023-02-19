@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-ECLIPSE CUSTOMIZATION -- updated 2023-02-12 09:06
+ECLIPSE CUSTOMIZATION -- updated 2023-02-19 15:05
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -160,5 +160,13 @@ When Eclipse is closed or up with no projects open, can be 30MB.
 
 Each project increments workspac temporal files, depending on its size, ~100-300MB.
 
+(10.3) To change workspace, delete configuration area dir and restart eclipse.
 
+(10.4) Workspace, depending on open projects, hardly requires more than 1GB when eclipse is open, with several projects.  Configuration requires very little, less than 10MB.
+
+(10.5) A simple java project in nature requires minimum -Xms1m and -Xmx2m (1MB and 2MB respectively).
+
+A debugging connection from Eclipse or VisualVM monitoring connnection to the process requires 2MB.
+
+Hence, for a minimal simple java project, it is recommended at least -Xms1m and -Xmx8mb.
 

@@ -1,0 +1,23 @@
+= = = = = = = = = = = = = = = = = = = = = = =
+KIBANA-ELASTIC -- updated 2023-02-15 08:35
+= = = = = = = = = = = = = = = = = = = = = = =
+
+Notes:
+
+(1) Searches by complete word.
+
+(2) If search is not enclosed in double quotes, word order does not matter.
+
+(3) Star character (*) is wildcard for 0 or more letters in word.
+
+(4) Several characters are sord separators, here between double quotes: " .,</". Also others.
+
+(5) Search seems to be not case sensitive.
+
+(6) Timestamp field is local time.  Timestamp within log field is text, at server-location time.
+
+Example:
+
+kubernetes.container_name : merchantlogisf and log : "2023-02-15T10:50" and log : "received response" and log : Login*Dep2
+
+
