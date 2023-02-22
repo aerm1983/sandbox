@@ -1,0 +1,70 @@
+= = = = = = = = = = = = = = = = = = = = = = = = = = =
+ELASTICSEARCH - KIBANA -- updated 2023-02-21 12:45
+= = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+(1) Kibana query languatte (KQL):
+
+(1.1) Searches by complete word.
+
+(1.2) If search is not enclosed in double quotes, word order does not matter.
+
+(1.3) Star character (*) is wildcard for 0 or more letters in word.
+
+(1.4) Several characters are sord separators, here between double quotes: " .,</". Also others.
+
+(1.5) Search seems to be not case sensitive.
+
+(1.6) Timestamp field is local time.  Timestamp within log field is text, at server-location time.
+
+Examples:
+
+kubernetes.container_name : merchantlogisfashion and log: received and log: *login*dep2*
+
+kubernetes.container_name : merchantlogisf and log : "2023-02-15T10:50" and log : "received response" and log : Login*Dep2
+
+(2) Kibana, DevTools section in web-GUI:
+
+(2.1) Check cluster health:
+GET _cluster/health
+
+(2.2) Check nodes stats:
+GET _nodes_/stats
+
+(2.3) Create index:
+PUT favorite_candy
+
+(2.4) Create document, with auto-generated _id:
+POST favorite_candy/_doc
+{
+  "first_name": "Lisa",
+  "candy": "Sour Skittles"
+}
+
+(2.5) Create document, assigning _id:
+PUT favorite_candy/_doc/1
+{
+  "first_name": "John",
+  "candy": "Starburst"
+}
+
+(2.6) Create document, assigning _id, verifying not to overwrite existing:
+PUT favorite_candy/_create/1
+{
+  "first_name": "John",
+  "candy": "Starburst"
+}
+
+(2.7) Read document:
+GET favorite_candy/_doc/1
+
+(2.8) Update document:
+POST favorite_candy/_update/1
+{
+  "doc": {
+    "candy": "M&Ms"
+  }
+}
+
+(2.9) delete document:
+DELETE favorite_candy/_doc/1
+

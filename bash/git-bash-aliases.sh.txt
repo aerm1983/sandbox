@@ -24,8 +24,11 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-02-19 15:11'
+__ALIAS_LAST_UPDATE__='2023-02-22 04:33'
 __ALIAS_TIMEOUT__='0.3'
+
+__BHS_FILE__=${HOME}/.bash-help-src
+
 __JH_XMS__='32m'
 __JH_XMX__='256m'
 __JH_XMX_DEFAULT__=${__JH_XMX__}
@@ -72,6 +75,7 @@ alias mkdir='mkdir -pv'
 alias rm='rm -v'
 function _rm_r { echo '--> rm -vfR '"${@}" ; sleep ${__ALIAS_TIMEOUT__} ; command rm -vfR "${@}" ; echo ; ll ; }
 alias rmr='_rm_r'
+alias tf='tail -f'
 function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
 alias c='_c_a_c'
 alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
@@ -87,6 +91,9 @@ alias cdk_s='command cd ~/Desktop'
 
 alias cdks='cd ~/Desktop/are-git-sandbox'
 alias cdks_s='command cd ~/Desktop/are-git-sandbox'
+
+alias cdkb='cd ~/Desktop/are-git-sandbox/bash/bash'
+alias cdkb_s='command cd ~/Desktop/are-git-sandbox/bash/bash'
 
 alias cdkj='cd ~/Desktop/dm-git-java'
 alias cdkj_s='command cd ~/Desktop/dm-git-java'
@@ -145,22 +152,22 @@ function _bhs_line_expand {
 
 function h { 
 
-    BHS_FILE=${HOME}/.bash-help-src
-    if [ ! -e ${BHS_FILE} ] 
+    # __BHS_FILE__=${HOME}/.bash-help-src
+    if [ ! -e ${__BHS_FILE__} ] 
     then
         echo 'source file does not exist'
         return 1
     fi
 
     h_greeting
-    # command grep --color=always -P 'updated:' ${BHS_FILE} # deprecated
-    command head -1 ${BHS_FILE}
+    # command grep --color=always -P 'updated:' ${__BHS_FILE__} # deprecated
+    command head -1 ${__BHS_FILE__}
 
     if [ -z $1 ]
     then
         echo 'arg ${1} empty'
     else
-        command grep --color=always -P '^'${1}':' ${BHS_FILE} | _bhs_line_expand
+        command grep --color=always -P '^'${1}':' ${__BHS_FILE__} | _bhs_line_expand
     fi
 }
 
