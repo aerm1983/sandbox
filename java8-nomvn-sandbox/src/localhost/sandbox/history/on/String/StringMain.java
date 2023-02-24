@@ -1,5 +1,9 @@
 package localhost.sandbox.history.on.String;
 
+//# encoding tests:
+//java -classpath . localhost.TemporalOutMain
+//java -Dfile.encoding=UTF-8 -classpath . localhost.TemporalOutMain
+
 public class StringMain {
 	
 	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
@@ -18,16 +22,6 @@ public class StringMain {
 		System.out.println( tracking1.length() );
 		System.out.println( tracking2.length() );
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		/*
 		String xmlStr= "&lt;/CONSULTA&gt;";
@@ -51,5 +45,16 @@ public class StringMain {
 	    return new String(hexChars);
 	}
 	
+	
+	
+	/* s must be an even-length string. */
+	public static byte[] hexStringToByteArray(String s) {
+		int len = s.length();
+		byte[] data = new byte[len / 2];
+		for (int i = 0; i < len; i += 2) {
+			data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i+1), 16));
+	    }
+	    return data;
+	}
 
 }

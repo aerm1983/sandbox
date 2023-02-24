@@ -17,6 +17,6 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="localhost.sandbox.SandboxMain"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="java8-nomvn-sandbox"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="are_java8-nomvn-sandbox"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="are_java8-nomvn-sandbox"/>
 </launchConfiguration>

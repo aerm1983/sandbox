@@ -8,6 +8,11 @@ public class SystemPropertiesMain {
 	@SuppressWarnings("unchecked")
 	public static void main() {
 		
+		byte[] upperEneByteArray = {41,-67,-17,41};
+		byte[] lowerEneByteArray = {41,-67,-49,41};
+		
+		
+		
 		Properties p = System.getProperties();
 		
 		
