@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-02-20 13:18'
+__JH_WMP_UPDATED__='2023-02-24 18:44'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -192,10 +192,68 @@ function _jh_start_service {
     cdkj_s
     command cd ${1}
     pwd
+
+    # jvm memory management, special cases
+    if [ ${1} = 'microservicesregistry' ]
+    then
+        __JH_XMX__='128m'
+
+    elif [ ${1} = 'usermanagement' ]
+    then
+        : __JH_XMX__='256'
+
+    elif [ ${1} = 'mappingmanagement' ]
+    then
+        : __JH_XMX__='256m'
+        
+    elif [ ${1} = 'marketplaceebay' ]
+    then
+        __JH_XMX__='320m'
+
+    elif [ ${1} = 'marketplacemirakl' ]
+    then
+        __JH_XMX__='192m'
+
+    elif [ ${1} = 'marketplacearise' ]
+    then
+        __JH_XMX__='192m'
+
+    elif [ ${1} = 'productmanagement' ]
+    then
+        : __JH_XMX__='256m'
+
+    elif [ ${1} = 'ordermanagement' ]
+    then
+        __JH_XMX__='416m'
+        
+    elif [ ${1} = 'bulkfileprocessor' ]
+    then
+        : __JH_XMX__='256m'
+        
+    elif [ ${1} = 'mailing' ]
+    then
+        __JH_XMX__='128m'
+
+    elif [ ${1} = 'template-generator' ]
+    then
+        __JH_XMX__='128m'
+        
+    elif [ ${1} = 'ui' ]
+    then
+        __JH_XMX__='192m'
+
+    fi
+    # echo '__JH_XMX_DEFAULT__, __JH_XMX__: '${__JH_XMX_DEFAULT__}', '${__JH_XMX__}
+    
     jjr
     command cd ..
+    
+    __JH_XMX__=${__JH_XMX_DEFAULT__}
+    
     echo
     _jh_check_service_started ${1}
+    
+    echo '__JH_XMX_DEFAULT__, __JH_XMX__: '${__JH_XMX_DEFAULT__}', '${__JH_XMX__}
     echo
 }
 

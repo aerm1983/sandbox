@@ -24,16 +24,18 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-02-22 04:33'
+__ALIAS_LAST_UPDATE__='2023-02-24 18:27'
 __ALIAS_TIMEOUT__='0.3'
 
-__BHS_FILE__=${HOME}/.bash-help-src
-
-__JH_XMS__='32m'
+__JH_XMS__='8m'
 __JH_XMX__='256m'
-__JH_XMX_DEFAULT__=${__JH_XMX__}
-__JH_SPRING_PROFILES_ACTIVE__='localalberto' # comma separated values, no whitespace
+__JH_SPRING_PROFILES_ACTIVE__='alberto,albertolocalpre' # comma separated values, no whitespace
 __JH_JAR_LOG_HOME__=${HOME}'/Desktop/log'
+
+__BHS_FILE__=${HOME}/'.bash-help-src'
+
+__JH_XMS_DEFAULT__=${__JH_XMS__}
+__JH_XMX_DEFAULT__=${__JH_XMX__}
 
 
 
@@ -308,8 +310,7 @@ function _j_j {
 	echo
 	
 	jarfile=$( ls ./target/*.jar )
-    _cmd_str='javaw -Xms8m -Xmx'${__JH_XMX__}' -Dspring.profiles.active='${__JH_SPRING_PROFILES_ACTIVE__}' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone
-	echo "${_cmd_str}"
+    _cmd_str='javaw -Xms'${__JH_XMS__}' -Xmx'${__JH_XMX__}' -Dfile.encoding=UTF-8 -Dspring.profiles.active='${__JH_SPRING_PROFILES_ACTIVE__}' -jar '${jarfile}' & ' # using '' to delimit values in java parameters is faulty-prone	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}
 	unset _cmd_str
@@ -342,7 +343,7 @@ function _j_j_r {
 	echo -n '' > ${jarlogfile}
 	echo -e 'jarlogfile cleaned, wc: '$( wc ${jarlogfile} )'\n'
         
-	_cmd_str='javaw -Xms8m -Xmx'${__JH_XMX__}' -Dspring.profiles.active='${__JH_SPRING_PROFILES_ACTIVE__}' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
+	_cmd_str='javaw -Xms'${__JH_XMS__}' -Xmx'${__JH_XMX__}' -Dfile.encoding=UTF-8 -Dspring.profiles.active='${__JH_SPRING_PROFILES_ACTIVE__}' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
 	disown ${!}

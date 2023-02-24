@@ -1,4 +1,4 @@
-MINIKUBE INSTALL, KUBERNETES -- updated: 2023-02-06 19:23
+MINIKUBE INSTALL, KUBERNETES -- updated: 2023-02-24 18:37
 
 (1) Install Windows Subsystem for Linux (WSL).  Command checks:
 
@@ -58,14 +58,18 @@ where kubectl
 
 KUBECTL LOGS
 
-k='kubectl --kubeconfig kubeconfig-pro-log##fas####-##.yml'
+kk='kubectl --kubeconfig '${kc_file}
 
-$k get pods
+$kk config get-contexts
 
-$k get pods | command grep merch###log##fas#### | awk '{print $1}'
+$kk config current-context
 
-$k describe pod merch###log##fas###-846##6b###-s2### > out.describe.txt
+$kk get pods
 
-$k logs merch###log##fas####-846##6b###-s2### --container merch###log##fas#### > out.log.txt
+$kk get pods | command grep ${pod_name_ref_here} | awk '{print $1}'
+
+$kk describe pod ${pod} > out.describe.txt
+
+$kk logs ${pod} --container ${container_in_pod} &>> tee tmp/${ts}${pod}${env}.log.txt
 
 

@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-ECLIPSE CUSTOMIZATION -- updated 2023-02-19 15:05
+ECLIPSE CUSTOMIZATION -- updated 2023-02-23 05:20
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -132,7 +132,15 @@ Select 'Primary Colors' as icon-style.
 
 
 
-(9) Optional, really not recommended, add icon scaling to ini file (do not add empty lines):
+(9) Optional:
+
+(9.1) Indentation, set only spaces: 
+
+Create new profile (default is "Eclipse [built-in]"), adjust  "Indentation" at:
+
+Window > Preferences > Java > Code Style > Formatter > Edit
+
+(9.2) Not recommended, add icon scaling to eclipse.ini file (do not add empty lines):
 
 (-vmargs ...)
 
