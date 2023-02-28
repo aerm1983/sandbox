@@ -47,6 +47,7 @@ import localhost.__gitignore.envialia.apachecxf.pojo.Login.LoginWSServiceLoginDe
 import localhost.__gitignore.envialia.credentials.EnvialiaCredentials;
 import localhost.soap.envialia.pojo.LoginDep2Pojo;
 import localhost.soap.envialia.pojo.LoginDep2ResponsePojo;
+import localhost.soap.envialia.pojo.REnvioEstadoPojo;
 
 
 @Service
@@ -548,15 +549,86 @@ public class TestWriterReaderXmlSoapMain {
 		}
     	log.info("xmlStr: {}", xmlStr);
     	
-
-    	
-    	
     	
     }
+    
+    
+    
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    public void jaxbMarshalPojoToXmlAgainForEnvEstados () {
+        
+        String xmlStr = null;
+        
+        REnvioEstadoPojo rEEP1 = new REnvioEstadoPojo();
+        rEEP1.setvCodTipoEst("01");
+        rEEP1.setdFecHoraAlta("09/28/2022");
+        
+        // List<REnvioEstadoPojo> rEEPList = new ArrayList<>();
+        // rEEPList.add(rEEP1);
+        
+        
+        JAXBContext jaxbContext = null;
+        Marshaller marshaller = null;
+        StringWriter writer = new StringWriter();
+        // StreamResult result = new StreamResult(writer); // not necessary
+        
+        try {
+            // jaxbContext = JAXBContext.newInstance(rEEPList.getClass());
+            jaxbContext = JAXBContext.newInstance(rEEP1.getClass());
+            
+            marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, false);
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+            
+            // marshaller.marshal(rEEPList, writer);
+            marshaller.marshal(rEEP1, writer);
+            xmlStr = writer.toString();
+            
+        } catch (Exception e) {
+            log.error("e: ", e);
+        }
+        log.info("xmlStr: {}", xmlStr);
+        
+    }
+
 
     
-    
-    
-    
+    @SuppressWarnings("unchecked")
+    public void jaxbUnmarshalPojoToXmlAgainForEnvEstados () {
+        
+        String xmlStr = "<ENV_ESTADOS V_COD_TIPO_EST=\"02\" D_FEC_HORA_ALTA=\"10/29/2023\" xmlns=\"http://tempuri.org/\"/>";
+        
+        REnvioEstadoPojo rEEP1 = new REnvioEstadoPojo();
+        
+        JAXBContext jaxbContext = null;
+        Unmarshaller unmarshaller = null;
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        
+        try {
+            jaxbContext = JAXBContext.newInstance(rEEP1.getClass());
+            
+            unmarshaller = jaxbContext.createUnmarshaller();
+            
+            StreamSource source = new StreamSource(new StringReader(xmlStr));
+            
+            rEEP1 = (REnvioEstadoPojo) unmarshaller.unmarshal(source);
+            
+            json = objectMapper.writeValueAsString(rEEP1);
+            
+        } catch (Exception e) {
+            log.error("e: ", e);
+        }
+        
+        
+        log.info("json: {}", json);
+        
+    }
+
     
 }

@@ -30,7 +30,7 @@ public class EnvialiaServiceMainV5 {
     private static final String strCodCli = EnvialiaCredentials.strCodCli;
     private static final String strDepartamento = EnvialiaCredentials.strDepartamento;
     private static final String strPass = EnvialiaCredentials.strPass;
-    private static final String tracking = EnvialiaCredentials.tracking;
+    private static String tracking = EnvialiaCredentials.tracking;
     
     @Autowired
     EnvialiaHelper<LoginDep2Pojo,LoginDep2ResponsePojo> loginDep2Helper;
@@ -53,11 +53,17 @@ public class EnvialiaServiceMainV5 {
     public String getDeliveryDate() {
     	
     	try {
-    		
-    		// ENVIALIA, get albaran from tracking
-    		String albaran = tracking.substring(6);
-    		log.info("tracking: {} ; albaran: {}", tracking, albaran);
-    		
+            
+            // ENVIALIA, get albaran from tracking
+            
+            if (tracking.length() == 10) {
+                tracking = "000000" + tracking;
+                log.info("agenciaFromTracking 000000, generado artificialmente por el microservicio (tracking en request de Logisfashion tiene 10 digitos, no 16)");
+            }
+            
+            String albaran = tracking.substring(6);
+            String agenciaFromTracking = tracking.substring(0,6);
+            log.info("tracking: {} ; albaran: {} ; agenciaFromTracking: {}", tracking, albaran, agenciaFromTracking);
     		
     		// ENVIALIA, general objects
         	

@@ -3,6 +3,7 @@ package localhost.soap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ import localhost.soap.envialia.v4plus.EnvialiaServiceMainV5;
 public class SoapClientCLR implements CommandLineRunner{
 	
 	private static Logger log = LoggerFactory.getLogger(SoapClientCLR.class);
+	
+    @Value("${alberto.check}")
+    private String albertoCheck;
 	
 	// @Autowired
 	// private ShippingManager shippingManager;
@@ -32,7 +36,13 @@ public class SoapClientCLR implements CommandLineRunner{
 		
 		log.info("hello from {}!", this.getClass());
 		
-		envialiaServiceMainV5.main();
+		log.info("albertoCheck: {}!", albertoCheck);
+		
+		testWriterReaderXmlSoap.jaxbMarshalPojoToXmlAgainForEnvEstados();
+		
+		testWriterReaderXmlSoap.jaxbUnmarshalPojoToXmlAgainForEnvEstados();
+		
+		// envialiaServiceMainV5.main();
 		
 	}
 	
