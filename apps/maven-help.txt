@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = =
-MAVEN -- updated: 2023-02-10 07:30
+MAVEN -- updated: 2023-02-24 21:08
 = = = = = = = = = = = = = = = = = = = =
 
 
@@ -44,6 +44,8 @@ mvn install:help
 
 mvn eclipse:help
 
+mvn dependency:help
+
 
 
 (5) describe specific plugin:goal (see previous "plugin:help"):
@@ -79,4 +81,11 @@ mvn clean install -U -Dmaven.test.skip=true
 (9) remove eclipse project files:
 
 mvn eclipse:clean
+
+
+
+(10) project dependency tree:
+
+mvn dependency:tree
+
 

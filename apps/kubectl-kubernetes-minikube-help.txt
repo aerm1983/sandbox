@@ -1,4 +1,4 @@
-MINIKUBE INSTALL, KUBERNETES -- updated: 2023-02-24 18:37
+MINIKUBE INSTALL, KUBERNETES -- updated: 2023-03-02 09:11
 
 (1) Install Windows Subsystem for Linux (WSL).  Command checks:
 
@@ -56,20 +56,34 @@ where kubectl
 
 (6) TODO -- ORDER:
 
-KUBECTL LOGS
+(6.1 )KUBECTL GENERAL ALIAS OR HELPER VARIABLE
 
 kk='kubectl --kubeconfig '${kc_file}
+
+
+(6.2) KUBECTL CHECK CONFIG
 
 $kk config get-contexts
 
 $kk config current-context
 
+
+(6.3) KUBECTL CHECK POD
+
 $kk get pods
 
-$kk get pods | command grep ${pod_name_ref_here} | awk '{print $1}'
+$kk get pods | command grep ${pod_name_ref} | awk '{print $1}'
 
-$kk describe pod ${pod} > out.describe.txt
+$kk describe pod ${pod} &>> tee ${file}
 
-$kk logs ${pod} --container ${container_in_pod} &>> tee tmp/${ts}${pod}${env}.log.txt
+
+(6.4) KUBECTL LOGS FROM POD / CONTAINER
+
+$kk logs ${pod} --container ${container_in_pod} &>> tee ${file}
+
+
+(6.5) KUBECTL FORWARD PORT (ENABLE REQUESTS FROM LOCALHOST)
+
+$kk port-forward ${pod} ${source_local_port}:${target_cluster_port}
 
 
