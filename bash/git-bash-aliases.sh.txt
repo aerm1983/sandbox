@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-02-24 18:27'
+__ALIAS_LAST_UPDATE__='2023-03-11 07:51'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -479,25 +479,31 @@ alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; g
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
 alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
+alias gpss='echo "--> git push --set-upstream origin <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push --set-upstream origin $( git branch --show-current )'
+alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --delete $( git branch --show-current )'
+
 
 s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
-s=${s}'  gs : git status \n' 
-s=${s}'  gsi: git status --ignored \n' 
-s=${s}'  gl : git log --graph --all --decorate \n'
-s=${s}'  glf: git ls-files \n'
-s=${s}'  gb : git branch \n'
+s=${s}'  gs  : git status \n' 
+s=${s}'  gsi : git status --ignored \n' 
+s=${s}'  gl  : git log --graph --all --decorate \n'
+s=${s}'  glf : git ls-files \n'
+s=${s}'  gb  : git branch \n'
 s=${s}'\n'
-s=${s}'  gch: git checkout \n'
-s=${s}'  ga : git add \n'
-s=${s}'  gd : git diff \n'
-s=${s}'  gco: git commit \n'
+s=${s}'  gch : git checkout \n'
+s=${s}'  ga  : git add \n'
+s=${s}'  gd  : git diff \n'
+s=${s}'  gco : git commit \n'
 s=${s}'\n'
-s=${s}'  grh: git reset --hard \n'
-s=${s}'  gm : git merge \n'
+s=${s}'  grh : git reset --hard \n'
+s=${s}'  gm  : git merge \n'
 s=${s}'\n'
-s=${s}'  gf : git fetch \n'
-s=${s}'  gpl: git pull \n'
-s=${s}'  gps: git push \n'
+s=${s}'  gf  : git fetch \n'
+s=${s}'  gpl : git pull \n'
+s=${s}'  gps : git push \n'
+s=${s}'\n'
+s=${s}'  gpss: git push --set-upstream origin <branch> \n'
+s=${s}'  gpsd: git push origin --delete <branch> \n'
 _gh_s=${s}
 unset s
 alias gh='echo -e "${_gh_s}"'

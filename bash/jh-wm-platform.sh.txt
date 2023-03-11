@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-02-24 18:44'
+__JH_WMP_UPDATED__='2023-03-11 09:41'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -36,9 +36,12 @@ function _jh_start_platform {
     _jh_start_service usermanagement
     _jh_start_service mappingmanagement
 
-    # _jh_start_service marketplacemirakl
     # _jh_start_service marketplaceebay
-    # _jh_start_service marketplacearise
+    # _jh_start_service marketplacemirakl
+    # _jh_start_service marketplacemiravia
+    # _jh_start_service marketplaceamazon
+    # _jh_start_service marketplacemakro
+    # _jh_start_service marketplacealiexpress
     
     # _jh_start_service productmanagement
     # _jh_start_service ordermanagement
@@ -46,6 +49,7 @@ function _jh_start_platform {
 
     # _jh_start_service merchantlogisfashion
     # _jh_start_service carrierseur
+    # _jh_start_service carriertipsa
 
     # _jh_start_service mailing
     # _jh_start_service template-generator
@@ -76,9 +80,12 @@ function _jh_remove_logs_platform {
     command rm -v usermanagement*.jar.log
     command rm -v mapping*.jar.log
 
-    command rm -v marketplacemirakl*.jar.log
     command rm -v marketplaceebay*.jar.log
-    command rm -v marketplacearise*.jar.log    
+    command rm -v marketplacemirakl*.jar.log
+    command rm -v marketplacemiravia*.jar.log
+    command rm -v marketplaceamazon*.jar.log
+    command rm -v marketplacemakro*.jar.log
+    command rm -v marketplacealiexpress*.jar.log
 
     command rm -v productmanagement*.jar.log
     command rm -v ordermanagement*.jar.log
@@ -86,6 +93,7 @@ function _jh_remove_logs_platform {
 
     command rm -v merchantlogisfashion*.jar.log
     command rm -v carrierseur*.jar.log
+    command rm -v carriertipsa*.jar.log
 
     command rm -v mailing*.jar.log
     command rm -v template-generator*.jar.log
@@ -124,9 +132,12 @@ function _jh_truncate_logs_platform {
     command echo -n '' > usermanagement*.jar.log
     command echo -n '' > mapping*.jar.log
 
-    command echo -n '' > marketplacemirakl*.jar.log
     command echo -n '' > marketplaceebay*.jar.log
-    command echo -n '' > marketplacearise*.jar.log
+    command echo -n '' > marketplacemirakl*.jar.log
+    command echo -n '' > marketplacemiravia*.jar.log
+    command echo -n '' > marketplaceamazon*.jar.log
+    command echo -n '' > marketplacemakro*.jar.log
+    command echo -n '' > marketplacealiexpress*.jar.log
     
     command echo -n '' > productmanagement*.jar.log
     command echo -n '' > ordermanagement*.jar.log
@@ -134,6 +145,7 @@ function _jh_truncate_logs_platform {
 
     command echo -n '' > merchantlogisfashion*.jar.log
     command echo -n '' > carrierseur*.jar.log
+    command echo -n '' > carriertipsa*.jar.log
 
     command echo -n '' > mailing*.jar.log
     command echo -n '' > template-generator*.jar.log
@@ -168,15 +180,19 @@ function _jh_kill_platform {
     _jh_kill_service mailing
     
     _jh_kill_service carrierseur
+    _jh_kill_service carriertipsa
     _jh_kill_service merchantlogisfashion
 
     _jh_kill_service bulkfileprocessor
     _jh_kill_service ordermanagement
     _jh_kill_service productmanagement
 
-    _jh_kill_service marketplacemirakl
     _jh_kill_service marketplaceebay
-    _jh_kill_service marketplacearise
+    _jh_kill_service marketplacemirakl
+    _jh_kill_service marketplacemiravia
+    _jh_kill_service marketplaceamazon
+    _jh_kill_service marketplacemakro
+    _jh_kill_service marketplacealiexpress
     
     _jh_kill_service mappingmanagement
     _jh_kill_service usermanagement
@@ -214,7 +230,19 @@ function _jh_start_service {
     then
         __JH_XMX__='192m'
 
-    elif [ ${1} = 'marketplacearise' ]
+    elif [ ${1} = 'marketplacemiravia' ]
+    then
+        __JH_XMX__='192m'
+        
+    elif [ ${1} = 'marketplaceamazon' ]
+    then
+        __JH_XMX__='192m'
+
+    elif [ ${1} = 'marketplacemakro' ]
+    then
+        __JH_XMX__='192m'
+
+    elif [ ${1} = 'marketplacealiexpress' ]
     then
         __JH_XMX__='192m'
 
@@ -235,6 +263,14 @@ function _jh_start_service {
         __JH_XMX__='128m'
 
     elif [ ${1} = 'template-generator' ]
+    then
+        __JH_XMX__='128m'
+        
+    elif [ ${1} = 'carrierseur' ]
+    then
+        __JH_XMX__='128m'
+        
+    elif [ ${1} = 'carriertipsa' ]
     then
         __JH_XMX__='128m'
         
@@ -340,9 +376,12 @@ function _jh_backup_alberto_platform {
     _jh_backup_alberto_service usermanagement
     _jh_backup_alberto_service mappingmanagement
 
-    _jh_backup_alberto_service marketplacemirakl
     _jh_backup_alberto_service marketplaceebay
-    _jh_backup_alberto_service marketplacearise
+    _jh_backup_alberto_service marketplacemirakl
+    _jh_backup_alberto_service marketplacemiravia
+    _jh_backup_alberto_service marketplaceamazon
+    _jh_backup_alberto_service marketplacemakro
+    _jh_backup_alberto_service marketplacealiexpress
     
     _jh_backup_alberto_service productmanagement
     _jh_backup_alberto_service ordermanagement
@@ -350,6 +389,7 @@ function _jh_backup_alberto_platform {
 
     _jh_backup_alberto_service merchantlogisfashion
     _jh_backup_alberto_service carrierseur
+    _jh_backup_alberto_service carriertipsa
 
     _jh_backup_alberto_service mailing
     _jh_backup_alberto_service template-generator
@@ -392,9 +432,12 @@ function _jh_restore_alberto_platform {
     _jh_restore_alberto_service usermanagement
     _jh_restore_alberto_service mappingmanagement
 
-    _jh_restore_alberto_service marketplacemirakl
     _jh_restore_alberto_service marketplaceebay
-    _jh_restore_alberto_service marketplacearise
+    _jh_restore_alberto_service marketplacemirakl
+    _jh_restore_alberto_service marketplacemiravia
+    _jh_restore_alberto_service marketplaceamazon
+    _jh_restore_alberto_service marketplacemakro
+    _jh_restore_alberto_service marketplacealiexpress
 
     _jh_restore_alberto_service productmanagement
     _jh_restore_alberto_service ordermanagement
@@ -402,6 +445,7 @@ function _jh_restore_alberto_platform {
 
     _jh_restore_alberto_service merchantlogisfashion
     _jh_restore_alberto_service carrierseur
+    _jh_restore_alberto_service carriertipsa
 
     _jh_restore_alberto_service mailing
     _jh_restore_alberto_service template-generator
@@ -431,9 +475,12 @@ function _jh_clean_restore_dir_alberto_platform {
     _jh_clean_restore_dir_alberto_service usermanagement
     _jh_clean_restore_dir_alberto_service mappingmanagement
 
-    _jh_clean_restore_dir_alberto_service marketplacemirakl
     _jh_clean_restore_dir_alberto_service marketplaceebay
-    _jh_clean_restore_dir_alberto_service marketplacearise
+    _jh_clean_restore_dir_alberto_service marketplacemirakl
+    _jh_clean_restore_dir_alberto_service marketplacemiravia
+    _jh_clean_restore_dir_alberto_service marketplaceamazon
+    _jh_clean_restore_dir_alberto_service marketplacemakro
+    _jh_clean_restore_dir_alberto_service marketplacealiexpress
 
     _jh_clean_restore_dir_alberto_service productmanagement
     _jh_clean_restore_dir_alberto_service ordermanagement
@@ -441,6 +488,7 @@ function _jh_clean_restore_dir_alberto_platform {
 
     _jh_clean_restore_dir_alberto_service merchantlogisfashion
     _jh_clean_restore_dir_alberto_service carrierseur
+    _jh_clean_restore_dir_alberto_service carriertipsa
 
     _jh_clean_restore_dir_alberto_service mailing
     _jh_clean_restore_dir_alberto_service template-generator
@@ -560,7 +608,7 @@ function bulkfileprocessor_test_block2 {
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r 3c ; echo ; alias 7 ; echo ; alias 8 9 ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r 3c ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
@@ -576,6 +624,6 @@ alias 3r='_jh_restore_alberto_platform'
 alias 3c='_jh_clean_restore_dir_alberto_platform'
 
 alias 7='_0rs '
-alias 8='_0kp ; _0rlp ;         # 8 kill_platform, remove_logs'
-alias 9='_0kp ; _0rlp ; _0s; _0sp ; # 9, start_platform'
+alias 8='_0kp ; _0rlp ;'
+alias 9='_0kp ; _0rlp ; _0s; _0sp ;'
 
