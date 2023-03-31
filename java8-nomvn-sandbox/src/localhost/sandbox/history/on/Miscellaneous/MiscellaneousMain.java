@@ -6,6 +6,19 @@ public class MiscellaneousMain {
 		
 		System.out.println("Hello from MiscellaneousMain!");
 		
+		/* */
+		String s = "hello";
+		String s2 = "hello";
+		
+		if (s!=null && s.equalsIgnoreCase(s2)) {
+		    System.out.println("one!");
+		} else if (s!=null && s.equalsIgnoreCase(s2)) {
+		    System.out.println("two!");
+		}
+		
+		
+		
+		/*
 		String s = "Alberto";
 		
 		System.out.println("s.getClass(): " + s.getClass() );
@@ -22,6 +35,7 @@ public class MiscellaneousMain {
 		if (personDetail != null && personDetail.name != null) {
 			System.out.println("personDetail and personDetail.name are different to null");
 		}
+		*/
 		
 	}
 	
