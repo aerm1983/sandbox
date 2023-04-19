@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-03-11 07:51'
+__ALIAS_LAST_UPDATE__='2023-04-19 06:38'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -453,7 +453,7 @@ s=${s}'\n'
 s=${s}'  tk  : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'
 _jh_s=${s}
 unset s
-alias jh='echo -e "${_jh_s}"'
+alias jh='less -f <( echo -e "${_jh_s}")'
 
 
 
@@ -465,7 +465,11 @@ alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --all --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --all --decorate'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
+
 alias gb='echo "--> git branch"; sleep ${__ALIAS_TIMEOUT__}; git branch'
+alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
+alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
+alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
 alias gch='echo "--> git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
 function ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
@@ -488,7 +492,11 @@ s=${s}'  gs  : git status \n'
 s=${s}'  gsi : git status --ignored \n' 
 s=${s}'  gl  : git log --graph --all --decorate \n'
 s=${s}'  glf : git ls-files \n'
+s=${s}'\n'
 s=${s}'  gb  : git branch \n'
+s=${s}'  gbd : git branch -D <local-branches> \n'
+s=${s}'  gt  : git tag \n'
+s=${s}'  gtt : git tag | tail -3 \n'
 s=${s}'\n'
 s=${s}'  gch : git checkout \n'
 s=${s}'  ga  : git add \n'
@@ -506,7 +514,7 @@ s=${s}'  gpss: git push --set-upstream origin <branch> \n'
 s=${s}'  gpsd: git push origin --delete <branch> \n'
 _gh_s=${s}
 unset s
-alias gh='echo -e "${_gh_s}"'
+alias gh='less -f <( echo -e "${_gh_s}" )'
 
 
 

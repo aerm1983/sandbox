@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-03-11 09:41'
+__JH_WMP_UPDATED__='2023-04-19 07:04'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -36,24 +36,24 @@ function _jh_start_platform {
     _jh_start_service usermanagement
     _jh_start_service mappingmanagement
 
-    # _jh_start_service marketplaceebay
-    # _jh_start_service marketplacemirakl
-    # _jh_start_service marketplacemiravia
-    # _jh_start_service marketplaceamazon
-    # _jh_start_service marketplacemakro
+    _jh_start_service marketplaceebay
+    _jh_start_service marketplacemirakl
+    _jh_start_service marketplacemiravia
+    _jh_start_service marketplaceamazon
+    _jh_start_service marketplacemakro
     # _jh_start_service marketplacealiexpress
     
-    # _jh_start_service productmanagement
-    # _jh_start_service ordermanagement
-    # _jh_start_service bulkfileprocessor
+    _jh_start_service productmanagement
+    _jh_start_service ordermanagement
+    _jh_start_service bulkfileprocessor
 
     # _jh_start_service merchantlogisfashion
     # _jh_start_service carrierseur
     # _jh_start_service carriertipsa
 
-    # _jh_start_service mailing
-    # _jh_start_service template-generator
-    # _jh_start_service ui
+    _jh_start_service mailing
+    _jh_start_service template-generator
+    _jh_start_service ui
 
     cdkj_s
 
@@ -603,12 +603,34 @@ function bulkfileprocessor_test_block2 {
 }
 
 
+function _jh_update_repo {
+    gch dev
+    __check_gcd__=${?}
+
+    if [ ${__check_gcd__} -eq '0' ] ; then
+        echo
+        gf
+        gpl
+        gf
+        echo
+        mcp
+        echo
+        gtt
+        echo
+        gb
+    else
+        echo '--> changes pending, aborting repo update'
+    fi
+    
+    unset ${__check_gcd__}
+}
+
 
 ### aliases
 
 alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r 3c ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r 3c 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
@@ -622,6 +644,8 @@ alias _0rlp='_jh_remove_logs_platform'
 alias 3b='_jh_backup_alberto_platform'
 alias 3r='_jh_restore_alberto_platform'
 alias 3c='_jh_clean_restore_dir_alberto_platform'
+
+alias 4u='_jh_update_repo'
 
 alias 7='_0rs '
 alias 8='_0kp ; _0rlp ;'

@@ -1,4 +1,6 @@
-MINIKUBE INSTALL, KUBERNETES -- updated: 2023-03-02 09:22
+MINIKUBE INSTALL, KUBERNETES -- updated: 2023-04-19 07:38
+
+
 
 (1) Install Windows Subsystem for Linux (WSL).  Command checks:
 
@@ -82,8 +84,14 @@ $kk describe pod ${pod} &>> tee ${file}
 $kk logs ${pod} --container ${container_in_pod} --tail 10 -f &>> tee ${file}
 
 
-(6.5) KUBECTL FORWARD PORT (ENABLE REQUESTS FROM LOCALHOST)
+(6.5) KUBECTL PORT FORWARD (ENABLE REQUESTS FROM LOCALHOST)
 
 $kk port-forward ${pod} ${source_local_port}:${target_cluster_port}
 
+
+(6.6) KUBECTL SCALE DEPLOYMENT
+
+$kk get deployments
+
+$kk scale --replicas=1 deployment/{deployment-id}
 
