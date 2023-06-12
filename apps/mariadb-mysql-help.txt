@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2023-04-19 07:45
+MariaDB binaries install - updated: 2023-06-12 07:40
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -237,5 +237,40 @@ START TRANSACTION ;
 INSERT INTO table(fields) VALUES (values) ;
 SELECT LAST_INSERTED_ID() ;
 COMMIT ; 
+
+
+
+
+(10) TEMPORAL, ORDER, FAST-SQL SCRIPT:
+
+#! /bin/bash
+
+### variables
+user='my_user'
+host='my_host'
+port='3306'
+pass='my_password'
+db='my_database'
+
+### test query
+echo -e '\n-->query 1, test:'
+mysql -B -u $user --password=$pass -h $host -P $port -D $db -e 'select 1 as my_integer;'
+
+### intended query, insert
+echo -e '\n-->query 2, insert:'
+# i=${1}   # command-line value assignment
+i='10'     # direct value assignment
+while [ $i -lt '12' ] ; do
+    echo '--->i:'$i
+    sql='USE '${db}'; '
+    sql=${sql}'INSERT INTO `my_table` (`id`,`created_at`,`cif`,`bit_switch`) '
+    sql=${sql}"VALUES ('id_prefix_"${i}"',NOW(),'123456789',UNHEX('01')); "
+    echo $sql
+    mysql -B -u $user --password=$pass -h $host -P $port -D $db -e "$sql"
+    let 'i++'
+    echo ''
+done ;
+
+### end of script
 
 

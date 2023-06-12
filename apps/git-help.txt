@@ -1,4 +1,4 @@
-# Git Help -- updated: 2023-03-11 11:07
+# Git Help -- updated: 2023-06-12 07:00
 
 
 
@@ -20,41 +20,6 @@ Examples:
   git checkout -b # new branch in current commit (3)  ;  
   git checkout --orphan # new orphan branch (4)  ;  
   git pull|merge --allow-unrelated-histories # see 'git checkout --orphan'  ;  
-
-
-
-git restore:
-  Restore file from branch (index) or remove file from stage.
-  See also: checkout, show.
-Options:
-  --source branch index to restore file from; current branch if not indicated
-  --staged remove file from stage
-Examples:
-  git restore <file-name> # restore file from current branch index;
-  git restore --source dev <file-name> # restore file from branch 'dev' index ;
-  git restore --staged <file-name> # remove file from stage ;
-
-
-
-git show:
-  Show diff-like info regarding specific commit.
-  Also get specific file from specific commit.
-Options:
-  --stat summarize files and change count.
-Examples:
-  git show <commit-id> # show diff-like info of commit  ;
-  git show --stat <commit-id>  ;
-  git show --stat pretty='' <commit-id>  ;
-  git show <commit-id>:<file-name> # print to stdout file from commit  ;
-  git show --pretty='' --name-only <commit-id> # list files in commit  ;
-
-
-
-git switch:
-  Change branch, synchronize tree.
-  See also: checkout.
-Example:
-  Git switch <branch-name>  ;  
 
 
 
@@ -81,24 +46,40 @@ Examples:
 
 
 
-git status
-  Check stage, files pending to commit, ignored files, others.
+git fetch:
+   Fetch data from remote.
 Options:
-  --ignored show ignored files by .gitignore rules
+   --tags sync tags with remote.
+   -f force (use with --tags)
+
+
+
+git log:
+   List/query commits.
+   When querying for file, consider using "find -iname ..." and bash variable.
+Options:
+   --graph: show graphical relationships/precedences.
+   --all: show commits in branches not related to current one.
+   --decorate: show aditional commit info.
+   -1: show last 1 commit (other numbers are possible)
+   --follow: when querying for file, include file-rename commits.
 Examples:
-  git status --ignored  ;  
+   git log --all --graph --decorate -2 # include other branches, show precedences, last two commits ;
+   git log -3 -- <filename> # query file last 3 commits;
+   git log --follow -3 -- <filename> # query file last 3 commits including renames ;
 
 
 
-git stash:
-  Save/manage local, temporal, fast changes.
-  Does not get registered in git reflog.
-  Careful.
+git restore:
+  Restore file from branch (index) or remove file from stage.
+  See also: checkout, show.
+Options:
+  --source branch index to restore file from; current branch if not indicated
+  --staged remove file from stage
 Examples:
-  git stash  ;
-  git stash list  ;  
-  git stash apply  ;
-  git stash drop  ;
+  git restore <file-name> # restore file from current branch index;
+  git restore --source dev <file-name> # restore file from branch 'dev' index ;
+  git restore --staged <file-name> # remove file from stage ;
 
 
 
@@ -118,5 +99,47 @@ Options:
 Examples:
    git rebase -i dev # rebuild current branch from 'dev'  ;  
 
+
+
+git show:
+  Show diff-like info regarding specific commit.
+  Also get specific file from specific commit.
+Options:
+  --stat summarize files and change count.
+Examples:
+  git show <commit-id> # show diff-like info of commit  ;
+  git show --stat <commit-id>  ;
+  git show --stat pretty='' <commit-id>  ;
+  git show <commit-id>:<file-name> # print to stdout file from commit  ;
+  git show --pretty='' --name-only <commit-id> # list files in commit  ;
+
+
+
+git switch:
+  Change branch, synchronize tree.
+  See also: checkout.
+Example:
+  Git switch <branch-name>  ;  
+
+
+
+git status
+  Check stage, files pending to commit, ignored files, others.
+Options:
+  --ignored show ignored files by .gitignore rules
+Examples:
+  git status --ignored  ;  
+
+
+
+git stash:
+  Save/manage local, temporal, fast changes.
+  Does not get registered in git reflog.
+  Careful.
+Examples:
+  git stash  ;
+  git stash list  ;  
+  git stash apply  ;
+  git stash drop  ;
 
 
