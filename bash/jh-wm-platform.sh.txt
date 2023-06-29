@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-04-19 07:04'
+__JH_WMP_UPDATED__='2023-06-22 08:21'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
@@ -51,8 +51,8 @@ function _jh_start_platform {
     # _jh_start_service carrierseur
     # _jh_start_service carriertipsa
 
-    _jh_start_service mailing
     _jh_start_service template-generator
+    _jh_start_service mailing
     _jh_start_service ui
 
     cdkj_s
@@ -358,6 +358,7 @@ function _jh_backup_alberto_service {
     echo '--> backup alberto files from '\'$( pwd  )\'
     find ./src -name '*alberto*' | while read myfile; do command cp -v ${myfile} '../zalberto/z'${1}'/'; done;
     command cp -v ./*alberto.launch '../zalberto/z'${1}'/'
+    command cp -v ./curl*alberto.sh '../zalberto/z'${1}'/' # testing, in evaluation
     command cp -v ./pom.xml.alberto '../zalberto/z'${1}'/' # deprecation pending
     # command cp -v ./src/main/resources/application-alberto.yml '../zalberto/z'${1}'/' # deprecated
     # command cp -v ./src/main/resources/log4j2-alberto.xml '../zalberto/z'${1}'/' # deprecated

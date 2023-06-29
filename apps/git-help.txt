@@ -1,4 +1,4 @@
-# Git Help -- updated: 2023-06-12 07:00
+# Git Help -- updated: 2023-06-12 08:23
 
 
 
@@ -47,26 +47,27 @@ Examples:
 
 
 git fetch:
-   Fetch data from remote.
+  Fetch data from remote.
 Options:
-   --tags sync tags with remote.
-   -f force (use with --tags)
+  --tags sync tags with remote.
+  -f force (use with --tags)
 
 
 
 git log:
-   List/query commits.
-   When querying for file, consider using "find -iname ..." and bash variable.
+  List/query commits.
+  When querying for file, consider using "find -iname ..." and bash variable.
+  Works similar to "git show" regarding (suitable) options and arguments.
 Options:
-   --graph: show graphical relationships/precedences.
-   --all: show commits in branches not related to current one.
-   --decorate: show aditional commit info.
-   -1: show last 1 commit (other numbers are possible)
-   --follow: when querying for file, include file-rename commits.
+  --graph: show graphical relationships/precedences.
+  --all: show commits in branches not related to current one.
+  --decorate: show aditional commit info.
+  -1: show last 1 commit (other numbers are possible)
+  --follow: when querying for file, include file-rename commits.
 Examples:
-   git log --all --graph --decorate -2 # include other branches, show precedences, last two commits ;
-   git log -3 -- <filename> # query file last 3 commits;
-   git log --follow -3 -- <filename> # query file last 3 commits including renames ;
+  git log --all --graph --decorate -2 # include other branches, show precedences, last two commits ;
+  git log -3 -- <filename> # query file last 3 commits;
+  git log --follow -3 -- <filename> # query file last 3 commits including renames ;
 
 
 
@@ -92,18 +93,20 @@ Examples:
 
 
 git rebase:
-   Re-build commits on another one.
-   When use interactively, use "pick" for first commit and "squash" for others to rebuild as unique commit.
+  Re-build commits on another one.
+  When use interactively, use "pick" for first commit and "squash" for others to rebuild as unique commit.
+  See "vi" notes for search/replace text.
 Options:
-   -i interactive
+  -i interactive
 Examples:
-   git rebase -i dev # rebuild current branch from 'dev'  ;  
+  git rebase -i dev # rebuild current branch from 'dev'  ;  
 
 
 
 git show:
   Show diff-like info regarding specific commit.
   Also get specific file from specific commit.
+  Works similar to "git log" regarding (suitable) options and arguments.
 Options:
   --stat summarize files and change count.
 Examples:

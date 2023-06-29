@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-04-19 06:38'
+__ALIAS_LAST_UPDATE__='2023-06-29 04:11'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -117,8 +117,9 @@ alias less='less -R -M -i'
 alias diff='diff --color=always'
 alias od='od -v -An -tx1 -w16'
 alias snc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
-alias siel='sed -E '\''{ s/(.)$/\1\n/g }'\'
-alias csnc='cat -n | sed -E '\''s/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /'\'
+alias sinl='sed -E '\''{ s/(.)$/\1\n/g }'\'
+alias cn='cat -n'
+alias cnsc='cat -n | sed -E '\''s/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /'\'
 function _grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
 alias gsurf='_grep_sed_uniq_rf '
 
@@ -463,7 +464,8 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 
 alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
-alias gl='echo "--> git log --graph --all --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --all --decorate'
+alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
+alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
 alias gb='echo "--> git branch"; sleep ${__ALIAS_TIMEOUT__}; git branch'
@@ -490,7 +492,8 @@ alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIA
 s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'  gs  : git status \n' 
 s=${s}'  gsi : git status --ignored \n' 
-s=${s}'  gl  : git log --graph --all --decorate \n'
+s=${s}'  gl  : git log --graph --decorate \n'
+s=${s}'  gla : git log --graph --decorate --all  \n'
 s=${s}'  glf : git ls-files \n'
 s=${s}'\n'
 s=${s}'  gb  : git branch \n'
