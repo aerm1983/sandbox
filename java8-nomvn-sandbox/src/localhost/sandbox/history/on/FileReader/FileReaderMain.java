@@ -1,4 +1,4 @@
-package localhost.sandbox.on.history.FileReader;
+package localhost.sandbox.history.on.FileReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

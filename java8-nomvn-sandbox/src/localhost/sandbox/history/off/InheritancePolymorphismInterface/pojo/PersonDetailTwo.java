@@ -1,4 +1,4 @@
-package localhost.sandbox.history.off.InheritancePolymorphism.pojo;
+package localhost.sandbox.history.off.InheritancePolymorphismInterface.pojo;
 
 public class PersonDetailTwo extends PersonDetailOne {
 	
@@ -12,5 +12,10 @@ public class PersonDetailTwo extends PersonDetailOne {
 		String string = "{Name:" + name +", Age:" + age + "}" ;
 		return string ;
 	}
+
+    public void printMyName() {
+        System.out.println("PersonDetailTwo -- interface -- {Name:" + name + "}");
+        return;
+    }
 
 }

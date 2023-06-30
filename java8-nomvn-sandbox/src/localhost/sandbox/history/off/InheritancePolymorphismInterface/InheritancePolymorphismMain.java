@@ -1,6 +1,6 @@
-package localhost.sandbox.history.off.InheritancePolymorphism;
+package localhost.sandbox.history.off.InheritancePolymorphismInterface;
 
-import localhost.sandbox.history.off.InheritancePolymorphism.pojo.PersonDetailFour;
+import localhost.sandbox.history.off.InheritancePolymorphismInterface.pojo.PersonDetailFour;
 
 public class InheritancePolymorphismMain {
 
