@@ -1,6 +1,9 @@
 package localhost.sandbox.history.on.ExecutorsMultiThread;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.RuntimeMXBean;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.Executors;
@@ -83,7 +86,12 @@ public class ThreadPoolExecutorUtil {
             return;
         });
         
-        // monitor
+        // monitor, runtime, system
+        /**
+         * to get a total cpu time of jvm, loop al threads, try sum/addition of
+         *  their cpu times (see "monitor, thread" below)
+         */
+        ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
         Runtime runtime = Runtime.getRuntime();
         System.out.println("runtime.availableProcessors(): " +  runtime.availableProcessors());
         System.out.println("runtime.maxMemory(): " +  runtime.maxMemory());
@@ -101,11 +109,24 @@ public class ThreadPoolExecutorUtil {
         }
         System.out.println("threadId: " + threadId.get());
         
+        // monitor, thread 
+        /**
+         * to get a total cpu time of jvm, loop al threads, try sum/addition
+         * of their cpu times
+         */
+        MemoryMXBean mmxb = ManagementFactory.getMemoryMXBean();
+        MemoryUsage muHeap = mmxb.getHeapMemoryUsage();
+        MemoryUsage muNonHeap = mmxb.getNonHeapMemoryUsage();
+        long maxHeapMemory = muHeap.getMax();
+        
+        RuntimeMXBean rmxb = ManagementFactory.getRuntimeMXBean();
+        rmxb.getUptime();
+        rmxb.getInputArguments();
+       
         ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
         // long[] threadIdArray = tmxb.getAllThreadIds();
         
         ThreadInfo threadInfoInit = tmxb.getThreadInfo(threadId.get());
-        
 
         Long threadCpuTimeVar = null;
         Long threadUserTimeVar = null;
@@ -128,7 +149,7 @@ public class ThreadPoolExecutorUtil {
         
         try {
             Object object1 = future1.get();
-            Thread.sleep(2000); // larger than thread keepAlive time
+            Thread.sleep(3000); // larger than thread keepAlive time
         } catch (Exception e) {
             System.err.println("error: " + e);
         }
