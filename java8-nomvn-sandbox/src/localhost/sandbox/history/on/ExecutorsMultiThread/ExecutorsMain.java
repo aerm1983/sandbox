@@ -10,7 +10,11 @@ public class ExecutorsMain {
     
     public static void main() {
         // ForkJoinPoolTwoParallelStream.customForkJoinPool();
-        ThreadPoolExecutorUtil.threadPoolExecutorMonitor();
+        // ForkJoinPoolOneParallelStream.customForkJoinPoolAndFactory();
+        // ForkJoinPoolOneParallelStream.customForkJoinPool();
+        // ThreadPoolExecutorUtil.threadPoolExecutorMonitor();
+        
+        ThreadOne.simpleAndTGroup();
     }
 
     public static void synchroList() { // TODO

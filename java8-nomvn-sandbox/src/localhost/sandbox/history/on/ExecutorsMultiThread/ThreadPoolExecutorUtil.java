@@ -123,6 +123,8 @@ public class ThreadPoolExecutorUtil {
         rmxb.getUptime();
         rmxb.getInputArguments();
        
+        // research:  java.lang.ThreadGroup.enumerate()
+        
         ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
         // long[] threadIdArray = tmxb.getAllThreadIds();
         

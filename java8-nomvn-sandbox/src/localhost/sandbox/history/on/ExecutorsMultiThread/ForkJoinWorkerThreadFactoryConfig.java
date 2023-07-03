@@ -7,11 +7,9 @@ public class ForkJoinWorkerThreadFactoryConfig implements ForkJoinPool.ForkJoinW
 
     @Override
     public ForkJoinWorkerThread newThread(ForkJoinPool pool) {
-        
         final ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
         worker.setName("alberto-worker-" + worker.getPoolIndex());
         return worker;
-
     }
     
 }
