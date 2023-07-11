@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.3</version>
+	</parent>
+	<groupId>localhost</groupId>
+	<artifactId>hikaricp</artifactId>
+	<version>0.0.0</version>
+	<name>hikaricp</name>
+	<description>SpringBoot2 hikari connection pool test</description>
+	<packaging>jar</packaging>
+	<properties>
+		<java.version>1.8</java.version>
+		<project.versionDate>2023-07-11 18:17</project.versionDate>
+		<project.versionComment>Hikari connection pool test</project.versionComment>
+		<maven.test.skip>true</maven.test.skip>
+		<com.zaxxer.hikari.housekeeping.periodMs>5000</com.zaxxer.hikari.housekeeping.periodMs><!-- does not work this way, conly from command line- -->
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+ 		<dependency>
+ 			<groupId>mysql</groupId>
+ 			<artifactId>mysql-connector-java</artifactId>
+ 		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+		        <includes>
+			        <include>**/*.properties</include>
+			        <include>**/*.yml</include>
+			        <include>**/*.yaml</include>
+			        <include>**/*.xml</include>
+		        </includes>
+			</resource>
+		</resources>
+	</build>
+</project>

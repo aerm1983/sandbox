@@ -1,0 +1,50 @@
+# Reminders:
+# (1) command line argumen: -Dcom.zaxxer.hikari.housekeeping.periodMs=6000
+
+# logging
+debug: false
+
+# logging.level -- values: trace, debug, info
+logging:
+  level:
+    root: info
+    # org.springframework: debug
+    # org.springframework.web: debug
+    com.zaxxer.hikari.HikariConfig: debug
+    com.zaxxer.hikari.pool.HikariPool: debug
+
+# spring
+spring:
+  main:
+    web-application-type: none # servlet, reactive, none
+  datasource:
+    url: jdbc:mysql://localhost:3306/information_schema
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10 # default 10
+      minimum-idle: 5 # default equal to maximum-pool-size (fixed-size pool)
+      connection-timeout: 5000 # millisecs, minimum 250, default 30000
+      max-lifetime: 150000 # millisecs, should be less than max-lifetime granted by DB, minimum 30000 (1/2 min), default 180000 (30 min)
+      keepalive-time: 30000 # millisecs, ping frequency, should be less than max-lifetime, according to log cannot be less than 30s
+      idle-timeout: 60000 # millisecs, minimum 10000, default 600000 (10 min), 0 to never remove
+      connection-test-query: SELECT 1
+      
+      
+  jpa:
+    show-sql: true
+    # defer-datasource-initialization: true
+  data:
+    jdbc:
+      repositories:
+        enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+com:
+  zaxxer:
+    hikari:
+      housekeeping:
+        periodMs: 5000
+
