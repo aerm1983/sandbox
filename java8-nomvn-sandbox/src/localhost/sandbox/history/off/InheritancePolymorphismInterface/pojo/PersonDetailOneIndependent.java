@@ -1,25 +1,25 @@
 package localhost.sandbox.history.off.InheritancePolymorphismInterface.pojo;
 
-import localhost.sandbox.history.off.InheritancePolymorphismInterface.InterfacePerson;
+import localhost.sandbox.history.off.InheritancePolymorphismInterface.PersonAbstract;
 
-public class PersonDetailOneIndependent implements InterfacePerson {
+public class PersonDetailOneIndependent extends PersonAbstract {
 	
-	public String name ;
 	
 	public PersonDetailOneIndependent() {
 		
 	}
 	
-	public String toString() {
-		String string = "{Name:" + name + "}";
-		return string ;
-	}
-	
+	@Override
 	public void printMyName() {
-        System.out.println("PersonDetailOneIndependent -- interface -- {Name:" + name + "}");
+        System.out.println("PersonDetailOneIndependent -- extends abstract -- {Name:" + name + "}");
         return;
 	}
 	
+	/**
+	 * "@Override" annotation throws error on execution as this method is
+	 * not implemented in superclass.
+	 */
+	// @Override
 	public void iAmIndependent () {
 	    System.out.println("PersonDetailOneIndependent -- I am independent!");
 	}

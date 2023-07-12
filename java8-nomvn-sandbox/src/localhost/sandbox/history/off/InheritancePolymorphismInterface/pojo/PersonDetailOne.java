@@ -1,8 +1,8 @@
 package localhost.sandbox.history.off.InheritancePolymorphismInterface.pojo;
 
-import localhost.sandbox.history.off.InheritancePolymorphismInterface.InterfacePerson;
+import localhost.sandbox.history.off.InheritancePolymorphismInterface.PersonInterface;
 
-public class PersonDetailOne implements InterfacePerson {
+public class PersonDetailOne implements PersonInterface {
 	
 	public String name ;
 	

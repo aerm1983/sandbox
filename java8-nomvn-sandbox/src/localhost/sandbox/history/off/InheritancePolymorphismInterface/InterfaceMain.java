@@ -26,10 +26,10 @@ public class InterfaceMain {
 		Map<?,?> ms1 = new HashMap<String,String>();
 		Map<?,?> ms2 = new TreeMap<String,String>();
 		
-		InterfacePerson i0PersonOne = new PersonDetailOne();
-		InterfacePerson i0PersonTwo = new PersonDetailTwo();
-		InterfacePerson i0PersonThree = new PersonDetailThree();
-		InterfacePerson i0PersonFour = new PersonDetailFour();
+		PersonInterface i0PersonOne = new PersonDetailOne();
+		PersonInterface i0PersonTwo = new PersonDetailTwo();
+		PersonInterface i0PersonThree = new PersonDetailThree();
+		PersonInterface i0PersonFour = new PersonDetailFour();
 		
 		// second part
 		
@@ -37,7 +37,7 @@ public class InterfaceMain {
 		 * This is the best case scenario.
 		 * Code is limited to use only methods indicated by interface.
 		 */
-		InterfacePerson interfacePerson = StaticPerson.getInterfacePerson();
+		PersonInterface interfacePerson = PersonStatic.getPersonInterface();
 		System.out.println("interfacePerson.getClass(): " + interfacePerson.getClass());
 		
 		/**
@@ -45,7 +45,7 @@ public class InterfaceMain {
 		 * If return type changes to other which cannot be cast to PersonDetailOne
 		 * (for example, personDetailOneIndependent), this will throw a ClassCastException.
 		 */
-		PersonDetailOne personDetailOne = (PersonDetailOne) StaticPerson.getInterfacePerson();
+		PersonDetailOne personDetailOne = (PersonDetailOne) PersonStatic.getPersonInterface();
 		
 		
 		return;

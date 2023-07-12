@@ -1,6 +1,6 @@
 package localhost.sandbox.history.off.InheritancePolymorphismInterface;
 
-public interface InterfacePerson {
+public interface PersonInterface {
 
 	public void printMyName();
 

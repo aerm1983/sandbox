@@ -1,5 +1,7 @@
 package localhost.sandbox.history.on.String;
 
+import localhost.sandbox.helper.ByteSizeHelper;
+
 //# encoding tests:
 //java -classpath . localhost.TemporalOutMain
 //java -Dfile.encoding=UTF-8 -classpath . localhost.TemporalOutMain
@@ -12,16 +14,21 @@ public class StringMain {
 		
 		System.out.println("Hello from StringMain!");
 		
-	    String tracking1 = "0028960141289842"; // default 
+	    // String tracking1 = "0028960141289842"; // default 
 	    // String tracking = "0028960139822698";
 	    // String tracking = "0028960140010676";
-		
-		String tracking2 = "0142292383"; // albaran 2383 // incidencia
-		
-		
-		System.out.println( tracking1.length() );
-		System.out.println( tracking2.length() );
+		// String tracking2 = "0142292383"; // albaran 2383 // incidencia
+		// System.out.println( tracking1.length() );
+        // System.out.println( tracking2.length() );
 
+		
+		
+		
+		long inSize = 123456789012L ;
+		String outSize = ByteSizeHelper.writeHumanReadableByteSize(inSize);
+		System.out.println("inSize: " + inSize + " ; outSize: " + outSize);
+		
+		
 		
 		/*
 		String xmlStr= "&lt;/CONSULTA&gt;";
