@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-06-29 04:11'
+__ALIAS_LAST_UPDATE__='2023-07-13 11:01'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -78,6 +78,9 @@ alias rm='rm -v'
 function _rm_r { echo '--> rm -vfR '"${@}" ; sleep ${__ALIAS_TIMEOUT__} ; command rm -vfR "${@}" ; echo ; ll ; }
 alias rmr='_rm_r'
 alias tf='tail -f'
+alias t='_t'
+alias h='_h'
+alias hi='_h_index'
 function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
 alias c='_c_a_c'
 alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
@@ -136,7 +139,7 @@ alias date.sql='date +'\''%Y-%m-%d %H:%M:%S'\'
 # -----------------------------------------------------------
 # General aliases - fast command/function/variable reference
 # -----------------------------------------------------------
-function t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
+function _t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
 
 
 
@@ -153,9 +156,15 @@ function _bhs_line_expand {
 
 }
 
-function h { 
+function _bhs_line_index {
 
-    # __BHS_FILE__=${HOME}/.bash-help-src
+    command cat -n \
+    | command sed -E '{ s/^([^:]+):(.*)$/\1/g }'
+
+}
+
+function _h { 
+
     if [ ! -e ${__BHS_FILE__} ] 
     then
         echo 'source file does not exist'
@@ -163,7 +172,6 @@ function h {
     fi
 
     h_greeting
-    # command grep --color=always -P 'updated:' ${__BHS_FILE__} # deprecated
     command head -1 ${__BHS_FILE__}
 
     if [ -z $1 ]
@@ -173,6 +181,24 @@ function h {
         command grep --color=always -P '^'${1}':' ${__BHS_FILE__} | _bhs_line_expand
     fi
 }
+
+function _h_index { 
+
+    if [ ! -e ${__BHS_FILE__} ] 
+    then
+        echo 'source file does not exist'
+        return 1
+    fi
+
+    _s=$(h_greeting)'\n'
+    _s=${_s}$(command head -1 ${__BHS_FILE__})'\n'
+    _s=${_s}"$(command grep --color=never -P '^[0-9A-Za-z]{2,}:' ${__BHS_FILE__} | _bhs_line_index)"
+    command less -f <( echo -e "${_s}" )
+    
+    unset _s
+    
+}
+
 
 function print_fn { 
     type $1 | tr '\n' ' ' | command sed -E 's/[ ]{2,}/ /g' ; 
