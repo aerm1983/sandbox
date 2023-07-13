@@ -1,4 +1,4 @@
-MINIKUBE INSTALL, KUBERNETES -- updated: 2023-04-19 07:38
+# MINIKUBE, KUBERNETES, INSTALL -- updated: 2023-04-19 07:38 -- kubectl (6) deprecated: 2023-07-13 08:26
 
 
 
@@ -56,7 +56,7 @@ where kubectl
 
 
 
-(6) TODO -- ORDER:
+(6) KUBECTL -- DEPRECATED
 
 (6.1) KUBECTL GENERAL ALIAS OR HELPER VARIABLE
 
