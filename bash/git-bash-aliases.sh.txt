@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-07-13 11:01'
+__ALIAS_LAST_UPDATE__='2023-07-13 20:49'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -222,8 +222,7 @@ alias mcc='echo "--> mvn clean compile -Dmaven.test.skip=true"; sleep ${__ALIAS_
 alias mcp='echo "--> mvn clean package -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean package -Dmaven.test.skip=true'
 alias mci='echo "--> mvn clean install -U -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean install -U -Dmaven.test.skip=true'
 alias mrjr='echo "--> mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true'
-
-# alias g = 'echo "--> ./gradlew ... "; sleep ${__ALIAS_TIMEOUT__}; ./gradlew'
+alias mec='echo "--> mvn clean eclipse:clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean eclipse:clean'
 
 
 
@@ -474,6 +473,7 @@ s=${s}'  mcc : mvn clean compile -Dmaven.test.skip=true \n'
 s=${s}'  mcp : mvn clean package -Dmaven.test.skip=true \n'
 s=${s}'  mci : mvn clean install -U -Dmaven.test.skip=true \n'
 s=${s}'  mrjr: mvn resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true \n'
+s=${s}'  mec : mvn clean eclipse:clean \n'
 s=${s}'\n'
 s=${s}'  g   : ./gradlew \n'
 s=${s}'\n'
@@ -500,7 +500,8 @@ alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
 alias gch='echo "--> git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
-function ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
+function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
+alias ga='_ga'
 alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
 
