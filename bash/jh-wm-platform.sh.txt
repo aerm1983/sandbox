@@ -3,9 +3,10 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-06-22 08:21'
+__JH_WMP_UPDATED__='2023-07-15 06:16'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
+__JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
 __JH_GIT_COMPILE_FAIL_FILE__='zgit-compile-fail.tmp'
 __JH_RESTORE_DIR__='__RESTORE_LOALB__'
@@ -31,29 +32,39 @@ function _jh_start_platform {
 
     cdkj_s
 
-    _jh_start_service microservicesregistry
+    if [ -e ${__JH_WMP_START_LIST_FILE__} ]
+    then
+        echo -e 'starting platform from definitions in file '\'${__JH_WMP_START_LIST_FILE__}\'
+        command source ${__JH_WMP_START_LIST_FILE__}
+        _jh_wm_start_platform_list
+    else
+        echo -e 'starting platform from definitions in current script \n'
+        sleep 3
+        
+        _jh_start_service microservicesregistry
 
-    _jh_start_service usermanagement
-    _jh_start_service mappingmanagement
+        _jh_start_service usermanagement
+        _jh_start_service mappingmanagement
 
-    _jh_start_service marketplaceebay
-    _jh_start_service marketplacemirakl
-    _jh_start_service marketplacemiravia
-    _jh_start_service marketplaceamazon
-    _jh_start_service marketplacemakro
-    # _jh_start_service marketplacealiexpress
-    
-    _jh_start_service productmanagement
-    _jh_start_service ordermanagement
-    _jh_start_service bulkfileprocessor
+        _jh_start_service marketplaceebay
+        _jh_start_service marketplacemirakl
+        _jh_start_service marketplacemiravia
+        _jh_start_service marketplaceamazon
+        _jh_start_service marketplacemakro
+        # _jh_start_service marketplacealiexpress
+        
+        _jh_start_service productmanagement
+        _jh_start_service ordermanagement
+        _jh_start_service bulkfileprocessor
 
-    # _jh_start_service merchantlogisfashion
-    # _jh_start_service carrierseur
-    # _jh_start_service carriertipsa
+        # _jh_start_service merchantlogisfashion
+        # _jh_start_service carrierseur
+        # _jh_start_service carriertipsa
 
-    _jh_start_service template-generator
-    _jh_start_service mailing
-    _jh_start_service ui
+        _jh_start_service template-generator
+        _jh_start_service mailing
+        _jh_start_service ui
+    fi
 
     cdkj_s
 
@@ -592,6 +603,9 @@ function bulkfileprocessor_test_block1 {
     ### bulkfileprocessor testing, block 1/2, end ###
 }
 
+
+
+
 function bulkfileprocessor_test_block2 {
     ### bulkfileprocessor testing, block 2/2, begin ###
     sleep 60 ; echo 'pre-curl, 60s pause 1, done'
@@ -602,6 +616,8 @@ function bulkfileprocessor_test_block2 {
     sleep 60 ; echo 'post-curl, 60s pause 1, done'
     ### bulkfileprocessor testing, block 2/2, end ###
 }
+
+
 
 
 function _jh_update_repo {
@@ -627,9 +643,28 @@ function _jh_update_repo {
 }
 
 
+
+
+function _jh_reload {
+    cdkj_s
+    command source ./jh-wm-platform.sh.txt
+    if [ -e ${__JH_WMP_START_LIST_FILE__} ]
+    then
+        command source ./_jh-wm-start-platform-list.sh.txt
+    else
+        __JH_WMP_START_LIST_UPDATED__='(file not available)'
+    fi
+    echo "updated, main:" ${__JH_WMP_UPDATED__}
+    echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
+    _0p
+}
+
+
+
+
 ### aliases
 
-alias 0='. ./jh-wm-platform.sh.txt ; echo "updated:" ${__JH_WMP_UPDATED__} ; _0p'
+alias 0='_jh_reload'
 
 alias _0p='alias 0 ; echo ; alias 3b 3r 3c 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'

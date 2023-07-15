@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-07-13 20:49'
+__ALIAS_LAST_UPDATE__='2023-07-15 06:23'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -271,7 +271,7 @@ function __jh_set_java_version {
     unset path_tmp1 path_tmp2 init_dir
 
     # verifications
-    echo '--> set java version | updated: '${__SJV_LAST_UPDATE__}
+    echo '--> set java version'
     # echo
     # echo 'JAVA_HOME: '${JAVA_HOME} # debugging
     # echo
