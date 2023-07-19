@@ -7,15 +7,18 @@ public class DateMain {
 		System.out.println("Hello from Date Main!");
 		
 		// SimpleDateFormatTest.timeZoneTest();
-		SimpleDateFormatTest.simpleDateFormatTest();
+		// SimpleDateFormatTest.simpleDateFormatTest();
 		
 		
-		// InstantTest.instantTest();
+		InstantTest.instantTest();
 		
 		
 		// ZonedDateTimeFormatterTest.zoneIdTest();
 		// ZonedDateTimeFormatterTest.zonedDateTimeTest();
 		// ZonedDateTimeFormatterTest.localDateTimeTest();
+		
+		
+		// ChronoUnitSupportTest.chronoUnitSupportTest();
 
 		
 		// TimeZonePatternTest.main();

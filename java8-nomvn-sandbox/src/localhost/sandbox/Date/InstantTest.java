@@ -29,26 +29,7 @@ public class InstantTest {
 
 		
 		// time unit support
-		boolean millisecondsSupport = currentInstant.isSupported(ChronoUnit.MILLIS);
-		boolean secondsSupport = currentInstant.isSupported(ChronoUnit.SECONDS);
-		boolean minutesSupport = currentInstant.isSupported(ChronoUnit.MINUTES);
-		boolean hoursSupport = currentInstant.isSupported(ChronoUnit.HOURS);
-		boolean daysSupport = currentInstant.isSupported(ChronoUnit.DAYS);
-		boolean weeksSupport = currentInstant.isSupported(ChronoUnit.WEEKS);
-		boolean monthsSupport = currentInstant.isSupported(ChronoUnit.MONTHS);
-		boolean yearsSupport = currentInstant.isSupported(ChronoUnit.YEARS);
-		System.out.println( ""
-				+ "millisecondsSupport: " + millisecondsSupport + " ; "
-				+ "secondsSupport: " + secondsSupport + " ; "
-				+ "minutesSupport: " + minutesSupport + " ; "
-				+ "hoursSupport: " + hoursSupport + " ; "
-				+ "\n"
-				+ "daysSupport: " + daysSupport + " ; "
-				+ "weeksSupport: " + weeksSupport + " ; "
-				+ "monthsSupport: " + monthsSupport + " ; " 
-				+ "yearsSupport: " + yearsSupport + " ; "
-				+ "\n"
-				);
+		// (See ChronoUnitSupportTest)
 		
 		
 		// instant plus/minus tima unit
