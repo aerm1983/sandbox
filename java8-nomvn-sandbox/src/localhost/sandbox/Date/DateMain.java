@@ -10,12 +10,16 @@ public class DateMain {
 		SimpleDateFormatTest.simpleDateFormatTest();
 		
 		
+		// InstantTest.instantTest();
+		
+		
 		// ZonedDateTimeFormatterTest.zoneIdTest();
 		// ZonedDateTimeFormatterTest.zonedDateTimeTest();
 		// ZonedDateTimeFormatterTest.localDateTimeTest();
 
 		
 		// TimeZonePatternTest.main();
+		
 		
 	}
 

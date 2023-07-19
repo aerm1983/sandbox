@@ -11,6 +11,12 @@ import java.util.Set;
 
 public class ZonedDateTimeFormatterTest {
 	
+	
+	/**
+	 *
+	 * ZoneId is a reference to TimeZone
+	 * 
+	 */
 	public static void zoneIdTest () {
 		
 		System.out.println("Hello from zoneIdTest!");
@@ -40,13 +46,8 @@ public class ZonedDateTimeFormatterTest {
 	 * 
 	 * ZonedDateTime uses Instant as its core time measure.
 	 * 
-	 * Instant is similar to Date in nature.
+	 * See InstantTest comment, relation between Date and Instant is there explained. 
 	 * 
-	 * Date measures milliseconds from unix epoch, using type "long".
-	 * 
-	 * Instant measures nanoseconds from unix epoch, using "long" for seconds and "int" 
-	 * for fractional seconds part, down to nanoseconds precision.
-	 *
 	 * ZonedDateTime also contains methods for adding/substracting time, tests pending.
 	 *
 	 */

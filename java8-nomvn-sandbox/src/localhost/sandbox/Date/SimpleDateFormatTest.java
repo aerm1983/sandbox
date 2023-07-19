@@ -61,7 +61,7 @@ public class SimpleDateFormatTest {
 	 * Advantages: 
 	 * - Good for simple Date-to-String operation (format) 
 	 * - Good for simple String-to-Date operation (parse).
-	 * - Supports timezone setting (test pending).
+	 * - Supports timezones.
 	 * 
 	 * Disadvantages:
 	 * - Calculation of time differences or intervals can be done only using Unix time.
