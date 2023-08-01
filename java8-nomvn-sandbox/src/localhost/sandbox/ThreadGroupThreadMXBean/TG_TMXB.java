@@ -4,14 +4,16 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 
-public class TG_MXB {
+public class TG_TMXB {
 
     /**
      * <p>If Thread is alive, it can be found by Thread, ThreadGroup and/or ThreadMXBean.
-     * <p>If Thread is not alive, it can be found only by Thread.
+     * <p>If Thread is not alive, it can be found only by (instantiated) Thread.
      * <p>Alive Thread states: RUNNABLE, WAITING, TIMED_WAITING.
      * <p>Not-alive Thread states: NEW, TERMINATED.
      * <p>Most accurate way to bind a proccess and a thread, is by using thread name, not thread id.
+     * <p>All threads can be found from uppermost parent Thread.
+     * <p>As a Thread can be found by its name, a ThreadGroup could also be found; see threadNameWatcher method.
      */
     public static void principal() {
     	
@@ -26,7 +28,7 @@ public class TG_MXB {
     	// thread instantiated, but not started
     	System.out.println("\n---- TARGET THREAD INSTANTIATED, BUT NOT STARTED ----");
     	threadWatcher(thread);
-    	threadGroupWatcher(threadGroup, threadName);
+    	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
     	
 
@@ -34,7 +36,7 @@ public class TG_MXB {
     	thread.start();
     	System.out.println("\n---- TARGET THREAD STARTED ----");
     	threadWatcher(thread);
-    	threadGroupWatcher(threadGroup, threadName);
+    	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
 
 
@@ -46,7 +48,7 @@ public class TG_MXB {
     	}
     	System.out.println("\n---- TARGET THREAD HALF-WAY EXECUTED ----");
     	threadWatcher(thread);
-    	threadGroupWatcher(threadGroup, threadName);
+    	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
 
     	
@@ -58,13 +60,12 @@ public class TG_MXB {
     	}
     	System.out.println("\n---- TARGET THREAD TERMINATED ----");
     	threadWatcher(thread);
-    	threadGroupWatcher(threadGroup, threadName);
+    	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
     	
     	
     	// end
     	System.out.println("\n---- END ----");
-    	
     }
 
     
@@ -76,37 +77,35 @@ public class TG_MXB {
     	}
     }
 
+    
     public static void threadWatcher(Thread thread) {
     	System.out.println("from threadWatcher -- thread.getState(): " + thread.getState() + " ; thread.isAlive(): " + thread.isAlive());
     }
     
     
-	/**
-	 * <p>ThreadGroup can also be found by name. 
-	 * <p>When a ThreadGroup is the upper one, (ThreadGroup == null) evaluates to true.
-	 * <p>Then, enumerate(threadGroupArray).
-	 * <p>Then loop through threadGroupArray to find ThreadGroup with searched name.
-	 */
-    public static void threadGroupWatcher(ThreadGroup threadGroup, String threadName) {
+    public static void threadNameWatcher(String threadName) {
+    	// find uppermost parent ThreadGroup
+    	ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+    	while ( threadGroup.getParent() != null ) {
+    		threadGroup = threadGroup.getParent();
+    	}
+    	
+    	// iterate over Threads in ThreadGroup 
     	Thread[] threadArray = new Thread[threadGroup.activeCount()];
     	threadGroup.enumerate(threadArray);
     	boolean found = false;
     	for (Thread thread : threadArray) {
     		if (threadName.equals(thread.getName())) {
     			found = true;
-    			System.out.println("from threadGroupWatcher -- thread.getState(): " + thread.getState() + " ; thread.isAlive(): " + thread.isAlive());
+    			System.out.println("from threadNameWatcher -- thread.getState(): " + thread.getState() + " ; thread.isAlive(): " + thread.isAlive());
     		}
     	}
 		if (!found) {
-			System.out.println("from threadGroupWatcher -- thread not found");
+			System.out.println("from threadNameWatcher -- thread not found");
 		}
-
     }
     
-    /**
-     * <p>It is better to identify a thread by name than by id, to achieve
-     * a strict association between thread and process identifier.
-     */
+
     public static void threadMXBeanWatcher(String threadName) {
         ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
         long[] mxbThreadIdArray = tmxb.getAllThreadIds();

@@ -4,7 +4,7 @@ public class ThreadGroupThreadMXBeanMain {
 
     
     public static void main() {
-    	TG_MXB.principal();
+    	TG_TMXB.principal();
     }
 
 }
