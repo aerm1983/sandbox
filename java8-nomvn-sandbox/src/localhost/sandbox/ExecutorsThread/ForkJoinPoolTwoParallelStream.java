@@ -1,4 +1,4 @@
-package localhost.sandbox.ExecutorsMultiThread;
+package localhost.sandbox.ExecutorsThread;
 
 import java.util.ArrayList;
 import java.util.Collections;

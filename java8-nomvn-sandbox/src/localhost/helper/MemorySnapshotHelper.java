@@ -3,11 +3,12 @@ package localhost.helper;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class MemorySnapshotHelper {
 
 	private static DecimalFormat DEC_FORMAT = new DecimalFormat("0.00");
-	private static SimpleDateFormat S_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z");
+	private static SimpleDateFormat S_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");
 	
 	private Date date;
 	private String formattedDate;
@@ -19,6 +20,11 @@ public class MemorySnapshotHelper {
 	private double totalToMaxRatio;
 	private long freePlusMaxMinusTotal;
 	
+	
+	static {
+		S_DATE_FORMAT.setTimeZone( TimeZone.getTimeZone("UTC") );
+	}
+
 	
 	public static void main() {
 		
@@ -44,6 +50,7 @@ public class MemorySnapshotHelper {
 	}
 	
 	
+	@Override
 	public String toString() {
 		String out = null;
 		

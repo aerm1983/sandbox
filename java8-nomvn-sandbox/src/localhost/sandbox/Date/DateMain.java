@@ -10,7 +10,7 @@ public class DateMain {
 		// SimpleDateFormatTest.simpleDateFormatTest();
 		
 		
-		InstantTest.instantTest();
+		// InstantTest.instantTest();
 		
 		
 		// ZonedDateTimeFormatterTest.zoneIdTest();
@@ -21,7 +21,7 @@ public class DateMain {
 		// ChronoUnitSupportTest.chronoUnitSupportTest();
 
 		
-		// TimeZonePatternTest.main();
+		TimeZonePatternTest.main();
 		
 		
 	}
