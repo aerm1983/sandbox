@@ -4,6 +4,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 
+import localhost.helper.ThreadRegistryHelper;
+
 public class TG_TMXB {
 
     /**
@@ -14,6 +16,10 @@ public class TG_TMXB {
      * <p>Most accurate way to bind a proccess and a thread, is by using thread name, not thread id.
      * <p>All threads can be found from uppermost parent Thread.
      * <p>As a Thread can be found by its name, a ThreadGroup could also be found; see threadNameWatcher method.
+     * <p>If using ThreadGroup or ThreadMXBean a Thread is found while alive, but then a sleep is performed, so that properties querying is delayed, the state TERMINATED could be seen.
+     * <p>Thus, Thread seems to behave dinamically/real-time-like, and ThreadInfo snapshot-like (ThreadInfo behavior verification pending).
+     * <p>When creating a Thread within a Thread Group, other supporting Threads might be created during execution, so ThreadGroup.activeCount() can be affected by this.
+     * <p>In order to better survey the life-cycle of a specific Thread from another one, use of ThreadRegistryHelper is suggested. 
      */
     public static void principal() {
     	
@@ -23,6 +29,8 @@ public class TG_TMXB {
     	String threadGroupName = "targetThreadGroup";
     	ThreadGroup threadGroup = new ThreadGroup(threadGroupName);
     	Thread thread = new Thread(threadGroup, () -> { targetProcess(); }, threadName);
+    	thread.setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
+    	ThreadRegistryHelper.add(thread);
     	
     	
     	// thread instantiated, but not started
@@ -118,7 +126,7 @@ public class TG_TMXB {
 			}
         }
 		if (!found) {
-			System.out.println("from threadMXBeanWatcher -- thread not found");
+			System.out.println("from threadMXBeanWatcher -- threadInfo not found");
 		}
     }
     

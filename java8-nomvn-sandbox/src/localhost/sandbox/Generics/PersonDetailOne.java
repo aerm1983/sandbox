@@ -1,5 +1,9 @@
 package localhost.sandbox.Generics;
 
+/**
+ * As this class has a Generic Type attribute, such Generic Type 
+ * should be applied to the whole class. 
+ */
 public class PersonDetailOne<T> {
 	
 	public T data ;
@@ -34,5 +38,4 @@ public class PersonDetailOne<T> {
 		}
 		
 	}
-
 }
