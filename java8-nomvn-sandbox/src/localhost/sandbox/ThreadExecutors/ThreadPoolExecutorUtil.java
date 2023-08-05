@@ -1,4 +1,4 @@
-package localhost.sandbox.ExecutorsThread;
+package localhost.sandbox.ThreadExecutors;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
