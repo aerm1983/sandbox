@@ -1,4 +1,4 @@
-package localhost.sandbox.Atomic;
+package localhost.sandbox.ThreadRaceConditionAtomicObjectNotify;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,14 +11,20 @@ public class AtomicMain {
 	}
 	
 	/**
+	 * <p> See ThreadObjectNotifyMain test, which explains monitor locks, which 
+	 * is the underlying low-level strategy used to manage atomic variables.
+	 * 
 	 * <p> Threads t1, t2 and t3 are in race condition.  
-	 * They tend to print "the same value", but it's really chaos.
-	 * Nevertheless, actual increment is correct when reading at a no-race-condition instant.
-	 * if method "System.out.println()" has a delay, it would explain the three prints being equal.
+	 * They tend to print "the same value", but it's not consistent.
+	 * Nevertheless, actual increment is correct when reading at a 
+	 * non-race-condition instant.
+	 * if method "System.out.println()" has a delay, it would explain the 
+	 * prints being equal.
 	 * 
 	 * <p> Synchronized block seems not to have an effect 
 	 * (stop threads t1, t2 and t3 from incrementing and printing).
 	 * Is it because atomic variables are being used?
+	 * Is it because wait() and notify() are not being used?
 	 * 
 	 * <p> Regarding numbers and array, it seems that is an OK strategy to write
 	 * concurrently, and later, at a moment when it is sure not to have a race
@@ -26,11 +32,6 @@ public class AtomicMain {
 	 * 
 	 * <p> Booleans are typically used as arguments for while high frequency loops,
 	 * as in example below, no trouble was found regarding this.
-	 * 
-	 * <p> Pending: make test with a non-atomic non-volatile variable, which would have 
-	 * to be attribute of class, to test "synchronized" block.  Also methods can be
-	 * "synchronized", test pending.
-	 * 
 	 */
 	public static void master() {
 		

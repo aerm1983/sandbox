@@ -1,7 +1,6 @@
 package localhost.sandbox;
 
 import localhost.helper.MemorySnapshotHelper;
-import localhost.sandbox.Atomic.AtomicMain;
 import localhost.sandbox.Date.DateMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
@@ -12,6 +11,8 @@ import localhost.sandbox.Process.ProcessMain;
 import localhost.sandbox.String.StringMain;
 import localhost.sandbox.ThreadExecutors.ExecutorsMain;
 import localhost.sandbox.ThreadGroupThreadMXBean.ThreadGroupThreadMXBeanMain;
+import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.AtomicMain;
+import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.ThreadObjectNotifyMain;
 
 public class SandboxMain {
 
@@ -34,7 +35,9 @@ public class SandboxMain {
 		// MemorySnapshotHelper.main();
 		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
-		AtomicMain.main();
+		// AtomicMain.main();
+		ThreadObjectNotifyMain.main();
+		
 
 	}
 }
