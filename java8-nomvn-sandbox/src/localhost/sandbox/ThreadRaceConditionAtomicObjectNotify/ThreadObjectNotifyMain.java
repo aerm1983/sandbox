@@ -15,41 +15,47 @@ public class ThreadObjectNotifyMain {
 	 * <p>Token "synchronized" can also be applied to specific code blocks,
 	 * testing pending.
 	 * 
-	 * <p>Remember: only one thread at a time can lock the monitor 
-	 * of an object.
+	 * <p>Monitors have two characteristics: (1) only one thread at a time 
+	 * can hold the monitor lock on an object ; (2) while condition(s) for
+	 * executing a method holding the monitor lock are not met, such method
+	 * must wait.
+	 * 
+	 * <p>Note that attribute "value" is not volatile, this is intentional
+	 * in this exercise.
 	 */
 	public void master() {
 		
 		// instantiate object for monitor, wait(), notifyAll()
-		StringValueWrapper svw = new StringValueWrapper(); 
+		ConcurrentValueWrapper cvw = new ConcurrentValueWrapper(); 
 		
 		// define threads
-		Thread tWaitReturn = new Thread( 
+		Thread tGet = new Thread( 
 				() -> { 
-					String s = svw.waitAndReturnString(); 
-					System.out.println("value: " + s); 
+					String s = cvw.getValue(); 
+					System.out.println("thread: " + Thread.currentThread().getName() + " ; getting value: " + s);
 				}, 
-				"tWaitReturn" );
+				"tGet" );
 		
-		Thread tSetNotify = new Thread( 
+		Thread tSet = new Thread( 
 				() -> { 
-					svw.setStringAndNotify("alberto"); 
+					System.out.println("thread: " + Thread.currentThread().getName() + " ; setting value");
+					cvw.setValue("alberto"); 
 				}, 
-				"tSetNotify" );
+				"tSet" );
 		
 		// start threads
-		tWaitReturn.start();
+		tGet.start();
 		try {
 			Thread.sleep(1000L);
 		} catch (Throwable e) {
 			System.err.println("error: " + e);
 		}
-		tSetNotify.start();
+		tSet.start();
 		
 		// wait for termination
 		try {
-			tWaitReturn.join();
-			tSetNotify.join();
+			tGet.join();
+			tSet.join();
 		} catch (Throwable e) {
 			System.err.println("err: " + e);
 		}
@@ -58,20 +64,40 @@ public class ThreadObjectNotifyMain {
 		
 	}
 	
-	public class StringValueWrapper {
+	public class ConcurrentValueWrapper {
 		
-		String value;
+		private String value;
 		
-		public synchronized String waitAndReturnString() {
+		/**
+		 * If "value" is null, method cannot read/return it.
+		 */
+		public synchronized String getValue() {
 			try {
-				wait();	
+				while (value == null) {
+					// notifyAll() // would this be correct?
+					wait();
+				}
 			} catch (Throwable e) {
 				System.err.println("error: " + e);
 			}
+
+			notifyAll();
 			return value; 
 		}
 		
-		public synchronized void setStringAndNotify(String inputValue) {
+		/**
+		 * If "value" is not null, method cannot write on it.
+		 */
+		public synchronized void setValue(String inputValue) {
+			try {
+				while (value != null) {
+					// notifyAll() // would this be correct?
+					wait();
+				}
+			} catch (Throwable e) {
+				System.err.println("error: " + e);
+			}
+			
 			this.value = inputValue;
 			notifyAll();
 		}
