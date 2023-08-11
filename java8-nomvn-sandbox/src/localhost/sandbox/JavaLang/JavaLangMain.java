@@ -16,6 +16,11 @@ public class JavaLangMain {
 		
 		
 		
+		String ts1 = String.format("Download error, file empty -- fileName: %s ; storeId: %s ; job: %s", "a", "b", 1);
+		System.out.println(ts1);
+		
+		
+		
 		
 		/*
 		String listStr = "alberto,mary,nena,josefina".toLowerCase();

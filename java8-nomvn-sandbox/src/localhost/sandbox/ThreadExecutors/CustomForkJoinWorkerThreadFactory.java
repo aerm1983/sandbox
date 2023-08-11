@@ -3,7 +3,7 @@ package localhost.sandbox.ThreadExecutors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinWorkerThread;
 
-public class ForkJoinWorkerThreadFactoryConfig implements ForkJoinPool.ForkJoinWorkerThreadFactory {
+public class CustomForkJoinWorkerThreadFactory implements ForkJoinPool.ForkJoinWorkerThreadFactory {
 
     @Override
     public ForkJoinWorkerThread newThread(ForkJoinPool pool) {

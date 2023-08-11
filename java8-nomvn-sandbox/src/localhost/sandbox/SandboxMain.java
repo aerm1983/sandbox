@@ -12,6 +12,7 @@ import localhost.sandbox.String.StringMain;
 import localhost.sandbox.ThreadExecutors.ExecutorsMain;
 import localhost.sandbox.ThreadGroupThreadMXBean.ThreadGroupThreadMXBeanMain;
 import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.AtomicMain;
+import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.StaticSynchronizedMain;
 import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.ThreadObjectNotifyMain;
 
 public class SandboxMain {
@@ -36,7 +37,8 @@ public class SandboxMain {
 		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
 		// AtomicMain.main();
-		ThreadObjectNotifyMain.main();
+		// ThreadObjectNotifyMain.main();
+		StaticSynchronizedMain.main();
 		
 
 	}
