@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2023-06-21 05:11
+MariaDB binaries install - updated: 2023-07-29 09:47
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -280,5 +280,43 @@ done ;
 SET foreign_key_checks = 0; -- turn off
 
 SET foreign_key_checks = 1; -- turn on
+
+
+
+(12) TEMPORAL, ORDER, Date, Timestamp, time difference
+
+DATETIME can store a wider range of values than TIMESTAMP. While DATETIME can store values from '1000-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999', TIMESTAMP can store values from '1970-01-01 00:00:01.000000' to '2038-01-19 03:14:07.999999 .
+
+SELECT TIMESTAMPDIFF(SECOND, timestamp_start, timestamp_end) AS ts_difference ; -- only with TIMESTAMPS -- unit can be MICROSECOND , SECOND , MINUTE , HOUR , DAY , WEEK , MONTH , QUARTER , YEAR
+
+SELECT (UNIX_TIMESTAMP(end_datetime) -  UNIX_TIMESTAMP(start_datetime)) AS diff_secs FROM execution WHERE id = 4000 ;  -- arg can be TIMESTAMP, DATETIME, DATE, TIME
+
+
+
+(13) TEMPORAL, ORDER, temporary tables
+
+-- temporary tables live in memory only during user db session
+
+CREATE TEMPORARY TABLE `tmp_person` SELECT p.name, p.age FROM `person` p LIMIT 0 ; -- also use joins if necessary
+
+INSERT INTO `tmp_person` SELECT p.name, p.age FROM `person` p WHERE p.age > 18 ; -- add more 'where' clauses if ncecessary
+
+SELECT * FROM `tmp_person` t_p WHERE REGEXP '^alberto.*' ; -- do operations using temporary table
+
+DROP TEMPORARY TABLE `tmp_person` ; -- drop temporary table
+
+
+
+(14) TEMPORAL, ORDER, regex  -- this is different in v5 and v8! caution!
+
+-- These tests where done on mysql v5.7 ; REGEXP is case insensitive unless BINARY option is used
+
+SELECT ('ALBERTO' REGEXP 'Alberto') AS re ;
+
+SELECT ('ALBERTO' REGEXP BINARY 'Alberto') AS re ;
+
+SELECT `name` FROM person p WHERE p.name REGEXP 'alberto' ; 
+
+-- Per documentation, this function changes on v5.8, tests not performed
 
 

@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-07-15 06:23'
+__ALIAS_LAST_UPDATE__='2023-08-15 06:18'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -494,12 +494,12 @@ alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git
 alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
-alias gb='echo "--> git branch"; sleep ${__ALIAS_TIMEOUT__}; git branch'
+alias gb='echo "--> git branch (also \"git b\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git branch'
 alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
-alias gch='echo "--> git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
+alias gch='echo "--> git checkout (also \"git ch\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
 function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
 alias ga='_ga'
 alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
@@ -523,12 +523,12 @@ s=${s}'  gl  : git log --graph --decorate \n'
 s=${s}'  gla : git log --graph --decorate --all  \n'
 s=${s}'  glf : git ls-files \n'
 s=${s}'\n'
-s=${s}'  gb  : git branch \n'
+s=${s}'  gb  : git branch (also "git b" is availaable) \n'
 s=${s}'  gbd : git branch -D <local-branches> \n'
 s=${s}'  gt  : git tag \n'
 s=${s}'  gtt : git tag | tail -3 \n'
 s=${s}'\n'
-s=${s}'  gch : git checkout \n'
+s=${s}'  gch : git checkout (also "git ch" is available) \n'
 s=${s}'  ga  : git add \n'
 s=${s}'  gd  : git diff \n'
 s=${s}'  gco : git commit \n'
