@@ -8,6 +8,7 @@ import localhost.sandbox.JavaLang.JavaLangMain;
 import localhost.sandbox.Observable.ObservableMain;
 import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
 import localhost.sandbox.Process.ProcessMain;
+import localhost.sandbox.Stream.StreamMain;
 import localhost.sandbox.String.StringMain;
 import localhost.sandbox.ThreadExecutors.ExecutorsMain;
 import localhost.sandbox.ThreadGroupThreadMXBean.ThreadGroupThreadMXBeanMain;
@@ -38,7 +39,8 @@ public class SandboxMain {
 		// ObservableMain.main();
 		// AtomicMain.main();
 		// ThreadObjectNotifyMain.main();
-		StaticSynchronizedMain.main();
+		// StaticSynchronizedMain.main();
+		StreamMain.main();
 		
 
 	}

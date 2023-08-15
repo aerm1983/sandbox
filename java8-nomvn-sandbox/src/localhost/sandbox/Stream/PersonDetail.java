@@ -1,4 +1,4 @@
-package localhost.sandbox.JavaLang;
+package localhost.sandbox.Stream;
 
 public class PersonDetail {
 	
