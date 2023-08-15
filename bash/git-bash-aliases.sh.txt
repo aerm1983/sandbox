@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-15 06:18'
+__ALIAS_LAST_UPDATE__='2023-08-15 07:10'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -506,7 +506,8 @@ alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
 
 alias grh='echo "--> git reset --hard"; sleep ${__ALIAS_TIMEOUT__}; git reset --hard'
-alias gm='echo "--> git merge"; sleep ${__ALIAS_TIMEOUT__}; git merge'
+alias grs='echo "--> git reset --soft (also \"git rs\"is available)"; sleep ${__ALIAS_TIMEOUT__}; git reset --soft'
+alias gm='echo "--> git merge (also \"git m\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git merge'
 
 alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs';
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
@@ -533,8 +534,9 @@ s=${s}'  ga  : git add \n'
 s=${s}'  gd  : git diff \n'
 s=${s}'  gco : git commit \n'
 s=${s}'\n'
+s=${s}'  grs : git reset --soft (also "git rs" is available) \n'
 s=${s}'  grh : git reset --hard \n'
-s=${s}'  gm  : git merge \n'
+s=${s}'  gm  : git merge (also "git m" is available) \n'
 s=${s}'\n'
 s=${s}'  gf  : git fetch \n'
 s=${s}'  gpl : git pull \n'
