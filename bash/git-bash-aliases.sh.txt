@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-17 14:48'
+__ALIAS_LAST_UPDATE__='2023-08-17 15:39'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -224,6 +224,9 @@ alias mcp='echo "--> mvn -T 1C clean package -Dmaven.test.skip=true --offline"; 
 alias mp='echo "--> mvn -T 1C package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C package -Dmaven.test.skip=true --offline'
 alias mrjr='echo "--> mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline'
 alias mec='echo "--> mvn clean eclipse:clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean eclipse:clean'
+alias mdt='echo "--> mvn dependency:tree"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:tree'
+alias mdr='echo "--> mvn dependency:resolve -U"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:resolve -U'
+alias mdp='echo "--> mvn dependency:purge-local-repository"; sleep ${__ALIAS_TIMEOUT__}; echo "# just as reminder, execute manually"'
 
 
 
@@ -476,6 +479,10 @@ s=${s}'  mcp : mvn -T 1C clean package -Dmaven.test.skip=true --offline \n'
 s=${s}'  mp  : mvn -T 1C package -Dmaven.test.skip=true --offline \n'
 s=${s}'  mrjr: mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline \n'
 s=${s}'  mec : mvn clean eclipse:clean \n'
+s=${s}'\n'
+s=${s}'  mdt : mvn dependency:tree \n'
+s=${s}'  mdr : mvn dependency:resolve -U \n'
+s=${s}'  mdp : mvn dependency:purge-local-repository -U \n'
 s=${s}'\n'
 s=${s}'  g   : ./gradlew \n'
 s=${s}'\n'
