@@ -37,6 +37,8 @@ __BHS_FILE__=${HOME}/'.bash-help-src'
 __JH_XMS_DEFAULT__=${__JH_XMS__}
 __JH_XMX_DEFAULT__=${__JH_XMX__}
 
+__KH_KUBE_HOME__=${HOME}'/Desktop/dm-git-aux/kubeconfig'
+
 
 
 # ----------------------------------
@@ -518,7 +520,7 @@ function _gbt {
     echo "--> soft reset of branch 't' over '"${current_branch}"'"
     read -p 'continue (y/n)? ' continue
     if [ ${continue} != 'y'  ] ; then
-        unset current_branch
+        unset current_branch continue
         echo 'cancelled, no action performed'
         return 1
     fi
@@ -638,6 +640,90 @@ if [ ${__kernel_is_linux__} -eq '0'  ]; then
 fi
 
 unset __kernel_is_linux__
+
+
+
+
+# ------------------------------------------------------
+# Kubectl
+# ------------------------------------------------------
+
+function _kks {
+    
+    # iniit
+    echo '--> kubectl define: kubeconfig, deployment, pod, $kk'
+    command cd ${__KH_KUBE_HOME__}
+    
+    # define __kh_kubeconfig
+    kubeconfig_list="$( command ls *.yml )"
+    echo -e 'KUBECONFIG -- AVAILABLE OPTIONS:\n'"${kubeconfig_list}"'\n' | less
+    read -p 'regexp for kubeconfig ('\''n'\'' to exit): ' kubeconfig_regex
+    if [ ${kubeconfig_regex} = 'n'  ] ; then
+        echo 'cancelled!'
+        return 1
+    fi
+    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+    
+    # define kk
+    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
+    echo 'kk: '${kk}
+    
+    # define __kh_deployment
+    echo -n 'executing '\'${kk}' get deployments'\'' ... '
+    deployment_list="$( ${kk} get deployments )"
+    echo 'done'
+    echo 'DEPLOYMENTS -- AVAILABLE OPTIONS: \n'"${deployment_list}"'\n' | less
+    read -p 'regexp for deployment ('\''n'\'' to exit): ' deployment_regex
+    if [ ${deployment_regex} = 'n'  ] ; then
+        echo 'cancelled!'
+        return 1
+    fi
+    __kh_deployment=$( echo "${deployment_list}" | command grep -P -i ${deployment_regex} | command awk '{print $1}' )
+    echo '__kh_deployment: '${__kh_deployment}
+    
+    # define __kh_pod
+    echo -n 'executing '\'${kk}' get pods'\'' ... '
+    pod_list="$( ${kk} get pods )"
+    pod_regex=${deployment_regex}
+    echo 'done'
+    __kh_pod=$( echo "${pod_list}" | command grep -P -i ${pod_regex} | command awk '{print $1}' )
+    echo '__kh_pod: '${__kh_pod}
+    
+    # define __kh_container
+    __kh_container=${__kh_deployment}
+    echo '__kh_container: '${__kh_container}
+    
+    # end
+    unset kubeconfig_list kubeconfig_regex 
+    unset deployment_list deployment_regex 
+    unset pod_list pod_regex
+    echo 'done!'
+    
+}
+alias kks='_kks'
+
+function _kkl {
+    
+    # init, confirm
+    command cd ${__KH_KUBE_HOME__}
+    echo 'kubectl logs for:'
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+    echo '__kh_pod: '${__kh_pod}
+    echo '__kh_container: '${__kh_container}
+    read -p 'continue (y/n)? ' continue
+    if [ ${continue} != 'y'  ] ; then
+        unset continue
+        echo 'cancelled, no action performed'
+        return 1
+    fi
+
+    # kubectl log 
+    echo 'executing '\''kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' -f'
+    kubectl --kubeconfig ${__kh_kubeconfig} logs ${__kh_pod} ${__kh_container} -f |& tee './tmp/'${__kh_container}'.log &'
+
+}
+alias kkl='_kkl'
 
 
 
