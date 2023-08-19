@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-18 20:10'
+__ALIAS_LAST_UPDATE__='2023-08-19 08:14'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -703,6 +703,24 @@ function _kks {
 }
 alias kks='_kks'
 
+
+
+
+function _kkv {
+    # kubectl variables
+    echo 'kubectl variables'
+    echo '__KH_KUBE_HOME__ : '${__KH_KUBE_HOME__}
+    echo '__kh_kubeconfig  : '${__kh_kubeconfig}
+    echo '__kh_deployment  : '${__kh_deployment}
+    echo '__kh_pod         : '${__kh_pod}
+    echo '__kh_container   : '${__kh_container}
+    echo 'kk               : '${kk}
+    echo 'done!'
+}
+alias kkv='_kkv'
+
+
+
 function _kkl {
     
     # init, confirm
@@ -719,12 +737,10 @@ function _kkl {
     fi
 
     # kubectl log 
-    echo 'executing '\''kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' -f'
-    kubectl --kubeconfig ${__kh_kubeconfig} logs ${__kh_pod} ${__kh_container} -f |& tee './tmp/'${__kh_container}'.log &'
+    echo 'executing '\''kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' -f &'\'
+    kubectl --kubeconfig ${__kh_kubeconfig} logs ${__kh_pod} ${__kh_container} -f |& tee './tmp/'${__kh_container}'.log' &
 
 }
 alias kkl='_kkl'
-
-
 
 
