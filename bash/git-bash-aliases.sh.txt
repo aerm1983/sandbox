@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-17 15:39'
+__ALIAS_LAST_UPDATE__='2023-08-18 20:10'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -497,7 +497,11 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 # Git Aliases
 # ------------------------------------------------------
 
-alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
+# alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
+# previously requires: git config --system color.status always ; git config --system color.branch always ; 
+# check configurations: git config --list | grep color ;
+function _gs { echo "$( echo -e '--> git status \n' ; git status --ignored ; echo -e '\n\n' ;  git log --graph --decorate --color -3 ; )" | less -R ; echo "--> git status" ; git status ; echo ; git log --graph --decorate --color -1 ; }
+alias gs='_gs'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
 alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
@@ -505,6 +509,44 @@ alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
 alias gb='echo "--> git branch (also \"git b\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git branch'
 alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
+function _gbto { echo "--> recreate branch 'to' on HEAD (included in alias '\''gbt'\'')" ; git branch -D to ; git branch to ; git log --graph --decorate --color -1 ; }
+alias gbto='_gbto'
+function _gbt { 
+    # save current branch name
+    current_branch=$(git branch --show-current)
+    # require human confirmation
+    echo "--> soft reset of branch 't' over '"${current_branch}"'"
+    read -p 'continue (y/n)? ' continue
+    if [ ${continue} != 'y'  ] ; then
+        unset current_branch
+        echo 'cancelled, no action performed'
+        return 1
+    fi
+    # checkout branch 'to', recreate branch 'too' on 'to'
+    git checkout 'to'
+    git branch -D 'too'
+    git branch 'too'
+    # checkout branch 't', recreate branch 'to' on 't'
+    git checkout 't'
+    git branch -D 'to'
+    git branch 'to'
+    # soft reset of branch 't' on $current_branch
+    git checkout 't'
+    git reset --soft ${current_branch}
+    git checkout ${current_branch}
+    git log --graph --decorate --color -1
+    read -p 'single line commit message, edit: ' -e -i "${current_branch}"' cont.' new_commit_message
+    git commit -m "${new_commit_message}"
+    git checkout 't'
+    git merge ${current_branch}
+    git checkout ${current_branch}
+    # show logs
+    git log --graph --decorate --all --color | less -R
+    git log --graph --decorate --color -1
+    unset current_branch new_commit_message
+    echo 'done!'
+}
+alias gbt='_gbt'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
@@ -535,6 +577,9 @@ s=${s}'  glf : git ls-files \n'
 s=${s}'\n'
 s=${s}'  gb  : git branch (also "git b" is availaable) \n'
 s=${s}'  gbd : git branch -D <local-branches> \n'
+s=${s}'  gbt : soft reset of '\''t'\'' over current branch, recreate branches '\''to'\'', '\''too'\''\n'
+s=${s}'  gbto: recreate branch '\''to'\'' on HEAD (included in alias '\''gbt'\'') \n'
+s=${s}'\n'
 s=${s}'  gt  : git tag \n'
 s=${s}'  gtt : git tag | tail -3 \n'
 s=${s}'\n'
