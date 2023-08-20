@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-19 08:14'
+__ALIAS_LAST_UPDATE__='2023-08-20 06:34'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -502,7 +502,7 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 # alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
 # previously requires: git config --system color.status always ; git config --system color.branch always ; 
 # check configurations: git config --list | grep color ;
-function _gs { echo "$( echo -e '--> git status \n' ; git status --ignored ; echo -e '\n\n' ;  git log --graph --decorate --color -3 ; )" | less -R ; echo "--> git status" ; git status ; echo ; git log --graph --decorate --color -1 ; }
+function _gs { clear ; echo "$( echo -e '--> git status \n' ; git status --ignored ; echo -e '\n\n-->git diff --cached\n' ; git diff --cached --color ; echo -e '\n\n--> git log --graph --decorate --color\n' ; git log --graph --decorate --color -3 ; echo -e '\n\n-->git stash list\n' ; git stash list ; )" | less -R ; echo "--> git status" ; git status ; echo ; git log --graph --decorate --color -1 ; echo ; git stash list ; }
 alias gs='_gs'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
@@ -558,16 +558,27 @@ alias ga='_ga'
 alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
 alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
 
-alias grh='echo "--> git reset --hard"; sleep ${__ALIAS_TIMEOUT__}; git reset --hard'
-alias grs='echo "--> git reset --soft (also \"git rs\"is available)"; sleep ${__ALIAS_TIMEOUT__}; git reset --soft'
 alias gm='echo "--> git merge (also \"git m\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git merge'
+alias gms='echo "--> git merge --squash (also \"git ms\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git merge --squash'
+alias gri='echo "--> git rebase --interactive (also \"git ri\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git rebase --interactive'
+alias grs='echo "--> git reset --soft (also \"git rs\"is available)"; sleep ${__ALIAS_TIMEOUT__}; git reset --soft'
 
-alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs';
+alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
 alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
 alias gpss='echo "--> git push --set-upstream origin <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push --set-upstream origin $( git branch --show-current )'
 alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --delete $( git branch --show-current )'
+
+alias gz='echo "--> git stash"; sleep ${__ALIAS_TIMEOUT__}; git stash'
+alias gzl='echo "--> git stash list"; sleep ${__ALIAS_TIMEOUT__}; git stash list'
+alias gzs='echo "--> git stash show --stat -p"; sleep ${__ALIAS_TIMEOUT__}; git stash show --stat -p'
+alias gzp='echo "--> git stash pop"; sleep ${__ALIAS_TIMEOUT__}; git stash pop'
+alias gza='echo "--> git stash apply"; sleep ${__ALIAS_TIMEOUT__}; git stash apply'
+alias gzd='echo "--> git stash drop"; sleep ${__ALIAS_TIMEOUT__}; git stash drop'
+alias gzc='echo "--> git stash clear"; sleep ${__ALIAS_TIMEOUT__}; git stash clear'
+
+
 
 
 s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
@@ -590,9 +601,10 @@ s=${s}'  ga  : git add \n'
 s=${s}'  gd  : git diff \n'
 s=${s}'  gco : git commit \n'
 s=${s}'\n'
-s=${s}'  grs : git reset --soft (also "git rs" is available) \n'
-s=${s}'  grh : git reset --hard \n'
 s=${s}'  gm  : git merge (also "git m" is available) \n'
+s=${s}'  gms : git merge --squash (also "git ms" is available) \n'
+s=${s}'  gri : git rebase --interactive (also "git ri" is available) \n'
+s=${s}'  grs : git reset --soft (also "git rs" is available) \n'
 s=${s}'\n'
 s=${s}'  gf  : git fetch \n'
 s=${s}'  gpl : git pull \n'
@@ -600,6 +612,14 @@ s=${s}'  gps : git push \n'
 s=${s}'\n'
 s=${s}'  gpss: git push --set-upstream origin <branch> \n'
 s=${s}'  gpsd: git push origin --delete <branch> \n'
+s=${s}'\n'
+s=${s}'  gz  : git stash \n'
+s=${s}'  gzl : git stash list \n'
+s=${s}'  gzs : git stash show --stat -p \n'
+s=${s}'  gzp : git stash pop \n'
+s=${s}'  gza : git stash apply \n'
+s=${s}'  gzd : git stash drop \n'
+s=${s}'  gzc : git stash clear \n'
 _gh_s=${s}
 unset s
 alias gh='less -f <( echo -e "${_gh_s}" )'
@@ -656,11 +676,15 @@ function _kks {
     
     # define __kh_kubeconfig
     kubeconfig_list="$( command ls *.yml )"
-    echo -e 'KUBECONFIG -- AVAILABLE OPTIONS:\n'"${kubeconfig_list}"'\n' | less
-    read -p 'regexp for kubeconfig ('\''n'\'' to exit): ' kubeconfig_regex
-    if [ ${kubeconfig_regex} = 'n'  ] ; then
-        echo 'cancelled!'
-        return 1
+    if [ -z ${1} ] ; then
+        echo -e 'KUBECONFIG -- AVAILABLE OPTIONS:\n'"${kubeconfig_list}"'\n' | less
+        read -p 'regexp for kubeconfig ('\''n'\'' to exit): ' kubeconfig_regex
+        if [ ${kubeconfig_regex} = 'n'  ] ; then
+            echo 'cancelled!'
+            return 1
+        fi
+    else
+        kubeconfig_regex=${1}
     fi
     __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
     echo '__kh_kubeconfig: '${__kh_kubeconfig}
@@ -673,11 +697,15 @@ function _kks {
     echo -n 'executing '\'${kk}' get deployments'\'' ... '
     deployment_list="$( ${kk} get deployments )"
     echo 'done'
-    echo 'DEPLOYMENTS -- AVAILABLE OPTIONS: \n'"${deployment_list}"'\n' | less
-    read -p 'regexp for deployment ('\''n'\'' to exit): ' deployment_regex
-    if [ ${deployment_regex} = 'n'  ] ; then
-        echo 'cancelled!'
-        return 1
+    if [ -z ${2} ] ; then
+        echo 'DEPLOYMENTS -- AVAILABLE OPTIONS: \n'"${deployment_list}"'\n' | less
+        read -p 'regexp for deployment ('\''n'\'' to exit): ' deployment_regex
+        if [ ${deployment_regex} = 'n'  ] ; then
+            echo 'cancelled!'
+            return 1
+        fi
+    else
+        deployment_regex=${2}
     fi
     __kh_deployment=$( echo "${deployment_list}" | command grep -P -i ${deployment_regex} | command awk '{print $1}' )
     echo '__kh_deployment: '${__kh_deployment}
