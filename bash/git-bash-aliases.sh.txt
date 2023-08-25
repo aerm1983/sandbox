@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-20 06:34'
+__ALIAS_LAST_UPDATE__='2023-08-25 06:31'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -465,6 +465,39 @@ alias g='_g'
 
 
 
+
+function __jh_bootstrap_prop_for_local {
+    if [ ! -e ./src/main/resources/bootstrap-alberto.properties ]
+    then
+        echo 'file '\''./src/main/resources/bootstrap-alberto.properties'\'' does not exist, exit'
+        return 1
+    fi
+    echo '--> '\''bootstrap.properties'\'' for local (copy from '\''alberto'\'' file):'
+    command cp -v ./src/main/resources/bootstrap-alberto.properties ./src/main/resources/bootstrap.properties
+    cat ./src/main/resources/bootstrap.properties
+    echo
+}
+
+alias bl='__jh_bootstrap_prop_for_local'
+
+
+
+function __jh_bootstrap_prop_for_commit {
+    if [ ! -e ./src/main/resources/bootstrap.properties ]
+    then
+        echo 'file '\''./src/main/resources/bootstrap.properties'\'' does not exist, exit'
+        return 1
+    fi
+    echo '--> '\''bootstrap.properties'\'' for commit (restore from '\''dev'\'' branch):'
+    command git restore --source dev ./src/main/resources/bootstrap.properties
+    cat ./src/main/resources/bootstrap.properties
+    echo
+}
+
+alias bo='__jh_bootstrap_prop_for_commit'
+
+
+
 s='--> Java Helper -- updated: ('${__ALIAS_LAST_UPDATE__}') \n'
 s=${s}'(commands are better tuned to be executed from maven project root folder)\n'
 s=${s}'  jl  : jps -l \n'
@@ -489,6 +522,9 @@ s=${s}'\n'
 s=${s}'  g   : ./gradlew \n'
 s=${s}'\n'
 s=${s}'  tk  : taskkill -- (mvn_folder_no_arg / pid / jps_name) \n'
+s=${s}'\n'
+s=${s}'  bl  : '\''./src/main/resources/bootstrap.properties'\'' for local \n'
+s=${s}'  bo  : '\''./src/main/resources/bootstrap.properties'\'' for commit \n'
 _jh_s=${s}
 unset s
 alias jh='less -f <( echo -e "${_jh_s}")'
@@ -502,17 +538,21 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 # alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
 # previously requires: git config --system color.status always ; git config --system color.branch always ; 
 # check configurations: git config --list | grep color ;
-function _gs { clear ; echo "$( echo -e '--> git status \n' ; git status --ignored ; echo -e '\n\n-->git diff --cached\n' ; git diff --cached --color ; echo -e '\n\n--> git log --graph --decorate --color\n' ; git log --graph --decorate --color -3 ; echo -e '\n\n-->git stash list\n' ; git stash list ; )" | less -R ; echo "--> git status" ; git status ; echo ; git log --graph --decorate --color -1 ; echo ; git stash list ; }
+function _gs { echo '--> *git status' ; git status ; echo ; git log --graph --decorate --color -1 ; echo -e '\n--> git stash list' ; git stash list ; }
 alias gs='_gs'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
 alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
+alias gl1='echo "--> git log --graph --decorate -1"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --graph --decorate -1'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
-alias gb='echo "--> git branch (also \"git b\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git branch'
+function _gb { echo '--> git branch (also "git b" is available)' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
+alias gb='_gb'
 alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
+# DEPRECATE: _gbto, gbto
 function _gbto { echo "--> recreate branch 'to' on HEAD (included in alias '\''gbt'\'')" ; git branch -D to ; git branch to ; git log --graph --decorate --color -1 ; }
 alias gbto='_gbto'
+# DEPRECATE: _gbt, gbt
 function _gbt { 
     # save current branch name
     current_branch=$(git branch --show-current)
@@ -552,16 +592,20 @@ alias gbt='_gbt'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
-alias gch='echo "--> git checkout (also \"git ch\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
+alias gch='echo "--> *git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
 function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
 alias ga='_ga'
-alias gd='echo "--> git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
+function _gra { echo '--> *git restore --staged' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git restore --staged "${@}" ; echo ; gs ; }
+alias gra='_gra'
+alias gd='echo "--> *git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
+alias gdc='echo "--> *git diff --cached"; sleep ${__ALIAS_TIMEOUT__}; git diff --cached'
 alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
+alias gro='echo "--> *git restore --source "; sleep ${__ALIAS_TIMEOUT__}; git restore --source'
 
-alias gm='echo "--> git merge (also \"git m\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git merge'
-alias gms='echo "--> git merge --squash (also \"git ms\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git merge --squash'
-alias gri='echo "--> git rebase --interactive (also \"git ri\" is available)"; sleep ${__ALIAS_TIMEOUT__}; git rebase --interactive'
-alias grs='echo "--> git reset --soft (also \"git rs\"is available)"; sleep ${__ALIAS_TIMEOUT__}; git reset --soft'
+alias gm='echo "--> *git merge" ; sleep ${__ALIAS_TIMEOUT__} ; git merge'
+alias gms='echo "--> *git merge --squash" ; sleep ${__ALIAS_TIMEOUT__} ; git merge --squash'
+alias gri='echo "--> *git rebase --interactive" ; sleep ${__ALIAS_TIMEOUT__} ; git rebase --interactive'
+alias grs='echo "--> *git reset --soft" ; sleep ${__ALIAS_TIMEOUT__} ; git reset --soft'
 
 alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
@@ -582,29 +626,33 @@ alias gzc='echo "--> git stash clear"; sleep ${__ALIAS_TIMEOUT__}; git stash cle
 
 
 s='--> Git Helper ('${__ALIAS_LAST_UPDATE__}') \n'
-s=${s}'  gs  : git status \n' 
-s=${s}'  gsi : git status --ignored \n' 
-s=${s}'  gl  : git log --graph --decorate \n'
-s=${s}'  gla : git log --graph --decorate --all  \n'
-s=${s}'  glf : git ls-files \n'
+s=${s}'  (*: git alias available) \n' 
+s=${s}'  gs   : git status \n' 
+s=${s}'  gsi  : git status --ignored \n' 
+s=${s}'  gl*  : git log --graph --decorate \n'
+s=${s}'  gl1  : git log --graph --decorate -1 \n'
+s=${s}'  gla  : git log --graph --decorate --all  \n'
+s=${s}'  glf  : git ls-files \n'
 s=${s}'\n'
-s=${s}'  gb  : git branch (also "git b" is availaable) \n'
-s=${s}'  gbd : git branch -D <local-branches> \n'
-s=${s}'  gbt : soft reset of '\''t'\'' over current branch, recreate branches '\''to'\'', '\''too'\''\n'
-s=${s}'  gbto: recreate branch '\''to'\'' on HEAD (included in alias '\''gbt'\'') \n'
+s=${s}'  gb*  : git branch \n'
+s=${s}'  gbd  : git branch -D <local-branches> \n'
+s=${s}'  gt   : git tag \n'
+s=${s}'  gtt  : git tag | tail -3 \n'
+s=${s}'  gbt  : soft reset of '\''t'\'' over current branch, recreate branches '\''to'\'', '\''too'\'' # DEPRECATE \n'
+s=${s}'  gbto : recreate branch '\''to'\'' on HEAD (included in alias '\''gbt'\'') # DEPRECATE \n'
 s=${s}'\n'
-s=${s}'  gt  : git tag \n'
-s=${s}'  gtt : git tag | tail -3 \n'
+s=${s}'  gch* : git checkout \n'
+s=${s}'  ga*  : git add \n'
+s=${s}'  gra* : git restore --staged \n'
+s=${s}'  gd*  : git diff \n'
+s=${s}'  gdc* : git diff --cached \n'
+s=${s}'  gco  : git commit \n'
+s=${s}'  gro* : git restore --source \n'
 s=${s}'\n'
-s=${s}'  gch : git checkout (also "git ch" is available) \n'
-s=${s}'  ga  : git add \n'
-s=${s}'  gd  : git diff \n'
-s=${s}'  gco : git commit \n'
-s=${s}'\n'
-s=${s}'  gm  : git merge (also "git m" is available) \n'
-s=${s}'  gms : git merge --squash (also "git ms" is available) \n'
-s=${s}'  gri : git rebase --interactive (also "git ri" is available) \n'
-s=${s}'  grs : git reset --soft (also "git rs" is available) \n'
+s=${s}'  gm*  : git merge \n'
+s=${s}'  gms* : git merge --squash \n'
+s=${s}'  gri* : git rebase --interactive \n'
+s=${s}'  grs* : git reset --soft \n'
 s=${s}'\n'
 s=${s}'  gf  : git fetch \n'
 s=${s}'  gpl : git pull \n'
