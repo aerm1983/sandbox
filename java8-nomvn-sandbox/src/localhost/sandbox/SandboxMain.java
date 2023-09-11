@@ -1,5 +1,7 @@
 package localhost.sandbox;
 
+import localhost.helper.CipherAesCbcPkcs5Helper;
+import localhost.helper.CipherAesEcbPkcs5Helper;
 import localhost.helper.MemorySnapshotHelper;
 import localhost.sandbox.Date.DateMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
@@ -40,7 +42,9 @@ public class SandboxMain {
 		// AtomicMain.main();
 		// ThreadObjectNotifyMain.main();
 		// StaticSynchronizedMain.main();
-		StreamMain.main();
+		// StreamMain.main();
+		CipherAesEcbPkcs5Helper.main();
+		CipherAesCbcPkcs5Helper.main();
 		
 
 	}
