@@ -1,26 +1,76 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = =
-ELASTICSEARCH - KIBANA -- updated 2023-02-21 12:45
+ELASTICSEARCH - KIBANA -- updated 2023-09-23 08:49
 = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+
+
+Note: Following examples asume documents with these attributes:
+
+- Fields "kubernetes.container_name", "log", "timestamp" available.
+
+- Field "kubernetes.container_name" value sample: "bfp".
+
+- Field "log" values samples, referred to in examples: 
+
+L1: "2023-01-30 15:45:55.001 [INFO][a.b.c.class][method:01] event 0FTP0 end".
+
+L2: "2023-01-30 15:45:56.002 [INFO][a.b.c.class][method:02] event 0SYNC0 end".
+
+
 
 (1) Kibana query languatte (KQL):
 
-(1.1) Searches by complete word.
+(1.1) Search is by words, which are composed by letters, numbers, and dots.
 
-(1.2) If search is not enclosed in double quotes, word order does not matter.
+Per documentation these are special characters: " .,</:-".  Should be surrounded by double-quotes, or escaped with backslash for searching purposes.
 
-(1.3) Star character (*) is wildcard for 0 or more letters in word.
+Some characters are tokens used by Kibana itself: ':*"()'.
 
-(1.4) Several characters are sord separators, here between double quotes: " .,</". Also others.
+Some words are tokens used by Kibana itself: and, or, field names.
 
-(1.5) Search seems to be not case sensitive.
+All these aspects should be verified by trial and error.  To test for "complete words" sequences, use star character strategically.
 
-(1.6) Timestamp field is local time.  Timestamp within log field is text, at server-location time.
+(1.1) Search is by complete  word(s), case insensitive, condition is OR.
 
-Examples:
+kubernetes.container_name : bfp and log : 2023 # finds L1, L2
 
-kubernetes.container_name : merchantlogisfashion and log: received and log: *login*dep2*
+kubernetes.container_name : bfp and log : 2023 01 30 # finds L1, L2
 
-kubernetes.container_name : merchantlogisf and log : "2023-02-15T10:50" and log : "received response" and log : Login*Dep2
+kubernetes.container_name : bfp and log : 0ftp0 0sync0 # finds L1, L2
+
+(1.2) Double quotes make word order matter, condition is AND, escapes special characters.
+
+kubernetes.container_name : bfp and log : "2023 01 30" # finds L1, L2
+
+kubernetes.container_name : bfp and log : "2023-01-30" # finds L1, L2; dash is not considered component of word, but word separator.
+
+kubernetes.container_name : bfp and log : "0ftp0 0sync0" # finds not L1 nor L2
+
+(1.3) Star character is wildcard for 0 or more letters in word, cannot be used with double-quotes, use alone to obtain entries with valid value.
+
+kubernetes.container_name : bfp and and log: * # finds L1, L2
+
+kubernetes.container_name : bfp and and log: *0* # finds L1, L2, useful for testing word-separator characters
+
+kubernetes.container_name : bfp and and log: *sync* *ftp* # finds L1, L2
+
+kubernetes.container_name : bfp and log : *sync* and log : *bfp* # finds not L1 nor L2
+
+(1.4) Timestamp field is local time.  Field "log" may also contain timestamp references, which are text (words).
+
+Other examples:
+
+kubernetes.container_name : bfp and log: received and log: *login*dep2*
+
+kubernetes.container_name : mlf and log : "2023 02 15T10 50"
+
+kubernetes.container_name : mlf and log : "2023 02 15T10 50" and log : "received response" and log : Login*Dep2
+
+kubernetes.container_name : bfp  and log : "*2023-09-22T09*46*" and log : "*time*" # star is not considered part of word, but word separator
+
+( kubernetes.container_name : bfp )  and  ( log : "2023-09-22T17:44" or log : "2023-09-22T17:45" or log : "2023-09-22T17:46" ) and log: *sync*
+
+
 
 (2) Kibana, DevTools section in web-GUI:
 
