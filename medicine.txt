@@ -1,20 +1,39 @@
 = = = = = = = = = = = = = = = = = = = =
-MEDICINE -- updated 2023-09-23 08:42
+MEDICINE -- updated 2023-09-23 09:29
 = = = = = = = = = = = = = = = = = = = =
 
+
+
 Cold:
-oxolamina 10mg/50ml, cough syrup, 3 times a day, 150ml @ 5 usd 
-ciprofloxacina 500mg, antibiotic, one per day during 1 week, 10 tabs @ 5 usd
-azitromicina 500mg, antibiotic, one per day during 1 week, 5 tabs @ 5 usd
+
+Oxolamina 10mg/50ml, cough syrup, 3 times a day, 150ml @ 5 usd 
+
+ciprofloxacina 500mg, antibiotic, two per day during 1 week, 10 tabs @ 5 usd
+
+azitromicina 500mg, antibiotic, one per day during 4 days, 5 tabs @ 5 usd
+
+(only one antibiotic is needed)
+
 acetaminofen 650mg, cold med, two per day, 10 tabs @ 2 usd
-C vitamin, vitamin, one or two per day, 10 tabs @ usd
+
+C vitamin, vitamin, two per day, 10 tabs @ 2 usd
+
+
 
 Depression:
+
 sertralina 100mg, 1/2 daily
+
 fluoxetina 20mg, 1 daily
 
+
+
 Sleep:
+
 Melatonina 5mg, before sleeping, 90 tabs @ 11 usd
 
+
+
 Mood:
+
 Risperidona, 0.75mg (3mg/4), daily
