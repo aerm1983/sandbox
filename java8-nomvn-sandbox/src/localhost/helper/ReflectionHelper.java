@@ -1,44 +1,76 @@
 package localhost.helper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReflectionHelper {
 	
 	public static void main() {
+		Example01SimplePojo();
+		Example02PojoWithSuperClasses();
+		Example03PojoWithAttributePojo();
+	}
+	
+	public static void Example01SimplePojo() {
 		
-		System.out.println("---- REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: 0 (ZERO) ----");
+		System.out.println("\n---- REFLECTION, OBJECT COPY, Example01SimplePojo: SUPER CLASS RECURSION: NONE NEEDED ----");
 		
-		Person personOne = new Person("Jose", 26, 1.78, true);
-		Person personTwo = (Person) makeCopyWithSuperClassRecursionOf( (Object) personOne, 20 );
-		boolean deepEq = Objects.deepEquals(personOne, personTwo);
-		System.out.println("before changes -- personOne: " + personOne.toString() + " ; personTwo: " + personTwo.toString());
-		System.out.println("before changes -- Objects.deepEquals(personOne, personTwo): " + deepEq);
+		// initial
+		SimplePerson simplePersonOne = new SimplePerson("Jose", 26, 1.78, true);
+		SimplePerson simplePersonTwo = (SimplePerson) makeCopyWithSuperClassRecursionOf( (Object) simplePersonOne, 20 );
+		boolean deepEq01 = Objects.deepEquals(simplePersonOne, simplePersonTwo);
+		System.out.println("before changes -- personOne: " + simplePersonOne.toString() + " ; personTwo: " + simplePersonTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(simplePersonOne, simplePersonTwo): " + deepEq01);
 		
-		personOne.setName("Maria");
-		personOne.setAge(18);
-		personOne.setHeight(1.42);
-		personOne.setDidService(false);
-		System.out.println("after changes -- personOne: " + personOne.toString() + " ; personTwo: " + personTwo.toString());
+		// changes
+		simplePersonOne.setName("Maria");
+		simplePersonOne.setAge(18);
+		simplePersonOne.setHeight(1.42);
+		simplePersonOne.setDidService(false);
+		System.out.println("after changes -- simplePersonOne: " + simplePersonOne.toString() + " ; simplePersonTwo: " + simplePersonTwo.toString());
+		System.out.println("conclussion: attribute changes in simplePersonOne did not affect attributes in simplePersonTwo");
+	}
+	
+	public static void Example02PojoWithSuperClasses () {
+		System.out.println("\n---- REFLECTION, OBJECT COPY, Example02PojoWithSuperClasses: SUPER CLASS RECURSION: 4 ----");
 		
-		
-		System.out.println("---- REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: 1 (ONE) ----");
-		
-		personOne = new Person("Jose", 26, 1.78, true);
-		Pet petOne = new Pet("Ponky");
-		PersonWithPet personWithPetOne = new PersonWithPet(personOne, petOne);
-		PersonWithPet personWithPetTwo = (PersonWithPet) makeCopyWithSuperClassRecursionOf( (Object) personWithPetOne, 20 );
-		boolean deepEq2 = Objects.deepEquals(personWithPetOne, personWithPetTwo);
-		System.out.println("before changes -- personWithPetOne: " + personWithPetOne.toString() + " ; personWithPetTwo: " + personWithPetTwo.toString());
-		System.out.println("before changes -- Objects.deepEquals(personOne, personTwo): " + deepEq2);
-		
-		personWithPetOne.setName("Maria");
-		personWithPetOne.setAge(18);
-		personWithPetOne.setHeight(1.42);
-		personWithPetOne.setDidService(false);
-		personWithPetOne.getPet().setName("Adrian");
-		System.out.println("after changes -- personWithPetOne: " + personWithPetOne.toString() + " ; personWithPetTwo: " + personWithPetTwo.toString());
+		// initial
+		MyGreatGrandFather myGreatGrandFather = new MyGreatGrandFather("Carlos");
+		MyGrandFather myGrandFather = new MyGrandFather(myGreatGrandFather.getName(), 41);
+		MyFather myFather = new MyFather(myGreatGrandFather.getName(), myGrandFather.getAge(), 1.92);
+		Me meOne = new Me(myGreatGrandFather.getName(), myGrandFather.getAge(), myFather.getHeight(), true);
+		Me meTwo = (Me) makeCopyWithSuperClassRecursionOf( (Object) meOne, 20 );
+		boolean deepEq02 = Objects.deepEquals(meOne, meTwo);
+		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq02);
 
+		// changes
+		myGreatGrandFather.setName("OscarChanged");
+		myGrandFather.setAge(1);
+		myFather.setHeight(2.11);
+		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("conclussion: attribute changes in SuperClasses (GreatGrandFather, GrandFather, Father) for meOne did not affect clone meTwo.  Note that attributes changed are not objects containing other objects, but objects with an associated value");
+	}
+	
+	public static void Example03PojoWithAttributePojo() {
+		System.out.println("\n---- REFLECTION, OBJECT COPY, Example03PojoWithAttributePojo: SUPER CLASS RECURSION: NONE NEEDED, ATTRIBUTE RECURSION: SEVERAL ----");
+		
+		PersonWithParent myGreatGrandFather = new PersonWithParent("A_GreatGrandFather", null);
+		PersonWithParent myGrandFather = new PersonWithParent("B_GrandFather", myGreatGrandFather);
+		PersonWithParent myFather = new PersonWithParent("C_Father", myGrandFather);
+		PersonWithParent meOne = new PersonWithParent("D_Me", myFather);
+		PersonWithParent meTwo = (PersonWithParent) makeCopyWithSuperClassRecursionOf( (Object) meOne, 20 );
+		boolean deepEq03 = Objects.deepEquals(meOne, meTwo);
+		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq03);
+
+		// changes
+		myGreatGrandFather.setName("Changed_GreatGrandFather");
+		myGrandFather.setName("Changed_GrandFather");
+		myFather.setName("Changed_Father");
+		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("conclussion: changes in attribute parent (GreatGrandFather, GrandFather, Father) for meOne did affect clone meTwo.  Note that attributes changed are objects containing other objects, not objects with an associated value");
 	}
 	
 	/**
@@ -62,8 +94,10 @@ public class ReflectionHelper {
 		boolean fAccessible = false;
 		Field[] fields = null;
 		int superClassRecursion = 0;
+		ArrayList<String> classList = new ArrayList<String>();
 		try {
 			clazz = inObj.getClass();
+			classList.add(clazz.getName());
 			outObj = (Object) clazz.newInstance();
 			while (superClassRecursion <= maxSuperClassRecursion) {
 				fields = clazz.getDeclaredFields();
@@ -75,12 +109,12 @@ public class ReflectionHelper {
 				}
 				clazz = clazz.getSuperclass();
 				if (clazz == null) {
-					System.out.println("--> exit at superClassRecursion: " + superClassRecursion + " -- maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached");
+					System.out.println("--> exit at superClassRecursion: " + superClassRecursion + " -- maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached -- classes: " + classList);
 					break;
 				}
+				classList.add(clazz.getName());
 				superClassRecursion++;
 			}
-			
 		} catch (Exception e) {
 			System.err.println("error: " + e);
 			return null;
@@ -94,16 +128,16 @@ public class ReflectionHelper {
 	 * @author Alberto Romero
 	 *
 	 */
-	static class Person {
+	static class SimplePerson {
 		private String name;
 		private Integer age;
 		private Double height;
 		private Boolean didService;
 		
-		public Person () {
+		public SimplePerson () {
 		}
 		
-		public Person (String inName, Integer inAge, Double inHeight, Boolean inDidService) {
+		public SimplePerson (String inName, Integer inAge, Double inHeight, Boolean inDidService) {
 			this.name = inName;
 			this.age = inAge;
 			this.height = inHeight;
@@ -145,20 +179,20 @@ public class ReflectionHelper {
 		}
 
 		public String toString() {
-			String string = "{Name:" + name + ", Age:" + age + ", height:" + height + ", didService: " + didService + "}" ;
+			String string = "{Name:" + name + ",Age:" + age + ",height:" + height + ",didService: " + didService + "}" ;
 			return string ;
 		}
 
 	}
 	
-	static class Pet {
+	static class MyGreatGrandFather {
 			
 		private String name;
 		
-		Pet () {
+		MyGreatGrandFather () {
 		}
 		
-		Pet (String name) {
+		MyGreatGrandFather (String name) {
 			this.name = name;
 		}
 
@@ -169,31 +203,130 @@ public class ReflectionHelper {
 		public void setName(String name) {
 			this.name = name;
 		}
+		
+		public String toString() {
+			String string = "{Name:" + getName() + "}" ;
+			return string ;
+		}
 	}
 	
-	static class PersonWithPet extends Person {
+	static class MyGrandFather extends MyGreatGrandFather {
 		
-		private Pet pet;
+		private Integer age;
 		
-		public PersonWithPet () {
+		public MyGrandFather () {
 		}
 		
-		public PersonWithPet (Person person, Pet pet) {
-			super(person.getName(), person.getAge(), person.getHeight(), person.getDidService());
-			this.pet = pet;
+		public MyGrandFather (String name, Integer age) {
+			super(name);
+			this.age = age;
+		}
+		
+		public Integer getAge() {
+			return age;
+		}
+
+		public void setAge(Integer age) {
+			this.age = age;
+		}
+
+		public String toString() {
+			String string = "{Name:" + getName() + ",Age:" + getAge() + "}" ;
+			return string ;
+		}
+	}
+	
+	static class MyFather extends MyGrandFather {
+		
+		private Double height;
+		
+		MyFather() {
+		}
+		
+		MyFather(String name, Integer age, Double height) {
+			super(name, age);
+			this.height = height;
+		}
+
+		public Double getHeight() {
+			return height;
+		}
+
+		public void setHeight(Double height) {
+			this.height = height;
 		}
 		
 		public String toString() {
-			String string = "{Name:" + getName() + ", Age:" + getAge() + ", height:" + getHeight() + ", didService: " + getDidService() + ", pet: {name: " + pet.getName() + "}}" ;
+			String string = "{Name:" + getName() + ",Age:" + getAge() + ",height:" + height + "}" ;
 			return string ;
 		}
-
-		public Pet getPet() {
-			return pet;
+		
+	}
+	
+	static class Me extends MyFather {
+		
+		private Boolean didService;
+		
+		Me () {
+		}
+		
+		Me (String name, Integer age, Double height, Boolean didService) {
+			super(name, age, height);
+			this.didService = didService;
 		}
 
-		public void setPet(Pet pet) {
-			this.pet = pet;
+		public Boolean getDidService() {
+			return didService;
 		}
+
+		public void setDidService(Boolean didService) {
+			this.didService = didService;
+		}
+		
+		public String toString() {
+			String string = "{Name:" + getName() + ",Age:" + getAge() + ",height:" + getHeight() + ",didService:" + didService + "}" ;
+			return string ;
+		}
+	}
+	
+	static class PersonWithParent {
+		
+		private String name;
+		private PersonWithParent parent;
+		
+		PersonWithParent () {
+		}
+		
+		PersonWithParent (String name, PersonWithParent parent) {
+			this.name = name;
+			this.parent = parent;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public PersonWithParent getParent() {
+			return parent;
+		}
+
+		public void setParent(PersonWithParent parent) {
+			this.parent = parent;
+		}
+		
+		public String toString() {
+			String string = null;
+			if (parent != null) {
+				string = "{Name:" + getName() + ",Parent:" + parent.toString() + "}" ;	
+			} else {
+				string = "{Name:" + getName() + ",Parent:null}" ;
+			}
+			return string ;
+		}
+		
 	}
 }
