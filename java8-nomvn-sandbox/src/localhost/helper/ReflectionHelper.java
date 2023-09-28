@@ -10,7 +10,7 @@ public class ReflectionHelper {
 		System.out.println("---- REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: 0 (ZERO) ----");
 		
 		Person personOne = new Person("Jose", 26, 1.78, true);
-		Person personTwo = (Person) makeCopyWithSuperClassRecursionOf( (Object) personOne, 0 );
+		Person personTwo = (Person) makeCopyWithSuperClassRecursionOf( (Object) personOne, 20 );
 		boolean deepEq = Objects.deepEquals(personOne, personTwo);
 		System.out.println("before changes -- personOne: " + personOne.toString() + " ; personTwo: " + personTwo.toString());
 		System.out.println("before changes -- Objects.deepEquals(personOne, personTwo): " + deepEq);
@@ -27,7 +27,7 @@ public class ReflectionHelper {
 		personOne = new Person("Jose", 26, 1.78, true);
 		Pet petOne = new Pet("Ponky");
 		PersonWithPet personWithPetOne = new PersonWithPet(personOne, petOne);
-		PersonWithPet personWithPetTwo = (PersonWithPet) makeCopyWithSuperClassRecursionOf( (Object) personWithPetOne, 1 );
+		PersonWithPet personWithPetTwo = (PersonWithPet) makeCopyWithSuperClassRecursionOf( (Object) personWithPetOne, 20 );
 		boolean deepEq2 = Objects.deepEquals(personWithPetOne, personWithPetTwo);
 		System.out.println("before changes -- personWithPetOne: " + personWithPetOne.toString() + " ; personWithPetTwo: " + personWithPetTwo.toString());
 		System.out.println("before changes -- Objects.deepEquals(personOne, personTwo): " + deepEq2);
@@ -74,6 +74,10 @@ public class ReflectionHelper {
 					field.setAccessible(fAccessible);
 				}
 				clazz = clazz.getSuperclass();
+				if (clazz == null) {
+					System.out.println("--> exit at superClassRecursion: " + superClassRecursion + " -- maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached");
+					break;
+				}
 				superClassRecursion++;
 			}
 			
