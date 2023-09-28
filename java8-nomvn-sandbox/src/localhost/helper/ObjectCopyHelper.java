@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ReflectionHelper {
+public class ObjectCopyHelper {
 	
 	public static void main() {
 		Example01SimplePojo();
@@ -12,83 +12,38 @@ public class ReflectionHelper {
 		Example03PojoWithAttributePojo();
 	}
 	
-	public static void Example01SimplePojo() {
-		
-		System.out.println("\n---- REFLECTION, OBJECT COPY, Example01SimplePojo: SUPER CLASS RECURSION: NONE NEEDED ----");
-		
-		// initial
-		SimplePerson simplePersonOne = new SimplePerson("Jose", 26, 1.78, true);
-		SimplePerson simplePersonTwo = (SimplePerson) makeCopyWithSuperClassRecursionOf( (Object) simplePersonOne, 20 );
-		boolean deepEq01 = Objects.deepEquals(simplePersonOne, simplePersonTwo);
-		System.out.println("before changes -- personOne: " + simplePersonOne.toString() + " ; personTwo: " + simplePersonTwo.toString());
-		System.out.println("before changes -- Objects.deepEquals(simplePersonOne, simplePersonTwo): " + deepEq01);
-		
-		// changes
-		simplePersonOne.setName("Maria");
-		simplePersonOne.setAge(18);
-		simplePersonOne.setHeight(1.42);
-		simplePersonOne.setDidService(false);
-		System.out.println("after changes -- simplePersonOne: " + simplePersonOne.toString() + " ; simplePersonTwo: " + simplePersonTwo.toString());
-		System.out.println("conclussion: attribute changes in simplePersonOne did not affect attributes in simplePersonTwo");
-	}
-	
-	public static void Example02PojoWithSuperClasses () {
-		System.out.println("\n---- REFLECTION, OBJECT COPY, Example02PojoWithSuperClasses: SUPER CLASS RECURSION: 4 ----");
-		
-		// initial
-		MyGreatGrandFather myGreatGrandFather = new MyGreatGrandFather("Carlos");
-		MyGrandFather myGrandFather = new MyGrandFather(myGreatGrandFather.getName(), 41);
-		MyFather myFather = new MyFather(myGreatGrandFather.getName(), myGrandFather.getAge(), 1.92);
-		Me meOne = new Me(myGreatGrandFather.getName(), myGrandFather.getAge(), myFather.getHeight(), true);
-		Me meTwo = (Me) makeCopyWithSuperClassRecursionOf( (Object) meOne, 20 );
-		boolean deepEq02 = Objects.deepEquals(meOne, meTwo);
-		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
-		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq02);
-
-		// changes
-		myGreatGrandFather.setName("OscarChanged");
-		myGrandFather.setAge(1);
-		myFather.setHeight(2.11);
-		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
-		System.out.println("conclussion: attribute changes in SuperClasses (GreatGrandFather, GrandFather, Father) for meOne did not affect clone meTwo.  Note that attributes changed are not objects containing other objects, but objects with an associated value");
-	}
-	
-	public static void Example03PojoWithAttributePojo() {
-		System.out.println("\n---- REFLECTION, OBJECT COPY, Example03PojoWithAttributePojo: SUPER CLASS RECURSION: NONE NEEDED, ATTRIBUTE RECURSION: SEVERAL ----");
-		
-		PersonWithParent myGreatGrandFather = new PersonWithParent("A_GreatGrandFather", null);
-		PersonWithParent myGrandFather = new PersonWithParent("B_GrandFather", myGreatGrandFather);
-		PersonWithParent myFather = new PersonWithParent("C_Father", myGrandFather);
-		PersonWithParent meOne = new PersonWithParent("D_Me", myFather);
-		PersonWithParent meTwo = (PersonWithParent) makeCopyWithSuperClassRecursionOf( (Object) meOne, 20 );
-		boolean deepEq03 = Objects.deepEquals(meOne, meTwo);
-		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
-		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq03);
-
-		// changes
-		myGreatGrandFather.setName("Changed_GreatGrandFather");
-		myGrandFather.setName("Changed_GrandFather");
-		myFather.setName("Changed_Father");
-		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
-		System.out.println("conclussion: changes in attribute parent (GreatGrandFather, GrandFather, Father) for meOne did affect clone meTwo.  Note that attributes changed are objects containing other objects, not objects with an associated value");
-	}
-	
 	/**
-	 * <p> Make copy of object.  Uses reflection to replicate field values.
+	 * <p> Make copy of object.  Uses reflection to copy field values.
 	 * 
-	 * <p> A value of "0" for maxSuperClassRecursion copies only fields from object's class.
+	 * <p> It is not mandatory to define second parameter (see overloadad function).  If used, here some guidance:
 	 * 
-	 * <p> A value of "1" copies also fields from object's parent (super) class.
+	 * <ul>
 	 * 
-	 * <p> A value of "2" copies also fields from object's parent-parent (super-super) class.
+	 * <li> A value of "0" for maxSuperClassRecursion copies only fields from object's class.
 	 * 
-	 * <p> And so on.
+	 * <li> A value of "1" copies fields from object's parent (super) class.
+	 * 
+	 * <li> A value of "2" copies fields from object's parent-parent (super-super) class.
+	 * 
+	 * <li> A high value can be passed as second parameter, this function will manage super-class-recursion until reaching a null super-class.
+	 * 
+	 * </ul>
+	 * 
+	 * <p> Result may be deep or shallow copy:
+	 * 
+	 * <ul>
+	 * 
+	 * <li> If all attributes copied are primitive-type-wrapping-objects, a deep-copy is generated.
+	 * 
+	 * <li> If at least one attribute is an object containing other objects, a shallow-copy is generated.
+	 * 
+	 * </ul>
 	 * 
 	 * @param inObj the object to copy
 	 * @param maxSuperClassRecursion how many super-classes to use for field value copying.
 	 * @return new object of the same class, with field values copied.
 	 */
-	public static Object makeCopyWithSuperClassRecursionOf(Object inObj, int maxSuperClassRecursion) {
+	public static Object makeCopyOf(Object inObj, int maxSuperClassRecursion) {
 		Class<?> clazz = null;
 		Object outObj = null;
 		boolean fAccessible = false;
@@ -109,7 +64,9 @@ public class ReflectionHelper {
 				}
 				clazz = clazz.getSuperclass();
 				if (clazz == null) {
-					System.out.println("--> exit at superClassRecursion: " + superClassRecursion + " -- maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached -- classes: " + classList);
+					System.out.println("--> maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached"
+							+ " -- exit at superClassRecursion: " + superClassRecursion 
+							+ " -- classes: " + classList );
 					break;
 				}
 				classList.add(clazz.getName());
@@ -122,12 +79,92 @@ public class ReflectionHelper {
 		return outObj;
 	}
 	
+	
 	/**
-	 * <p>Inner class intended only for testing purposes.
+	 * <p> Overloaded function, to avoid definition of "maxSuperClassRecursion" parameter.
 	 * 
-	 * @author Alberto Romero
-	 *
+	 * @param inObj the object to copy 
+	 * @return new object of the same class, with field values copied.
 	 */
+	public static Object makeCopyOf(Object inObj) {
+		return makeCopyOf(inObj, 127);
+	}
+	
+	
+	
+	/**
+	 * Examples block.
+	 */
+	
+	
+	public static void Example01SimplePojo() {
+		
+		System.out.println("\n---- Example01SimplePojo: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: NONE NEEDED ----");
+		
+		// initial
+		SimplePerson simplePersonOne = new SimplePerson("Jose", 26, 1.78, true);
+		SimplePerson simplePersonTwo = (SimplePerson) makeCopyOf( simplePersonOne );
+		boolean deepEq01 = Objects.deepEquals(simplePersonOne, simplePersonTwo);
+		System.out.println("before changes -- personOne: " + simplePersonOne.toString() + " ; personTwo: " + simplePersonTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(simplePersonOne, simplePersonTwo): " + deepEq01);
+		
+		// changes
+		simplePersonOne.setName("Maria");
+		simplePersonOne.setAge(18);
+		simplePersonOne.setHeight(1.42);
+		simplePersonOne.setDidService(false);
+		System.out.println("after changes -- simplePersonOne: " + simplePersonOne.toString() + " ; simplePersonTwo: " + simplePersonTwo.toString());
+		System.out.println("conclussion: attribute changes in simplePersonOne did not affect attributes in simplePersonTwo.  Note that changed attributes are not objects containing other objects, but primitive-type-wrapping-objects; thus, simplePersonTwo is a deep-copy of simplePersonOne");
+	}
+	
+	public static void Example02PojoWithSuperClasses () {
+		System.out.println("\n---- Example02PojoWithSuperClasses: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: 4 ----");
+		
+		// initial
+		MyGreatGrandFather myGreatGrandFather = new MyGreatGrandFather("Carlos");
+		MyGrandFather myGrandFather = new MyGrandFather(myGreatGrandFather.getName(), 41);
+		MyFather myFather = new MyFather(myGreatGrandFather.getName(), myGrandFather.getAge(), 1.92);
+		Me meOne = new Me(myGreatGrandFather.getName(), myGrandFather.getAge(), myFather.getHeight(), true);
+		Me meTwo = (Me) makeCopyOf( meOne );
+		boolean deepEq02 = Objects.deepEquals(meOne, meTwo);
+		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq02);
+
+		// changes
+		myGreatGrandFather.setName("OscarChanged");
+		myGrandFather.setAge(1);
+		myFather.setHeight(2.11);
+		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("conclussion: attribute changes in SuperClasses (GreatGrandFather, GrandFather, Father) for meOne did not affect clone meTwo.  Note that attributes changed are not objects containing other objects, but primitive-type-wrapping-objects; thus, meTwo is a deep-copy of meOne");
+	}
+	
+	public static void Example03PojoWithAttributePojo() {
+		System.out.println("\n---- Example03PojoWithAttributePojo: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: NONE NEEDED, ATTRIBUTE RECURSION: SEVERAL ----");
+		
+		PersonWithParent myGreatGrandFather = new PersonWithParent("A_GreatGrandFather", null);
+		PersonWithParent myGrandFather = new PersonWithParent("B_GrandFather", myGreatGrandFather);
+		PersonWithParent myFather = new PersonWithParent("C_Father", myGrandFather);
+		PersonWithParent meOne = new PersonWithParent("D_Me", myFather);
+		PersonWithParent meTwo = (PersonWithParent) makeCopyOf( meOne );
+		boolean deepEq03 = Objects.deepEquals(meOne, meTwo);
+		System.out.println("before changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("before changes -- Objects.deepEquals(meOne, meTwo): " + deepEq03);
+
+		// changes
+		myGreatGrandFather.setName("Changed_GreatGrandFather");
+		myGrandFather.setName("Changed_GrandFather");
+		myFather.setName("Changed_Father");
+		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
+		System.out.println("conclussion: changes in attribute parent (GreatGrandFather, GrandFather, Father) for meOne did affect clone meTwo.  Note that attributes changed are objects containing other objects, not primitive-type-wrapping-objects; thus, meTwo is a shallow-copy of meOne");
+	}
+	
+	
+	
+	/**
+	 * Pojos used for examples
+	 */
+	
+
 	static class SimplePerson {
 		private String name;
 		private Integer age;

@@ -3,7 +3,7 @@ package localhost.sandbox;
 import localhost.helper.CipherAesCbcPkcs5Helper;
 import localhost.helper.CipherAesEcbPkcs5Helper;
 import localhost.helper.MemorySnapshotHelper;
-import localhost.helper.ReflectionHelper;
+import localhost.helper.ObjectCopyHelper;
 import localhost.sandbox.Date.DateMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
@@ -46,7 +46,7 @@ public class SandboxMain {
 		// StreamMain.main();
 		// CipherAesEcbPkcs5Helper.main();
 		// CipherAesCbcPkcs5Helper.main();
-		ReflectionHelper.main();
+		ObjectCopyHelper.main();
 
 	}
 }
