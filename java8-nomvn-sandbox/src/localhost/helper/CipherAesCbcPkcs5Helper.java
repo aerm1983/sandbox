@@ -9,6 +9,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * <p>IMPORTANT, PENDING: refactor as CipherAesEcbPkcs5Helper
+ * 
  * <p>Cipher "AES/CBC/PKCS5Padding" example.
  *  
  * <p>This cipher does use intialization vector (iv).

@@ -1,5 +1,6 @@
 package localhost.helper;
 
+import java.util.Base64;
 import java.util.Random;
 
 import javax.crypto.Cipher;
@@ -27,8 +28,11 @@ public class CipherAesEcbPkcs5Helper {
 	private static String algorithmShort = "AES";
 	private static String algorithmFull = "AES/ECB/PKCS5Padding";
 	private static int keyBytesSize = 16; // AES: 16, 32
-	private static String keyBytesHex = null;
+	private static String keyBase16Str = null;
 	private static boolean initialized = false;
+	private static enum Encoding { BASE_16, BASE_64 }
+	private static Encoding encryptedEncoding = Encoding.BASE_64;
+
 
 	
 	public static void main() {
@@ -36,40 +40,51 @@ public class CipherAesEcbPkcs5Helper {
 		System.out.println("Hello from Cipher AesEcbPkcs5Padding!");
 		
 		// input message
-		String inputStr = "Hello World";
-		System.out.println("--> inputStr: " + inputStr);
+		String unencrypted = "Hello World";
+		System.out.println("--> unencrypted: " + unencrypted);
 		
 		// initialize -- generate and/or assign byte array for symmetric key
-		// keyBytesHex example, 128 bit (16 bytes): "983791D130AE8AC39E6BF5FD31C2768A"
-		String initialKeyBytesHex = generateKeyBytesHelper(keyBytesSize); // method for example and key generation
-		initialize(initialKeyBytesHex); // argument must be defined as constant in production environment
-		System.out.println("--> keyBytesHex: " + keyBytesHex + " (do not print this on production!!!)");
+		// keyBaseEncodedStr example, 128 bit (16 bytes), BASE_16: "983791D130AE8AC39E6BF5FD31C2768A"
+		// Regarding key, Encoding BASE_16 is preferrable to BASE_64
+		String initialKeyBaseEncodedStr = generateKeyBytesHelper(keyBytesSize, Encoding.BASE_16); // method for example and key generation
+		initialize(initialKeyBaseEncodedStr); // argument must be defined as constant in production environment
+		System.out.println("--> keyBase16Str: " + keyBase16Str + " (do not print this on production!!!)");
 	
-		// generate encrypted text
-		String encryptedHex = encrypt(inputStr);
-		System.out.println("--> encryptedHex: " + encryptedHex);
+		// generate encryptedEncoded text
+		String encryptedEncoded = encryptEncode(unencrypted);
+		System.out.println("--> encryptedEncoding: " + encryptedEncoding);
+		System.out.println("--> encryptedEncoded: " + encryptedEncoded );
 		
 		// generate decrypted text
-		String decryptedStr = decrypt(encryptedHex);
-		System.out.println("--> decryptedStr: " + decryptedStr);
+		String decryptedStr = decrypt(encryptedEncoded);
+		System.out.println("--> decrypted: " + decryptedStr);
 		
 	}
 
 
 	
-	public static String generateKeyBytesHelper (int keyBytesSize) {
+	public static String generateKeyBytesHelper (int keyBytesSize, Encoding encoding) {
 		// keyBytesSize must be 16 or 32 for AES symmetric encryption
 		Random rd = new Random();
 		byte[] keyBytes = new byte[keyBytesSize];
 		rd.nextBytes(keyBytes);
-		String keyHex = HexHelper.byteArrayToHexString(keyBytes);
-		// System.out.println("keyHex: " + keyHex);
-		return keyHex;
+		String keyBaseEncStr = null;
+		switch (encoding) {
+			case BASE_16:
+				keyBaseEncStr = HexHelper.byteArrayToHexString(keyBytes);
+				break;
+			case BASE_64:
+				keyBaseEncStr = Base64.getEncoder().encodeToString(keyBytes);
+				break;
+		}
+		
+		// System.out.println("keyBaseEncStr: " + keyBaseEncStr);
+		return keyBaseEncStr;
 	}
 
 	
 	
-	public static String encrypt(String inputString) {
+	public static String encryptEncode(String unencrypted) {
 		
 		if (!isInitialized()) {
 			System.err.print("not initialized! cannot continue! returning null");
@@ -78,13 +93,11 @@ public class CipherAesEcbPkcs5Helper {
 		
 		try {
 			// input
-			// System.out.println("inputString: " + inputString);
-			byte [] inputBytes = inputString.getBytes();
-			String inputHex = HexHelper.byteArrayToHexString(inputBytes);
-			// System.out.println("inHex: " + inHex);
+			// System.out.println("unencrypted: " + unencrypted);
+			byte [] unencryptedBytes = unencrypted.getBytes();
 
 			// secret key
-			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBytesHex);
+			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBase16Str);
 		    SecretKey secretKey = new SecretKeySpec(keyBytes, algorithmShort);
 		    
 		    // cipher instance, initialization
@@ -92,12 +105,20 @@ public class CipherAesEcbPkcs5Helper {
 		    cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			
 		    // do encrypt
-		    byte[] encryptedBytes = cipher.doFinal(inputBytes);
-		    String encryptedHex = HexHelper.byteArrayToHexString(encryptedBytes);
+		    byte[] encryptedBytes = cipher.doFinal(unencryptedBytes);
 		    
 		    // output
-		    // System.out.println("encryptedHex: " + encryptedHex);
-		    return encryptedHex;
+		    String encrypted = null;
+		    switch (encryptedEncoding) {
+		    	case BASE_16:
+		    		encrypted = HexHelper.byteArrayToHexString(encryptedBytes);
+		    		break;
+		    	case BASE_64:
+		    		encrypted = Base64.getEncoder().encodeToString(encryptedBytes);
+		    		break;
+		    }
+		    // System.out.println("encrypted: " + encrypted);
+		    return encrypted;
 		    
 		} catch (Exception e) {
 			System.err.println("e.getMessage(): " + e.getMessage() +  " -- e.getClass(): " + e.getClass());
@@ -106,7 +127,7 @@ public class CipherAesEcbPkcs5Helper {
 	}
 	
 	
-	public static String decrypt(String encryptedHex) {
+	public static String decrypt(String encryptedEncoded) {
 		
 		if (!isInitialized()) {
 			System.err.print("not initialized! cannot continue! returning null");
@@ -115,11 +136,19 @@ public class CipherAesEcbPkcs5Helper {
 		
 		try {
 			// input
-			// System.out.println("encryptedHex: " + encryptedHex);
-			byte [] encryptedBytes = HexHelper.hexStringToByteArray(encryptedHex);
+			// System.out.println("encryptedEncoded: " + encryptedEncoded);
+			byte [] encryptedBytes = null; 
+			switch (encryptedEncoding) {
+				case BASE_16:
+					encryptedBytes = HexHelper.hexStringToByteArray(encryptedEncoded);
+					break;
+				case BASE_64:
+					encryptedBytes = Base64.getDecoder().decode(encryptedEncoded);
+					break;
+			}
 			
 			// secret key
-			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBytesHex);
+			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBase16Str);
 		    SecretKey secretKey = new SecretKeySpec(keyBytes, algorithmShort);			
 			
 		    // cipher instatiation, initialization
@@ -128,12 +157,11 @@ public class CipherAesEcbPkcs5Helper {
 		    
 		    // do decrypt
 		    byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
-		    String decryptedHex = HexHelper.byteArrayToHexString(decryptedBytes);
-		    String decryptedStr = new String(decryptedBytes);
+		    String decrypted = new String(decryptedBytes);
 		    
 		    // output
-		    // System.out.println("decryptedStr: " + decryptedStr);
-		    return decryptedStr;
+		    // System.out.println("decrypted: " + decrypted);
+		    return decrypted;
 		    
 		} catch (Exception e) {
 			System.err.println("e.getMessage(): " + e.getMessage() +  " -- e.getClass(): " + e.getClass());
@@ -143,11 +171,11 @@ public class CipherAesEcbPkcs5Helper {
 
 
 	
-	public static void initialize(String inKeyBytesHex) {
-		keyBytesHex = inKeyBytesHex;
+	public static void initialize(String inKeyBase16Str) {
+		keyBase16Str = inKeyBase16Str;
 		try {
 			// secret key
-			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBytesHex);
+			byte[] keyBytes = HexHelper.hexStringToByteArray(keyBase16Str);
 		    SecretKey secretKey = new SecretKeySpec(keyBytes, algorithmShort);
 			initialized = true;
 		} catch (Exception e) {
