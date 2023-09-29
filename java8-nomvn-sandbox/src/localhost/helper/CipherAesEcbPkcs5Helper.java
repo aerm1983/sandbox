@@ -15,13 +15,22 @@ import javax.crypto.spec.SecretKeySpec;
  * <p>AES key sizes: 128 bit (16 bytes), 256 bit (32 bytes), 192 bit.
  * 
  * <p>AES cipher, abstract:
+ * <ul>
  * <li>ECB: no iv
  * <li>CBC / CFB: random unpredictable ivHex with each encryptedHex
  * <li>OFB / CTR: unique iv (counter) -- example pending
  * <li>GCM: unique iv (12 bytes) and counter (4 bytes) -- example pending
+ * </ul>
+ * 
+ * <p>Function "decrypt" can be used with two purposes:
+ * <ul> 
+ * <li>to decrypt, of course.
+ * <li>to verify if a encrypted string is valid (returns null if encrypted input is not valid).
+ * </ul>
  * 
  * @author Alberto Romero
  *
+ * @since 2023-09-15
  */
 public class CipherAesEcbPkcs5Helper {
 	
@@ -58,6 +67,10 @@ public class CipherAesEcbPkcs5Helper {
 		// generate decrypted text
 		String decryptedStr = decrypt(encryptedEncoded);
 		System.out.println("--> decrypted: " + decryptedStr);
+		
+		// atempt to decrypt a random not necessarily valid encryptedEncoded
+		String decryptedStr2 = decrypt("fakeEncrypted");
+		System.out.println("--> decrypted2: " + decryptedStr2);
 		
 	}
 

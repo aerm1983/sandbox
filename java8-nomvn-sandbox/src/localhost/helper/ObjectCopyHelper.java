@@ -39,9 +39,38 @@ public class ObjectCopyHelper {
 	 * 
 	 * </ul>
 	 * 
+	 * <p> Regarding deep and shallow copies.  Say objTwo is copy of objOne.  Then:
+	 * 
+	 * <ul>
+	 * 
+	 * <li> If changing attributes of objOne change also corresponding attributes of objTwo, then the later is shallow-copy.
+	 * 
+	 * <li> If changing attributes of objOne do not change corresponding attributes of objTwo, then the later is deep-copy.
+	 * 
+	 * </ul>
+	 * 
+	 * <p> Examples:
+	 * 
+	 * <ul>
+	 * 
+	 * <li> For {name:"Juan", age:31, didService:true}, a deep-copy will be generated (see example 01).
+	 * 
+	 * <li> In previous example, if each attribute is defined in a different super-class, a deep-copy will be generated (see example 02).
+	 * 
+	 * <li> For {name:"Juan", parent:{name:"Luis"}}, a shallow-copy will be generated (see example 03).
+	 * 
+	 * </ul>
+	 * 
 	 * @param inObj the object to copy
+	 * 
 	 * @param maxSuperClassRecursion how many super-classes to use for field value copying.
+	 * 
 	 * @return new object of the same class, with field values copied.
+	 * 
+	 * @author Alberto Romero
+	 * 
+	 * @since 2023-09-28
+	 *  
 	 */
 	public static Object makeCopyOf(Object inObj, int maxSuperClassRecursion) {
 		Class<?> clazz = null;

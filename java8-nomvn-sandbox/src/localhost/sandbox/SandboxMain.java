@@ -44,9 +44,9 @@ public class SandboxMain {
 		// ThreadObjectNotifyMain.main();
 		// StaticSynchronizedMain.main();
 		// StreamMain.main();
-		// CipherAesEcbPkcs5Helper.main();
+		CipherAesEcbPkcs5Helper.main();
 		// CipherAesCbcPkcs5Helper.main();
-		ObjectCopyHelper.main();
+		// ObjectCopyHelper.main();
 
 	}
 }
