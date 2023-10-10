@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 
-public class OutOfMemoryTest02 {
+public class Test02OutOfMemory {
 
 	
 	public static void fixedSizeArrayTest () {

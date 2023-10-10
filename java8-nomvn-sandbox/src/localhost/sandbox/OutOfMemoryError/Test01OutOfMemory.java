@@ -27,7 +27,7 @@ With -Xmx8m
 
 */
 
-public class OutOfMemoryTest01 {
+public class Test01OutOfMemory {
 
 	public static void main() {
 		System.out.println("Hello from OutOfMemoryTest01!");

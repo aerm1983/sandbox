@@ -130,4 +130,19 @@ public class TG_TMXB {
 		}
     }
     
+    
+    /**
+     * 
+     * Study this, incorporate it
+     * 
+     * @param threadName
+     * @return Thread
+     */
+    public static Thread definitinPending( String threadName ) {
+	    for (Thread t : Thread.getAllStackTraces().keySet()) {
+	        if (t.getName().equals(threadName)) return t;
+	    }
+	    return null;
+    }
+    
 }

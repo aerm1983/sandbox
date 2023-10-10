@@ -10,15 +10,33 @@ public class JavaLangMain {
 		
 		System.out.println("Hello from JavaLangMain!");
 		
+		
+		for (int i = 0 ; i < 100*1000 ; i++ ) {
+			
+			if ( (i % 1000) == 0) {
+				System.out.println("i: " + i);	
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
 		String cumm = "";
 		cumm += String.format("string: %s ; int: %s ; long: %s ; boolean: %s ; double: %s ----", "hi!", 1, 10L, false, 3.1416);
 		System.out.println(cumm);
+		*/
 		
 		
-		
+		/*
 		String ts1 = String.format("Download error, file empty -- fileName: %s ; storeId: %s ; job: %s", "a", "b", 1);
 		System.out.println(ts1);
-		
+		*/
 		
 		
 		

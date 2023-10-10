@@ -2,7 +2,7 @@ package localhost.sandbox.String;
 
 import java.util.Base64;
 
-public class RegExTest {
+public class TestRegEx {
 
 	public static void stringMatchTest01() {
 		System.out.println("Hello from RegExTest!");
@@ -28,8 +28,9 @@ public class RegExTest {
 		
 		byte[] bytes = Base64.getDecoder().decode(s2);
 		*/
-
+		
 		// 04 Base64
+		/*
 		String patt = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$";
 		String s3 = "Alberto";
 		boolean b3 = s3.matches(patt);
@@ -37,7 +38,14 @@ public class RegExTest {
 		// byte[] bytes = Base64.getDecoder().decode(s3);
 		byte[] bytes = Base64.getMimeDecoder().decode(s3);
 		System.out.println("byes: " + bytes);
+		*/
+
+		// 04 Other, non important
+		String s4 = "Alberto01";
+		boolean b4 = s4.matches("(?i)^.*alberto.*$");
+		System.out.println("s: " + s4 + "  ;  b: " + b4);
 		
+
 		
 	}
 }

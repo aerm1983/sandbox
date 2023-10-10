@@ -10,15 +10,27 @@ public class StringMain {
 
 	public static void main() {
 		System.out.println("Hello from StringMain!");
-		// other();
-		RegExTest.stringMatchTest01();
+		other();
+		// TestRegEx.stringMatchTest01();
 	}
 	
 	public static void other() {
 		
+		String str = "ABCDEFGHIJ";
+		System.out.println("str: " + str);
+		int size = 3 ;
+		while (str.length() > size) {
+			str = str.substring(0, str.length()-1);
+			System.out.println("str: " + str);
+		}
+		
+		
+		/*
 		long inSize = 123456789012L ;
 		String outSize = ByteSizeHelper.writeHumanReadableByteSize(inSize);
 		System.out.println("inSize: " + inSize + " ; outSize: " + outSize);
+		*/
+		
 		
 		/*
 		String xmlStr= "&lt;/CONSULTA&gt;";

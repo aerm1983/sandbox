@@ -79,6 +79,7 @@ public class ObjectCopyHelper {
 		Field[] fields = null;
 		int superClassRecursion = 0;
 		ArrayList<String> classList = new ArrayList<String>();
+		String outStr = null;
 		try {
 			clazz = inObj.getClass();
 			classList.add(clazz.getName());
@@ -93,9 +94,12 @@ public class ObjectCopyHelper {
 				}
 				clazz = clazz.getSuperclass();
 				if (clazz == null) {
-					System.out.println("--> maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached"
+					outStr = ""
+							+ "--> maxSuperClassRecursion (" + maxSuperClassRecursion + ") not reached"
 							+ " -- exit at superClassRecursion: " + superClassRecursion 
-							+ " -- classes: " + classList );
+							+ " -- classes: " + classList + ""
+							;
+					// System.out.println(); // debugging
 					break;
 				}
 				classList.add(clazz.getName());

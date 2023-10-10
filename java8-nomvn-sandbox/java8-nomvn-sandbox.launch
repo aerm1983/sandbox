@@ -19,5 +19,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="localhost.sandbox.SandboxMain"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="are_java8-nomvn-sandbox"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="are_java8-nomvn-sandbox"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms1m&#13;&#10;-Xmx3m&#13;&#10;-Dspring.profiles.active=alberto,albertolocalpre"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms1m&#13;&#10;-Xmx5m&#13;&#10;-Dspring.profiles.active=alberto,albertolocalpre"/>
 </launchConfiguration>
