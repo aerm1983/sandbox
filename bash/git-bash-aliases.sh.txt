@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 07:07'
+__ALIAS_LAST_UPDATE__='2023-10-13 07:39'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -556,26 +556,26 @@ alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 function _gb { echo '--> git branch (also "git b" is available)' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
 alias gb='_gb'
 alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
+
+alias gco='echo "--> *git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit'
 function _gcm { 
-    # require confirmation
     echo '--> git commit helper -- ${1}:'\'"${1}"\'
-    read -p 'continue (y/n)? ' _continue
-    if [ ${_continue} != 'y'  ] ; then
-        unset _current_branch _continue
+    # commit action depending on ${1}
+    if [ ! -z "${1}" ] ; then
+        read -p "single line commit message, edit ('n' to cancel): " -e -i "${1}" _new_commit_message
+    else
+        _current_branch=$(git branch --show-current)
+        read -p "single line commit message, edit ('n' to cancel): " -e -i "${_current_branch}"' cont.' _new_commit_message
+    fi
+    # user cancellation
+    if [ ${_new_commit_message} = 'n'  ] ; then
+        unset _current_branch _new_commit_message _continue
         echo 'cancelled, no action performed'
         return 1
     fi
-    # commit action depending on ${1}
-    if [ ! -z "${1}" ] ; then
-        read -p 'single line commit message, edit: ' -e -i "${1}" _new_commit_message
-        git commit -m "${1}"
-    else
-        _current_branch=$(git branch --show-current)
-        read -p 'single line commit message, edit: ' -e -i "${_current_branch}"' cont.' _new_commit_message
-        git commit -m "${_new_commit_message}"
-        unset _current_branch _new_commit_message
-    fi
     # closing steps
+    git commit -m "${_new_commit_message}"
+    unset _current_branch _new_commit_message _continue
     echo
     git status
     echo
@@ -639,7 +639,8 @@ s=${s}'  ga*  : git add \n'
 s=${s}'  gra* : git restore --staged \n'
 s=${s}'  gd*  : git diff \n'
 s=${s}'  gdc* : git diff --cached \n'
-s=${s}'  gcm  : git commit # helper function \n'
+s=${s}'  gco* : git commit # raw, primitive \n'
+s=${s}'  gcm  : git commit # fast message helper \n'
 s=${s}'  gro* : git restore --source \n'
 s=${s}'\n'
 s=${s}'  gm*  : git merge \n'
