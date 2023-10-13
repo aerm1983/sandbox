@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 08:46'
+__ALIAS_LAST_UPDATE__='2023-10-13 09:02'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -557,14 +557,18 @@ function _gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch $
 alias gb='_gb'
 
 function _gbd {
-    echo "--> git branch -D <local-branches>"
-    git branch
-    echo
-    read -p 'all local branches will be deleted -- continue? (y/n): ' _continue
-    if [  ${_continue} = 'y' ] ; then
-        git branch --color=never | grep -v '\*' | xargs git branch -D
+    echo '--> git branch -D <local-branches> -- ${@}: '"${@}"' -- (cancel: ctrl + c)'
+    if [ ! -z "${1}" ] ; then
+        git branch -D "${@}"
     else
-        echo 'no action performed, exit'
+        git branch
+        echo
+        read -p 'all local branches will be deleted -- continue? (y/n): ' _continue
+        if [  ${_continue} = 'y' ] ; then
+            git branch --color=never | grep -v '\*' | xargs git branch -D
+        else
+            echo 'no action performed, exit'
+        fi
     fi
 }
 alias gbd='_gbd'
