@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 07:39'
+__ALIAS_LAST_UPDATE__='2023-10-13 08:07'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -559,21 +559,17 @@ alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}
 
 alias gco='echo "--> *git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit'
 function _gcm { 
-    echo '--> git commit helper -- ${1}:'\'"${1}"\'
+    echo '--> git commit, fast message helper -- ${1}: '\'"${1}"\'' -- (cancel: ctrl + c)'
+    echo
     # commit action depending on ${1}
     if [ ! -z "${1}" ] ; then
-        read -p "single line commit message, edit ('n' to cancel): " -e -i "${1}" _new_commit_message
+        read -p 'single line commit message, edit: ' -e -i "${1}" _new_commit_message
     else
         _current_branch=$(git branch --show-current)
-        read -p "single line commit message, edit ('n' to cancel): " -e -i "${_current_branch}"' cont.' _new_commit_message
-    fi
-    # user cancellation
-    if [ ${_new_commit_message} = 'n'  ] ; then
-        unset _current_branch _new_commit_message _continue
-        echo 'cancelled, no action performed'
-        return 1
+        read -p 'single line commit message, edit: ' -e -i "${_current_branch}"' cont.' _new_commit_message
     fi
     # closing steps
+    echo
     git commit -m "${_new_commit_message}"
     unset _current_branch _new_commit_message _continue
     echo
