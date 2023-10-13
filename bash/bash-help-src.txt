@@ -1,4 +1,4 @@
-# BHS -- updated: 2022-09-15 12:41
+# BHS -- updated: 2023-10-13 08:51
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also: apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example:  apt-cache search --names-only 'aptitude'
@@ -142,6 +142,7 @@ winget:  Windows command, download installers.  See also: cmd.exe, where, winpty
 winpty:  Necessary sometimes in git-bash to execute Windows-based programs like wsl, python, ipython, openssl.  Examples:  winpty python  ;  
 wsl:  Windows command, execute Linux shells, Docker, other.  Options:  --help help.  --list list available distributions.  --list --running list running distributions.  --update update.  -d --distribution run specific distribution.  Examples:  wsl --list  ;  
 x:
+xargs:  Converts newline-separated-words into space-separated-words.  Sensible to special characters and escape sequences, careful.  Examples:  git branch --color=never | grep -v '\*' | xargs git branch -D  ;  
 xxd:  Hexadecimal dump of file or stdin.  Useful as reminder of special/control ascii chars/bytes.  See also: od.  Options:  -c output columns (16 by default).  -ps simple hexadecimal dump.  -r along with -ps, reverse operation (hexadecimal to binary).  Examples:  echo -e -n 'A\x1fB' | xxd  ;  xxd -c8 file.bin  ;  xxd -ps file.bin  ;  xxd -ps -r file.hex.txt > file.bin  ;  
 y:
 yes:  Produces bulk output; with head limits quantity.  Example: yes 'hello world' | head -10

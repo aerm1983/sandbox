@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 08:07'
+__ALIAS_LAST_UPDATE__='2023-10-13 08:46'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -553,9 +553,21 @@ alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT_
 alias gl1='echo "--> git log --graph --decorate -1"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --graph --decorate -1'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
-function _gb { echo '--> git branch (also "git b" is available)' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
+function _gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
 alias gb='_gb'
-alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
+
+function _gbd {
+    echo "--> git branch -D <local-branches>"
+    git branch
+    echo
+    read -p 'all local branches will be deleted -- continue? (y/n): ' _continue
+    if [  ${_continue} = 'y' ] ; then
+        git branch --color=never | grep -v '\*' | xargs git branch -D
+    else
+        echo 'no action performed, exit'
+    fi
+}
+alias gbd='_gbd'
 
 alias gco='echo "--> *git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit'
 function _gcm { 
@@ -627,7 +639,7 @@ s=${s}'  gla  : git log --graph --decorate --all  \n'
 s=${s}'  glf  : git ls-files \n'
 s=${s}'\n'
 s=${s}'  gb*  : git branch \n'
-s=${s}'  gbd  : git branch -D <local-branches> \n'
+s=${s}'  gbd  : git branch -D <local-branches> # delete all local helper \n'
 s=${s}'  gt   : git tag \n'
 s=${s}'\n'
 s=${s}'  gch* : git checkout \n'
