@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-08-25 06:31'
+__ALIAS_LAST_UPDATE__='2023-10-13 07:07'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -90,6 +90,8 @@ alias k1='kill %1'
 alias k2='kill %2'
 alias k3='kill %3'
 alias k4='kill %4'
+alias k5='kill %5'
+alias k6='kill %6'
 alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
 
 # testing:
@@ -554,48 +556,35 @@ alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 function _gb { echo '--> git branch (also "git b" is available)' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
 alias gb='_gb'
 alias gbd='echo "--> git branch -D <local-branches>"; sleep ${__ALIAS_TIMEOUT__}; git branch | command grep -v '\'\*\'' | xargs git branch -D'
-# DEPRECATE: _gbto, gbto
-function _gbto { echo "--> recreate branch 'to' on HEAD (included in alias '\''gbt'\'')" ; git branch -D to ; git branch to ; git log --graph --decorate --color -1 ; }
-alias gbto='_gbto'
-# DEPRECATE: _gbt, gbt
-function _gbt { 
-    # save current branch name
-    current_branch=$(git branch --show-current)
-    # require human confirmation
-    echo "--> soft reset of branch 't' over '"${current_branch}"'"
-    read -p 'continue (y/n)? ' continue
-    if [ ${continue} != 'y'  ] ; then
-        unset current_branch continue
+function _gcm { 
+    # require confirmation
+    echo '--> git commit helper -- ${1}:'\'"${1}"\'
+    read -p 'continue (y/n)? ' _continue
+    if [ ${_continue} != 'y'  ] ; then
+        unset _current_branch _continue
         echo 'cancelled, no action performed'
         return 1
     fi
-    # checkout branch 'to', recreate branch 'too' on 'to'
-    git checkout 'to'
-    git branch -D 'too'
-    git branch 'too'
-    # checkout branch 't', recreate branch 'to' on 't'
-    git checkout 't'
-    git branch -D 'to'
-    git branch 'to'
-    # soft reset of branch 't' on $current_branch
-    git checkout 't'
-    git reset --soft ${current_branch}
-    git checkout ${current_branch}
-    git log --graph --decorate --color -1
-    read -p 'single line commit message, edit: ' -e -i "${current_branch}"' cont.' new_commit_message
-    git commit -m "${new_commit_message}"
-    git checkout 't'
-    git merge ${current_branch}
-    git checkout ${current_branch}
-    # show logs
-    git log --graph --decorate --all --color | less -R
-    git log --graph --decorate --color -1
-    unset current_branch new_commit_message
+    # commit action depending on ${1}
+    if [ ! -z "${1}" ] ; then
+        read -p 'single line commit message, edit: ' -e -i "${1}" _new_commit_message
+        git commit -m "${1}"
+    else
+        _current_branch=$(git branch --show-current)
+        read -p 'single line commit message, edit: ' -e -i "${_current_branch}"' cont.' _new_commit_message
+        git commit -m "${_new_commit_message}"
+        unset _current_branch _new_commit_message
+    fi
+    # closing steps
+    echo
+    git status
+    echo
+    git log --graph --decorate -2
+    echo
     echo 'done!'
 }
-alias gbt='_gbt'
+alias gcm='_gcm'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
-alias gtt='echo "--> git tag | tail -3"; sleep ${__ALIAS_TIMEOUT__}; git tag | tail -3'
 
 alias gch='echo "--> *git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
 function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
@@ -604,15 +593,17 @@ function _gra { echo '--> *git restore --staged' "${@}" ; sleep ${__ALIAS_TIMEOU
 alias gra='_gra'
 alias gd='echo "--> *git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
 alias gdc='echo "--> *git diff --cached"; sleep ${__ALIAS_TIMEOUT__}; git diff --cached'
-alias gco='echo "--> git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit' 
 alias gro='echo "--> *git restore --source "; sleep ${__ALIAS_TIMEOUT__}; git restore --source'
 
 alias gm='echo "--> *git merge" ; sleep ${__ALIAS_TIMEOUT__} ; git merge'
 alias gms='echo "--> *git merge --squash" ; sleep ${__ALIAS_TIMEOUT__} ; git merge --squash'
-alias gri='echo "--> *git rebase --interactive" ; sleep ${__ALIAS_TIMEOUT__} ; git rebase --interactive'
+# alias gri='echo "--> *git rebase --interactive" ; sleep ${__ALIAS_TIMEOUT__} ; git rebase --interactive' # deprecated
 alias grs='echo "--> *git reset --soft" ; sleep ${__ALIAS_TIMEOUT__} ; git reset --soft'
 
-alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
+function _gf { echo '--> git fetch' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git fetch "${@}" ; echo ; gs ; } 
+alias gf='_gf'
+# alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
+
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
 alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
@@ -642,16 +633,13 @@ s=${s}'\n'
 s=${s}'  gb*  : git branch \n'
 s=${s}'  gbd  : git branch -D <local-branches> \n'
 s=${s}'  gt   : git tag \n'
-s=${s}'  gtt  : git tag | tail -3 \n'
-s=${s}'  gbt  : soft reset of '\''t'\'' over current branch, recreate branches '\''to'\'', '\''too'\'' # DEPRECATE \n'
-s=${s}'  gbto : recreate branch '\''to'\'' on HEAD (included in alias '\''gbt'\'') # DEPRECATE \n'
 s=${s}'\n'
 s=${s}'  gch* : git checkout \n'
 s=${s}'  ga*  : git add \n'
 s=${s}'  gra* : git restore --staged \n'
 s=${s}'  gd*  : git diff \n'
 s=${s}'  gdc* : git diff --cached \n'
-s=${s}'  gco  : git commit \n'
+s=${s}'  gcm  : git commit # helper function \n'
 s=${s}'  gro* : git restore --source \n'
 s=${s}'\n'
 s=${s}'  gm*  : git merge \n'
