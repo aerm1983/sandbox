@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 09:02'
+__ALIAS_LAST_UPDATE__='2023-10-13 11:24'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -598,7 +598,19 @@ function _gcm {
 alias gcm='_gcm'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 
-alias gch='echo "--> *git checkout"; sleep ${__ALIAS_TIMEOUT__}; git checkout'
+function _gch {
+    echo "--> *git checkout # regex helper"
+    sleep ${__ALIAS_TIMEOUT__}
+    _n=$( git branch --color=never | tr '*' ' ' | grep -P -i -c "${1}" )
+    if [ ${_n} -eq '1' ] ; then
+        git branch --color=never | tr '*' ' ' | grep -P -i --color=never "${1}" | xargs git checkout
+    else 
+        echo 'no checkout performed -- matching branches: '${_n}
+        git branch --color=never | tr '*' ' ' | grep -P -i --color=always "${1}"
+    fi
+}
+alias gch='_gch'
+
 function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
 alias ga='_ga'
 function _gra { echo '--> *git restore --staged' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git restore --staged "${@}" ; echo ; gs ; }
@@ -646,7 +658,7 @@ s=${s}'  gb*  : git branch \n'
 s=${s}'  gbd  : git branch -D <local-branches> # delete all local helper \n'
 s=${s}'  gt   : git tag \n'
 s=${s}'\n'
-s=${s}'  gch* : git checkout \n'
+s=${s}'  gch* : git checkout # regex helper \n'
 s=${s}'  ga*  : git add \n'
 s=${s}'  gra* : git restore --staged \n'
 s=${s}'  gd*  : git diff \n'
