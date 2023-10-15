@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-13 11:24'
+__ALIAS_LAST_UPDATE__='2023-10-15 07:19'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -823,19 +823,55 @@ function _kkl {
     echo '__kh_kubeconfig: '${__kh_kubeconfig}
     echo '__kh_pod: '${__kh_pod}
     echo '__kh_container: '${__kh_container}
-    read -p 'continue (y/n)? ' continue
-    if [ ${continue} != 'y'  ] ; then
-        unset continue
+    # confirm
+    read -p 'continue (y/n)?: ' _continue
+    if [ ${_continue} != 'y'  ] ; then
+        unset _continue
         echo 'cancelled, no action performed'
         return 1
     fi
-
+    # tail flag
+    if [ ! -z "${1}" ] ; then
+        _tflagq="${1}"
+    else
+        read -p "tail? ('n' or number): " -e -i '1' _tflagq
+    fi
+    _tflag=''
+    if [ ${_tflagq} == 'n'  ] ; then
+        _tflag=''
+    else
+        _tflag='--tail='${_tflagq}
+    fi
+    # follow flag
+    if [ ! -z "${2}" ] ; then
+        _fflagq="${2}"
+    else
+        read -p 'follow (y/n)?: ' -e -i 'y' _fflagq
+    fi
+    _fflag='-f'
+    if [ ${_fflagq} != 'y'  ] ; then
+        _fflag=''
+    fi
     # kubectl log 
-    s='kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' -f &> '\''./tmp/'${__kh_container}'.log'\'' & '
-    echo 'executing '${s}
-    eval ${s}
-    unset s
+    _s='kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' '${_tflag}' '${_fflag}' &> '\''./tmp/'${__kh_container}'.log'\'' & '
+    echo 'executing: '
+    echo ${_s}
+    eval ${_s}
+    unset _s _fflag _fflagq _tflag _tflagq
 }
 alias kkl='_kkl'
+
+
+
+s='--> Kubectl Helper ('${__ALIAS_LAST_UPDATE__}') \n'
+s=${s}'(parameters within parenthesis are optional; also requested via prompt) \n'
+s=${s}'\n'
+s=${s}'  kks : set ($1) kubeconfig-file, ($2) deployment, regex type \n' 
+s=${s}'  kkp : print pre-set variables \n' 
+s=${s}'  kkl : kubectl logs, using pre-set variables, ($1) tail flag '"('n'|digit)"', ($2) follow flag '"('y'|'n')"' \n'
+s=${s}'\n'
+_kh_s=${s}
+unset s
+alias kh='less -f <( echo -e "${_kh_s}" )'
 
 
