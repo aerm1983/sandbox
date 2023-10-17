@@ -3,13 +3,13 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-07-15 06:16'
+__JH_WMP_UPDATED__='2023-10-17 06:41'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
 __JH_GIT_CHECKOUT_PULL_DEV_FAIL_FILE__='zgit-checkout-pull-dev-fail.tmp'
 __JH_GIT_COMPILE_FAIL_FILE__='zgit-compile-fail.tmp'
-__JH_RESTORE_DIR__='__RESTORE_LOALB__'
+__JH_RESTORE_DIR__='__RESTORE_LOC_ALB__'
 
 
 ### main functions
@@ -217,6 +217,12 @@ function _jh_kill_platform {
 
 function _jh_start_service {
     cdkj_s
+    if [ ! -d "${1}" ] ; then
+        echo 'directory '${1}' not available, exit'
+        echo
+        cdkj_s
+        return 1
+    fi
     command cd ${1}
     pwd
 
@@ -365,15 +371,20 @@ function _jh_restart_service {
 
 function _jh_backup_alberto_service {
     cdkj_s
+    if [ ! -d "${1}" ] ; then
+        echo 'directory '${1}' not available, exit'
+        echo
+        cdkj_s
+        return 1
+    fi
     command cd ${1}
+    
     echo '--> backup alberto files from '\'$( pwd  )\'
-    find ./src -name '*alberto*' | while read myfile; do command cp -v ${myfile} '../zalberto/z'${1}'/'; done;
-    command cp -v ./*alberto.launch '../zalberto/z'${1}'/'
-    command cp -v ./curl*alberto.sh '../zalberto/z'${1}'/' # testing, in evaluation
-    command cp -v ./pom.xml.alberto '../zalberto/z'${1}'/' # deprecation pending
-    # command cp -v ./src/main/resources/application-alberto.yml '../zalberto/z'${1}'/' # deprecated
-    # command cp -v ./src/main/resources/log4j2-alberto.xml '../zalberto/z'${1}'/' # deprecated
-    command git restore --source=dev pom.xml # deprecation pending
+    find . -iname '*alberto*' | grep -v '/target/' | grep -v "/${__JH_RESTORE_DIR__}/" | xargs -I % cp -v % '../zalberto/z'${1}'/'
+    # find ./src -name '*alberto*' | while read myfile; do command cp -v ${myfile} '../zalberto/z'${1}'/'; done; # deprecated
+    if [ "${1}" = 'marketplaceebay' ] ; then
+        command git restore --source=dev pom.xml # deprecate?
+    fi
     command cd ..
     echo
 }
