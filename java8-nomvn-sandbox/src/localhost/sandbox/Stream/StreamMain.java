@@ -1,22 +1,27 @@
 package localhost.sandbox.Stream;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StreamMain {
 
 	public static void main() {
-		streamMapCollectToList();
+		// test00StreamMapCollectToList();
+		test01StreamMaxLong();
+		
 	}
 	
 	/**
-	 * 
-	 * "stream()" is used here sequentally, but parallel process could
+	 * <p> "stream()" is used here sequentally, but parallel process could
 	 * be implemented with a small substitution: "parallelStream()".
 	 * 
+	 * @author Alberto Romero
+	 * 
 	 */
-	public static void streamMapCollectToList() {
+	public static void test00StreamMapCollectToList() {
 
 		PersonDetail pd00 = new PersonDetail("alberto", 40, true);
 		PersonDetail pd01 = new PersonDetail("blanca", 50, false);
@@ -37,6 +42,33 @@ public class StreamMain {
 				.collect(Collectors.toList());
 		
 		System.out.println("nameList: " + nameList);
+	}
+	
+	
+	
+	/**
+	 * <p> Gets max long / int from List, using stream. 
+	 * 
+	 * @author Alberto Romero
+	 * @since 2023-10-18
+	 */
+	public static void test01StreamMaxLong() {
+		
+		List<Long> idList = new ArrayList<Long>();
+		idList.add(0L);
+		idList.add(1L);
+		idList.add(2L);
+		idList.add(3L);
+		idList.add(4L);
+		
+		Optional<Long> maxIdOpt = idList.stream().max(Comparator.naturalOrder());
+		long maxId = 0L;
+		if (maxIdOpt.isPresent()) {
+			maxId = maxIdOpt.get();
+		}
+		
+		System.out.println("maxId: " + maxId);
+
 	}
 	
 }	

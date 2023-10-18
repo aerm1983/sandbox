@@ -1,11 +1,19 @@
 package localhost.sandbox.DatabaseEncryption.app.model;
 
+import localhost.helper.Size;
+import localhost.sandbox.DatabaseEncryption.encryption.util.DbFieldEncrypt;
+
+
 public class PersonModel {
 
 	private long id;
 	
+	@Size(max=64)
+	@DbFieldEncrypt
 	private String name;
 	
+	@Size(max=64)
+	@DbFieldEncrypt
 	private String address;
 	
 	private String comment;

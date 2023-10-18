@@ -21,7 +21,7 @@ public class AnnotationMain {
 		
 		String fieldValue = null;
 		
-		Size faSize = null;
+		SizeTest faSize = null;
 		int iSize = 0;
 		
 		for (Field field : fields) {
@@ -29,15 +29,15 @@ public class AnnotationMain {
 			fAccessible = field.isAccessible();
 			
 			field.setAccessible(true);
-			if ( field.isAnnotationPresent(Size.class) ) {
-				faSize = field.getDeclaredAnnotation(Size.class);
+			if ( field.isAnnotationPresent(SizeTest.class) ) {
+				faSize = field.getDeclaredAnnotation(SizeTest.class);
 				iSize = faSize.max();
 				System.out.println("iSize: " + iSize);
  			}
 			
 			
-			if ( field.isAnnotationPresent(DbFieldEncrypt.class) ) {
-				System.out.println("field: " + field.getName() + " ; annotation: " + DbFieldEncrypt.class.getName());
+			if ( field.isAnnotationPresent(DbFieldEncryptTest.class) ) {
+				System.out.println("field: " + field.getName() + " ; annotation: " + DbFieldEncryptTest.class.getName());
 				
 				try {
 					fieldValue = (String) field.get(p);

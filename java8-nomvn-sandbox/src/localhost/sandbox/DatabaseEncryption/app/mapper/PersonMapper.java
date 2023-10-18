@@ -1,7 +1,9 @@
 package localhost.sandbox.DatabaseEncryption.app.mapper;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import localhost.sandbox.DatabaseEncryption.app.model.PersonModel;
 import localhost.sandbox.DatabaseEncryption.encryption.mapper.PersonMapperInterface;
@@ -21,6 +23,7 @@ public class PersonMapper implements PersonMapperInterface {
 	
 	/**
 	 * <p> Property only for testing on Java SE.
+	 * <p> This HashMap represents a database target table.
 	 */
 	private static Map<Long,PersonModel> personMap;
 	
@@ -47,6 +50,7 @@ public class PersonMapper implements PersonMapperInterface {
 		p02.setAddress("Maracay");
 		p02.setComment("Have to visit sometime");
 		
+		personMap = new HashMap<Long,PersonModel>();
 		personMap.put(0L, p00);
 		personMap.put(1L, p01);
 		personMap.put(2L, p02);
@@ -72,6 +76,21 @@ public class PersonMapper implements PersonMapperInterface {
 	 */
 	public static Map<Long,PersonModel> getStaticPersonMap() {
 		return personMap;
+	}
+
+	
+	/**
+	 * <p> Method only for testing on Java SE.
+	 */
+	public static String staticPersonMapToString() {
+		String out = "[";
+		Set<Long> keySet = personMap.keySet();
+		for (long id : keySet) {
+			out += personMap.get(id).toString() + ",";
+		}
+		out = out.substring(0, out.length()-1);
+		out += "]";
+		return out;
 	}
 
 }

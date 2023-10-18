@@ -2,8 +2,8 @@ package localhost.sandbox.Annotation;
 
 public class Person {
 	
-	@Size(max=10)
-	@DbFieldEncrypt
+	@SizeTest(max=10)
+	@DbFieldEncryptTest
 	private String name;
 	
 	private Integer age;
