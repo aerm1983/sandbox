@@ -10,8 +10,9 @@ public class StringMain {
 
 	public static void main() {
 		System.out.println("Hello from StringMain!");
-		other();
-		// TestRegEx.stringMatchTest01();
+		// other();
+		// Test00RegEx.stringMatchTest01();
+		Test01StringFormat.stringFormat();
 	}
 	
 	public static void other() {

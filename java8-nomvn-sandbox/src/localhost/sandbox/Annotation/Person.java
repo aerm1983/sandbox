@@ -2,6 +2,7 @@ package localhost.sandbox.Annotation;
 
 public class Person {
 	
+	@Size(max=10)
 	@DbFieldEncrypt
 	private String name;
 	

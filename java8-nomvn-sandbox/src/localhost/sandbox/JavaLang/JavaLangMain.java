@@ -11,6 +11,24 @@ public class JavaLangMain {
 		System.out.println("Hello from JavaLangMain!");
 		
 		
+		
+		long t1 = System.currentTimeMillis() ;
+		try {
+			Thread.sleep(5000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		long t2 = System.currentTimeMillis() ;
+		
+		float diffSecs = (float) ( (t2-t1) / 1000.0 ) ;
+		
+		System.out.println("t1:" + t1 + " ; t2: " + t2 + " ; diffSecs: " + diffSecs);
+		
+		
+		
+		
+		
+		/*
 		for (int i = 0 ; i < 100*1000 ; i++ ) {
 			
 			if ( (i % 1000) == 0) {
@@ -18,6 +36,7 @@ public class JavaLangMain {
 			}
 			
 		}
+		*/
 		
 		
 		

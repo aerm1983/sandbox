@@ -21,11 +21,20 @@ public class AnnotationMain {
 		
 		String fieldValue = null;
 		
+		Size faSize = null;
+		int iSize = 0;
+		
 		for (Field field : fields) {
 			
 			fAccessible = field.isAccessible();
 			
 			field.setAccessible(true);
+			if ( field.isAnnotationPresent(Size.class) ) {
+				faSize = field.getDeclaredAnnotation(Size.class);
+				iSize = faSize.max();
+				System.out.println("iSize: " + iSize);
+ 			}
+			
 			
 			if ( field.isAnnotationPresent(DbFieldEncrypt.class) ) {
 				System.out.println("field: " + field.getName() + " ; annotation: " + DbFieldEncrypt.class.getName());

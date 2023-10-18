@@ -2,9 +2,11 @@ package localhost.sandbox;
 
 import localhost.helper.CipherAesCbcPkcs5Helper;
 import localhost.helper.CipherAesEcbPkcs5Helper;
+import localhost.helper.LogHelper;
 import localhost.helper.MemorySnapshotHelper;
 import localhost.helper.ObjectCopyHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
+import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
@@ -24,9 +26,9 @@ public class SandboxMain {
 
 	public static void main(String[] args) {
 	
+		// JavaLangMain.main();
 		// StringMain.main();
 		// InheritancePolymorphismMain.main();
-		// JavaLangMain.main();
 		// SystemPropertiesMain.main();
 		// PropertiesMain.main();
 		// FileReaderMain.main();;
@@ -36,7 +38,7 @@ public class SandboxMain {
 	    // InterfaceMain.main();
 	    // AbstractMain.main();
 	    // ProcessMain.main();
-		OutOfMemoryMain.main();
+		// OutOfMemoryMain.main();
 	    // ExecutorsMain.main();
 		// MemorySnapshotHelper.main();
 		// ThreadGroupThreadMXBeanMain.main();
@@ -49,6 +51,8 @@ public class SandboxMain {
 		// CipherAesCbcPkcs5Helper.main();
 		// ObjectCopyHelper.main();
 		// AnnotationMain.main();
+		// LogHelper.main();
+		DatabaseEncryptionMain.main();
 
 	}
 }

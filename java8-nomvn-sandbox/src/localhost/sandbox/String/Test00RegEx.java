@@ -2,7 +2,7 @@ package localhost.sandbox.String;
 
 import java.util.Base64;
 
-public class TestRegEx {
+public class Test00RegEx {
 
 	public static void stringMatchTest01() {
 		System.out.println("Hello from RegExTest!");
@@ -41,9 +41,19 @@ public class TestRegEx {
 		*/
 
 		// 04 Other, non important
+		/*
 		String s4 = "Alberto01";
 		boolean b4 = s4.matches("(?i)^.*alberto.*$");
 		System.out.println("s: " + s4 + "  ;  b: " + b4);
+		*/
+		
+		
+		
+		// 05, uuid pattern
+		String s5 = "926b3a97-8875-463a-8324-7bcf2c44a9fe";
+		boolean b5 = s5.matches("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+		System.out.println("s: " + s5 + "  ;  b: " + b5);
+		
 		
 
 		
