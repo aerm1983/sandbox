@@ -1,9 +1,11 @@
 package localhost.sandbox.DatabaseEncryption.app.mapper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
+import localhost.helper.Page;
+// import com.github.pagehelper.Page;
 
 import localhost.sandbox.DatabaseEncryption.app.model.PersonModel;
 import localhost.sandbox.DatabaseEncryption.encryption.mapper.PersonMapperInterface;
@@ -23,74 +25,91 @@ public class PersonMapper implements PersonMapperInterface {
 	
 	/**
 	 * <p> Property only for testing on Java SE.
-	 * <p> This HashMap represents a database target table.
+	 * 
+	 * <p> This List represents a database target table.
+	 * 
+	 * <p> For simplification sake, array-index should be equal 
+	 * to PersonModel.id.
+	 * 
+	 * <p> Under close inspection, it's possible to realize that this
+	 * ArrayList does not emulate perfectly a database table, but for
+	 * encryption simulation purposes, it's close / acceptable enough,
+	 * as long as:
+	 * <ul>
+	 * <li> no element is removed
+	 * <li> there are no "jumps" between indexes
+	 * </ul>
+	 * 
 	 */
-	private static Map<Long,PersonModel> personMap;
+	private static ArrayList<PersonModel> rawDbPersonList = new ArrayList<>();
 	
 	
 	/**
 	 * <p> Method only for testing on Java SE.
 	 */
 	static {
-		PersonModel p00 = new PersonModel();
-		p00.setId(0);
-		p00.setName("Alberto");
-		p00.setAddress("Caracas");
-		p00.setComment("A very first comment");
 		
-		PersonModel p01 = new PersonModel();
-		p01.setId(1);
-		p01.setName("Ponky");
-		p01.setAddress("Merida");
-		p01.setComment("Nice pet");
+		PersonModel p = null;
+		
+		p = new PersonModel();
+		p.setId( rawDbPersonList.size() );
+		p.setName("Alberto");
+		p.setAddress("Caracas");
+		p.setComment("A very first comment");
+		rawDbPersonList.add(p);
+		
+		// p = new PersonModel();
+		// p.setId( rawDbPersonList.size() );
+		// p.setName("Ponky");
+		// p.setAddress("Merida");
+		// p.setComment("Nice pet");
+		// rawDbPersonList.add(p);
+		
+	}
+	
+	
+	/**
+	 * <p> Method only for testing on Java SE.
+	 */
+	public static ArrayList<PersonModel> getStaticRawDbPersonListForJSETest() {
+		return rawDbPersonList;
+	}
+	
 
-		PersonModel p02 = new PersonModel();
-		p02.setId(2);
-		p02.setName("Luisa");
-		p02.setAddress("Maracay");
-		p02.setComment("Have to visit sometime");
-		
-		personMap = new HashMap<Long,PersonModel>();
-		personMap.put(0L, p00);
-		personMap.put(1L, p01);
-		personMap.put(2L, p02);
-		
+	@Override
+	public int insert(PersonModel person) {
+		person.setId( rawDbPersonList.size() );
+		rawDbPersonList.add(person);
+		return 1;
 	}
 	
 	
 	@Override
 	public Optional<PersonModel> findById(long id) {
-		return Optional.of(personMap.get(id));
+		return Optional.of(rawDbPersonList.get((int) id));
+	}
+	
+	
+	@Override
+	public List<PersonModel> findAll() {
+		return rawDbPersonList;
+	}
+	
+	
+	@Override
+	public Page<PersonModel> findAllPage() {
+		Page<PersonModel> page = new Page<>();
+		for (PersonModel person : rawDbPersonList) {
+			page.add(person);
+		}
+		return page;
 	}
 	
 	
 	@Override
 	public int update(PersonModel person) {
-		personMap.put(person.getId(), person);
+		rawDbPersonList.set((int) person.getId(), person);
 		return 1;
-	}
-
-	
-	/**
-	 * <p> Method only for testing on Java SE.
-	 */
-	public static Map<Long,PersonModel> getStaticPersonMap() {
-		return personMap;
-	}
-
-	
-	/**
-	 * <p> Method only for testing on Java SE.
-	 */
-	public static String staticPersonMapToString() {
-		String out = "[";
-		Set<Long> keySet = personMap.keySet();
-		for (long id : keySet) {
-			out += personMap.get(id).toString() + ",";
-		}
-		out = out.substring(0, out.length()-1);
-		out += "]";
-		return out;
 	}
 
 }

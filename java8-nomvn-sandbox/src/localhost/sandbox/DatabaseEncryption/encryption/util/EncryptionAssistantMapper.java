@@ -1,14 +1,9 @@
 package localhost.sandbox.DatabaseEncryption.encryption.util;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 import localhost.sandbox.DatabaseEncryption.app.mapper.PersonMapper;
-import localhost.sandbox.DatabaseEncryption.app.model.PersonModel;
 
 // import org.apache.ibatis.annotations.Mapper;
 // import org.apache.ibatis.annotations.Param;
@@ -28,25 +23,13 @@ import localhost.sandbox.DatabaseEncryption.app.model.PersonModel;
 public class EncryptionAssistantMapper {
 
 	
-	/**
-	 * <p> Property only for testing on Java SE.
-	 */
-	private static Map<Long, PersonModel> personMap = PersonMapper.getStaticPersonMap();
-	
-	
 	// @Select("SELECT MAX(${tableFieldIdName}) FROM ${tableName}")
 	// Long findMaxId(String tableName, String tableFieldIdName);
 	/**
 	 * <p> Method implementation only for testing on Java SE.
 	 */
 	public Long findMaxId(String tableName, String tableFieldIdName) {
-		Set<Long> idSet = personMap.keySet();
-		Optional<Long> maxIdOpt = idSet.stream().max(Comparator.naturalOrder());
-		if (maxIdOpt.isPresent()) {
-			return maxIdOpt.get();
-		} else {
-			return 0L;
-		}
+		return (long) PersonMapper.getStaticRawDbPersonListForJSETest().size() - 1;
 	}
 
 	
@@ -56,7 +39,7 @@ public class EncryptionAssistantMapper {
 	 * <p> Method implementation only for testing on Java SE.
 	 */
 	public Long getCountId(String tableName, String tableFieldIdName) {
-		return (long) personMap.size();
+		return (long) PersonMapper.getStaticRawDbPersonListForJSETest().size();
 	}
 	
 	

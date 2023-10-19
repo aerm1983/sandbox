@@ -1,7 +1,10 @@
 package localhost.sandbox.DatabaseEncryption.encryption.mapper;
 
+import java.util.List;
 import java.util.Optional;
 
+import localhost.helper.Page;
+//import com.github.pagehelper.Page;
 import localhost.sandbox.DatabaseEncryption.app.mapper.PersonMapper;
 import localhost.sandbox.DatabaseEncryption.app.model.PersonModel;
 import localhost.sandbox.DatabaseEncryption.encryption.util.EncryptionFunctions;
@@ -24,8 +27,24 @@ public class PersonMapperWrapper implements PersonMapperInterface {
 
 	
 	// @Autowired
-	// private PersonMapper pm
+	// private EncryptionFunctions ef
 	private EncryptionFunctions ef = new EncryptionFunctions();
+
+	
+	/**
+	 * <p> This method is only intended for testing on java SE.
+	 */
+	public EncryptionFunctions getEncryptionFunctionsForJSETest() {
+		return ef;
+	} 
+	
+	
+	public int insert (PersonModel person) {
+		PersonModel toDbEncryptedPerson = ef.encryptObject(person);
+		Integer insertInt = pm.insert(toDbEncryptedPerson);
+		return insertInt;
+	}
+	
 	
 	public Optional<PersonModel> findById(long id) {
 		Optional<PersonModel> fromDbEncryptedPersonOptional = pm.findById(id);
@@ -33,6 +52,21 @@ public class PersonMapperWrapper implements PersonMapperInterface {
 		return toAppDecryptedPersonOptional;
 	}
 	
+	
+	public List<PersonModel> findAll() {
+		List<PersonModel> fromDbEncryptedPersonList = pm.findAll();
+		List<PersonModel> toAppDecryptedPersonList = ef.decryptObjectList(fromDbEncryptedPersonList);
+		return toAppDecryptedPersonList;
+	}
+	
+	
+	public Page<PersonModel> findAllPage() {
+		Page<PersonModel> fromDbEncryptedPersonPage = pm.findAllPage();
+		Page<PersonModel> toAppDecryptedPersonPage = ef.decryptObjectPage(fromDbEncryptedPersonPage);
+		return toAppDecryptedPersonPage;
+	}
+
+		
 	public int update(PersonModel person) {
 		PersonModel toDbEncryptedPerson = ef.encryptObject(person);
 		Integer updateInt = pm.update(toDbEncryptedPerson);

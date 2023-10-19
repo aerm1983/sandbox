@@ -83,6 +83,14 @@ public class EncryptionFunctions {
 	// private boolean dbEnableFieldEncryptionEnabled;
 	private boolean dbEnableFieldEncryptionEnabled = true;
 	
+	
+	/**
+	 * <p> This method is only intended for testing on java SE.
+	 */
+	public void initializeForJSETest(boolean inEnableEncryption) {
+		dbEnableFieldEncryptionEnabled = inEnableEncryption;
+	}
+	
 
 	/**
 	 * <p> Convenient wrapper of decryption function to manage Optional of object. 
