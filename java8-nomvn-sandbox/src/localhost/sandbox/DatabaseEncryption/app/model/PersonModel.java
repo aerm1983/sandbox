@@ -8,11 +8,11 @@ public class PersonModel {
 
 	private long id;
 	
-	@Size(max=64)
+	@Size(max=32)
 	@DbFieldEncrypt
 	private String name;
 	
-	@Size(max=64)
+	@Size(max=32)
 	@DbFieldEncrypt
 	private String address;
 	

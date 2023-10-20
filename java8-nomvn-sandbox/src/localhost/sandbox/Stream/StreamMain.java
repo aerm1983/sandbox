@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 public class StreamMain {
 
 	public static void main() {
 		// test00StreamMapCollectToList();
-		test01StreamMaxLong();
+		// test01StreamMaxLongUsingComparator();
+		test02StreamMaxLongUsingMapToLong();
 		
 	}
 	
@@ -47,12 +49,12 @@ public class StreamMain {
 	
 	
 	/**
-	 * <p> Gets max long / int from List, using stream. 
+	 * <p> Gets max long / int from List, using stream, comparator. 
 	 * 
 	 * @author Alberto Romero
 	 * @since 2023-10-18
 	 */
-	public static void test01StreamMaxLong() {
+	public static void test01StreamMaxLongUsingComparator() {
 		
 		List<Long> idList = new ArrayList<Long>();
 		idList.add(0L);
@@ -70,5 +72,32 @@ public class StreamMain {
 		System.out.println("maxId: " + maxId);
 
 	}
+	
+	
+	/**
+	 * <p> Gets max long / int from List, using stream. 
+	 * 
+	 * @author Alberto Romero
+	 * @since 2023-10-18
+	 */
+	public static void test02StreamMaxLongUsingMapToLong() {
+		
+		List<Long> idList = new ArrayList<Long>();
+		idList.add(0L);
+		idList.add(1L);
+		idList.add(2L);
+		idList.add(3L);
+		idList.add(4L);
+		
+		OptionalLong maxIdOpt = idList.stream().mapToLong(v -> v).max();
+		long maxId = 0L;
+		if (maxIdOpt.isPresent()) {
+			maxId = maxIdOpt.getAsLong();
+		}
+		
+		System.out.println("maxId: " + maxId);
+
+	}
+
 	
 }	

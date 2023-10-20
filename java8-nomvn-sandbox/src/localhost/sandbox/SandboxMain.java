@@ -40,7 +40,7 @@ public class SandboxMain {
 	    // ProcessMain.main();
 		// OutOfMemoryMain.main();
 	    // ExecutorsMain.main();
-		// MemorySnapshotHelper.main();
+		MemorySnapshotHelper.main();
 		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
 		// AtomicMain.main();
@@ -52,7 +52,7 @@ public class SandboxMain {
 		// ObjectCopyHelper.main();
 		// AnnotationMain.main();
 		// LogHelper.main();
-		DatabaseEncryptionMain.main();
+		// DatabaseEncryptionMain.main();
 
 	}
 }

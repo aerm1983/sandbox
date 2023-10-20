@@ -42,8 +42,8 @@ public class DatabaseEncryptionMain {
 		PersonModel p = null;
 		p = new PersonModel();
 		p.setId( PersonMapper.getStaticRawDbPersonListForJSETest().size() );
-		p.setName("AddedLuis");
-		p.setAddress("Maracay");
+		p.setName("AddedLuis Constancio Hernandez Hamurabibi");
+		p.setAddress("Maracay, Sector Delicias, Av Panamericana, Esquina 2, No 07");
 		p.setComment("Have to visit sometime");
 		personMapperWrapper.insert(p);
 		log.info("rawDbPersonList, encrypted: {}", PersonMapper.getStaticRawDbPersonListForJSETest().toString());
@@ -67,8 +67,8 @@ public class DatabaseEncryptionMain {
 		p = null;
 		p = new PersonModel();
 		p.setId( PersonMapper.getStaticRawDbPersonListForJSETest().size() );
-		p.setName("AddedClara");
-		p.setAddress("Coro");
+		p.setName("AddedClara Jimena Quevedo De Los Reyes");
+		p.setAddress("Coro, Sector Lomas de Medano, Avenida El Fuerte, No 28");
 		p.setComment("Beautiful medanos");
 		personMapperWrapper.insert(p);
 		log.info("rawDbPersonList, encrypted: {}", PersonMapper.getStaticRawDbPersonListForJSETest().toString());

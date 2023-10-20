@@ -53,15 +53,15 @@ public class PersonMapper implements PersonMapperInterface {
 		
 		p = new PersonModel();
 		p.setId( rawDbPersonList.size() );
-		p.setName("Alberto");
-		p.setAddress("Caracas");
+		p.setName("Alberto Jose Gonzalez Pacheco");
+		p.setAddress("Caracas, Sector La Urbe, Calle La Rue, No 12");
 		p.setComment("A very first comment");
 		rawDbPersonList.add(p);
 		
 		// p = new PersonModel();
 		// p.setId( rawDbPersonList.size() );
-		// p.setName("Ponky");
-		// p.setAddress("Merida");
+		// p.setName("Ponky Straffer Schavosky Paetraeus");
+		// p.setAddress("Merida, Sector Fielding, Av Americana, No 09");
 		// p.setComment("Nice pet");
 		// rawDbPersonList.add(p);
 		
