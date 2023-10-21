@@ -5,6 +5,9 @@ import localhost.helper.CipherAesEcbPkcs5Helper;
 import localhost.helper.LogHelper;
 import localhost.helper.MemorySnapshotHelper;
 import localhost.helper.ObjectCopyHelper;
+import localhost.helper.RunTimeStatsHelper;
+import localhost.helper.SimpleDateFormatHelper;
+import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
@@ -41,7 +44,7 @@ public class SandboxMain {
 		// OutOfMemoryMain.main();
 	    // ExecutorsMain.main();
 		// MemorySnapshotHelper.main();
-		ThreadGroupThreadMXBeanMain.main();
+		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
 		// AtomicMain.main();
 		// ThreadObjectNotifyMain.main();
@@ -53,6 +56,9 @@ public class SandboxMain {
 		// AnnotationMain.main();
 		// LogHelper.main();
 		// DatabaseEncryptionMain.main();
+		// ThreadHelper.main();
+		RunTimeStatsHelper.main();
+		SimpleDateFormatHelper.main();
 
 	}
 }
