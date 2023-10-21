@@ -40,8 +40,8 @@ public class SandboxMain {
 	    // ProcessMain.main();
 		// OutOfMemoryMain.main();
 	    // ExecutorsMain.main();
-		MemorySnapshotHelper.main();
-		// ThreadGroupThreadMXBeanMain.main();
+		// MemorySnapshotHelper.main();
+		ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
 		// AtomicMain.main();
 		// ThreadObjectNotifyMain.main();

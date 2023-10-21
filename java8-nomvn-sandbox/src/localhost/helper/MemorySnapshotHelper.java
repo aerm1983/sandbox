@@ -8,20 +8,22 @@ import java.util.TimeZone;
 
 public class MemorySnapshotHelper {
 
-	private static DecimalFormat DEC_FORMAT = new DecimalFormat("0.00");
-	private static SimpleDateFormat S_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");
+	private static final DecimalFormat DEC_FORMAT = new DecimalFormat("0.00");
+	private static final SimpleDateFormat S_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS z");
 	
 	private Date date;
 	private String formattedDate;
 	
-	private long max;
-	private long total;
-	private long free;
+	private long jvmMemoryMax;
+	private long jvmMemoryTotal;
+	private long jvmMemoryFree;
+	private float jvmMemoryTotalToMaxRatio;
 	
-	private double totalToMaxRatio;
-	private long freePlusMaxMinusTotal;
+	private long humanMemoryUsed;
+	private long humanMemoryFree;
+	private float humanMemoryUsedToMaxRatio;
 	
-	
+
 	static {
 		S_DATE_FORMAT.setTimeZone( TimeZone.getTimeZone("UTC") );
 	}
@@ -38,16 +40,20 @@ public class MemorySnapshotHelper {
 
 	
 	public MemorySnapshotHelper () {
+		
 		Runtime runtime = Runtime.getRuntime();
 		this.date = new Date();
-		this.max = runtime.maxMemory();
-		this.total = runtime.totalMemory();
-		this.free = runtime.freeMemory();
+		
+		this.jvmMemoryMax = runtime.maxMemory();
+		this.jvmMemoryTotal = runtime.totalMemory();
+		this.jvmMemoryFree = runtime.freeMemory();
+		this.jvmMemoryTotalToMaxRatio = (float) ( (double) this.jvmMemoryTotal / (double) this.jvmMemoryMax );
+		
+		this.humanMemoryUsed = this.jvmMemoryTotal - this.jvmMemoryFree ;
+		this.humanMemoryFree = this.jvmMemoryFree + ( this.jvmMemoryMax - this.jvmMemoryTotal );
+		this.humanMemoryUsedToMaxRatio = (float) ( (double) this.humanMemoryUsed / (double) this.jvmMemoryMax );
 		
 		this.formattedDate = S_DATE_FORMAT.format(this.date);
-		this.totalToMaxRatio = (double) this.total / (double) this.max; 
-		this.freePlusMaxMinusTotal = this.free + ( this.max - this.total );
-		
 	}
 	
 	
@@ -57,16 +63,53 @@ public class MemorySnapshotHelper {
 		
 		out = ""
 				+ "memory: { "
-				+ "free: " + ByteSizeHelper.writeHumanReadableByteSize(this.free) + ", "
-				+ "total: " + ByteSizeHelper.writeHumanReadableByteSize(this.total) + ", "
-				+ "max: " + ByteSizeHelper.writeHumanReadableByteSize(this.max) + " "
-				+ "}, memoryStats: { "
-				+ "totalToMaxRatio: " + DEC_FORMAT.format(this.totalToMaxRatio) + ", "
-				+ "freePlusMaxMinusTotal: " + ByteSizeHelper.writeHumanReadableByteSize(this.freePlusMaxMinusTotal) + " "
-				+ "}"
+				+ "date: " + this.formattedDate + ", "
+				+ "jvmMax: " + ByteSizeHelper.writeHumanReadableByteSize(this.jvmMemoryMax) + ", "
+				+ "jvmTotal: " + ByteSizeHelper.writeHumanReadableByteSize(this.jvmMemoryTotal) + ", "
+				+ "jvmFree: " + ByteSizeHelper.writeHumanReadableByteSize(this.jvmMemoryFree) + ", "
+				+ "jvmTotalToMaxRatio: " + DEC_FORMAT.format(this.jvmMemoryTotalToMaxRatio) + ", "
+				+ "humanUsed: " + ByteSizeHelper.writeHumanReadableByteSize(this.humanMemoryUsed) + ", "
+				+ "humanFree: " + ByteSizeHelper.writeHumanReadableByteSize(this.humanMemoryFree) + ", "
+				+ "humanUsedToMaxRatio: " + DEC_FORMAT.format(this.humanMemoryUsedToMaxRatio) + ""
+				+ " }"
 		;
 		
 		return out;
+	}
+
+	
+	public long getJvmMax() {
+		return jvmMemoryMax;
+	}
+
+	
+	public long getJvmTotal() {
+		return jvmMemoryTotal;
+	}
+
+
+	public long getJvmFree() {
+		return jvmMemoryFree;
+	}
+
+
+	public float getJvmTotalToMaxRatio() {
+		return jvmMemoryTotalToMaxRatio;
+	}
+
+
+	public long getHumanUsed() {
+		return humanMemoryUsed;
+	}
+
+
+	public long getHumanFree() {
+		return humanMemoryFree;
+	}
+
+
+	public float getHumanUsedToMaxRatio() {
+		return humanMemoryUsedToMaxRatio;
 	}
 
 
@@ -78,28 +121,9 @@ public class MemorySnapshotHelper {
 		return formattedDate;
 	}
 
-	public long getMax() {
-		return max;
-	}
-
-	public long getTotal() {
-		return total;
-	}
-
-	public long getFree() {
-		return free;
-	}
-
-	public double getTotalToMaxRatio() {
-		return totalToMaxRatio;
-	}
-
-	public long getFreePlusMaxMinusTotal() {
-		return freePlusMaxMinusTotal;
-	}
 	
-	
-	public static ArrayList<Integer> generateArrayForMemoryTest( float minTotalToMaxRatio, long maxFreeMemory) {
+
+	public static ArrayList<Integer> generateArrayForMemoryTest( long maxMemoryHumanFree) {
 
 		System.out.println("Hello from variableSizeArrayTest!");
 		
@@ -123,6 +147,7 @@ public class MemorySnapshotHelper {
 		// execution
 		
 		// first part, fill up to totalToMaxRatio quota
+		/*
 		try {
 			while (msh.getTotalToMaxRatio() < minTotalToMaxRatio) {
 				for (i=0 ; i < maxInt ; i++ ) {
@@ -140,11 +165,12 @@ public class MemorySnapshotHelper {
 			System.err.println("j: " + j + " ; i: " + i + " -- msh: " + msh);
 		}
 		System.out.println("first part, totalToMaxRatio quota reached! -- j: " + j + " ; i:" + i);
+		*/
 
 
 		// second part, fill up to freePlusMaxMinutsTotal quota
 		try {
-			while (msh.getFreePlusMaxMinusTotal() > maxFreeMemory) {
+			while (msh.getHumanFree() > maxMemoryHumanFree) {
 				for (i=0 ; i < maxInt ; i++ ) {
 					intArrayList.add(new Integer(i));
 				}
@@ -163,11 +189,6 @@ public class MemorySnapshotHelper {
 		
 		return intArrayList;
 
-	}
-	
-	
-	public static ArrayList<Integer> generateArrayForMemoryTest() {
-		return generateArrayForMemoryTest(0.85f, 2L*1024L*1024L);
 	}
 	
 }

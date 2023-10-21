@@ -4,6 +4,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 
+import localhost.helper.ThreadHelper;
 import localhost.helper.ThreadRegistryHelper;
 
 public class TG_TMXB {
@@ -21,12 +22,13 @@ public class TG_TMXB {
      * <p>When creating a Thread within a Thread Group, other supporting Threads might be created during execution, so ThreadGroup.activeCount() can be affected by this.
      * <p>In order to better survey the life-cycle of a specific Thread from another one, use of ThreadRegistryHelper is suggested. 
      */
-    public static void principal() {
+    public static void test00Principal() {
     	
     	// begin
     	System.out.println("---- BEGIN ----");
     	String threadName = "targetThread";
     	String threadGroupName = "targetThreadGroup";
+    	String threadRegex = "(?i)^[A-Z]{1,}rgetThre[A-Z]{1,}$";
     	ThreadGroup threadGroup = new ThreadGroup(threadGroupName);
     	Thread thread = new Thread(threadGroup, () -> { targetProcess(); }, threadName);
     	thread.setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
@@ -38,6 +40,8 @@ public class TG_TMXB {
     	threadWatcher(thread);
     	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
     	
 
     	// thread started
@@ -46,6 +50,8 @@ public class TG_TMXB {
     	threadWatcher(thread);
     	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
 
 
     	// thread halfway executed
@@ -58,6 +64,8 @@ public class TG_TMXB {
     	threadWatcher(thread);
     	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
 
     	
     	// thread terminated
@@ -70,6 +78,8 @@ public class TG_TMXB {
     	threadWatcher(thread);
     	threadNameWatcher(threadName);
     	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
     	
     	
     	// end
@@ -129,20 +139,90 @@ public class TG_TMXB {
 			System.out.println("from threadMXBeanWatcher -- threadInfo not found");
 		}
     }
+
     
     
     /**
+     * <p> Same as principal, but with two threads having same name.
      * 
-     * Study this, incorporate it
+     * <p> This test demonstrates that it is possible for two running threads to
+     * have the same name; they are different thus by their ids.
      * 
-     * @param threadName
-     * @return Thread
+     * @author Alberto Romero
+     * @since 2023-10-21
+     * 
      */
-    public static Thread definitionPending( String threadName ) {
-	    for (Thread t : Thread.getAllStackTraces().keySet()) {
-	        if (t.getName().equals(threadName)) return t;
-	    }
-	    return null;
+    public static void test01PrincipalWithTwoThreadsSameName() {
+    	
+    	// begin
+    	System.out.println("---- BEGIN ----");
+    	String threadName = "targetThread";
+    	String threadGroupName = "targetThreadGroup";
+    	String threadRegex = "(?i)^[A-Z]{1,}rgetThre[A-Z]{1,}$";
+    	ThreadGroup threadGroup = new ThreadGroup(threadGroupName);
+    	Thread thread00 = new Thread(threadGroup, () -> { targetProcess(); }, threadName);
+    	Thread thread01 = new Thread(threadGroup, () -> { targetProcess(); }, threadName);
+    	thread00.setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
+    	thread01.setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
+    	
+    	
+    	// thread instantiated, but not started
+    	System.out.println("\n---- TARGET THREAD INSTANTIATED, BUT NOT STARTED ----");
+    	threadWatcher(thread00);
+    	threadWatcher(thread01);
+    	threadNameWatcher(threadName);
+    	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
+    	
+
+    	// thread started
+    	thread00.start();
+    	thread01.start();
+    	System.out.println("\n---- TARGET THREAD STARTED ----");
+    	threadWatcher(thread00);
+    	threadWatcher(thread01);
+    	threadNameWatcher(threadName);
+    	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
+
+
+    	// thread halfway executed
+    	try {
+    		Thread.sleep(2L * 1000L);
+    	} catch (Throwable tw) {
+    		System.err.println("error: " + tw);
+    	}
+    	System.out.println("\n---- TARGET THREAD HALF-WAY EXECUTED ----");
+    	threadWatcher(thread00);
+    	threadWatcher(thread01);
+    	threadNameWatcher(threadName);
+    	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
+
+    	
+    	// thread terminated
+    	try {
+    		thread00.join();
+    		thread01.join();
+    	} catch (Throwable tw) {
+    		System.err.println("error: " + tw);
+    	}
+    	System.out.println("\n---- TARGET THREAD TERMINATED ----");
+    	threadWatcher(thread00);
+    	threadWatcher(thread01);
+    	threadNameWatcher(threadName);
+    	threadMXBeanWatcher(threadName);
+    	ThreadHelper.searchByNameEquals(threadName);
+    	ThreadHelper.searchByNameRegex(threadRegex);
+    	
+    	
+    	// end
+    	System.out.println("\n---- END ----");
     }
+
+
     
 }

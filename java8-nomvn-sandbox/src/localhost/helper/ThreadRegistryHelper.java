@@ -3,6 +3,7 @@ package localhost.helper;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ThreadRegistryHelper {
 
@@ -27,4 +28,9 @@ public class ThreadRegistryHelper {
 	public static void remove(String threadName) {
 		threadMap.remove(threadName);
 	}
+	
+	public static Set<String> keySet () {
+		return threadMap.keySet();
+	}
+
 }

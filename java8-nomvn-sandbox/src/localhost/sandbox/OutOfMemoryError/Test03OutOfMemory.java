@@ -27,7 +27,7 @@ public class Test03OutOfMemory {
 	
 	public static void memoryArrayInCurrentThread () {
 		
-		ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest();
+		ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
 		MemorySnapshotHelper msh = new MemorySnapshotHelper();
 		System.out.println("begin -- msh: " + msh);
 		
@@ -53,7 +53,7 @@ public class Test03OutOfMemory {
 		
         Thread thread = new Thread ( 
         		() -> {
-        			ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest();
+        			ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
         			MemorySnapshotHelper msh = new MemorySnapshotHelper();
         			System.out.println("into thread -- msh: " + msh);
         		}

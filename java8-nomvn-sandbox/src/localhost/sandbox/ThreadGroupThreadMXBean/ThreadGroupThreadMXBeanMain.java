@@ -4,7 +4,8 @@ public class ThreadGroupThreadMXBeanMain {
 
     
     public static void main() {
-    	TG_TMXB.principal();
+    	// TG_TMXB.test00Principal();
+    	TG_TMXB.test01PrincipalWithTwoThreadsSameName();
     }
 
 }
