@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2023-07-29 09:47
+MariaDB binaries install - updated: 2023-10-25 11:20
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -318,5 +318,25 @@ SELECT ('ALBERTO' REGEXP BINARY 'Alberto') AS re ;
 SELECT `name` FROM person p WHERE p.name REGEXP 'alberto' ; 
 
 -- Per documentation, this function changes on v5.8, tests not performed
+
+
+
+
+(15) TEMPORAL, ORDER: time_zone, NOW(), UTC_TIMESTAMP()
+
+SHOW GLOBAL VARIABLES LIKE '%time%zone%' ;
+
+SHOW SESSION VARIABLES LIKE '%time%zone%' ;
+
+SELECT UTC_TIMESTAMP();
+
+SELECT NOW();
+
+SET time_zone = '+00:00';
+
+SET time_zone = 'SYSTEM';
+
+url="jdbc:mysql://localhost:3306/dbname?serverTimezone=UTC"
+
 
 
