@@ -1,7 +1,9 @@
 package localhost.sandbox.JavaLang;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JavaLangMain {
@@ -12,6 +14,20 @@ public class JavaLangMain {
 		
 		
 		
+		List<String> stringList = new ArrayList<>();
+		System.out.println("stringList.getClass(): " + stringList.getClass());
+		stringList.add("hello");
+		
+		if ( stringList.get(0) instanceof String  ) {
+			System.out.println("stringList.get(0) instanceof String : true");
+			System.out.println("stringList.get(0).getClass() : " + stringList.get(0).getClass());
+		}
+		
+		
+		
+		
+		
+		/*
 		long t1 = System.currentTimeMillis() ;
 		try {
 			Thread.sleep(5000);
@@ -23,6 +39,7 @@ public class JavaLangMain {
 		float diffSecs = (float) ( (t2-t1) / 1000.0 ) ;
 		
 		System.out.println("t1:" + t1 + " ; t2: " + t2 + " ; diffSecs: " + diffSecs);
+		*/
 		
 		
 		

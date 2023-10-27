@@ -2,9 +2,9 @@ package localhost.sandbox.String;
 
 import java.util.Base64;
 
-public class Test00RegEx {
+public class Test00StringMatchRegex {
 
-	public static void stringMatchTest01() {
+	public static void test00StringMatch () {
 		System.out.println("Hello from RegExTest!");
 		
 		// 01

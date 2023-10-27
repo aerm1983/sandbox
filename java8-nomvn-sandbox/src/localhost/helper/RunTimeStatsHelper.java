@@ -25,7 +25,9 @@ public class RunTimeStatsHelper {
 	private int initLineNumber;
 	private int endLineNumber;
 	private Float diffTimeSecs = null;
-	private String runTimeStatsRef = null;
+	private String runTimeStatsRefShort = null;
+	private String runTimeStatsRefMedium = null;
+	private String runTimeStatsRefLarge = null;
 	
 	
 	public static void main() {
@@ -33,14 +35,16 @@ public class RunTimeStatsHelper {
 		rtsh.init();
 		
 		try {
-			Thread.sleep(1000L);
+			Thread.sleep(2L * 1000L);
 		} catch (Exception e) {
 			System.err.println("error: " + e);
 		}
 		
 		rtsh.end();
-		System.out.println("runStats --> " + rtsh.getRunTimeStatsRef() + " ; diffTimeSecs: " + rtsh.getDiffTimeSecs());
-		
+		System.out.println("diffTimeSecs: " + rtsh.getDiffTimeSecs());
+		System.out.println("runTimeStatsRefShort --> " + rtsh.getRunTimeStatsRefShort());
+		System.out.println("runTimeStatsRefMedium --> " + rtsh.getRunTimeStatsRefMedium());
+		System.out.println("runTimeStatsRefLarge --> " + rtsh.getRunTimeStatsRefLarge());
 	}
 	
 	
@@ -80,14 +84,16 @@ public class RunTimeStatsHelper {
 	 */
 	public void end() {
 		if (!initialized) {
-			runTimeStatsRef = "error: RunTimeStatsHelper should be initialized first; no action performed";
+			runTimeStatsRefLarge = "error: RunTimeStatsHelper should be initialized first; no action performed";
 		}
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[2]; // [2];
 		endLineNumber = ste.getLineNumber();
 		endTime = new Date();
 		diffTimeSecs = (float) ( (endTime.getTime() - initTime.getTime()) / 1000.00 ) ;
 		SimpleDateFormatHelper sdfh = new SimpleDateFormatHelper();
-		runTimeStatsRef = String.format("runTimeStats: { threadName: %s ; fileName: %s ; className: %s ; methodName: %s ; initLineNumber: %s ; endLineNumber: %s ; initTime: %s ; endTime: %s ; diffTimeSecs: %s }", threadName, fileName, className, methodName, initLineNumber, endLineNumber, sdfh.format(initTime), sdfh.format(endTime), diffTimeSecs);
+		runTimeStatsRefShort = String.format("runTimeStatsRefShort: { initTime: %s ; endTime: %s ; diffTimeSecs: %s }", sdfh.format(initTime), sdfh.format(endTime), diffTimeSecs);
+		runTimeStatsRefMedium = String.format("runTimeStatsRefMedium: { initLineNumber: %s ; endLineNumber: %s ; initTime: %s ; endTime: %s ; diffTimeSecs: %s }", initLineNumber, endLineNumber, sdfh.format(initTime), sdfh.format(endTime), diffTimeSecs);
+		runTimeStatsRefLarge = String.format("runTimeStatsRefLarge: { threadName: %s ; fileName: %s ; className: %s ; methodName: %s ; initLineNumber: %s ; endLineNumber: %s ; initTime: %s ; endTime: %s ; diffTimeSecs: %s }", threadName, fileName, className, methodName, initLineNumber, endLineNumber, sdfh.format(initTime), sdfh.format(endTime), diffTimeSecs);
 	}
 	
 	
@@ -98,9 +104,19 @@ public class RunTimeStatsHelper {
 		return diffTimeSecs;
 	}
 	
-	
-	public String getRunTimeStatsRef() {
-		return runTimeStatsRef;
+
+	public String getRunTimeStatsRefShort() {
+		return runTimeStatsRefShort;
 	}
 
+	
+	public String getRunTimeStatsRefMedium() {
+		return runTimeStatsRefMedium;
+	}
+	
+	
+	public String getRunTimeStatsRefLarge() {
+		return runTimeStatsRefLarge;
+	}
+	
 }

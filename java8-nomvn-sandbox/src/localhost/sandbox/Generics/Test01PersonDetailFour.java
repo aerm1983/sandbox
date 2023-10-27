@@ -5,14 +5,14 @@ package localhost.sandbox.Generics;
  * is not overridden, such Generic Type can be applied only to the method, 
  * not the whole class.
  */
-public class PersonDetailFour {
+public class Test01PersonDetailFour {
 	
 	public String name;
 	public Integer age;
 	public Double height;
 	public Boolean didService;
 	
-	public PersonDetailFour() {
+	public Test01PersonDetailFour() {
 		super();
 	}
 	
@@ -21,8 +21,8 @@ public class PersonDetailFour {
 		return string ;
 	}
 	
-	public <T extends Object> void loadFromPDOne(PersonDetailOne<T> pDOne) {
-		if ( pDOne instanceof PersonDetailOne ) {
+	public <T extends Object> void loadFromPDOne(Test00PersonDetailOne<T> pDOne) {
+		if ( pDOne instanceof Test00PersonDetailOne ) {
 			if ( pDOne.data instanceof String ) {
 				this.name = (String) pDOne.data;
 			} else if ( pDOne.data instanceof Integer) {

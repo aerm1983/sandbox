@@ -12,7 +12,8 @@ public class StringMain {
 		System.out.println("Hello from StringMain!");
 		// other();
 		// Test00RegEx.stringMatchTest01();
-		Test01StringFormat.stringFormat();
+		// Test01StringFormat.stringFormat();
+		Test02RegexFindGroup.test00RegexFindGroup();
 	}
 	
 	public static void other() {

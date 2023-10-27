@@ -11,6 +11,7 @@ import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
+import localhost.sandbox.Generics.GenericsMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
 import localhost.sandbox.JavaLang.JavaLangMain;
@@ -19,6 +20,7 @@ import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
 import localhost.sandbox.Process.ProcessMain;
 import localhost.sandbox.Stream.StreamMain;
 import localhost.sandbox.String.StringMain;
+import localhost.sandbox.Thread.ThreadMain;
 import localhost.sandbox.ThreadExecutors.ExecutorsMain;
 import localhost.sandbox.ThreadGroupThreadMXBean.ThreadGroupThreadMXBeanMain;
 import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.AtomicMain;
@@ -30,7 +32,7 @@ public class SandboxMain {
 	public static void main(String[] args) {
 	
 		// JavaLangMain.main();
-		// StringMain.main();
+		StringMain.main();
 		// InheritancePolymorphismMain.main();
 		// SystemPropertiesMain.main();
 		// PropertiesMain.main();
@@ -57,8 +59,10 @@ public class SandboxMain {
 		// LogHelper.main();
 		// DatabaseEncryptionMain.main();
 		// ThreadHelper.main();
-		RunTimeStatsHelper.main();
-		SimpleDateFormatHelper.main();
+		// RunTimeStatsHelper.main();
+		// SimpleDateFormatHelper.main();
+		// ThreadMain.main();
+		// GenericsMain.main();
 
 	}
 }
