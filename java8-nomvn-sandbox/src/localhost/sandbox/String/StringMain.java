@@ -10,14 +10,25 @@ public class StringMain {
 
 	public static void main() {
 		System.out.println("Hello from StringMain!");
-		// other();
+		other();
 		// Test00RegEx.stringMatchTest01();
 		// Test01StringFormat.stringFormat();
-		Test02RegexFindGroup.test00RegexFindGroup();
+		// Test02RegexFindGroup.test00RegexFindGroup();
 	}
 	
 	public static void other() {
 		
+		String s0 = "ebay_stock_do-commerce_test_p_a_0_20231026_1200.csv";
+		
+		String s1 = s0.split("_")[0];
+		
+		System.out.println("s1: " + s1);
+		
+		
+		
+		
+		
+		/*
 		String str = "ABCDEFGHIJ";
 		System.out.println("str: " + str);
 		int size = 3 ;
@@ -25,6 +36,7 @@ public class StringMain {
 			str = str.substring(0, str.length()-1);
 			System.out.println("str: " + str);
 		}
+		*/
 		
 		
 		/*
