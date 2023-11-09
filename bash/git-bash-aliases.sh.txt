@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-10-15 07:19'
+__ALIAS_LAST_UPDATE__='2023-11-08 21:13'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -38,6 +38,7 @@ __JH_XMS_DEFAULT__=${__JH_XMS__}
 __JH_XMX_DEFAULT__=${__JH_XMX__}
 
 __KH_KUBE_HOME__=${HOME}'/Desktop/dm-git-aux/kubeconfig'
+__ECLIPSE_HOME__='/d/opt/eclipse/eclipse-java-2022.12.R'
 
 
 
@@ -705,8 +706,26 @@ if [ ${__kernel_is_windows__} -eq '0'  ]; then
     alias s='echo "--> start"; sleep ${__ALIAS_TIMEOUT__}; start'
     alias python='winpty python'
     alias ipython='winpty ipython'
-    function _npp { notepad++ ${*} & disown ${!} ; }
+    function _npp {
+        echo 'notepad++ launcher -- begin...'
+        notepad++ ${*} & 
+        disown ${!} 
+        echo 'notepad++ launcher -- done!'
+    }
     alias npp='_npp'
+    function _ecl {
+        echo 'eclipse launcher -- begin...'
+        echo '__ECLIPSE_HOME__: '${__ECLIPSE_HOME__}
+        __pwd=$( pwd ) 
+        # cd /d/opt/eclipse/eclipse-java-2022.12.R 
+        command cd ${__ECLIPSE_HOME__}
+        ./eclipse & 
+        disown ${!}
+        command cd ${__pwd}
+        unset __pwd
+        echo 'eclipse launcher -- done!'
+    }
+    alias ecl='_ecl'
 fi
 
 unset __kernel_is_windows__
