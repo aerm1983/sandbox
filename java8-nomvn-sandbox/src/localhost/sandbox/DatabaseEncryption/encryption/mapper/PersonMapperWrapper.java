@@ -42,6 +42,7 @@ public class PersonMapperWrapper implements PersonMapperInterface {
 	public int insert (PersonModel person) {
 		PersonModel toDbEncryptedPerson = ef.encryptObject(person);
 		Integer insertInt = pm.insert(toDbEncryptedPerson);
+		person.setId(toDbEncryptedPerson.getId()); // id from db
 		return insertInt;
 	}
 	

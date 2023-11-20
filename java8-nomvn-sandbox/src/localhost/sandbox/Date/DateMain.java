@@ -6,7 +6,7 @@ public class DateMain {
 		
 		System.out.println("Hello from Date Main!");
 		
-		// SimpleDateFormatTest.timeZoneTest();
+		SimpleDateFormatTest.timeZoneTest();
 		// SimpleDateFormatTest.simpleDateFormatTest();
 		
 		
@@ -21,7 +21,7 @@ public class DateMain {
 		// ChronoUnitSupportTest.chronoUnitSupportTest();
 
 		
-		TimeZonePatternTest.main();
+		// TimeZonePatternTest.main();
 		
 		
 	}

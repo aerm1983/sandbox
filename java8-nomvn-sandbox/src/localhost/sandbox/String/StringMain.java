@@ -18,11 +18,19 @@ public class StringMain {
 	
 	public static void other() {
 		
+		String small = "abc";
+		String large = "abcdefghi";
+		
+		boolean startEqual = small.equals(large.substring(0, small.length()));
+		System.out.println("startEqual: " + startEqual);
+		
+		
+		
+		/*
 		String s0 = "ebay_stock_do-commerce_test_p_a_0_20231026_1200.csv";
-		
 		String s1 = s0.split("_")[0];
-		
 		System.out.println("s1: " + s1);
+		*/
 		
 		
 		
