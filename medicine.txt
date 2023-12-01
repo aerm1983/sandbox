@@ -8,7 +8,7 @@ Cold:
 
 Oxolamina 10mg/50ml, cough syrup, 3 times a day, 150ml @ 5 usd 
 
-ciprofloxacina 500mg, antibiotic, two per day during 1 week, 10 tabs @ 5 usd
+# ciprofloxacina 500mg, antibiotic, two per day during 1 week, 10 tabs @ 5 usd
 
 azitromicina 500mg, antibiotic, one per day during 4 days, 5 tabs @ 5 usd
 
@@ -37,3 +37,10 @@ Melatonina 5mg, before sleeping, 90 tabs @ 11 usd
 Mood:
 
 Risperidona, 0.75mg (3mg/4), daily
+
+
+
+Allergy (nose, eyes):
+
+Loratadina 10mg, two per day
+
