@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2023-10-17 06:41'
+__JH_WMP_UPDATED__='2023-12-01 11:15'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -52,6 +52,7 @@ function _jh_start_platform {
         _jh_start_service marketplaceamazon
         _jh_start_service marketplacemakro
         # _jh_start_service marketplacealiexpress
+        # _jh_start_service marketplaceprestashop
         
         _jh_start_service productmanagement
         _jh_start_service ordermanagement
@@ -60,6 +61,7 @@ function _jh_start_platform {
         # _jh_start_service merchantlogisfashion
         # _jh_start_service carrierseur
         # _jh_start_service carriertipsa
+        # _jh_start_service carriercorreosexpress
 
         _jh_start_service template-generator
         _jh_start_service mailing
@@ -97,6 +99,7 @@ function _jh_remove_logs_platform {
     command rm -v marketplaceamazon*.jar.log
     command rm -v marketplacemakro*.jar.log
     command rm -v marketplacealiexpress*.jar.log
+    command rm -v marketplaceprestashop*.jar.log
 
     command rm -v productmanagement*.jar.log
     command rm -v ordermanagement*.jar.log
@@ -105,6 +108,7 @@ function _jh_remove_logs_platform {
     command rm -v merchantlogisfashion*.jar.log
     command rm -v carrierseur*.jar.log
     command rm -v carriertipsa*.jar.log
+    command rm -v carriercorreosexpress*.jar.log
 
     command rm -v mailing*.jar.log
     command rm -v template-generator*.jar.log
@@ -149,6 +153,7 @@ function _jh_truncate_logs_platform {
     command echo -n '' > marketplaceamazon*.jar.log
     command echo -n '' > marketplacemakro*.jar.log
     command echo -n '' > marketplacealiexpress*.jar.log
+    command echo -n '' > marketplaceprestashop*.jar.log
     
     command echo -n '' > productmanagement*.jar.log
     command echo -n '' > ordermanagement*.jar.log
@@ -157,6 +162,7 @@ function _jh_truncate_logs_platform {
     command echo -n '' > merchantlogisfashion*.jar.log
     command echo -n '' > carrierseur*.jar.log
     command echo -n '' > carriertipsa*.jar.log
+    command echo -n '' > carriercorreosexpress*.jar.log
 
     command echo -n '' > mailing*.jar.log
     command echo -n '' > template-generator*.jar.log
@@ -192,6 +198,7 @@ function _jh_kill_platform {
     
     _jh_kill_service carrierseur
     _jh_kill_service carriertipsa
+    _jh_kill_service carriercorreosexpress
     _jh_kill_service merchantlogisfashion
 
     _jh_kill_service bulkfileprocessor
@@ -204,6 +211,7 @@ function _jh_kill_platform {
     _jh_kill_service marketplaceamazon
     _jh_kill_service marketplacemakro
     _jh_kill_service marketplacealiexpress
+    _jh_kill_service marketplaceprestashop
     
     _jh_kill_service mappingmanagement
     _jh_kill_service usermanagement
@@ -263,6 +271,10 @@ function _jh_start_service {
     then
         __JH_XMX__='192m'
 
+    elif [ ${1} = 'marketplaceprestashop' ]
+    then
+        __JH_XMX__='192m'
+
     elif [ ${1} = 'productmanagement' ]
     then
         : __JH_XMX__='256m'
@@ -290,7 +302,11 @@ function _jh_start_service {
     elif [ ${1} = 'carriertipsa' ]
     then
         __JH_XMX__='128m'
-        
+
+    elif [ ${1} = 'carriercorreosexpress' ]
+    then
+        __JH_XMX__='128m'
+
     elif [ ${1} = 'ui' ]
     then
         __JH_XMX__='192m'
@@ -405,6 +421,7 @@ function _jh_backup_alberto_platform {
     _jh_backup_alberto_service marketplaceamazon
     _jh_backup_alberto_service marketplacemakro
     _jh_backup_alberto_service marketplacealiexpress
+    _jh_backup_alberto_service marketplaceprestashop
     
     _jh_backup_alberto_service productmanagement
     _jh_backup_alberto_service ordermanagement
@@ -413,6 +430,7 @@ function _jh_backup_alberto_platform {
     _jh_backup_alberto_service merchantlogisfashion
     _jh_backup_alberto_service carrierseur
     _jh_backup_alberto_service carriertipsa
+    _jh_backup_alberto_service carriercorreosexpress
 
     _jh_backup_alberto_service mailing
     _jh_backup_alberto_service template-generator
@@ -461,6 +479,7 @@ function _jh_restore_alberto_platform {
     _jh_restore_alberto_service marketplaceamazon
     _jh_restore_alberto_service marketplacemakro
     _jh_restore_alberto_service marketplacealiexpress
+    _jh_restore_alberto_service marketplaceprestashop
 
     _jh_restore_alberto_service productmanagement
     _jh_restore_alberto_service ordermanagement
@@ -469,6 +488,7 @@ function _jh_restore_alberto_platform {
     _jh_restore_alberto_service merchantlogisfashion
     _jh_restore_alberto_service carrierseur
     _jh_restore_alberto_service carriertipsa
+    _jh_restore_alberto_service carriercorreosexpress
 
     _jh_restore_alberto_service mailing
     _jh_restore_alberto_service template-generator
@@ -504,6 +524,7 @@ function _jh_clean_restore_dir_alberto_platform {
     _jh_clean_restore_dir_alberto_service marketplaceamazon
     _jh_clean_restore_dir_alberto_service marketplacemakro
     _jh_clean_restore_dir_alberto_service marketplacealiexpress
+    _jh_clean_restore_dir_alberto_service marketplaceprestashop
 
     _jh_clean_restore_dir_alberto_service productmanagement
     _jh_clean_restore_dir_alberto_service ordermanagement
@@ -512,6 +533,7 @@ function _jh_clean_restore_dir_alberto_platform {
     _jh_clean_restore_dir_alberto_service merchantlogisfashion
     _jh_clean_restore_dir_alberto_service carrierseur
     _jh_clean_restore_dir_alberto_service carriertipsa
+    _jh_clean_restore_dir_alberto_service carriercorreosexpress
 
     _jh_clean_restore_dir_alberto_service mailing
     _jh_clean_restore_dir_alberto_service template-generator

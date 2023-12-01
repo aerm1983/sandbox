@@ -1,4 +1,4 @@
-# BHS -- updated: 2023-10-17 06:33
+# BHS -- updated: 2023-12-01 12:15
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
 apt-cache:  Search regex in packages name/description, according to local information.  Depends on last 'apt update' executed.  See also: apt, apt-file, dpkg, dpkg-query.  Options:  --names-only discard other fields regarding search pattern.  Example:  apt-cache search --names-only 'aptitude'
@@ -80,6 +80,7 @@ ln:  Create link.  By default, hard link.  Option -s to create soft link.  Caref
 lsblk:  List block devices, label can be displayed.  See also: 'mount', 'umount', 'parted'.  Options:  -O show all fields/columns.  Examples:  lsblk  ;  lsblk -O | less -M -S  ;  
 lspci:  List devices associated to motherboard (usb, video, sound, wifi, lan), with brand and description.
 m:
+markdown:  Markdown reminder.  Options:  *bold*  ;  _italicize_  ;  ~strike-through~  ;  `inline-code-block`  ;  ```multiline-code-block```  ;  
 minikube:  Manage Kubernetes single cluster for local development.  Actions help, status, delete, stop, start, start --driver=docker,  config set driver docker.  Examples:  minikube status  ;  minikube config set driver docker  ;  
 mount:  Without params lists mounted points and info. With params mount points or devices.  See also: 'umount', 'lsblk', 'mountvol' (windows).  Examples:  mount ; mount -o 'remount,rw' /dev/sda2
 mountvol:  Windows command, equivalent to Unix 'mount'.  With no args, shows help and lists volumes available, mounted and not mounted.  See also: cmd.exe.  Options:  /P unmount.  /E enable automatic mountig of new volumes.  Examples:  cmd.exe /C 'mountvol'  ;  cmd.exe /C 'mountvol F:\ /P' # unmount F drive  ;  cmd.exe /C 'mountvol F:\ \\?\Volume{96d242db-1b4f-11ed-ab66-d8cb8a835833}\' # mount specified volume as F drive  ;  cmd.exe /C 'mountvol /E' # enable automatic mounting of new volumes  ;  
