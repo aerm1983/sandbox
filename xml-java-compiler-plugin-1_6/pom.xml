@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example</groupId>
+	<artifactId>xjc-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>xml java compiler v1.6 example</name>
+	<description>xml java compiler v1.6 maven plugin example</description>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source><!-- maven -->
+		<maven.compiler.target>1.8</maven.compiler.target><!-- maven -->
+		<java.version>1.8</java.version><!-- springboot -->
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>1.6</version>
+				<!-- <version>2.5</version> --> 
+				<executions>
+					<execution>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- 
+						folder containing source xsd files (choose one), begin 
+					-->
+					<schemaDirectory>${project.basedir}/src/main/xsd_00_employee_small_example/</schemaDirectory>
+					<!-- <schemaDirectory>${project.basedir}/src/main/xsd_01_amzn_min/</schemaDirectory> -->
+					<!-- <schemaDirectory>${project.basedir}/src/main/xsd_02_amzn_other/</schemaDirectory> -->
+					<!-- 
+						folder containing source xsd files (choose one), end 
+					-->
+					<!-- <schemaFiles>AutoAccessory.xsd</schemaFiles> --><!-- comment this line to process all files in folder -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,29 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Employee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="empId" type="xs:long"/>
+				<xs:element name="lastName" type="xs:string"/>
+				<xs:element name="title" type="xs:string"/>
+				<xs:element name="salary" type="xs:integer"/>
+				<xs:element name="address">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="city" type="xs:string"/>
+							<xs:element name="street" type="xs:string"/>
+							<xs:element name="zipcode" type="xs:integer"/>
+							<xs:element name="privatePhoneNo">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="privateMobile" type="xs:string"/>
+										<xs:element name="privateLandline" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -9,9 +9,9 @@
 	<description>OpenCsv sandbox</description>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>8</maven.compiler.source><!-- maven -->
+		<maven.compiler.target>1.8</maven.compiler.target><!-- maven -->
+		<java.version>1.8</java.version><!-- springboot -->
 	</properties>
 
 	<dependencies>
