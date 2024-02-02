@@ -1,4 +1,4 @@
-package localhost.sandbox.JavaLang;
+package localhost.sandbox.JavaLang.ScratchPad;
 
 public class PersonDetail {
 	

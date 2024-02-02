@@ -1,4 +1,4 @@
-package localhost.sandbox.JavaLang;
+package localhost.sandbox.JavaLang.ScratchPad;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class JavaLangMain {
+public class JavaLangScratchPadMain {
 
 	public static void main() {
 		
-		System.out.println("Hello from JavaLangMain!");
+		System.out.println("Hello from JavaLangScratchPadMain!");
 		
 		
 		

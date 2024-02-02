@@ -2,6 +2,7 @@ package localhost.sandbox;
 
 import localhost.helper.CipherAesCbcPkcs5Helper;
 import localhost.helper.CipherAesEcbPkcs5Helper;
+import localhost.helper.FileHelper;
 import localhost.helper.LogHelper;
 import localhost.helper.MemorySnapshotHelper;
 import localhost.helper.ObjectCopyHelper;
@@ -11,10 +12,11 @@ import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
+import localhost.sandbox.File.FileMain;
 import localhost.sandbox.Generics.GenericsMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
-import localhost.sandbox.JavaLang.JavaLangMain;
+import localhost.sandbox.JavaLang.ScratchPad.JavaLangScratchPadMain;
 import localhost.sandbox.Observable.ObservableMain;
 import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
 import localhost.sandbox.Process.ProcessMain;
@@ -59,10 +61,12 @@ public class SandboxMain {
 		// LogHelper.main();
 		// DatabaseEncryptionMain.main();
 		// ThreadHelper.main();
-		RunTimeStatsHelper.main();
+		// RunTimeStatsHelper.main();
 		// SimpleDateFormatHelper.main();
 		// ThreadMain.main();
 		// GenericsMain.main();
+		// FileMain.main();
+		FileHelper.main();
 
 	}
 }

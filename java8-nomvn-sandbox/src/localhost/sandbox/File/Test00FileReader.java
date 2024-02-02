@@ -1,4 +1,4 @@
-package localhost.sandbox.FileReader;
+package localhost.sandbox.File;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,9 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileReaderMain {
+public class Test00FileReader {
 
-	public static void main() { 
+	public static void simpleReadfile() { 
 		
 		Path fileSourcePath = Paths.get("tmp/numbers.txt");
 		

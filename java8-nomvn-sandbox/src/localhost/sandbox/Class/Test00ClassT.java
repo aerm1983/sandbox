@@ -1,9 +1,9 @@
-package localhost.sandbox.Generics;
+package localhost.sandbox.Class;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test03ClassT {
+public class Test00ClassT {
 
 	static public void checkClass() {
 		
