@@ -12,6 +12,8 @@ import java.util.Date;
 
 public class FileHelper {
 
+	private static boolean enabled = false;
+
 	private static String filePath;
 
 	private static boolean initialized = false;
@@ -21,16 +23,17 @@ public class FileHelper {
 
 	public static void main() {
 		System.out.println("FileHelper example -- Begin");
-		FileHelper.init("./tmp/FileHelperOut.txt", true);
+		FileHelper.init(true, "./tmp/FileHelperOut.txt", true);
 		FileHelper.appendToFile("Line added from FileHelper.main() on " + new Date() + "!!!");
 		System.out.println("check '" + filePath + "'");
 	}
 
 
-	public static void init(String inFilePath, boolean truncate) {
-		filePath = inFilePath;
-		initialized = true;
-		if (truncate) {
+	public static void init(boolean enabled, String filePath, boolean truncate) {
+		FileHelper.enabled = enabled;
+		FileHelper.filePath = filePath;
+		FileHelper.initialized = true;
+		if (enabled && truncate) {
 			writeToFile("");
 		}
 		
@@ -44,7 +47,16 @@ public class FileHelper {
 
 
 
+	public static boolean isEnabled() {
+		return enabled;
+	}
+
+
+
     public static Integer countLinesInFile() {
+		if (!enabled) {
+			return null;
+		}
 		if (!initialized) {
 			System.err.println(notInitializedErrorMessage);
 			return null;
@@ -66,6 +78,9 @@ public class FileHelper {
 
 
     public static Long getFileSizeV1() {
+		if (!enabled) {
+			return null;
+		}
 		if (!initialized) {
 			System.err.println(notInitializedErrorMessage);
 			return null;
@@ -84,6 +99,9 @@ public class FileHelper {
 
 
     public static Long getFileSizeV2() {
+		if (!enabled) {
+			return null;
+		}
 		if (!initialized) {
 			System.err.println(notInitializedErrorMessage);
 			return null;
@@ -103,6 +121,9 @@ public class FileHelper {
 
 
 	public static void writeToFile(String content) {
+		if (!enabled) {
+			return;
+		}
 		if (!initialized) {
 			System.err.println(notInitializedErrorMessage);
 			return;
@@ -119,6 +140,9 @@ public class FileHelper {
 
 
     public static void appendToFile(String content) {
+		if (!enabled) {
+			return;
+		}
     	if (!initialized) {
 			System.err.println(notInitializedErrorMessage);
 			return;

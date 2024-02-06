@@ -26,20 +26,39 @@
 				<configuration>
 
 					<!-- Set the package of the generated code (only one "packageName" element allowed) -->
-					<packageName>com.example.myschema</packageName>
+					<!-- <packageName>com.example.myschema</packageName> -->
 					<!-- <packageName>com.example.other</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.amzn_base</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.autoaccessory</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.ce</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.tiresandwheels</packageName> -->
+					<packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.clothing</packageName>
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.jewelry</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.largeappliances</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.luggage</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.shoes</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.XjcGeneratedV2_1</packageName> -->
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.z_all_error</packageName> -->
 
-					<!-- Indicate that we should use DTD input instead of XSDs -->
+					<!-- If DTD instead of XSDs, enable this element -->
 					<!-- <sourceType>dtd</sourceType> -->
 
 					<sources>
 						<!-- 
 							folder containing source xsd files (several "source" elements are allowed) 
 						-->
-						<source>${project.basedir}/src/main/xsd_00_employee_small_example</source>
-						<!-- <source>${project.basedir}/src/main/xsd_01_amzn_min/</source> -->
-						<!-- <source>${project.basedir}/src/main/xsd_02_amzn_other/</source> -->
-
+						<!-- <source>${project.basedir}/src/main/xsd_00_employee_small_example</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/amzn_base/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/AutoAccessory/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/CE/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/TiresAndWheels/</source> -->
+						<source>${project.basedir}/src/main/xsd_01_amzn/Clothing/</source>
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Jewelry/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/LargeAppliances/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Luggage/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Shoes/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/z_Product_All_Adjusted_1/</source> -->
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/z_All_Error/</source> -->
 					</sources>
 
 				</configuration>
