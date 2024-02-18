@@ -12,7 +12,7 @@
 #    - linux: '~/.bashrc'.
 #    - windows git-bash: '/etc/profile.d/aliases'.
 # Source hook (edit as convenient):
-#    _srcfile='/c/Users/alber/.git-bash-aliases' ; if [ -e ${_srcfile} ] ; then ; command source ${_srcfile} ; echo $( h_greeting ) ; __jh_set_java_version 8 ; fi ; command unset _srcfile ; command cd ~/Desktop ;
+#    __BH_SRC_FILE__='/c/Users/alber/.git-bash-aliases' ; if [ -e ${__BH_SRC_FILE__} ] ; then ; command source ${__BH_SRC_FILE__} ; echo $( __bh_h_greeting ) ; __jh_set_java_version 8 ; fi ; command unset __BH_SRC_FILE__ ; command cd ~/Desktop ;
 #
 # REMINDERS:
 #    - Script 'update.*' in this folder helps for fast improvement / deployment.
@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2023-11-08 21:13'
+__ALIAS_LAST_UPDATE__='2024-02-18 13:30'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -71,21 +71,21 @@ alias e='exit'
 alias z='command'
 alias l='echo "$(ls -a --color=always)"'
 alias ll='ls -lah --color=always'
-function _cd { if [ -z ${1} ] ; then return ; else command cd ${1} ; ls ; fi ; }
-alias cd='_cd'
+function __bh_cd { if [ -z ${1} ] ; then return ; else command cd ${1} ; ls ; fi ; }
+alias cd='__bh_cd'
 alias cp='cp -v'
 alias cpr='cp -vr'
 alias mv='mv -v'
 alias mkdir='mkdir -pv'
 alias rm='rm -v'
-function _rm_r { echo '--> rm -vfR '"${@}" ; sleep ${__ALIAS_TIMEOUT__} ; command rm -vfR "${@}" ; echo ; ll ; }
-alias rmr='_rm_r'
+function __bh_rmr { echo '--> rm -vfR '"${@}" ; sleep ${__ALIAS_TIMEOUT__} ; command rm -vfR "${@}" ; echo ; ll ; }
+alias rmr='__bh_rmr'
 alias tf='tail -f'
-alias t='_t'
-alias h='_h'
-alias hi='_h_index'
-function _c_a_c { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
-alias c='_c_a_c'
+alias t='__bh_t'
+alias h='__bh_h'
+alias hi='__bh_h_index'
+function __bh_cac { if [ -z "${1}" ] ; then clear ; else echo | awk '{ print '"${*}"' }' ; fi ; }
+alias c='__bh_cac'
 alias jb='jobs'
 alias k1='kill %1'
 alias k2='kill %2'
@@ -93,12 +93,12 @@ alias k3='kill %3'
 alias k4='kill %4'
 alias k5='kill %5'
 alias k6='kill %6'
-alias u='. ${HOME}/.git-bash-aliases ; h_greeting ; h ;'
+alias u='. ${HOME}/.git-bash-aliases ; __bh_h_greeting ; __bh_h ;'
 
 # testing:
 alias lg='ls -a --color=always | grep'
 alias llg='ls -la --color=always | grep'
-function clg { cd $( ls | grep --color=never $1 ) ; }
+function __bh_clg { cd $( ls | grep --color=never $1 ) ; }
 
 # frequently used directories (two variants: user, script)
 alias cdk='cd ~/Desktop'
@@ -133,8 +133,8 @@ alias snc='sed -E '\''{ s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g }'\'
 alias sinl='sed -E '\''{ s/(.)$/\1\n/g }'\'
 alias cn='cat -n'
 alias cnsc='cat -n | sed -E '\''s/^[ \t]+([0-9]+)[ \t]+/'$(echo -e -n $BLUE)'\1'$(echo -e -n $NOCOLOR)' /'\'
-function _grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
-alias gsurf='_grep_sed_uniq_rf '
+function __bh_grep_sed_uniq_rf { grep --color=never -r ${1} ./ | sed -E '{ s/^([^:]+):.+$/\1/ }' | uniq ; }
+alias gsurf='__bh_grep_sed_uniq_rf '
 
 
 
@@ -149,7 +149,7 @@ alias date.sql='date +'\''%Y-%m-%d %H:%M:%S'\'
 # -----------------------------------------------------------
 # General aliases - fast command/function/variable reference
 # -----------------------------------------------------------
-function _t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
+function __bh_t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type' ${1} ; type ${1} ; }
 
 
 
@@ -157,7 +157,7 @@ function _t { echo '--> declare -p' ${1} ; declare -p ${1} ; echo -e '\n--> type
 # General aliases - functions, helpers
 # ---------------------------------------------------
 
-function _bhs_line_expand {
+function __bhs_line_expand {
 
     command cat - \
     | command sed -E '{ s/(^[^:]+:)/\n\1\n/g }' \
@@ -166,14 +166,14 @@ function _bhs_line_expand {
 
 }
 
-function _bhs_line_index {
+function __bhs_line_index {
 
     command cat -n \
     | command sed -E '{ s/^([^:]+):(.*)$/\1/g }'
 
 }
 
-function _h { 
+function __bh_h { 
 
     if [ ! -e ${__BHS_FILE__} ] 
     then
@@ -181,18 +181,18 @@ function _h {
         return 1
     fi
 
-    h_greeting
+    __bh_h_greeting
     command head -1 ${__BHS_FILE__}
 
     if [ -z $1 ]
     then
         echo 'arg ${1} empty'
     else
-        command grep --color=always -P '^'${1}':' ${__BHS_FILE__} | _bhs_line_expand
+        command grep --color=always -P '^'${1}':' ${__BHS_FILE__} | __bhs_line_expand
     fi
 }
 
-function _h_index { 
+function __bh_h_index { 
 
     if [ ! -e ${__BHS_FILE__} ] 
     then
@@ -200,9 +200,9 @@ function _h_index {
         return 1
     fi
 
-    _s=$(h_greeting)'\n'
+    _s=$(__bh_h_greeting)'\n'
     _s=${_s}$(command head -1 ${__BHS_FILE__})'\n'
-    _s=${_s}"$(command grep --color=never -P '^[0-9A-Za-z]{2,}:' ${__BHS_FILE__} | _bhs_line_index)"
+    _s=${_s}"$(command grep --color=never -P '^[0-9A-Za-z]{2,}:' ${__BHS_FILE__} | __bhs_line_index)"
     command less -f <( echo -e "${_s}" )
     
     unset _s
@@ -217,7 +217,7 @@ function print_fn {
 function h_last_update { 
     echo ${__ALIAS_LAST_UPDATE__} ; 
 }
-function h_greeting { 
+function __bh_h_greeting { 
     echo '# GBA -- updated: '${__ALIAS_LAST_UPDATE__} ; 
 }
 
@@ -301,7 +301,7 @@ alias sj17='__set_java_version 17'
 
 
 
-function _t_k { 
+function __jh_tk { 
     if [ -z ${1} ]
     then 
         if [ -e ./target/*jar ] ; then 
@@ -330,11 +330,11 @@ function _t_k {
     unset _pid _s _n
 } 
 
-alias tk='_t_k'
+alias tk='__jh_tk'
 
 
 
-function _j_j { 
+function __jh_jj { 
 
     if [ -z ${1} ]
     then 
@@ -358,11 +358,11 @@ function _j_j {
         echo 'file ./target/*jar must exist'
     fi
 }
-alias jj='_j_j'
+alias jj='__jh_jj'
 
 
 
-function _j_j_r { 
+function __jh_jjr { 
 
     if [ -z ${1} ]
     then 
@@ -392,11 +392,11 @@ function _j_j_r {
         echo 'file ./target/*jar must exist'
     fi
 }
-alias jjr='_j_j_r'
+alias jjr='__jh_jjr'
 
 
 
-function _jjrg {
+function __jh_jjrg {
 
     echo 'arg search, ${1}: '\'"${1}"\'
     
@@ -417,12 +417,12 @@ function _jjrg {
     fi
     return ${__grc__}
 }
-alias jjrg='_jjrg'
-alias jjrgts='_jjrg '\''tomcat started'\'
+alias jjrg='__jh_jjrg'
+alias jjrgts='__jh_jjrg '\''tomcat started'\'
 
 
 
-function _j_l { 
+function __jh_jl { 
 
     # all java processes
     jps -l
@@ -453,11 +453,11 @@ function _j_l {
     fi
 }
 
-alias jl='_j_l'
+alias jl='__jh_jl'
 
 
 
-function _g {
+function __grh_g {
 
 if [ -e ./gradlew ] ; then
     echo '--> ./gradlew '${*}
@@ -469,7 +469,7 @@ fi
 
 }
 
-alias g='_g'
+alias g='__grh_g'
 
 
 
@@ -546,18 +546,18 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 # alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
 # previously requires: git config --system color.status always ; git config --system color.branch always ; 
 # check configurations: git config --list | grep color ;
-function _gs { echo '--> *git status' ; git status ; echo ; git log --graph --decorate --color -1 ; echo -e '\n--> git stash list' ; git stash list ; }
-alias gs='_gs'
+function __gh_gs { echo '--> *git status' ; git status ; echo ; git log --graph --decorate --color -1 ; echo -e '\n--> git stash list' ; git stash list ; }
+alias gs='__gh_gs'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
 alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
 alias gl1='echo "--> git log --graph --decorate -1"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --graph --decorate -1'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
-function _gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
-alias gb='_gb'
+function __gh_gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
+alias gb='__gh_gb'
 
-function _gbd {
+function __gh_gbd {
     echo '--> git branch -D <local-branches> -- ${@}: '"${@}"' -- (cancel: ctrl + c)'
     if [ ! -z "${1}" ] ; then
         git branch -D "${@}"
@@ -572,10 +572,10 @@ function _gbd {
         fi
     fi
 }
-alias gbd='_gbd'
+alias gbd='__gh_gbd'
 
 alias gco='echo "--> *git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit'
-function _gcm { 
+function __gh_gcm { 
     echo '--> git commit, fast message helper -- ${1}: '\'"${1}"\'' -- (cancel: ctrl + c)'
     echo
     # commit action depending on ${1}
@@ -596,10 +596,10 @@ function _gcm {
     echo
     echo 'done!'
 }
-alias gcm='_gcm'
+alias gcm='__gh_gcm'
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 
-function _gch {
+function __gh_gch {
     echo "--> *git checkout # regex helper"
     sleep ${__ALIAS_TIMEOUT__}
     _n=$( git branch --color=never | tr '*' ' ' | grep -P -i -c "${1}" )
@@ -610,12 +610,12 @@ function _gch {
         git branch --color=never | tr '*' ' ' | grep -P -i --color=always "${1}"
     fi
 }
-alias gch='_gch'
+alias gch='__gh_gch'
 
-function _ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
-alias ga='_ga'
-function _gra { echo '--> *git restore --staged' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git restore --staged "${@}" ; echo ; gs ; }
-alias gra='_gra'
+function __gh_ga { echo '--> git add' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git add "${@}" ; echo ; gs ; } 
+alias ga='__gh_ga'
+function __gh_gra { echo '--> *git restore --staged' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git restore --staged "${@}" ; echo ; gs ; }
+alias gra='__gh_gra'
 alias gd='echo "--> *git diff"; sleep ${__ALIAS_TIMEOUT__}; git diff'
 alias gdc='echo "--> *git diff --cached"; sleep ${__ALIAS_TIMEOUT__}; git diff --cached'
 alias gro='echo "--> *git restore --source "; sleep ${__ALIAS_TIMEOUT__}; git restore --source'
@@ -625,8 +625,8 @@ alias gms='echo "--> *git merge --squash" ; sleep ${__ALIAS_TIMEOUT__} ; git mer
 # alias gri='echo "--> *git rebase --interactive" ; sleep ${__ALIAS_TIMEOUT__} ; git rebase --interactive' # deprecated
 alias grs='echo "--> *git reset --soft" ; sleep ${__ALIAS_TIMEOUT__} ; git reset --soft'
 
-function _gf { echo '--> git fetch' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git fetch "${@}" ; echo ; gs ; } 
-alias gf='_gf'
+function __gh_gf { echo '--> git fetch' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git fetch "${@}" ; echo ; gs ; } 
+alias gf='__gh_gf'
 # alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
 
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
@@ -819,7 +819,7 @@ alias kks='_kks'
 
 
 
-function _kkp {
+function __kh_kkp {
     # kubectl variables
     echo 'kubectl print variables'
     echo '__KH_KUBE_HOME__ : '${__KH_KUBE_HOME__}
@@ -830,11 +830,11 @@ function _kkp {
     echo 'kk               : '${kk}
     echo 'done!'
 }
-alias kkp='_kkp'
+alias kkp='__kh_kkp'
 
 
 
-function _kkl {
+function __kh_kkl {
     
     # init, confirm
     command cd ${__KH_KUBE_HOME__}
@@ -878,7 +878,7 @@ function _kkl {
     eval ${_s}
     unset _s _fflag _fflagq _tflag _tflagq
 }
-alias kkl='_kkl'
+alias kkl='__kh_kkl'
 
 
 
