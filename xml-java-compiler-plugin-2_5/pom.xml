@@ -30,9 +30,10 @@
 					<!-- <packageName>com.example.other</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.amzn_base</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.autoaccessory</packageName> -->
+					<packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.beauty</packageName>
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.ce</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.tiresandwheels</packageName> -->
-					<packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.clothing</packageName>
+					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.clothing</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.jewelry</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.largeappliances</packageName> -->
 					<!-- <packageName>com.domobility.wavemarket.marketplaceamazon.api.feeds.model.product.luggage</packageName> -->
@@ -50,9 +51,10 @@
 						<!-- <source>${project.basedir}/src/main/xsd_00_employee_small_example</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/amzn_base/</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/AutoAccessory/</source> -->
+						<source>${project.basedir}/src/main/xsd_01_amzn/Beauty/</source>
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/CE/</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/TiresAndWheels/</source> -->
-						<source>${project.basedir}/src/main/xsd_01_amzn/Clothing/</source>
+						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Clothing/</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Jewelry/</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/LargeAppliances/</source> -->
 						<!-- <source>${project.basedir}/src/main/xsd_01_amzn/Luggage/</source> -->
