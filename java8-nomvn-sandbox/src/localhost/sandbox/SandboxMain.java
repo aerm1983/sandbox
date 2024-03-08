@@ -3,6 +3,7 @@ package localhost.sandbox;
 import localhost.helper.CipherAesCbcPkcs5Helper;
 import localhost.helper.CipherAesEcbPkcs5Helper;
 import localhost.helper.FileHelper;
+import localhost.helper.LargeStringHelper;
 import localhost.helper.LogHelper;
 import localhost.helper.MemorySnapshotHelper;
 import localhost.helper.ObjectCopyHelper;
@@ -20,6 +21,7 @@ import localhost.sandbox.JavaLang.ScratchPad.JavaLangScratchPadMain;
 import localhost.sandbox.Observable.ObservableMain;
 import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
 import localhost.sandbox.Process.ProcessMain;
+import localhost.sandbox.Reflection.ReflectionMain;
 import localhost.sandbox.Stream.StreamMain;
 import localhost.sandbox.String.StringMain;
 import localhost.sandbox.Thread.ThreadMain;
@@ -66,7 +68,9 @@ public class SandboxMain {
 		// ThreadMain.main();
 		// GenericsMain.main();
 		// FileMain.main();
-		FileHelper.main();
+		// FileHelper.main();
+		LargeStringHelper.main();
+		// ReflectionMain.main();
 
 	}
 }
