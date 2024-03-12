@@ -13,7 +13,8 @@ public class StringMain {
 		// other();
 		// Test00StringMatchRegex.test00StringMatch();
 		// Test01StringFormat.stringFormat();
-		Test02RegexFindGroup.test00RegexFindGroup();
+		// Test02RegexFindGroup.test00RegexFindGroup();
+		Test03Base64.test00Base64Encode();
 	}
 	
 	public static void other() {

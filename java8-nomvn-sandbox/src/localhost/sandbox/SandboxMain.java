@@ -18,6 +18,7 @@ import localhost.sandbox.Generics.GenericsMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
 import localhost.sandbox.JavaLang.ScratchPad.JavaLangScratchPadMain;
+import localhost.sandbox.Object.ObjectMain;
 import localhost.sandbox.Observable.ObservableMain;
 import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
 import localhost.sandbox.Process.ProcessMain;
@@ -37,6 +38,7 @@ public class SandboxMain {
 	
 		// JavaLangMain.main();
 		// StringMain.main();
+		ObjectMain.main();
 		// InheritancePolymorphismMain.main();
 		// SystemPropertiesMain.main();
 		// PropertiesMain.main();
@@ -69,7 +71,7 @@ public class SandboxMain {
 		// GenericsMain.main();
 		// FileMain.main();
 		// FileHelper.main();
-		LargeStringHelper.main();
+		// LargeStringHelper.main();
 		// ReflectionMain.main();
 
 	}
