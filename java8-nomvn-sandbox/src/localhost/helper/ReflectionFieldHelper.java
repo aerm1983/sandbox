@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  * @since 2024-03-16
  *
  */
-public class ReflectionHelper {
+public class ReflectionFieldHelper {
 
 
 	/**
@@ -20,17 +20,18 @@ public class ReflectionHelper {
 	public static void main() {
 		System.out.println("Hello from ReflectionHelper.main()!");
 
-		TestFatherPojo testFatherPojo = new TestFatherPojo("Charles", "Carpenter", 32);
-		TestSonPojo testSonPojo = new TestSonPojo(testFatherPojo);
+		TestGrandFatherPojo testGrandFatherPojo = new TestGrandFatherPojo("Charles", "Carpenter", 60);
+		TestFatherPojo testFatherPojo = new TestFatherPojo(testGrandFatherPojo, "John", "Accountant", 40);
+		TestPersonPojo testPersonPojo = new TestPersonPojo(testFatherPojo);
 		String fieldName = null;
 		String fieldValue = null;
 		ResultPojo result = null;
 
 
 		// test 00, private field declared in super class
-		fieldName = "fatherName";
+		fieldName = "grandFatherName";
 		try {
-			result = ReflectionHelper.getFieldValue(testSonPojo, fieldName);
+			result = ReflectionFieldHelper.getFieldValue(testPersonPojo, fieldName);
 		} catch (Throwable tw) {
 			System.err.println("error: " + tw);
 		}
@@ -39,9 +40,9 @@ public class ReflectionHelper {
 
 
 		// test 01, protected field declared  in super class
-		fieldName = "fatherOccupation";
+		fieldName = "grandFatherOccupation";
 		try {
-			result = ReflectionHelper.getFieldValue(testSonPojo, fieldName);
+			result = ReflectionFieldHelper.getFieldValue(testPersonPojo, fieldName);
 		} catch (Throwable tw) {
 			System.err.println("error: " + tw);
 		}
@@ -52,13 +53,23 @@ public class ReflectionHelper {
 		// test 02, non declared / non existing field (nor in class, nor in super-class(es))
 		fieldName = "nonExistingField";
 		try {
-			result = ReflectionHelper.getFieldValue(testSonPojo, fieldName);
+			result = ReflectionFieldHelper.getFieldValue(testPersonPojo, fieldName);
 		} catch (Throwable tw) {
 			System.err.println("error: " + tw);
 		}
 		fieldValue = (String) result.getFieldValue();
 		System.out.println("test 02, non declared / non existing field (nor in class, nor in super-class(es)) -- result: " + result + " ; fieldValue: " + fieldValue);
 
+
+		// test 03, invalid inputs
+		fieldName = null;
+		try {
+			result = ReflectionFieldHelper.getFieldValue(testPersonPojo, fieldName);
+		} catch (Throwable tw) {
+			System.err.println("error: " + tw);
+		}
+		fieldValue = (String) result.getFieldValue();
+		System.out.println("test 03, invalid inputs -- result: " + result + " ; fieldValue: " + fieldValue);
 	}
 
 
@@ -139,9 +150,14 @@ public class ReflectionHelper {
 	 * @since 2024-03-16
 	 */
 	public static ResultPojo getFieldValue(Object object, String fieldName) {
-		Class<?> clazz = object.getClass();
 		ResultPojo result = new ResultPojo();
+		if (object == null || fieldName == null) {
+			result.setErrorMessage("inputs object and fieldName should be not null -- object: " + object + " ; fieldName: " + fieldName);
+			return result;
+		}
+		Class<?> clazz = object.getClass();
 		result.setFieldName(fieldName);
+		result.setInputObject(object);
 		FieldClazzPojo fieldClazzPojo = searchFieldInClassAndSuperClasses(clazz, fieldName);
 		if (fieldClazzPojo.getField() == null) {
 			result.setDeclaringClazz(fieldClazzPojo.getDeclaringClazz());
@@ -179,6 +195,7 @@ public class ReflectionHelper {
 	public static class ResultPojo {
 
 		private String fieldName = null;
+		private Object inputObject = null;
 		private boolean fieldFoundOk = false;
 		private boolean valueRetrievedOk = false;
 		private Class<?> declaringClazz = null;
@@ -246,11 +263,20 @@ public class ReflectionHelper {
 			this.field = field;
 		}
 
+		public Object getInputObject() {
+			return inputObject;
+		}
+
+		public void setInputObject(Object inputObject) {
+			this.inputObject = inputObject;
+		}
+
 		@Override
 		public String toString() {
 			String out = ""
 					+ "{ "
 					+ "fieldName: " + this.fieldName + ", "
+					+ "inputObject: " + this.inputObject + ", "
 					+ "fieldFoundOk: " + this.fieldFoundOk + ", "
 					+ "valueRetrievedOk: " + this.valueRetrievedOk + ", "
 					+ "declaringClazz: " + ( this.declaringClazz != null ? this.declaringClazz.getName() : null )  + ", "
@@ -306,46 +332,96 @@ public class ReflectionHelper {
 	 * @since 2024-03-16
 	 *
 	 */
-	private static class TestFatherPojo {
 
-		private String fatherName;
-		protected String fatherOccupation;
-		private int fatherAge;
+	private static class TestGrandFatherPojo {
 
-		public TestFatherPojo() {
+		protected String grandFatherName;
+		private String grandFatherOccupation;
+		private int grandFatherAge;
+
+		public TestGrandFatherPojo() {
 			super();
 		}
 
-		public TestFatherPojo(String fatherName, String fatherOccupation, int fatherAge) {
+		public TestGrandFatherPojo(String grandFatherName, String grandFatherOccupation, int grandFatherAge) {
 			super();
-			this.fatherName = fatherName;
-			this.fatherOccupation = fatherOccupation;
-			this.fatherAge = fatherAge;
+			this.grandFatherName = grandFatherName;
+			this.grandFatherOccupation = grandFatherOccupation;
+			this.grandFatherAge = grandFatherAge;
 		}
 
-		public TestFatherPojo makeClone() {
-			TestFatherPojo tfp = new TestFatherPojo(this.fatherName, this.fatherOccupation, this.fatherAge);
-			return tfp;
+		public String getGrandFatherOccupation() {
+			return grandFatherOccupation;
 		}
 
-		public String getFatherName() {
-			return this.fatherName;
+		public void setGrandFatherOccupation(String grandFatherOccupation) {
+			this.grandFatherOccupation = grandFatherOccupation;
 		}
 
-		public void setFatherName(String fatherName) {
-			this.fatherName = fatherName;
+		public int getGrandFatherAge() {
+			return grandFatherAge;
+		}
+
+		public void setGrandFatherAge(int grandFatherAge) {
+			this.grandFatherAge = grandFatherAge;
 		}
 
 	}
 
 
 
-	private static class TestSonPojo extends TestFatherPojo {
+	private static class TestFatherPojo extends TestGrandFatherPojo {
 
-		public TestSonPojo (TestFatherPojo testFatherPojo) {
+		protected String fatherName;
+		private String fatherOccupation;
+		private int fatherAge;
+
+		public TestFatherPojo() {
 			super();
-			this.setFatherName(testFatherPojo.getFatherName()); // protected field in super class
-			this.fatherOccupation = testFatherPojo.fatherOccupation; // private field in super class
+		}
+
+		public TestFatherPojo(TestGrandFatherPojo testGrandFatherPojo, String fatherName, String fatherOccupation, int fatherAge) {
+			super();
+			this.grandFatherName = testGrandFatherPojo.grandFatherName;
+			this.setGrandFatherOccupation(testGrandFatherPojo.grandFatherOccupation);
+			this.setGrandFatherAge(testGrandFatherPojo.grandFatherAge);
+			this.fatherName = fatherName;
+			this.fatherOccupation = fatherOccupation;
+			this.fatherAge = fatherAge;
+		}
+
+		public String getFatherOccupation() {
+			return fatherOccupation;
+		}
+
+		public void setFatherOccupation(String fatherOccupation) {
+			this.fatherOccupation = fatherOccupation;
+		}
+
+		public int getFatherAge() {
+			return fatherAge;
+		}
+
+		public void setFatherAge(int fatherAge) {
+			this.fatherAge = fatherAge;
+		}
+
+	}
+
+
+
+	private static class TestPersonPojo extends TestFatherPojo {
+
+		public TestPersonPojo (TestFatherPojo testFatherPojo) {
+			super();
+
+			this.grandFatherName = testFatherPojo.grandFatherName;
+			this.setGrandFatherOccupation(testFatherPojo.getGrandFatherOccupation());
+			this.setGrandFatherAge(testFatherPojo.getGrandFatherAge());
+
+			this.fatherName = testFatherPojo.fatherName;
+			this.setFatherOccupation(testFatherPojo.fatherOccupation);
+			this.setFatherAge(testFatherPojo.fatherAge);
 		}
 
 	}

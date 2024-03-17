@@ -105,31 +105,31 @@ public class Test00_ThreadPoolExecutor {
 			}
 			System.out.println("thread " + ct.getName() + " -- task 1 -- end");
 		});
-		*/
+		 */
 		Future<?> future1 = threadPoolExecutor.submit( new ThreadRunnable("Hello One!", 5L*1000L) );
 
 
 
 		Future<?> future2 = threadPoolExecutor.submit( new ThreadRunnable("Hello Two!", 5L*1000L) );
-		
-		
-		
+
+
+
 		// monitor executor taskQueue
-		
+
 		int activeCount = threadPoolExecutor.getActiveCount();
 		int corePoolSize = threadPoolExecutor.getCorePoolSize();
 		BlockingQueue<Runnable> blockingQueue = threadPoolExecutor.getQueue();
 		int queueSize = blockingQueue.size();
 		Object[] a = blockingQueue.toArray();
-		
+
 		Future<?> f = null;
 		FutureTask<?> ft = null;
 		if (a.length > 0 && a[0] != null) {
 			f = (Future<?>) a[0];
 			ft = (FutureTask<?>) f;
 		}
-		
-		
+
+
 		// atempt to obtain Callable<V> from FutureTask
 		Class<?> clazz = ft.getClass();
 		Field[] fields = clazz.getDeclaredFields();
@@ -148,8 +148,8 @@ public class Test00_ThreadPoolExecutor {
 				break;
 			}
 		}
-		
-		
+
+
 		// attempt to obtain "task" (ThreadRunnable) from cObj (RunnableAdapter<T>)
 		Class<?> clazz2 = cObj.getClass();
 		Field[] fields2 = clazz2.getDeclaredFields();
@@ -174,9 +174,9 @@ public class Test00_ThreadPoolExecutor {
 			tr = (ThreadRunnable) cObj2;
 		}
 		System.out.println("queued task params: " + tr.getStringFromMain() + " , " + tr.getSleepTimeFromMain());
-		
-		
-		
+
+
+
 		// wait for task completion
 		try {
 			Object object1 = future1.get();
@@ -184,7 +184,7 @@ public class Test00_ThreadPoolExecutor {
 		} catch (Exception e) {
 			System.err.println("error: " + e);
 		}
-		
+
 
 	}
 
