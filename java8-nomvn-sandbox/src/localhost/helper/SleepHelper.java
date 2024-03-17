@@ -27,6 +27,8 @@ public class SleepHelper {
 	/**
 	 * <p> Synchronized sleep.
 	 * 
+	 * <p>2024-03-16: does this syncrhonized method really makes sense? 
+	 * 
 	 * @author Alberto Romero
 	 * @since 2023-10-21
 	 */

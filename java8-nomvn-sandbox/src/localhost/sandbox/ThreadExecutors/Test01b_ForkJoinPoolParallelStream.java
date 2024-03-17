@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Stream;
 
-public class ForkJoinPoolTwoParallelStream {
+public class Test01b_ForkJoinPoolParallelStream {
 
     
     public static void defaultForkJoinPool() {
