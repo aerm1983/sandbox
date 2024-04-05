@@ -11,7 +11,7 @@ public class LargeStringHelper {
 		input = "0123456789ABCDEFGHIJKLMNOPRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		summary = getSummaryString(16, input);
 		System.out.println("test01 -- summary: " + summary + " ; sumary.length(): " + summary.length() + " ; input.length(): " + input.length() + " ; input: " + input);
-		
+
 		// test02, string null 
 		input = "0123456789";
 		summary = getSummaryString(16, input);
@@ -21,22 +21,22 @@ public class LargeStringHelper {
 		input = "0123456789ABCDEFGHIJKLMNOPRSTUVWXYZ";
 		summary = getSummaryString(16, input);
 		System.out.println("test03 -- summary: " + summary + " ; sumary.length(): " + summary.length() + " ; input.length(): " + input.length() + " ; input: " + input);
-		
+
 		// test04, string length below minimum processable 
 		input = "0123456789";
 		summary = getSummaryString(16, input);
 		System.out.println("test04 -- summary: " + summary + " ; sumary.length(): " + summary.length() + " ; input.length(): " + input.length() + " ; input: " + input);
-		
+
 		// test05, inChunkSize negative 
 		input = "0123456789ABCDEFGHIJKLMNOPRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		summary = getSummaryString(-1, input);
 		System.out.println("test05 -- summary: " + summary + " ; sumary.length(): " + summary.length() + " ; input.length(): " + input.length() + " ; input: " + input);
-		
+
 		// test06, inChunkSize too small 
 		input = "0123456789ABCDEFGHIJKLMNOPRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		summary = getSummaryString(1, input);
 		System.out.println("test06 -- summary: " + summary + " ; sumary.length(): " + summary.length() + " ; input.length(): " + input.length() + " ; input: " + input);
-		
+
 		// test07, inChunkSize too large 
 		input = "0123456789ABCDEFGHIJKLMNOPRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		summary = getSummaryString(24, input);

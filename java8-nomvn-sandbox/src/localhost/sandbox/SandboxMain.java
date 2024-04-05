@@ -38,7 +38,7 @@ import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.ThreadObjectNotif
 public class SandboxMain {
 
 	public static void main(String[] args) {
-	
+
 		// JavaLangMain.main();
 		// StringMain.main();
 		// ObjectMain.main();
@@ -46,14 +46,14 @@ public class SandboxMain {
 		// SystemPropertiesMain.main();
 		// PropertiesMain.main();
 		// FileReaderMain.main();;
-	    // DateMain.main();
-        // Utf8BOMHelper.main();
-	    // ConsumerLambdaMain.main();
-	    // InterfaceMain.main();
-	    // AbstractMain.main();
-	    // ProcessMain.main();
+		// DateMain.main(); // ----------------- HERE
+		// Utf8BOMHelper.main();
+		// ConsumerLambdaMain.main();
+		// InterfaceMain.main();
+		// AbstractMain.main();
+		// ProcessMain.main();
 		// OutOfMemoryMain.main();
-	    // ThreadExecutorsMain.main();
+		// ThreadExecutorsMain.main();
 		// MemorySnapshotHelper.main();
 		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
@@ -69,7 +69,7 @@ public class SandboxMain {
 		// DatabaseEncryptionMain.main();
 		// ThreadHelper.main();
 		// RunTimeStatsHelper.main();
-		// SimpleDateFormatHelper.main();
+		SimpleDateFormatHelper.main(); // ----------- HERE
 		// ThreadMain.main();
 		// GenericsMain.main();
 		// FileMain.main();
@@ -77,7 +77,7 @@ public class SandboxMain {
 		// LargeStringHelper.main();
 		// ReflectionMain.main();
 		// ExecTimeSecsHelper.main();
-		ReflectionFieldHelper.main();
+		// ReflectionFieldHelper.main();
 		// BooleanHelper.main();
 
 	}

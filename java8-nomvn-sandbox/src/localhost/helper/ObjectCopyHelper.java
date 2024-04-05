@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ObjectCopyHelper {
-	
+
 	public static void main() {
 		Example01SimplePojo();
 		Example02PojoWithSuperClasses();
 		Example03PojoWithAttributePojo();
 	}
-	
+
 	/**
 	 * <p> Make copy of object.  Uses reflection to copy field values.
 	 * 
@@ -111,8 +111,8 @@ public class ObjectCopyHelper {
 		}
 		return outObj;
 	}
-	
-	
+
+
 	/**
 	 * <p> Overloaded function, to avoid definition of "maxSuperClassRecursion" parameter.
 	 * 
@@ -122,25 +122,25 @@ public class ObjectCopyHelper {
 	public static Object makeCopyOf(Object inObj) {
 		return makeCopyOf(inObj, 127);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Examples block.
 	 */
-	
-	
+
+
 	public static void Example01SimplePojo() {
-		
+
 		System.out.println("\n---- Example01SimplePojo: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: NONE NEEDED ----");
-		
+
 		// initial
 		SimplePerson simplePersonOne = new SimplePerson("Jose", 26, 1.78, true);
 		SimplePerson simplePersonTwo = (SimplePerson) makeCopyOf( simplePersonOne );
 		boolean deepEq01 = Objects.deepEquals(simplePersonOne, simplePersonTwo);
 		System.out.println("before changes -- personOne: " + simplePersonOne.toString() + " ; personTwo: " + simplePersonTwo.toString());
 		System.out.println("before changes -- Objects.deepEquals(simplePersonOne, simplePersonTwo): " + deepEq01);
-		
+
 		// changes
 		simplePersonOne.setName("Maria");
 		simplePersonOne.setAge(18);
@@ -149,10 +149,10 @@ public class ObjectCopyHelper {
 		System.out.println("after changes -- simplePersonOne: " + simplePersonOne.toString() + " ; simplePersonTwo: " + simplePersonTwo.toString());
 		System.out.println("conclussion: attribute changes in simplePersonOne did not affect attributes in simplePersonTwo.  Note that changed attributes are not objects containing other objects, but primitive-type-wrapping-objects; thus, simplePersonTwo is a deep-copy of simplePersonOne");
 	}
-	
+
 	public static void Example02PojoWithSuperClasses () {
 		System.out.println("\n---- Example02PojoWithSuperClasses: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: 4 ----");
-		
+
 		// initial
 		MyGreatGrandFather myGreatGrandFather = new MyGreatGrandFather("Carlos");
 		MyGrandFather myGrandFather = new MyGrandFather(myGreatGrandFather.getName(), 41);
@@ -170,10 +170,10 @@ public class ObjectCopyHelper {
 		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
 		System.out.println("conclussion: attribute changes in SuperClasses (GreatGrandFather, GrandFather, Father) for meOne did not affect clone meTwo.  Note that attributes changed are not objects containing other objects, but primitive-type-wrapping-objects; thus, meTwo is a deep-copy of meOne");
 	}
-	
+
 	public static void Example03PojoWithAttributePojo() {
 		System.out.println("\n---- Example03PojoWithAttributePojo: REFLECTION, OBJECT COPY, SUPER CLASS RECURSION: NONE NEEDED, ATTRIBUTE RECURSION: SEVERAL ----");
-		
+
 		PersonWithParent myGreatGrandFather = new PersonWithParent("A_GreatGrandFather", null);
 		PersonWithParent myGrandFather = new PersonWithParent("B_GrandFather", myGreatGrandFather);
 		PersonWithParent myFather = new PersonWithParent("C_Father", myGrandFather);
@@ -190,32 +190,32 @@ public class ObjectCopyHelper {
 		System.out.println("after changes -- meOne: " + meOne.toString() + " ; meTwo: " + meTwo.toString());
 		System.out.println("conclussion: changes in attribute parent (GreatGrandFather, GrandFather, Father) for meOne did affect clone meTwo.  Note that attributes changed are objects containing other objects, not primitive-type-wrapping-objects; thus, meTwo is a shallow-copy of meOne");
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Pojos used for examples
 	 */
-	
+
 
 	static class SimplePerson {
 		private String name;
 		private Integer age;
 		private Double height;
 		private Boolean didService;
-		
+
 		public SimplePerson () {
 		}
-		
+
 		public SimplePerson (String inName, Integer inAge, Double inHeight, Boolean inDidService) {
 			this.name = inName;
 			this.age = inAge;
 			this.height = inHeight;
 			this.didService = inDidService;
 		}
-		
-		
-		
+
+
+
 		public String getName() {
 			return name;
 		}
@@ -254,14 +254,14 @@ public class ObjectCopyHelper {
 		}
 
 	}
-	
+
 	static class MyGreatGrandFather {
-			
+
 		private String name;
-		
+
 		MyGreatGrandFather () {
 		}
-		
+
 		MyGreatGrandFather (String name) {
 			this.name = name;
 		}
@@ -273,25 +273,25 @@ public class ObjectCopyHelper {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
+
 		public String toString() {
 			String string = "{Name:" + getName() + "}" ;
 			return string ;
 		}
 	}
-	
+
 	static class MyGrandFather extends MyGreatGrandFather {
-		
+
 		private Integer age;
-		
+
 		public MyGrandFather () {
 		}
-		
+
 		public MyGrandFather (String name, Integer age) {
 			super(name);
 			this.age = age;
 		}
-		
+
 		public Integer getAge() {
 			return age;
 		}
@@ -305,14 +305,14 @@ public class ObjectCopyHelper {
 			return string ;
 		}
 	}
-	
+
 	static class MyFather extends MyGrandFather {
-		
+
 		private Double height;
-		
+
 		MyFather() {
 		}
-		
+
 		MyFather(String name, Integer age, Double height) {
 			super(name, age);
 			this.height = height;
@@ -325,21 +325,21 @@ public class ObjectCopyHelper {
 		public void setHeight(Double height) {
 			this.height = height;
 		}
-		
+
 		public String toString() {
 			String string = "{Name:" + getName() + ",Age:" + getAge() + ",height:" + height + "}" ;
 			return string ;
 		}
-		
+
 	}
-	
+
 	static class Me extends MyFather {
-		
+
 		private Boolean didService;
-		
+
 		Me () {
 		}
-		
+
 		Me (String name, Integer age, Double height, Boolean didService) {
 			super(name, age, height);
 			this.didService = didService;
@@ -352,21 +352,21 @@ public class ObjectCopyHelper {
 		public void setDidService(Boolean didService) {
 			this.didService = didService;
 		}
-		
+
 		public String toString() {
 			String string = "{Name:" + getName() + ",Age:" + getAge() + ",height:" + getHeight() + ",didService:" + didService + "}" ;
 			return string ;
 		}
 	}
-	
+
 	static class PersonWithParent {
-		
+
 		private String name;
 		private PersonWithParent parent;
-		
+
 		PersonWithParent () {
 		}
-		
+
 		PersonWithParent (String name, PersonWithParent parent) {
 			this.name = name;
 			this.parent = parent;
@@ -387,7 +387,7 @@ public class ObjectCopyHelper {
 		public void setParent(PersonWithParent parent) {
 			this.parent = parent;
 		}
-		
+
 		public String toString() {
 			String string = null;
 			if (parent != null) {
@@ -397,6 +397,6 @@ public class ObjectCopyHelper {
 			}
 			return string ;
 		}
-		
+
 	}
 }

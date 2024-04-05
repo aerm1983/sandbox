@@ -4,10 +4,10 @@ package localhost.helper;
 // import org.slf4j.LoggerFactory;
 
 public class SleepHelper {
-	
+
 	// private static Logger log = LoggerFactory.getLogger(SleepHelper.class);
 	private static LogHelper log = new LogHelper();
-	
+
 
 	/**
 	 * <p> Non-synchronized sleep.
@@ -22,7 +22,7 @@ public class SleepHelper {
 			log.error("non-synchronized sleep error -- ", e);
 		}
 	}
-	
+
 
 	/**
 	 * <p> Synchronized sleep.
