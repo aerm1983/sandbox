@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-02-18 13:30'
+__ALIAS_LAST_UPDATE__='2024-04-06 06:38'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -182,7 +182,7 @@ function __bh_h {
     fi
 
     __bh_h_greeting
-    command head -1 ${__BHS_FILE__}
+    command head -2 ${__BHS_FILE__}
 
     if [ -z $1 ]
     then
