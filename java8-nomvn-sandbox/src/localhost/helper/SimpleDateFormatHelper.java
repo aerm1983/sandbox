@@ -7,11 +7,16 @@ import java.util.Date;
 /**
  * <p>Fast SimpleDateFormat wrapper.
  * 
- * <p>There are two available constructors, one of them with 
+ * <p>There are several available constructors, one of them with 
  * no args, to ease fast implementation.
  * 
- * <p>Constructor with args could be further enhanced, considering
- * non-valid args.
+ * <p>Recommendations on Pattern and TimeZone enums:
+ * <ul>
+ * <li>For human interpretation, Pattern.HUMAN with TimeZone.UTC is 
+ * recommended (no args constructor).
+ * <li>For process serialization/deserialization, Pattern.IS0_8601_SECONDS 
+ * with TimeZone.UTC is recommended.
+ * </ul> 
  * 
  * <p>Versions:
  * <ul>
@@ -21,15 +26,26 @@ import java.util.Date;
  * 
  * <p>Bash references:
  * <ul>
- * <li>date -Iseconds # ISO-8601
- * <br>
- * 2024-04-05T14:26:42-04:00
- * <br>
- * <li>date --rfc-3339=seconds # RFC-3339
- * <br>
- * 2024-04-05 14:26:48-04:00
+ * <li>date --iso-8601=seconds [--utc] # ISO_8601
+ * <pre>2024-04-05T16:26:42+00:00
+ *2024-04-05T14:26:42-04:00</pre>
+ *
+ * <li>date --rfc-3339=seconds [--utc] # RFC_3339
+ * <pre>2024-04-05 16:26:48+00:00
+ *2024-04-05 14:26:48-04:00</pre>
+ *
+ * <li>date --rfc-email [--utc] # RFC_822_EMAIL
+ * <pre>Fri, 05 Apr 2024 16:26:48 +0000
+ *Fri, 05 Apr 2024 14:26:48 -0400</pre>
+ *
  * </ul>
- * 
+ *
+ * <p>Final notes:
+ * <ul>
+ * <li>ISO_8601 allows 'Z' instead of '+00:00' for TimeZone.
+ * <li>RFC_3339 basically extends/implements ISO-8601, with small deviations.
+ * <li>RFC_822 is related to email format (review pending, substituted).
+ * </ul>
  * 
  * @author Alberto Romero
  * @since 2023-10-21
@@ -68,7 +84,7 @@ public class SimpleDateFormatHelper {
 
 
 		// arg Pattern in constructor:
-		SimpleDateFormatHelper pSdfh = new SimpleDateFormatHelper(Pattern.DEFAULT, TimeZone.UTC);
+		SimpleDateFormatHelper pSdfh = new SimpleDateFormatHelper(Pattern.HUMAN, TimeZone.UTC);
 		String pOut = pSdfh.format(date);
 		Date pDate = null;
 		try {
@@ -83,7 +99,7 @@ public class SimpleDateFormatHelper {
 
 
 		// args Pattern, TimeZone in constructor:
-		SimpleDateFormatHelper ptzSdfh = new SimpleDateFormatHelper(Pattern.DEFAULT, TimeZone.UTC);
+		SimpleDateFormatHelper ptzSdfh = new SimpleDateFormatHelper(Pattern.HUMAN, TimeZone.UTC);
 		String ptzOut = ptzSdfh.format(date);
 		Date ptzDate = null;
 		try {
@@ -163,7 +179,7 @@ public class SimpleDateFormatHelper {
 
 
 	public SimpleDateFormatHelper () {
-		sdf = new SimpleDateFormat(Pattern.DEFAULT.strPattern());
+		sdf = new SimpleDateFormat(Pattern.HUMAN.strPattern());
 		sdf.setTimeZone(java.util.TimeZone.getTimeZone(TimeZone.UTC.strTimeZone()));
 	}
 
@@ -206,8 +222,8 @@ public class SimpleDateFormatHelper {
 
 
 	public static enum Pattern {
-		// default
-		DEFAULT("yyyy-MM-dd HH:mm:ss.SSS z"),
+		// human readable
+		HUMAN("yyyy-MM-dd HH:mm:ss z"),
 		// iso-8601
 		ISO_8601_SECONDS("yyyy-MM-dd'T'HH:mm:ssXXX"),
 		ISO_8601_MILLISECONDS("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
@@ -215,8 +231,12 @@ public class SimpleDateFormatHelper {
 		RFC_3339_SECONDS("yyyy-MM-dd HH:mm:ssXXX"),
 		RFC_3339_MILLISECONDS("yyyy-MM-dd HH:mm:ss.SSSXXX"),
 		// timezone rfc-822
-		TZ_RFC_822_SECONDS("yyyy-MM-dd HH:mm:ss Z"),
-		TZ_RFC_822_MILLISECONDS("yyyy-MM-dd HH:mm:ss.SSS Z")
+		// TZ_RFC_822_SECONDS("yyyy-MM-dd HH:mm:ss Z"), // not standard
+		// TZ_RFC_822_MILLISECONDS("yyyy-MM-dd HH:mm:ss.SSS Z"), // not standard
+		// email format
+		RFC_822_EMAIL("EEE, d MMM yyyy HH:mm:ss Z"), // maybe two "d" (digit for day)
+		// human, hour only
+		HUMAN_HOUR_ONLY("h:mm a, z")
 		;
 
 		private String strPattern;
