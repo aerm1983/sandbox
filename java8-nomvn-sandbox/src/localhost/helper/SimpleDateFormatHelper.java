@@ -2,6 +2,7 @@ package localhost.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -12,10 +13,12 @@ import java.util.Date;
  * 
  * <p>Recommendations on Pattern and TimeZone enums:
  * <ul>
- * <li>For human interpretation, Pattern.HUMAN with TimeZone.UTC is 
- * recommended (no args constructor).
  * <li>For process serialization/deserialization, Pattern.IS0_8601_SECONDS 
  * with TimeZone.UTC is recommended.
+ * <li>For human interpretation, Pattern.HUMAN with TimeZone.UTC is 
+ * recommended.
+ * <li>Despite 'defaultPattern' may be conveniently adjusted, Pattern.ISO_8601_SECONDS
+ * is strongly advised.
  * </ul> 
  * 
  * <p>Versions:
@@ -54,6 +57,8 @@ import java.util.Date;
  */
 public class SimpleDateFormatHelper {
 
+	private static final Pattern defaultPattern = Pattern.ISO_8601_SECONDS;
+
 	private SimpleDateFormat sdf;
 
 	public static void main() {
@@ -84,7 +89,7 @@ public class SimpleDateFormatHelper {
 
 
 		// arg Pattern in constructor:
-		SimpleDateFormatHelper pSdfh = new SimpleDateFormatHelper(Pattern.HUMAN, TimeZone.UTC);
+		SimpleDateFormatHelper pSdfh = new SimpleDateFormatHelper(defaultPattern, TimeZone.UTC);
 		String pOut = pSdfh.format(date);
 		Date pDate = null;
 		try {
@@ -99,7 +104,7 @@ public class SimpleDateFormatHelper {
 
 
 		// args Pattern, TimeZone in constructor:
-		SimpleDateFormatHelper ptzSdfh = new SimpleDateFormatHelper(Pattern.HUMAN, TimeZone.UTC);
+		SimpleDateFormatHelper ptzSdfh = new SimpleDateFormatHelper(defaultPattern, TimeZone.UTC);
 		String ptzOut = ptzSdfh.format(date);
 		Date ptzDate = null;
 		try {
@@ -179,19 +184,19 @@ public class SimpleDateFormatHelper {
 
 
 	public SimpleDateFormatHelper () {
-		sdf = new SimpleDateFormat(Pattern.HUMAN.strPattern());
+		sdf = new SimpleDateFormat(defaultPattern.strPattern(), Locale.US);
 		sdf.setTimeZone(java.util.TimeZone.getTimeZone(TimeZone.UTC.strTimeZone()));
 	}
 
 
 	public SimpleDateFormatHelper (Pattern pattern) {
-		sdf = new SimpleDateFormat(pattern.strPattern());
+		sdf = new SimpleDateFormat(pattern.strPattern(), Locale.US);
 		sdf.setTimeZone(java.util.TimeZone.getTimeZone(TimeZone.UTC.strTimeZone));
 	}
 
 
 	public SimpleDateFormatHelper (Pattern pattern, TimeZone timeZone) {
-		sdf = new SimpleDateFormat(pattern.strPattern());
+		sdf = new SimpleDateFormat(pattern.strPattern(), Locale.US);
 		sdf.setTimeZone(java.util.TimeZone.getTimeZone(timeZone.strTimeZone()) );
 	}
 
@@ -235,8 +240,9 @@ public class SimpleDateFormatHelper {
 		// TZ_RFC_822_MILLISECONDS("yyyy-MM-dd HH:mm:ss.SSS Z"), // not standard
 		// email format
 		RFC_822_EMAIL("EEE, d MMM yyyy HH:mm:ss Z"), // maybe two "d" (digit for day)
-		// human, hour only
-		HUMAN_HOUR_ONLY("h:mm a, z")
+		// human, more formats
+		HUMAN_HOUR_ONLY("h:mm a, z"),
+		HUMAN_LETTER("EEE, MMM d, ''yy")
 		;
 
 		private String strPattern;
