@@ -14,6 +14,7 @@ import localhost.helper.RunTimeStatsHelper;
 import localhost.helper.SimpleDateFormatHelper;
 import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
+import localhost.sandbox.CompareSort.CompareSortMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
 import localhost.sandbox.File.FileMain;
@@ -46,7 +47,7 @@ public class SandboxMain {
 		// SystemPropertiesMain.main();
 		// PropertiesMain.main();
 		// FileReaderMain.main();;
-		// DateMain.main(); // ----------------- HERE
+		// DateMain.main();
 		// Utf8BOMHelper.main();
 		// ConsumerLambdaMain.main();
 		// InterfaceMain.main();
@@ -69,7 +70,7 @@ public class SandboxMain {
 		// DatabaseEncryptionMain.main();
 		// ThreadHelper.main();
 		// RunTimeStatsHelper.main();
-		SimpleDateFormatHelper.main(); // ----------- HERE
+		// SimpleDateFormatHelper.main();
 		// ThreadMain.main();
 		// GenericsMain.main();
 		// FileMain.main();
@@ -79,6 +80,7 @@ public class SandboxMain {
 		// ExecTimeSecsHelper.main();
 		// ReflectionFieldHelper.main();
 		// BooleanHelper.main();
+		CompareSortMain.main();
 
 	}
 }
