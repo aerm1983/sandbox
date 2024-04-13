@@ -1,6 +1,6 @@
 #!/bin/bash
 # SCRIPT UPDATE GIT-BASH-ALIASES
-# updated: 2023-07-15 06:29
+# updated: 2024-04-13 17:57
 # execute 'source update-gba.sh.txt'
 
 
@@ -12,7 +12,7 @@ command cp -v ./git-bash-aliases.sh.txt ${HOME}/.git-bash-aliases  ;
 
 command source ${HOME}/.git-bash-aliases ; 
 
-echo ; h_greeting ; echo ; _h ;
+echo ; __bh_h_greeting ; echo ; __bh_h ;
 
 
 
