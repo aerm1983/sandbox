@@ -1,24 +1,21 @@
-package localhost.sandbox.ThreadRaceConditionAtomicObjectNotify;
+package localhost.sandbox.ThreadRaceConditionSynchroWaitNotifyAtomic;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AtomicMain {
+public class Test02_AtomicReference {
 
-	public static void main() {
-		master();
-	}
-	
 	/**
-	 * <p> See ThreadObjectNotifyMain test, which explains monitor locks, which 
-	 * is the underlying low-level strategy used to manage atomic variables.
+	 * <p> See Test00 and Test01 classes within this package.  
+	 * They explain monitor locks, which is the underlying low-level 
+	 * strategy used to manage atomic variables.
 	 * 
 	 * <p> Threads t1, t2 and t3 are in race condition.  
 	 * They tend to print "the same value", but it's not consistent.
 	 * Nevertheless, actual increment is correct when reading at a 
 	 * non-race-condition instant.
-	 * if method "System.out.println()" has a delay, it would explain the 
+	 * If method "System.out.println()" has a delay, it would explain the 
 	 * prints being equal.
 	 * 
 	 * <p> Synchronized block seems not to have an effect 
@@ -33,8 +30,8 @@ public class AtomicMain {
 	 * <p> Booleans are typically used as arguments for while high frequency loops,
 	 * as in example below, no trouble was found regarding this.
 	 */
-	public static void master() {
-		
+	public static void test00_AtomicReference() {
+
 		// init variables
 		AtomicBoolean ab = new AtomicBoolean();
 		ab.set(true);
@@ -49,7 +46,7 @@ public class AtomicMain {
 		t1.start();
 		t2.start();
 		t3.start();
-		
+
 		try {
 			// iteration 01
 			Thread.sleep(1L * 1000L);
@@ -58,15 +55,15 @@ public class AtomicMain {
 			// iteration 02
 			Thread.sleep(2L * 1000L);
 			System.out.println(new Date() + " -- " + t.getName() + "." + t.getState() + " -- ai: " + ai.get());
-			
+
 			// iteration 03
-			synchronized (AtomicMain.class) { // argument is this, if method is not static
+			synchronized (Test02_AtomicReference.class) { // argument is this, if method is not static
 				Thread.sleep(2L * 1000L);
 				// ai.getAndAdd(1);
 				System.out.println(new Date() + " -- " + t.getName() + "." + t.getState() + " -- ai: " + ai.get());
 				Thread.sleep(4L * 1000L);
 			}
-			
+
 			// iteration 04
 			Thread.sleep(2L * 1000L);
 			ab.set(false);
@@ -77,8 +74,8 @@ public class AtomicMain {
 		}
 		System.out.println(new Date() + " -- " + t.getName() + "." + t.getState() + " -- ended! ");
 	}
-	
-	
+
+
 	public static void loopReadAtomicInteger(AtomicBoolean ab, AtomicInteger ai) {
 		Thread thread = Thread.currentThread();
 		while (ab.get()) {
@@ -91,7 +88,7 @@ public class AtomicMain {
 		}
 		System.out.println(new Date() + " -- " + thread.getName() + "." + thread.getState() + " -- ended!");
 	}
-	
+
 	public static void loopWriteAtomicInteger(AtomicBoolean ab, AtomicInteger ai) {
 		Thread thread = Thread.currentThread();
 		while (ab.get()) {

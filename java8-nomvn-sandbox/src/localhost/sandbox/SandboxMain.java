@@ -32,9 +32,7 @@ import localhost.sandbox.String.StringMain;
 import localhost.sandbox.Thread.ThreadMain;
 import localhost.sandbox.ThreadExecutors.ThreadExecutorsMain;
 import localhost.sandbox.ThreadGroupThreadMXBean.ThreadGroupThreadMXBeanMain;
-import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.AtomicMain;
-import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.StaticSynchronizedMain;
-import localhost.sandbox.ThreadRaceConditionAtomicObjectNotify.ThreadObjectNotifyMain;
+import localhost.sandbox.ThreadRaceConditionSynchroWaitNotifyAtomic.ThreadRaceConditionSynchroWaitNotifyAtomicMain;
 
 public class SandboxMain {
 
@@ -80,7 +78,8 @@ public class SandboxMain {
 		// ExecTimeSecsHelper.main();
 		// ReflectionFieldHelper.main();
 		// BooleanHelper.main();
-		CompareSortMain.main();
+		// CompareSortMain.main();
+		ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
 
 	}
 }
