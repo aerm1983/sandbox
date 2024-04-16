@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2023-10-25 11:20
+MariaDB binaries install - updated: 2024-04-14 11:07
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -338,5 +338,15 @@ SET time_zone = 'SYSTEM';
 
 url="jdbc:mysql://localhost:3306/dbname?serverTimezone=UTC"
 
+
+
+
+(16) TEMPORAL, DUPLICATE EXISTING TABLE
+
+USE `my_schema` ;
+
+CREATE TABLE `my_target_table` LIKE `my_source_table` ;
+
+INSERT INTO `my_target_table` SELECT * FROM `my_source_table` ;
 
 

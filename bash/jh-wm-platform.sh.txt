@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-01-24 06:41'
+__JH_WMP_UPDATED__='2024-04-16 18:18'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -554,6 +554,52 @@ function _jh_clean_restore_dir_alberto_platform {
 
 
 
+function _jh_mysqldump_alberto_service {
+    cdkj_s
+    __jh_db_prefix__='pre_'
+    __jh_db_file_ext__='.sql'
+    command mysqldump -u root --password=1234 -h localhost -P 3306 --add-drop-database --add-drop-table --skip-extended-insert --databases ${__jh_db_prefix__}${1} > './zalberto/zsql/'${__jh_db_prefix__}${1}${__jh_db_file_ext__}
+    unset  __jh_db_prefix__  __jh_db_file_ext__
+    echo
+}
+
+
+
+function _jh_mysqldump_alberto_platform {
+    cdkj_s
+    echo -e '--> mysqldump, whole platform\n'
+    echo
+
+    # _jh_mysqldump_alberto_service microservicesregistry # no database
+
+    _jh_mysqldump_alberto_service usermanagement
+    _jh_mysqldump_alberto_service mappingmanagement
+
+    _jh_mysqldump_alberto_service marketplaceebay
+    _jh_mysqldump_alberto_service marketplacemirakl
+    _jh_mysqldump_alberto_service marketplacemiravia
+    _jh_mysqldump_alberto_service marketplaceamazon
+    _jh_mysqldump_alberto_service marketplacemakro
+    _jh_mysqldump_alberto_service marketplacealiexpress
+    _jh_mysqldump_alberto_service marketplaceprestashop
+
+    _jh_mysqldump_alberto_service productmanagement
+    _jh_mysqldump_alberto_service ordermanagement
+    _jh_mysqldump_alberto_service ktypeprocessor
+    _jh_mysqldump_alberto_service bulkfileprocessor
+
+    _jh_mysqldump_alberto_service merchantlogisfashion
+    _jh_mysqldump_alberto_service carrierseur
+    _jh_mysqldump_alberto_service carriertipsa
+    _jh_mysqldump_alberto_service carriercorreosexpress
+
+    _jh_mysqldump_alberto_service mailing
+    _jh_mysqldump_alberto_service templategenerator # adjusted; microservice is 'template-generator'
+    # _jh_mysqldump_alberto_service ui # no database
+}
+
+
+
 # experimental, deprecate?
 function _jh_EXP_compile_service {
     cdkj_s
@@ -710,7 +756,7 @@ function _jh_reload {
 
 alias 0='_jh_reload'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r 3c 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
+alias _0p='alias 0 ; echo ; alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
@@ -724,6 +770,7 @@ alias _0rlp='_jh_remove_logs_platform'
 alias 3b='_jh_backup_alberto_platform'
 alias 3r='_jh_restore_alberto_platform'
 alias 3c='_jh_clean_restore_dir_alberto_platform'
+alias 3s='_jh_mysqldump_alberto_platform'
 
 alias 4u='_jh_update_repo'
 

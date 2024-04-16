@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-04-06 06:38'
+__ALIAS_LAST_UPDATE__='2024-04-16 18:15'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -643,6 +643,7 @@ alias gza='echo "--> git stash apply"; sleep ${__ALIAS_TIMEOUT__}; git stash app
 alias gzd='echo "--> git stash drop"; sleep ${__ALIAS_TIMEOUT__}; git stash drop'
 alias gzc='echo "--> git stash clear"; sleep ${__ALIAS_TIMEOUT__}; git stash clear'
 
+alias gmr='echo "--> git maintenance run"; sleep ${__ALIAS_TIMEOUT__}; git maintenance run'
 
 
 
@@ -687,6 +688,8 @@ s=${s}'  gzp : git stash pop \n'
 s=${s}'  gza : git stash apply \n'
 s=${s}'  gzd : git stash drop \n'
 s=${s}'  gzc : git stash clear \n'
+s=${s}'\n'
+s=${s}'  gmr : git maintenance run \n'
 _gh_s=${s}
 unset s
 alias gh='less -f <( echo -e "${_gh_s}" )'
