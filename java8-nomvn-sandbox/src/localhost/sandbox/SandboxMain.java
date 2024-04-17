@@ -12,6 +12,7 @@ import localhost.helper.ObjectCopyHelper;
 import localhost.helper.ReflectionFieldHelper;
 import localhost.helper.RunTimeStatsHelper;
 import localhost.helper.SimpleDateFormatHelper;
+import localhost.helper.SynchroWaitNotifyAllHelper;
 import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.CompareSort.CompareSortMain;
@@ -79,7 +80,8 @@ public class SandboxMain {
 		// ReflectionFieldHelper.main();
 		// BooleanHelper.main();
 		// CompareSortMain.main();
-		ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
+		// ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
+		SynchroWaitNotifyAllHelper.main();
 
 	}
 }
