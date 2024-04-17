@@ -30,6 +30,7 @@ public class SynchroWaitNotifyAllHelper {
 
 	private static boolean start = false;
 	private static SimpleDateFormat sdf = null;
+	private static String classname = SynchroWaitNotifyAllHelper.class.getSimpleName();
 
 	static {
 		sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US);
@@ -72,9 +73,9 @@ public class SynchroWaitNotifyAllHelper {
 	}
 
 	private static void test00_DoThreadCompetingProcess() {
-		System.out.println(sdf.format(new Date()) + " [" + Thread.currentThread().getName() + "] -- competing process, start");
+		doPrint("start");
 		doSleep(10L * 1000L);
-		System.out.println(sdf.format(new Date()) + " [" + Thread.currentThread().getName() + "] -- competing process, finish");
+		doPrint("finish");
 	}
 
 
@@ -85,13 +86,13 @@ public class SynchroWaitNotifyAllHelper {
 	public synchronized void doWait() {
 		while ( !(start == true) ) { // inner parenthesis is condition to escape "wait()" loop
 			try {
-				System.out.println(sdf.format(new Date()) + " [" + Thread.currentThread().getName() + "] [SynchroWaitNotifyAllHelper] -- wait");
+				doPrint("wait");
 				wait();
 			} catch (Exception e) {
 				System.err.println("error -- " + e);
 			}
 		}
-		System.out.println(sdf.format(new Date()) + " [" + Thread.currentThread().getName() + "] [SynchroWaitNotifyAllHelper] -- start");
+		doPrint("start");
 	}
 
 
@@ -102,7 +103,7 @@ public class SynchroWaitNotifyAllHelper {
 	public synchronized void doNotifyAll() {
 		start = true;
 		notifyAll();
-		System.out.println(sdf.format(new Date()) + " [" + Thread.currentThread().getName() + "] [SynchroWaitNotifyAllHelper] -- notifyAll");
+		doPrint("notifyAll");
 	}
 
 
@@ -115,6 +116,17 @@ public class SynchroWaitNotifyAllHelper {
 		} catch (Exception e) {
 			System.err.println("error -- " + e);
 		} 
+	}
+
+
+	/**
+	 * Internal helping method. 
+	 */
+	private static void doPrint(String message) {
+		Thread ct = Thread.currentThread();
+		String ctName = ct.getName();
+		String ctMethod = ct.getStackTrace()[2].getMethodName();
+		System.out.println(sdf.format(new Date()) + " [" + ctName + "] [" + classname + "] [" + ctMethod + "] -- " + message);
 	}
 
 }
