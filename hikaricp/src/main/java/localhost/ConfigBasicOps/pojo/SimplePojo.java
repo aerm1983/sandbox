@@ -1,4 +1,4 @@
-package localhost.pojo;
+package localhost.ConfigBasicOps.pojo;
 
 import java.util.Date;
 
