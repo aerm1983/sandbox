@@ -1,7 +1,7 @@
 package localhost.sandbox.OutOfMemoryError;
 
 import java.util.ArrayList;
-import localhost.helper.MemorySnapshotHelper;
+import localhost.helper.JvmMemoryHelper;
 
 /**
  * 
@@ -27,8 +27,8 @@ public class Test03OutOfMemory {
 	
 	public static void memoryArrayInCurrentThread () {
 		
-		ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
-		MemorySnapshotHelper msh = new MemorySnapshotHelper();
+		ArrayList<Integer> intArrayList = JvmMemoryHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
+		JvmMemoryHelper msh = new JvmMemoryHelper();
 		System.out.println("begin -- msh: " + msh);
 		
 		
@@ -40,7 +40,7 @@ public class Test03OutOfMemory {
 		} catch (Exception e) {
 			System.err.println("e.getMessage(): " + e.getMessage() + " --- e.getLocalizedMessage(): " + e.getLocalizedMessage() + " --- e.getCause():" + e.getCause());
 		}
-		msh = new MemorySnapshotHelper();
+		msh = new JvmMemoryHelper();
 		System.out.println("sleep end -- msh: " + msh);
 
 		System.out.println("done!");
@@ -53,8 +53,8 @@ public class Test03OutOfMemory {
 		
         Thread thread = new Thread ( 
         		() -> {
-        			ArrayList<Integer> intArrayList = MemorySnapshotHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
-        			MemorySnapshotHelper msh = new MemorySnapshotHelper();
+        			ArrayList<Integer> intArrayList = JvmMemoryHelper.generateArrayForMemoryTest(2L*1024L*1024L + 3L*1024L);
+        			JvmMemoryHelper msh = new JvmMemoryHelper();
         			System.out.println("into thread -- msh: " + msh);
         		}
         		);
@@ -66,7 +66,7 @@ public class Test03OutOfMemory {
 			System.err.println("error: " + e);
 		}
         
-        MemorySnapshotHelper msh = new MemorySnapshotHelper();
+        JvmMemoryHelper msh = new JvmMemoryHelper();
         System.out.println("thread terminated -- msh: " + msh);
 		System.gc();
 		System.out.println("thread terminated, garbage collector called, begin sleep");
@@ -75,7 +75,7 @@ public class Test03OutOfMemory {
 		} catch (Exception e) {
 			System.err.println("e.getMessage(): " + e.getMessage() + " --- e.getLocalizedMessage(): " + e.getLocalizedMessage() + " --- e.getCause():" + e.getCause());
 		}
-		msh = new MemorySnapshotHelper();
+		msh = new JvmMemoryHelper();
 		System.out.println("sleep end -- msh: " + msh);
 
 		System.out.println("done!");

@@ -7,7 +7,7 @@ import localhost.helper.ExecTimeSecsHelper;
 import localhost.helper.FileHelper;
 import localhost.helper.LargeStringHelper;
 import localhost.helper.LogHelper;
-import localhost.helper.MemorySnapshotHelper;
+import localhost.helper.JvmMemoryHelper;
 import localhost.helper.ObjectCopyHelper;
 import localhost.helper.ReflectionFieldHelper;
 import localhost.helper.RunTimeStatsHelper;
@@ -15,6 +15,7 @@ import localhost.helper.SimpleDateFormatHelper;
 import localhost.helper.SynchroWaitNotifyAllHelper;
 import localhost.helper.ThreadHelper;
 import localhost.sandbox.Annotation.AnnotationMain;
+import localhost.sandbox.Class.ClassMain;
 import localhost.sandbox.CompareSort.CompareSortMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
@@ -54,7 +55,7 @@ public class SandboxMain {
 		// ProcessMain.main();
 		// OutOfMemoryMain.main();
 		// ThreadExecutorsMain.main();
-		// MemorySnapshotHelper.main();
+		// JvmMemoryHelper.main();
 		// ThreadGroupThreadMXBeanMain.main();
 		// ObservableMain.main();
 		// AtomicMain.main();
@@ -81,7 +82,8 @@ public class SandboxMain {
 		// BooleanHelper.main();
 		// CompareSortMain.main();
 		// ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
-		SynchroWaitNotifyAllHelper.main();
+		// SynchroWaitNotifyAllHelper.main();
+		ClassMain.main();
 
 	}
 }
