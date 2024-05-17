@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-ECLIPSE CUSTOMIZATION -- updated 2023-02-23 05:20
+ECLIPSE CUSTOMIZATION -- updated 2024-05-17 02:55
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -152,9 +152,19 @@ Window > Preferences > Java > Code Style > Formatter > Edit
 
 
 
-(10) Some usage notes.
+(10) Plugins
 
-(10.1) Project Nature:
+(10.1) Suggested plugins: Wild Web Developer Tools (html, css, js), Thymeleaf Content Assist, YAML Editor, SQL Editor, JAXB Support
+
+(10.2) Check already installed plugins: 
+
+Help > About Eclipse IDE > Installation Details
+
+
+
+(11) Some usage notes.
+
+(11.1) Project Nature:
 
 - Java/Maven/SpringBoot: like Java/Maven.
 
@@ -162,17 +172,17 @@ Window > Preferences > Java > Code Style > Formatter > Edit
 
 - Java: no pom.xml, compiled files in 'bin' folder, compilation and execution from commandline is cumbersome (jdk: java, javac, jar), better managed from ide (eclipse run/debug configuration).
 
-(10.2) Workspace temporal files mainly in: "/{workspace}/.metadata/.plugins/org.eclipse.jdt.core".
+(11.2) Workspace temporal files mainly in: "/{workspace}/.metadata/.plugins/org.eclipse.jdt.core".
 
 When Eclipse is closed or up with no projects open, can be 30MB.
 
 Each project increments workspac temporal files, depending on its size, ~100-300MB.
 
-(10.3) To change workspace, delete configuration area dir and restart eclipse.
+(11.3) To change workspace, delete configuration area dir and restart eclipse.
 
-(10.4) Workspace, depending on open projects, hardly requires more than 1GB when eclipse is open, with several projects.  Configuration requires very little, less than 10MB.
+(11.4) Workspace, depending on open projects, hardly requires more than 1GB when eclipse is open, with several projects.  Configuration requires very little, less than 10MB.
 
-(10.5) A simple java project in nature requires minimum -Xms1m and -Xmx2m (1MB and 2MB respectively).
+(11.5) A simple java project in nature requires minimum -Xms1m and -Xmx2m (1MB and 2MB respectively).
 
 A debugging connection from Eclipse or VisualVM monitoring connnection to the process requires 2MB.
 

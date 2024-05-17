@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2024-04-14 11:07
+MariaDB binaries install - updated: 2024-05-10 04:05
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -348,5 +348,18 @@ USE `my_schema` ;
 CREATE TABLE `my_target_table` LIKE `my_source_table` ;
 
 INSERT INTO `my_target_table` SELECT * FROM `my_source_table` ;
+
+
+
+
+(17) TEMPORAL, EXPLAIN, USE INDEX, FORCE INDEX
+
+EXPLAIN SELECT * FROM `my_target_table` where `my_target_field` = 'something' ;
+
+EXPLAIN SELECT * FROM `my_target_table` USE INDEX (`my_index`) where `my_target_field` = 'something' ;
+
+EXPLAIN SELECT * FROM `my_target_table` FORCE INDEX (`my_index`) where `my_target_field` = 'something' ;
+
+
 
 
