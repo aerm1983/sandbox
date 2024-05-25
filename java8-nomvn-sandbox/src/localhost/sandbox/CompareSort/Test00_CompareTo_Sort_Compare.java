@@ -263,6 +263,7 @@ public class Test00_CompareTo_Sort_Compare {
 			// actual values definition
 			else
 			{
+				// return Integer.valueOf(o1.getAge()).compareTo(Integer.valueOf(o2.getAge())); // if age is primitive 'int'
 				return o1.getAge().compareTo(o2.getAge());
 			}
 		}
@@ -284,6 +285,7 @@ public class Test00_CompareTo_Sort_Compare {
 			// actual values definition
 			else
 			{
+				// return Double.valueOf(o1.getHeight()).compareTo(Double.valueOf(o2.getHeight())); // if height is primitive 'double'
 				return o1.getHeight().compareTo(o2.getHeight());
 			}
 		}

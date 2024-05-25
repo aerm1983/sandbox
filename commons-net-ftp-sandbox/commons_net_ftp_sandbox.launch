@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
     <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/are_jwt-sandbox-mini/src/main/java/localhost/JWTSandboxMini/JWTSandboxMiniMain.java"/>
+        <listEntry value="/are_commons-net-ftp-sandbox/src/main/java/localhost/ftp/sandbox/FTPSandboxMain.java"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="1"/>
@@ -12,9 +12,10 @@
         <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
     </listAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="localhost.JWTSandboxMini.JWTSandboxMiniMain"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="jwt-sandbox-mini"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="are_jwt-sandbox-mini"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="localhost.ftp.sandbox.FTPSandboxMain"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="are_commons-net-ftp-sandbox"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="are_commons-net-ftp-sandbox"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

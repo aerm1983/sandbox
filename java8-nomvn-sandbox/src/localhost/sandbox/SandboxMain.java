@@ -40,7 +40,7 @@ public class SandboxMain {
 
 	public static void main(String[] args) {
 
-		// JavaLangMain.main();
+		JavaLangScratchPadMain.main();
 		// StringMain.main();
 		// ObjectMain.main();
 		// InheritancePolymorphismMain.main();
@@ -83,7 +83,7 @@ public class SandboxMain {
 		// CompareSortMain.main();
 		// ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
 		// SynchroWaitNotifyAllHelper.main();
-		ClassMain.main();
+		// ClassMain.main();
 
 	}
 }
