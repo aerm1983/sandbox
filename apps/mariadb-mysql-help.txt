@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2024-05-10 04:05
+MariaDB binaries install - updated: 2024-05-20 10:45
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -361,5 +361,13 @@ EXPLAIN SELECT * FROM `my_target_table` USE INDEX (`my_index`) where `my_target_
 EXPLAIN SELECT * FROM `my_target_table` FORCE INDEX (`my_index`) where `my_target_field` = 'something' ;
 
 
+
+(18) TEMPORAL, IFNULL, COALESCE
+
+SELECT IFNULL(NULL, '1') >= '0' ;
+
+SELECT COALESCE(NULL,NULL,NULL,'7') >= '0';
+
+SELECT COALESCE('1','2','3','7') >= '0';
 
 

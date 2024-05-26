@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-04-16 18:15'
+__ALIAS_LAST_UPDATE__='2024-05-26 07:48'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -233,6 +233,7 @@ alias mcc='echo "--> mvn -T 1C clean compile -Dmaven.test.skip=true --offline"; 
 alias mcp='echo "--> mvn -T 1C clean package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C clean package -Dmaven.test.skip=true --offline'
 alias mp='echo "--> mvn -T 1C package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C package -Dmaven.test.skip=true --offline'
 alias mrjr='echo "--> mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline'
+alias mrr='echo "--> mvn resources:resources"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources'
 alias mec='echo "--> mvn clean eclipse:clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean eclipse:clean'
 alias mdt='echo "--> mvn dependency:tree"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:tree'
 alias mdr='echo "--> mvn dependency:resolve -U"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:resolve -U'
@@ -521,6 +522,7 @@ s=${s}'  mcc : mvn -T 1C clean compile -Dmaven.test.skip=true --offline \n'
 s=${s}'  mcp : mvn -T 1C clean package -Dmaven.test.skip=true --offline \n'
 s=${s}'  mp  : mvn -T 1C package -Dmaven.test.skip=true --offline \n'
 s=${s}'  mrjr: mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline \n'
+s=${s}'  mrr : mvn resources:resources \n'
 s=${s}'  mec : mvn clean eclipse:clean \n'
 s=${s}'\n'
 s=${s}'  mdt : mvn dependency:tree \n'
@@ -575,19 +577,29 @@ function __gh_gbd {
 alias gbd='__gh_gbd'
 
 alias gco='echo "--> *git commit"; sleep ${__ALIAS_TIMEOUT__}; git commit'
-function __gh_gcm { 
-    echo '--> git commit, fast message helper -- ${1}: '\'"${1}"\'' -- (cancel: ctrl + c)'
+
+function __gh_gcmh { 
+    echo '--> git commit, fast message helper -- ${1}: '\'"${1}"\'' ; ${2}: '\'"${2}"\'' -- (cancel: ctrl + c)'
     echo
-    # commit action depending on ${1}
+    # commit message, depends on ${1}
     if [ ! -z "${1}" ] ; then
         read -p 'single line commit message, edit: ' -e -i "${1}" _new_commit_message
     else
         _current_branch=$(git branch --show-current)
         read -p 'single line commit message, edit: ' -e -i "${_current_branch}"' cont.' _new_commit_message
     fi
-    # closing steps
     echo
-    git commit -m "${_new_commit_message}"
+    # commit action, depends on ${2}
+    if [ "${2}" = 'amend' ] ; then
+        echo '--> git commit --amend -m '\'"${_new_commit_message}"\'
+        echo
+        git commit --amend -m "${_new_commit_message}"
+    else
+        echo '--> git commit -m '\'"${_new_commit_message}"\'
+        echo
+        git commit -m "${_new_commit_message}"
+    fi
+    # closing steps
     unset _current_branch _new_commit_message _continue
     echo
     git status
@@ -596,7 +608,15 @@ function __gh_gcm {
     echo
     echo 'done!'
 }
+function __gh_gcm {
+    __gh_gcmh "${1}" 'normal'
+}
+function __gh_gcam {
+    __gh_gcmh "${1}" 'amend'
+}
 alias gcm='__gh_gcm'
+alias gcam='__gh_gcam'
+
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 
 function __gh_gch {
@@ -666,7 +686,8 @@ s=${s}'  gra* : git restore --staged \n'
 s=${s}'  gd*  : git diff \n'
 s=${s}'  gdc* : git diff --cached \n'
 s=${s}'  gco* : git commit # raw, primitive \n'
-s=${s}'  gcm  : git commit # fast message helper \n'
+s=${s}'  gcm  : git commit # fast message helper, mode '\'normal\'' \n'
+s=${s}'  gcam : git commit # fast message helper, mode '\'amend\'' \n'
 s=${s}'  gro* : git restore --source \n'
 s=${s}'\n'
 s=${s}'  gm*  : git merge \n'
