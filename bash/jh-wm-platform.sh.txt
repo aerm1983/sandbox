@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-04-16 18:18'
+__JH_WMP_UPDATED__='2024-06-10 05:09'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -58,6 +58,7 @@ function _jh_start_platform {
         _jh_start_service ordermanagement
         _jh_start_service ktypeprocessor
         _jh_start_service bulkfileprocessor
+        _jh_start_service apiprocessor
 
         # _jh_start_service merchantlogisfashion
         # _jh_start_service carrierseur
@@ -106,6 +107,7 @@ function _jh_remove_logs_platform {
     command rm -v ordermanagement*.jar.log
     command rm -v ktypeprocessor*.jar.log
     command rm -v bulk*.jar.log
+    command rm -v apiproc*.jar.log
 
     command rm -v merchantlogisfashion*.jar.log
     command rm -v carrierseur*.jar.log
@@ -161,6 +163,7 @@ function _jh_truncate_logs_platform {
     command echo -n '' > ordermanagement*.jar.log
     command echo -n '' > ktypeprocessor*.jar.log
     command echo -n '' > bulk*.jar.log
+    command echo -n '' > apiproc*.jar.log
 
     command echo -n '' > merchantlogisfashion*.jar.log
     command echo -n '' > carrierseur*.jar.log
@@ -204,6 +207,7 @@ function _jh_kill_platform {
     _jh_kill_service carriercorreosexpress
     _jh_kill_service merchantlogisfashion
 
+    _jh_kill_service apiprocessor
     _jh_kill_service bulkfileprocessor
     _jh_kill_service ktypeprocessor
     _jh_kill_service ordermanagement
@@ -294,6 +298,10 @@ function _jh_start_service {
     elif [ ${1} = 'bulkfileprocessor' ]
     then
         : __JH_XMX__='256m'
+
+    elif [ ${1} = 'apiprocessor' ]
+    then
+        : __JH_XMX__='192m'
 
     elif [ ${1} = 'mailing' ]
     then
@@ -435,6 +443,7 @@ function _jh_backup_alberto_platform {
     _jh_backup_alberto_service ordermanagement
     _jh_backup_alberto_service ktypeprocessor
     _jh_backup_alberto_service bulkfileprocessor
+    _jh_backup_alberto_service apiprocessor
 
     _jh_backup_alberto_service merchantlogisfashion
     _jh_backup_alberto_service carrierseur
@@ -494,6 +503,7 @@ function _jh_restore_alberto_platform {
     _jh_restore_alberto_service ordermanagement
     _jh_restore_alberto_service ktypeprocessor
     _jh_restore_alberto_service bulkfileprocessor
+    _jh_restore_alberto_service apiprocessor
 
     _jh_restore_alberto_service merchantlogisfashion
     _jh_restore_alberto_service carrierseur
@@ -540,6 +550,7 @@ function _jh_clean_restore_dir_alberto_platform {
     _jh_clean_restore_dir_alberto_service ordermanagement
     _jh_clean_restore_dir_alberto_service ktypeprocessor
     _jh_clean_restore_dir_alberto_service bulkfileprocessor
+    _jh_clean_restore_dir_alberto_service apiprocessor
 
     _jh_clean_restore_dir_alberto_service merchantlogisfashion
     _jh_clean_restore_dir_alberto_service carrierseur
@@ -587,6 +598,7 @@ function _jh_mysqldump_alberto_platform {
     _jh_mysqldump_alberto_service ordermanagement
     _jh_mysqldump_alberto_service ktypeprocessor
     _jh_mysqldump_alberto_service bulkfileprocessor
+    _jh_mysqldump_alberto_service apiprocessor
 
     _jh_mysqldump_alberto_service merchantlogisfashion
     _jh_mysqldump_alberto_service carrierseur
