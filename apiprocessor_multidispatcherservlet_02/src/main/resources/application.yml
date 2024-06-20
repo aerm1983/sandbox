@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: apiprocessor
+  jackson:
+    default-property-inclusion: non-empty
+  mvc:
+    date-format: yyyy-MM-dd
+  flyway:
+    enabled: true
+  task:
+    scheduling:
+      pool:
+         size: 10
+
+server:
+  port: 8188
+  max-http-header-size: 20000
+  servlet:
+    context-path: /api
+
+domobility:
+  swagger:
+    endpoints: catalogue, merchant, order, product, shop, transaction
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+feign:
+ hystrix:
+  enabled: true
+ client:
+  config:
+   default:
+    connectTimeout: 160000000
+    readTimeout: 160000000
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+  threadpool:
+    default:
+      coseSize: 20
+      maximumSize: 20
+      allowMaximumSizeToDivergeFromCoreSize: true
+
+ebay:
+  signature: cb0fa1e4-a31f-40d5-8343-7f687bd7aeaeDomobili-ProductI-PRD-016e2f149-24f35aaaPRD-16e2f14943a7-6824-4c75-addc-1155

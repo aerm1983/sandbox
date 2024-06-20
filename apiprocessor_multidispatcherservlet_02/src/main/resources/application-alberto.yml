@@ -1,0 +1,140 @@
+alberto:
+  check: 00
+
+envName: LOCAL
+
+spring:
+  application:
+    name: apiprocessor
+  jackson:
+    default-property-inclusion: non-empty
+  mvc:
+    date-format: yyyy-MM-dd
+  flyway:
+    enabled: true
+  task:
+    scheduling:
+      pool:
+        size: 10
+    execution:
+      pool:
+        queue-capacity: 100
+        size: 50
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+      connection-test-query: SELECT 1
+      idle-timeout: 90000
+      max-lifetime: 120000 # millisecs, should be less than max-lifetime granted by DB, minimum 30000 (1/2 min), default 180000 (30 min)
+      keepalive-time: 30000 # millisecs, ping frequency, should be less than max-lifetime
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    kubernetes:
+      enabled: false
+      config:
+        enabled: false
+
+server:
+  port: 16002
+  max-http-header-size: 20000
+  servlet:
+    # context-path: '/api' # apiprocessor <= 5.0.x ; WM <= 6.11.5 ; per environment
+    # context-path: '/'    # apiprocessor >= 5.1.0 ; WM >= 6.12.0 ; per environment
+    context-path: '/'
+
+domobility:
+  swagger:
+    endpoints: catalogue, merchant, order, product, shop, transaction
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+feign:
+  hystrix:
+    enabled: false # TODO Alberto: true for local env
+  client:
+    config:
+      default:
+        connectTimeout: 15000 # prod 60000 # original 160000000 ms (44 hours)
+        readTimeout: 90000 # prod 3600000 # original 160000000 ms (44 hours) # ebay may take long to respond 
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 90000 # originally 60000
+  threadpool:
+    default:
+      coreSize: 10
+      maximumSize: 10
+      allowMaximumSizeToDivergeFromCoreSize: true
+      # coreSize: 3 # local edited, testing
+      # maximumSize: 6 # local edited, testing
+      # allowMaximumSizeToDivergeFromCoreSize: true # idem
+      maxQueueSize: 2000 # local added, testing
+      queueSizeRejectionThreshold: 1950 # local added, testing
+      
+      
+
+ebay:
+  signature: cb0fa1e4-a31f-40d5-8343-7f687bd7aeaeDomobili-ProductI-PRD-016e2f149-24f35aaaPRD-16e2f14943a7-6824-4c75-addc-1155
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+
+
+### 
+
+security:
+  oauth2:
+    client:
+      clientId: UserManagement
+      clientSecret: f2a1ed52710d4533bde25be6da03b6e3
+      resourceId: wavemarket
+    resource:
+      # tokenInfoUri: https://ovh.pre.wavemarket.do-commerce.com/oauth/check_token
+      tokenInfoUri: http://localhost:8188/api/v1/user/oauth/check_token
+
+queue:
+  product:
+    name: product-queue
+  inventory:
+    name: inventory-queue
+  finalization:
+    name: finalization-queue
+exchange:
+  product:
+    name: product-exchange
+  inventory:
+    name: inventory-exchange
+  finalization:
+    name: finalization-exchange
+
+eureka:
+  client:
+    enabled: true
+
+azure:
+  application-insights:
+    enabled: false
+
+
+

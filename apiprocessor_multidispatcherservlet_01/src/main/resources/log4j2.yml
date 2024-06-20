@@ -1,0 +1,32 @@
+Configuration:
+  name: Default
+  packages: com.microsoft.applicationinsights.log4j.v2
+  Properties:
+    Property:
+      name: LOG_PATTERN
+      value: "%d{dd/MM/yyyy - HH:mm:ss.SSS} [$${bundle:bootstrap:spring.application.name}] [%thread] [%level] [%logger{1.}] [%method:%line] [RequestId: %X{requestId}] [Authorization: %X{auth}] [Session: %X{session}] [User: %X{user}] [StoreId: %X{storeId}] [MerchantId: %X{merchantId}] -- %msg -%xEx{full} %n"
+  
+  Appenders:
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${LOG_PATTERN}
+    ApplicationInsightsAppender:
+      name: aiAppender
+  
+  Loggers:
+    Root:
+      - level: info
+        AppenderRef:
+          ref: Console
+    Logger:
+      - level: info
+        name: com.domobility.wavemarket.apiprocessor
+        AppenderRef:
+          ref: aiAppender
+
+      - level: error
+        name: ERROR
+        AppenderRef:
+          ref: aiAppender
