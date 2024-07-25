@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-05-26 07:48'
+__ALIAS_LAST_UPDATE__='2024-07-25 11:14'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -38,7 +38,6 @@ __JH_XMS_DEFAULT__=${__JH_XMS__}
 __JH_XMX_DEFAULT__=${__JH_XMX__}
 
 __KH_KUBE_HOME__=${HOME}'/Desktop/dm-git-aux/kubeconfig'
-__ECLIPSE_HOME__='/d/opt/eclipse/eclipse-java-2022.12.R'
 
 
 
@@ -246,41 +245,39 @@ function __jh_set_java_version {
     # save initial dir into var
     init_dir=$( pwd )
 
-
     # redefine JAVA_HOME
     if [ -z ${1} ]
     then
-        echo 'var ${1} should be "8" or "11"'
+        echo 'var ${1} should be: 8, 11, 17, 21'
         return 1;
     elif [ ${1} = '8' ]
     then
-        command cd $JAVA_8_HOME
+        command cd ${JAVA_8_HOME}
     elif [ ${1} = '11' ]
     then
-        command cd $JAVA_11_HOME
+        command cd ${JAVA_11_HOME}
     elif [ ${1} = '17' ]
     then
-        command cd $JAVA_17_HOME
+        command cd ${JAVA_17_HOME}
+    elif [ ${1} = '21' ]
+    then
+        command cd ${JAVA_21_HOME}
     else
-        echo 'var ${1} should be "8" or "11"'
+        echo 'var ${1} should be: 8, 11, 17, 21'
         return 1;
     fi
     JAVA_HOME=$( pwd )
 
-
     # delete current jdk from PATH
     path_tmp1=$( sed -E 's/:[^:]+java[/]jdk[^:]+//g' <( echo ${PATH} ) ) 
-
 
     # append executables dir in new JAVA_HOME to PATH
     command cd ./bin
     path_tmp2=${path_tmp1}':'$( pwd )
     PATH=${path_tmp2}
 
-
     # return to initial dir
     command cd ${init_dir}
-
 
     # unset temporal vars
     unset path_tmp1 path_tmp2 init_dir
@@ -293,12 +290,12 @@ function __jh_set_java_version {
     # echo 'PATH: '$( grep --color=always -P ':[^:]+java/jdk[^:]+' <( echo $PATH ) ) # debugging
     # echo
     java -version
-
 }
 
-alias sj8='__jh_set_java_version 8'
+alias sj8=' __jh_set_java_version 8 '
 alias sj11='__jh_set_java_version 11'
-alias sj17='__set_java_version 17'
+alias sj17='__jh_set_java_version 17'
+alias sj21='__jh_set_java_version 21'
 
 
 
@@ -723,33 +720,45 @@ alias gh='less -f <( echo -e "${_gh_s}" )'
 
 uname | command grep -P -i '(mingw|window)' > /dev/null
 
-__kernel_is_windows__=$( echo $? )
+__kernel_is_windows__=$( echo ${?} )
 
 if [ ${__kernel_is_windows__} -eq '0'  ]; then
     alias wsl='clear ; winpty wsl'
     alias s='echo "--> start"; sleep ${__ALIAS_TIMEOUT__}; start'
     alias python='winpty python'
     alias ipython='winpty ipython'
-    function _npp {
+    # notepad plus plus launcher
+    function __npp {
         echo 'notepad++ launcher -- begin...'
         notepad++ ${*} & 
         disown ${!} 
         echo 'notepad++ launcher -- done!'
     }
-    alias npp='_npp'
-    function _ecl {
+    alias npp='__npp'
+    # eclipse ide launcher
+    function __jh_ecl {
         echo 'eclipse launcher -- begin...'
-        echo '__ECLIPSE_HOME__: '${__ECLIPSE_HOME__}
-        __pwd=$( pwd ) 
-        # cd /d/opt/eclipse/eclipse-java-2022.12.R 
-        command cd ${__ECLIPSE_HOME__}
+        __pwd__=$( pwd ) 
+        __eh__=''
+        if [ -z ${1} ]; then
+            echo 'ECLIPSE_HOME: '${ECLIPSE_HOME}
+            __eh__=${__ECLIPSE_HOME__}
+        elif [ ${1} = 'old' ]; then
+            echo 'ECLIPSE_OLD_HOME: '${ECLIPSE_OLD_HOME}
+            __eh__=${ECLIPSE_OLD_HOME}
+        else
+            echo 'parameter ${1} not valid; should be empty or "old"'
+            return 1
+        fi
+        command cd ${__eh__}
         ./eclipse & 
         disown ${!}
-        command cd ${__pwd}
-        unset __pwd
+        command cd ${__pwd__}
+        unset __pwd__ __eh__
         echo 'eclipse launcher -- done!'
     }
-    alias ecl='_ecl'
+    alias ecl=' __jh_ecl'
+    alias eclo='__jh_ecl old'
 fi
 
 unset __kernel_is_windows__
