@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-07-25 11:14'
+__ALIAS_LAST_UPDATE__='2024-07-26 07:08'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -742,7 +742,7 @@ if [ ${__kernel_is_windows__} -eq '0'  ]; then
         __eh__=''
         if [ -z ${1} ]; then
             echo 'ECLIPSE_HOME: '${ECLIPSE_HOME}
-            __eh__=${__ECLIPSE_HOME__}
+            __eh__=${ECLIPSE_HOME}
         elif [ ${1} = 'old' ]; then
             echo 'ECLIPSE_OLD_HOME: '${ECLIPSE_OLD_HOME}
             __eh__=${ECLIPSE_OLD_HOME}
