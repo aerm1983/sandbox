@@ -1,14 +1,76 @@
-= = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB binaries install - updated: 2024-05-20 10:45
-= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+MariaDB, MySQL binaries install - updated: 2024-08-08 18:37
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
 
-(1) Place files in appropiate installation directory
+(1) MySQL-8.0 Windows install:
+
+(1.1) Enter mysql home directory:
+
+cd D:\opt\mysql\mysql-8.0.39-win64
+
+All following commands will be executed from that directory.
+
+(1.2) Check possible options/config file:
+
+.\bin\mysql.exe --help
+
+Before data dir initialization (next step), no options/config file should exist.
+
+(1.3) initialize data dir, insecure mode (user root created with no password):
+
+.\bin\mysqld.exe --initialize-insecure --datadir .\data
+
+(1.4) run mysqld as console/terminal process:
+
+.\bin\mysqld.exe --console
+
+(1.5) open new terminal window, start mysql client session, user root, no password:
+
+.\bin\mysql.exe -u root --skip-password
+
+(1.6) into mysql client console/terminal session, assign password:
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '1234';
+
+(1.7) exit mysql client session:
+
+\q
+
+(1.8) Trying to initiate mysql client without password should fail:
+
+.\bin\mysql.exe -u root --skip-password
+
+(1.9) Trying to initiate mysql client with password should succeed:
+
+.\bin\mysql.exe -u root -p
+
+(prompt asking for password appears, enter it)
+
+(1.10) Stop mysqld process, populate my.ini file, restart mysqld process.
+
+(1.11) Add MySQL "bin" folder to global variable "PATH".
+
+(1.12) Detailed information on installation from ZIP file:
+
+https://dev.mysql.com/doc/refman/8.0/en/windows-install-archive.html
+
+https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html
+
+https://dev.mysql.com/doc/refman/8.0/en/server-options.html#option_mysqld_initialize-insecure
+
+https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html#data-directory-initialization-password-assignment
+
+(1.13) Pending: review "mariadb-install-db" command
 
 
 
-(2) At cmd, "bin" folder, run "mariadb --help", check default locations for file "my.ini"; root directory installation is usually indicated
+(2) At cmd, "bin" folder, run "mariadb --help" or "mysql --help" to:
+
+- Check default locations for file "my.ini".
+
+- Check root directory installation.
 
 
 
@@ -17,6 +79,8 @@ MariaDB binaries install - updated: 2024-05-20 10:45
 [mysqld]
 
 # main properties
+
+# 'datadir' was defined in install / initialization
 
 datadir=/opt/mariadb/mariadb-10.6.5/data
 
@@ -55,13 +119,7 @@ plugin-dir=/opt/mariadb/mariadb-10.6.5/lib/plugin
 
 
 
-(4) Pending: 
-
-How to make initial connection? 
-
-How to configure superuser "root", its password? 
-
-Review "mariadb-install-db" command
+(4) (empty)
 
 
 
