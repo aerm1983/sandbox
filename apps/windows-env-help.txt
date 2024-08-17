@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2022-12-18 08:00
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2024-08-17 18:12
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -39,6 +39,8 @@ JAVA_11_017_HOME
 
 JAVA_8_HOME
 JAVA_11_HOME
+JAVA_17_HOME
+JAVA_21_HOME
 JAVA_HOME
 
 M2_HOME
@@ -56,6 +58,7 @@ PYTHON_3_9_HOME
 PYTHONHOME
 
 MARIADB_HOME
+MYSQL_HOME
 HEIDISQL_HOME
 
 VISUALVM_HOME
@@ -121,6 +124,7 @@ pip -V
 python (console) --> import sys --> sys.path --> sys.exit()
 
 mariadb --version
+mysql --version
 
 visualvm --help
 flyway --help | flyway info
@@ -134,6 +138,7 @@ flyway --help | flyway info
 where git # also with all other commands (windows 'where' is equivalent to unix 'which')
 
 mariadbd --console
+mysqld --console
 
 mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
 mariadbd --defaults-file=/etc/mariadb/maria.ini --console
@@ -211,5 +216,78 @@ Policty "Enable Win32 long paths", enable
 (8.4) Exit from WSL-Bash.
 
 (8.5) Into Windows CMD, execute "debian config --default-user don", to login by default as normal user.
+
+
+
+= = = = = = = = = = = = = = = = = = = =
+(9) CHECK MEMORY SLOTS IN MOTHERBOARD
+= = = = = = = = = = = = = = = = = = = =
+
+(9.1) Into Windows CMD, available capacity for memory in motherboard:
+
+wmic memphysical get maxcapacity
+
+(9.2) Into Windows CMD, installed memory chips:
+
+wmic memorychip list full
+
+wmic memorychip get manufacturer, devicelocator, memorytype, formfactor
+
+wmic computersystem get totalphysicalmemory
+
+(9.3) Regarding to memory info, supported form factors:
+
+0: Unknown.
+1: Other.
+2: SIP.
+3: DIP.
+4: ZIP.
+5: SOJ
+6: Proprietary.
+7: SIMM.
+8: DIMM.
+9: TSOP.
+10: PGA.
+11: RIMM.
+12: SODIMM.
+13: SRIMM.
+14: SMD.
+15: SSMP.
+16: QFP.
+17: TQFP.
+18: SOIC.
+19: LCC.
+20: PLCC.
+21: BGA.
+22: FPBGA.
+23: LGA.
+24: FB-DIMM.
+
+For laptops using ddr3 (generally, max 8GB per chip), it's "12: SODIMM".
+
+Laptop Dell Inspiron n4050 n5050 uses ddr3, has two memory slots, max 16GB (2x8).
+
+
+
+= = = = = = = = = = = = =
+(10) TASK BAR ELEMENTS
+= = = = = = = = = = = = =
+
+win
+search
+task_manager
+cmd
+git_bash
+file_explorer
+notepad_pp
+chrome_browser
+snip_tool
+visual_vm
+heidysql
+filezilla_client
+zoom
+whatsapp
+openvpn
+eclipse_ide
 
 

@@ -129,6 +129,8 @@ mariadbd --console
 
 It's also possible to start several services, each referring to a specific ini file:
 
+.\bin\mysqld.exe --defaults-file=.\my.ini --console
+
 mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
 
 mariadbd --defaults-file=/etc/mariadb/maria.ini --console
