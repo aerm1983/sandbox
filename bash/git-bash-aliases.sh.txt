@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-07-26 07:08'
+__ALIAS_LAST_UPDATE__='2024-08-23 05:57'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -649,7 +649,7 @@ alias gf='__gh_gf'
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
 alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
 
-alias gpss='echo "--> git push --set-upstream origin <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push --set-upstream origin $( git branch --show-current )'
+alias gpss='echo "--> git push origin --set-upstream <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --set-upstream $( git branch --show-current )'
 alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --delete $( git branch --show-current )'
 
 alias gz='echo "--> git stash"; sleep ${__ALIAS_TIMEOUT__}; git stash'
@@ -696,8 +696,8 @@ s=${s}'  gf  : git fetch \n'
 s=${s}'  gpl : git pull \n'
 s=${s}'  gps : git push \n'
 s=${s}'\n'
-s=${s}'  gpss: git push --set-upstream origin <branch> \n'
-s=${s}'  gpsd: git push origin --delete <branch> \n'
+s=${s}'  gpss: git push origin --set-upstream <current_branch> \n'
+s=${s}'  gpsd: git push origin --delete <current_branch> \n'
 s=${s}'\n'
 s=${s}'  gz  : git stash \n'
 s=${s}'  gzl : git stash list \n'
