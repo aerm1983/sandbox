@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-08-23 05:57'
+__ALIAS_LAST_UPDATE__='2024-08-23 09:09'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -111,6 +111,7 @@ alias cdkb_s='command cd ~/Desktop/are-git-sandbox/bash/bash'
 
 alias cdkj='cd ~/Desktop/dm-git-java'
 alias cdkj_s='command cd ~/Desktop/dm-git-java'
+alias cdkak_s='command cd ~/Desktop/dm-git-aux/kubeconfig'
 
 alias cdka='cd ~/Desktop/dm-git-aux'
 alias cdka_s='command cd ~/Desktop/dm-git-aux'
@@ -779,151 +780,5 @@ fi
 
 unset __kernel_is_linux__
 
-
-
-
-# ------------------------------------------------------
-# Kubectl
-# ------------------------------------------------------
-
-function _kks {
-    
-    # iniit
-    echo '--> kubectl define: kubeconfig, deployment, pod, $kk'
-    command cd ${__KH_KUBE_HOME__}
-    
-    # define __kh_kubeconfig
-    kubeconfig_list="$( command ls *.yml )"
-    if [ -z ${1} ] ; then
-        echo -e 'KUBECONFIG -- AVAILABLE OPTIONS:\n'"${kubeconfig_list}"'\n' | less
-        read -p 'regexp for kubeconfig ('\''n'\'' to exit): ' kubeconfig_regex
-        if [ ${kubeconfig_regex} = 'n'  ] ; then
-            echo 'cancelled!'
-            return 1
-        fi
-    else
-        kubeconfig_regex=${1}
-    fi
-    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
-    echo '__kh_kubeconfig: '${__kh_kubeconfig}
-    
-    # define kk
-    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
-    echo 'kk: '${kk}
-    
-    # define __kh_deployment
-    echo -n 'executing '\'${kk}' get deployments'\'' ... '
-    deployment_list="$( ${kk} get deployments )"
-    echo 'done'
-    if [ -z ${2} ] ; then
-        echo 'DEPLOYMENTS -- AVAILABLE OPTIONS: \n'"${deployment_list}"'\n' | less
-        read -p 'regexp for deployment ('\''n'\'' to exit): ' deployment_regex
-        if [ ${deployment_regex} = 'n'  ] ; then
-            echo 'cancelled!'
-            return 1
-        fi
-    else
-        deployment_regex=${2}
-    fi
-    __kh_deployment=$( echo "${deployment_list}" | command grep -P -i ${deployment_regex} | command awk '{print $1}' )
-    echo '__kh_deployment: '${__kh_deployment}
-    
-    # define __kh_pod
-    echo -n 'executing '\'${kk}' get pods'\'' ... '
-    pod_list="$( ${kk} get pods )"
-    pod_regex=${deployment_regex}
-    echo 'done'
-    __kh_pod=$( echo "${pod_list}" | command grep -P -i ${pod_regex} | command awk '{print $1}' )
-    echo '__kh_pod: '${__kh_pod}
-    
-    # define __kh_container
-    __kh_container=${__kh_deployment}
-    echo '__kh_container: '${__kh_container}
-    
-    # end
-    unset kubeconfig_list kubeconfig_regex 
-    unset deployment_list deployment_regex 
-    unset pod_list pod_regex
-    echo 'done!'
-    
-}
-alias kks='_kks'
-
-
-
-
-function __kh_kkp {
-    # kubectl variables
-    echo 'kubectl print variables'
-    echo '__KH_KUBE_HOME__ : '${__KH_KUBE_HOME__}
-    echo '__kh_kubeconfig  : '${__kh_kubeconfig}
-    echo '__kh_deployment  : '${__kh_deployment}
-    echo '__kh_pod         : '${__kh_pod}
-    echo '__kh_container   : '${__kh_container}
-    echo 'kk               : '${kk}
-    echo 'done!'
-}
-alias kkp='__kh_kkp'
-
-
-
-function __kh_kkl {
-    
-    # init, confirm
-    command cd ${__KH_KUBE_HOME__}
-    echo 'kubectl logs for:'
-    echo '__kh_kubeconfig: '${__kh_kubeconfig}
-    echo '__kh_pod: '${__kh_pod}
-    echo '__kh_container: '${__kh_container}
-    # confirm
-    read -p 'continue (y/n)?: ' _continue
-    if [ ${_continue} != 'y'  ] ; then
-        unset _continue
-        echo 'cancelled, no action performed'
-        return 1
-    fi
-    # tail flag
-    if [ ! -z "${1}" ] ; then
-        _tflagq="${1}"
-    else
-        read -p "tail? ('n' or number): " -e -i '1' _tflagq
-    fi
-    _tflag=''
-    if [ ${_tflagq} == 'n'  ] ; then
-        _tflag=''
-    else
-        _tflag='--tail='${_tflagq}
-    fi
-    # follow flag
-    if [ ! -z "${2}" ] ; then
-        _fflagq="${2}"
-    else
-        read -p 'follow (y/n)?: ' -e -i 'y' _fflagq
-    fi
-    _fflag='-f'
-    if [ ${_fflagq} != 'y'  ] ; then
-        _fflag=''
-    fi
-    # kubectl log 
-    _s='kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' '${_tflag}' '${_fflag}' &> '\''./tmp/'${__kh_container}'.log'\'' & '
-    echo 'executing: '
-    echo ${_s}
-    eval ${_s}
-    unset _s _fflag _fflagq _tflag _tflagq
-}
-alias kkl='__kh_kkl'
-
-
-
-s='--> Kubectl Helper ('${__ALIAS_LAST_UPDATE__}') \n'
-s=${s}'(parameters within parenthesis are optional; also requested via prompt) \n'
-s=${s}'\n'
-s=${s}'  kks : set ($1) kubeconfig-file, ($2) deployment, regex type \n' 
-s=${s}'  kkp : print pre-set variables \n' 
-s=${s}'  kkl : kubectl logs, using pre-set variables, ($1) tail flag '"('n'|digit)"', ($2) follow flag '"('y'|'n')"' \n'
-s=${s}'\n'
-_kh_s=${s}
-unset s
-alias kh='less -f <( echo -e "${_kh_s}" )'
 
 

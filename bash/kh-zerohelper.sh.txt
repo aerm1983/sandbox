@@ -1,0 +1,515 @@
+#!/bin/bash
+
+# KUBECTL ZERO-HELPER
+# dependencies: git-bash-aliases.sh
+
+__KH_UPDATED__='2024-08-23 10:37'
+
+
+
+### main functions
+
+
+
+# deprecated on 2024-08-23
+function __kh_kks1 {
+
+    # init
+    echo '--> kubectl define: kubeconfig, deployment, pod, $kk'
+    command cd ${__KH_KUBE_HOME__}
+
+    # define __kh_kubeconfig
+    kubeconfig_list="$( command ls *.yml )"
+    if [ -z ${1} ] ; then
+        echo -e 'KUBECONFIG -- AVAILABLE OPTIONS:\n'"${kubeconfig_list}"'\n' | less
+        read -p 'regexp for kubeconfig ('\''n'\'' to exit): ' kubeconfig_regex
+        if [ ${kubeconfig_regex} = 'n'  ] ; then
+            echo 'cancelled!'
+            return 1
+        fi
+    else
+        kubeconfig_regex=${1}
+    fi
+    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+
+    # define kk
+    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
+    echo 'kk: '${kk}
+
+    # define __kh_deployment
+    echo -n 'executing '\'${kk}' get deployments'\'' ... '
+    deployment_list="$( ${kk} get deployments )"
+    echo 'done'
+    if [ -z ${2} ] ; then
+        echo 'DEPLOYMENTS -- AVAILABLE OPTIONS: \n'"${deployment_list}"'\n' | less
+        read -p 'regexp for deployment ('\''n'\'' to exit): ' deployment_regex
+        if [ ${deployment_regex} = 'n'  ] ; then
+            echo 'cancelled!'
+            return 1
+        fi
+    else
+        deployment_regex=${2}
+    fi
+    __kh_deployment=$( echo "${deployment_list}" | command grep -P -i ${deployment_regex} | command awk '{print $1}' )
+    echo '__kh_deployment: '${__kh_deployment}
+
+    # define __kh_pod
+    echo -n 'executing '\'${kk}' get pods'\'' ... '
+    pod_list="$( ${kk} get pods )"
+    pod_regex=${deployment_regex}
+    echo 'done'
+    __kh_pod=$( echo "${pod_list}" | command grep -P -i ${pod_regex} | command awk '{print $1}' )
+    echo '__kh_pod: '${__kh_pod}
+
+    # define __kh_container
+    __kh_container=${__kh_deployment}
+    echo '__kh_container: '${__kh_container}
+
+    # end
+    unset kubeconfig_list kubeconfig_regex 
+    unset deployment_list deployment_regex 
+    unset pod_list pod_regex
+    echo 'done!'
+
+}
+alias kks1='__kh_kks1'
+
+
+
+
+function __kh_kks {
+
+    # init
+    echo '--> kubectl define: deployment'
+    command cd ${__KH_KUBE_HOME__}
+
+    # define deployment
+    if [ -z ${1} ] ; then
+        __space="        "
+        s='you must enter an option:\n'
+
+        s=${s}'0: api'
+        s=${s}${__space}
+        s=${s}'1: bulk'
+        s=${s}'\n'
+
+        s=${s}'2: product'
+        s=${s}${__space}
+        s=${s}'3: order'
+        s=${s}'\n'
+
+        s=${s}'4: mapping'
+        s=${s}${__space}
+        s=${s}'5: user'
+        s=${s}'\n'
+
+        s=${s}'6: ui'
+        s=${s}${__space}
+        s=${s}'7: mailing'
+        s=${s}'\n'
+
+        s=${s}'8: ebay'
+        s=${s}${__space}
+        s=${s}'9: miravia'
+        s=${s}'\n'
+
+        s=${s}'10: amazon'
+        s=${s}${__space}
+        s=${s}'11: (non assigned)'
+        s=${s}'\n'
+
+        echo -e ${s}
+        unset s
+        return 0
+    elif [ ${1} -eq '0' ] ; then
+        __kh_deployment=${__kh_deployment_api}
+        __kh_pod=${__kh_pod_api}
+        __kh_container=${__kh_container_api}
+        __kh_service=${__kh_service_api}
+    elif [ ${1} -eq '1' ] ; then
+        __kh_deployment=${__kh_deployment_bulk}
+        __kh_pod=${__kh_pod_bulk}
+        __kh_container=${__kh_container_bulk}
+        __kh_service=${__kh_service_bulk}
+    elif [ ${1} -eq '2' ] ; then
+        __kh_deployment=${__kh_deployment_product}
+        __kh_pod=${__kh_pod_product}
+        __kh_container=${__kh_container_product}
+        __kh_service=${__kh_service_product}
+    elif [ ${1} -eq '3' ] ; then
+        __kh_deployment=${__kh_deployment_order}
+        __kh_pod=${__kh_pod_order}
+        __kh_container=${__kh_container_order}
+        __kh_service=${__kh_service_order}
+    elif [ ${1} -eq '4' ] ; then
+        __kh_deployment=${__kh_deployment_mapping}
+        __kh_pod=${__kh_pod_mapping}
+        __kh_container=${__kh_container_mapping}
+        __kh_service=${__kh_service_mapping}
+    elif [ ${1} -eq '5' ] ; then
+        __kh_deployment=${__kh_deployment_user}
+        __kh_pod=${__kh_pod_user}
+        __kh_container=${__kh_container_user}
+        __kh_service=${__kh_service_user}
+    elif [ ${1} -eq '6' ] ; then
+        __kh_deployment=${__kh_deployment_ui}
+        __kh_pod=${__kh_pod_ui}
+        __kh_container=${__kh_container_ui}
+        __kh_service=${__kh_service_ui}
+    elif [ ${1} -eq '7' ] ; then
+        __kh_deployment=${__kh_deployment_mailing}
+        __kh_pod=${__kh_pod_mailing}
+        __kh_container=${__kh_container_mailing}
+        __kh_service=${__kh_service_mailing}
+    elif [ ${1} -eq '8' ] ; then
+        __kh_deployment=${__kh_deployment_ebay}
+        __kh_pod=${__kh_pod_ebay}
+        __kh_container=${__kh_container_ebay}
+        __kh_service=${__kh_service_ebay}
+    elif [ ${1} -eq '9' ] ; then
+        __kh_deployment=${__kh_deployment_miravia}
+        __kh_pod=${__kh_pod_miravia}
+        __kh_container=${__kh_container_miravia}
+        __kh_service=${__kh_service_miravia}
+    elif [ ${1} -eq '10' ] ; then
+        __kh_deployment=${__kh_deployment_amazon}
+        __kh_pod=${__kh_pod_amazon}
+        __kh_container=${__kh_container_amazon}
+        __kh_service=${__kh_service_amazon}
+    fi
+    echo 'done!'
+
+}
+alias kks='__kh_kks'
+
+
+
+
+function __kh_kkr {
+    # regex definitions
+    __regex_api='apiproc'         # 00
+    __regex_bulk='bulk'           # 01
+    __regex_product='productm'    # 02
+    __regex_order='orderm'        # 03
+    __regex_mapping='mappingm'    # 04
+    __regex_user='userm'          # 05
+    __regex_ui='ui'               # 06
+    __regex_mailing='mailing'     # 07
+    __regex_ebay='eebay'          # 08
+    __regex_miravia='miravia'     # 09
+    __regex_amazon='amazon'       # 10
+
+    # init
+    echo '--> kubectl refresh: kubeconfig, $kk, deployments, pods, services'
+    command cd ${__KH_KUBE_HOME__}
+
+    # define __kh_kubeconfig
+    kubeconfig_list="$( command ls *.yml )"
+    kubeconfig_regex=${1}
+    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+
+    # define kk
+    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
+    echo 'kk: '${kk}
+
+    # refresh deployments
+    echo -n 'executing '\'${kk}' get deployments'\'' ... '
+    deployment_list="$( ${kk} get deployments )"
+    __kh_deployment_api=$( echo "${deployment_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_deployment_bulk=$( echo "${deployment_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_deployment_product=$( echo "${deployment_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_deployment_order=$( echo "${deployment_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_deployment_mapping=$( echo "${deployment_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_deployment_user=$( echo "${deployment_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_deployment_ui=$( echo "${deployment_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_deployment_mailing=$( echo "${deployment_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_deployment_ebay=$( echo "${deployment_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_deployment_miravia=$( echo "${deployment_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_deployment_amazon=$( echo "${deployment_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    echo 'done'
+
+    # refresh pods
+    echo -n 'executing '\'${kk}' get pods'\'' ... '
+    pod_list="$( ${kk} get pods )"
+    __kh_pod_api=$( echo "${pod_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_pod_bulk=$( echo "${pod_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_pod_product=$( echo "${pod_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_pod_order=$( echo "${pod_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_pod_mapping=$( echo "${pod_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_pod_user=$( echo "${pod_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_pod_ui=$( echo "${pod_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_pod_mailing=$( echo "${pod_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_pod_ebay=$( echo "${pod_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_pod_miravia=$( echo "${pod_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_pod_amazon=$( echo "${pod_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    echo 'done'
+
+    # refresh containers
+    __kh_container=${__kh_deployment}
+    __kh_container_api=${__kh_deployment_api}
+    __kh_container_bulk=${__kh_deployment_bulk}
+    __kh_container_product=${__kh_deployment_product}
+    __kh_container_order=${__kh_deployment_order}
+    __kh_container_mapping=${__kh_deployment_mapping}
+    __kh_container_user=${__kh_deployment_user}
+    __kh_container_ui=${__kh_deployment_ui}
+    __kh_container_mailing=${__kh_deployment_mailing}
+    __kh_container_ebay=${__kh_deployment_ebay}
+    __kh_container_miravia=${__kh_deployment_miravia}
+    __kh_container_amazon=${__kh_deployment_amazon}
+    # echo 'refresh containers, done'
+
+    # refresh services
+    echo -n 'executing '\'${kk}' get services'\'' ... '
+    service_list="$( ${kk} get services )"
+    __kh_service_api=$( echo "${service_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_service_bulk=$( echo "${service_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_service_product=$( echo "${service_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_service_order=$( echo "${service_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_service_mapping=$( echo "${service_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_service_user=$( echo "${service_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_service_ui=$( echo "${service_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_service_mailing=$( echo "${service_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_service_ebay=$( echo "${service_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_service_miravia=$( echo "${service_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_service_amazon=$( echo "${service_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    echo 'done'
+
+    # last update
+    # __kh_env_file_updated=$( date --iso-8601=seconds ) # dificult for fast human reading
+    __kh_env_file_updated=$( date +'%Y-%m-%d %H:%M:%S %Z' )
+
+    # write environment file
+    __kh_env_file=${__KH_KUBE_HOME__}'/tmp/__kh_env.sh.txt'
+    s='#! /bin/bash \n'
+    s=${s}'\n'
+    s=${s}'# KUBECONFIG FILE \n'
+    s=${s}'__kh_env_file_updated='\'${__kh_env_file_updated}\''\n' 
+    s=${s}'__kh_kubeconfig='\'${__kh_kubeconfig}\''\n'
+    s=${s}'kk='\'${kk}\'' \n'
+    s=${s}'\n'
+    s=${s}'# DEPLOYMENTS \n'
+    s=${s}'__kh_deployment_api='${__kh_deployment_api}' \n'
+    s=${s}'__kh_deployment_bulk='${__kh_deployment_bulk}' \n'
+    s=${s}'__kh_deployment_product='${__kh_deployment_product}' \n'
+    s=${s}'__kh_deployment_order='${__kh_deployment_order}' \n'
+    s=${s}'__kh_deployment_mapping='${__kh_deployment_mapping}' \n'
+    s=${s}'__kh_deployment_user='${__kh_deployment_user}' \n'
+    s=${s}'__kh_deployment_ui='${__kh_deployment_ui}' \n'
+    s=${s}'__kh_deployment_mailing='${__kh_deployment_mailing}' \n'
+    s=${s}'__kh_deployment_ebay='${__kh_deployment_ebay}' \n'
+    s=${s}'__kh_deployment_miravia='${__kh_deployment_miravia}' \n'
+    s=${s}'__kh_deployment_amazon='${__kh_deployment_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# PODS \n'
+    s=${s}'__kh_pod_api='${__kh_pod_api}' \n'
+    s=${s}'__kh_pod_bulk='${__kh_pod_bulk}' \n'
+    s=${s}'__kh_pod_product='${__kh_pod_product}' \n'
+    s=${s}'__kh_pod_order='${__kh_pod_order}' \n'
+    s=${s}'__kh_pod_mapping='${__kh_pod_mapping}' \n'
+    s=${s}'__kh_pod_user='${__kh_pod_user}' \n'
+    s=${s}'__kh_pod_ui='${__kh_pod_ui}' \n'
+    s=${s}'__kh_pod_mailing='${__kh_pod_mailing}' \n'
+    s=${s}'__kh_pod_ebay='${__kh_pod_ebay}' \n'
+    s=${s}'__kh_pod_miravia='${__kh_pod_miravia}' \n'
+    s=${s}'__kh_pod_amazon='${__kh_pod_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# CONTAINERS \n'
+    s=${s}'__kh_container_api='${__kh_container_api}' \n'
+    s=${s}'__kh_container_bulk='${__kh_container_bulk}' \n'
+    s=${s}'__kh_container_product='${__kh_container_product}' \n'
+    s=${s}'__kh_container_order='${__kh_container_order}' \n'
+    s=${s}'__kh_container_mapping='${__kh_container_mapping}' \n'
+    s=${s}'__kh_container_user='${__kh_container_user}' \n'
+    s=${s}'__kh_container_ui='${__kh_container_ui}' \n'
+    s=${s}'__kh_container_mailing='${__kh_container_mailing}' \n'
+    s=${s}'__kh_container_ebay='${__kh_container_ebay}' \n'
+    s=${s}'__kh_container_miravia='${__kh_container_miravia}' \n'
+    s=${s}'__kh_container_amazon='${__kh_container_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# SERVICES \n'
+    s=${s}'__kh_service_api='${__kh_service_api}' \n'
+    s=${s}'__kh_service_bulk='${__kh_service_bulk}' \n'
+    s=${s}'__kh_service_product='${__kh_service_product}' \n'
+    s=${s}'__kh_service_order='${__kh_service_order}' \n'
+    s=${s}'__kh_service_mapping='${__kh_service_mapping}' \n'
+    s=${s}'__kh_service_user='${__kh_service_user}' \n'
+    s=${s}'__kh_service_ui='${__kh_service_ui}' \n'
+    s=${s}'__kh_service_mailing='${__kh_service_mailing}' \n'
+    s=${s}'__kh_service_ebay='${__kh_service_ebay}' \n'
+    s=${s}'__kh_service_miravia='${__kh_service_miravia}' \n'
+    s=${s}'__kh_service_amazon='${__kh_service_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# CLEAN PREVIOUS DEPLOYMENT/POD VARIABLES \n'
+    s=${s}'__kh_deployment=''\n'
+    s=${s}'__kh_pod=''\n'
+    s=${s}'__kh_container=''\n'
+    s=${s}'__kh_service=''\n'
+    s=${s}'# FILE SOURCED, VARS EMPTIED REFERENCE \n'
+    s=${s}'echo '\''file __kh_env_file.sh.txt sourced -- file updated: '${__kh_env_file_updated}\''\n'
+    # s=${s}'echo '\''vars deployment/pod emptied'\'' \n'
+    _kh_s=${s}
+    unset s
+    echo -e ${_kh_s} > ${__kh_env_file}
+    echo 'file '\''./tmp/__kh_env_file.sh.txt'\'' written -- time: '${__kh_env_file_updated}
+
+    # end
+    echo 'done!'
+}
+alias kkr='__kh_kkr'
+
+
+
+
+function __kh_kkp {
+    # kubectl variables
+    echo 'kubectl print variables'
+    # echo '__KH_UPDATED__   : '${__KH_UPDATED__}
+    echo '__KH_KUBE_HOME__ : '${__KH_KUBE_HOME__}
+    echo '__kh_e_f_updated : '${__kh_env_file_updated}
+    echo '__kh_kubeconfig  : '${__kh_kubeconfig}
+    echo '__kh_deployment  : '${__kh_deployment}
+    echo '__kh_pod         : '${__kh_pod}
+    echo '__kh_container   : '${__kh_container}
+    echo '__kh_service     : '${__kh_service}
+    echo 'kk               : '${kk}
+    echo 'done!'
+}
+alias kkp='__kh_kkp'
+
+
+
+function __kh_kkl {
+
+    # init, confirm
+    command cd ${__KH_KUBE_HOME__}
+    echo 'kubectl logs for:'
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+    echo '__kh_pod: '${__kh_pod}
+    echo '__kh_container: '${__kh_container}
+    # confirm
+    read -p 'continue (y/n)?: ' _continue
+    if [ ${_continue} != 'y'  ] ; then
+        unset _continue
+        echo 'cancelled, no action performed'
+        return 1
+    fi
+    # tail flag
+    if [ ! -z "${1}" ] ; then
+        _tflagq="${1}"
+    else
+        read -p "tail? ('n' or number): " -e -i '1' _tflagq
+    fi
+    _tflag=''
+    if [ ${_tflagq} == 'n'  ] ; then
+        _tflag=''
+    else
+        _tflag='--tail='${_tflagq}
+    fi
+    # follow flag
+    if [ ! -z "${2}" ] ; then
+        _fflagq="${2}"
+    else
+        read -p 'follow (y/n)?: ' -e -i 'y' _fflagq
+    fi
+    _fflag='-f'
+    if [ ${_fflagq} != 'y'  ] ; then
+        _fflag=''
+    fi
+    # kubectl log 
+    _s='kubectl --kubeconfig '${__kh_kubeconfig}' logs '${__kh_pod}' '${__kh_container}' '${_tflag}' '${_fflag}' &> '\''./tmp/'${__kh_container}'.log'\'' & '
+    echo 'executing: '
+    echo ${_s}
+    eval ${_s}
+    unset _s _fflag _fflagq _tflag _tflagq
+}
+alias kkl='__kh_kkl'
+
+
+
+s='--> Kubectl Helper ('${__ALIAS_LAST_UPDATE__}') \n'
+s=${s}'(parameters within parenthesis are optional; also requested via prompt) \n'
+s=${s}'\n'
+s=${s}'  kks : set ($1) kubeconfig-file, ($2) deployment, regex type \n' 
+s=${s}'  kkp : print pre-set variables \n' 
+s=${s}'  kkl : kubectl logs, using pre-set variables, ($1) tail flag '"('n'|digit)"', ($2) follow flag '"('y'|'n')"' \n'
+s=${s}'\n'
+_kh_s=${s}
+unset s
+alias kh='less -f <( echo -e "${_kh_s}" )'
+
+
+
+
+function __kh_reload {
+    cdkak_s
+    command source ./kh-zerohelper.sh.txt
+    # if [ -e ${__JH_WMP_START_LIST_FILE__} ] ; then
+    #     command source ./_jh-wm-start-platform-list.sh.txt
+    # else
+    #     __JH_WMP_START_LIST_UPDATED__='(file not available)'
+    # fi
+    echo "updated, main:" ${__KH_UPDATED__}
+    # echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
+    _0p
+}
+
+
+
+
+function __kh_load_k_env_file {
+    cdkak_s
+    command source ./tmp/__kh_env.sh.txt
+    echo
+    __kh_kkp
+}
+
+
+
+
+
+### aliases
+
+alias 0='__kh_reload'
+
+# alias _0p='alias 0 ; echo ; alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
+alias _0p='alias 0 ; echo ; alias 000 001 005 007 ; echo ; alias 0s 0p ; echo ; alias 1 10 11 ; echo "(...)" ; alias 19 110 ; echo ; '
+# alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
+
+# alias _0kp='_jh_kill_platform'
+# alias _0sp='_jh_start_platform'
+# alias _0ks='_jh_kill_service'
+# alias _0rs='_jh_restart_service'
+
+# alias _0tlp='_jh_truncate_logs_platform'
+# alias _0rlp='_jh_remove_logs_platform'
+
+alias 000='kkr pre # pre'
+alias 001='kkr wm1 # goodbuy'
+alias 005='kkr wm5 # lf-mx'
+alias 007='kkr wm7 # beb'
+
+alias 0s='__kh_load_k_env_file'
+alias 0p='kkp'
+
+alias 1='kks'
+alias 10='kks 0 ; kkp'
+alias 11='kks 1 ; kkp'
+alias 12='kks 2 ; kkp'
+alias 13='kks 3 ; kkp'
+alias 14='kks 4 ; kkp'
+alias 15='kks 5 ; kkp'
+alias 16='kks 6 ; kkp'
+alias 17='kks 7 ; kkp'
+alias 18='kks 8 ; kkp'
+alias 19='kks 9 ; kkp'
+alias 110='kks 10 ; kkp'
+
+# alias 4u='_jh_update_repo'
+
+# alias 7='_0rs '
+# alias 8='_0kp ; _0rlp ;'
+# alias 9='_0kp ; _0rlp ; _0s; _0sp ;'
+

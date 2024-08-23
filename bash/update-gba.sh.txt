@@ -1,6 +1,6 @@
 #!/bin/bash
 # SCRIPT UPDATE GIT-BASH-ALIASES
-# updated: 2024-04-13 17:57
+# updated: 2024-08-23 08:54
 # execute 'source update-gba.sh.txt'
 
 
@@ -16,12 +16,21 @@ echo ; __bh_h_greeting ; echo ; __bh_h ;
 
 
 
+### Kubectl helper
+
+echo ;
+
+command cp -v ./kh-zerohelper.sh.txt ${HOME}/Desktop/dm-git-aux/kubeconfig ; 
+# echo 'WARNING, REM: update on kh-zero-helper.sh.txt disabled!'
+
+
+
 ### Java helper for DM-WM 
 
 echo ;
 
-command cp -v ./jh-wm-platform.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
-# echo 'WARNING, REM: update on jh-wm-platform.sh.txt disabled!'
+command cp -v ./jh-wm-zerohelper.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
+# echo 'WARNING, REM: update on jh-wm-zero-helper.sh.txt disabled!'
 
 # command cp -v ./_jh-wm-start-platform-list.sh.txt ${HOME}/Desktop/dm-git-java/ ; 
 echo 'WARNING, REM: update on _jh-wm-start-platform-list.sh.txt disabled!'

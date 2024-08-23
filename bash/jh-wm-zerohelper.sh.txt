@@ -1,9 +1,9 @@
 #!/bin/bash
-#!/bin/bash
+
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-06-10 05:09'
+__JH_WMP_UPDATED__='2024-08-23 09:05'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -749,7 +749,7 @@ function _jh_update_repo {
 
 function _jh_reload {
     cdkj_s
-    command source ./jh-wm-platform.sh.txt
+    command source ./jh-wm-zerohelper.sh.txt
     if [ -e ${__JH_WMP_START_LIST_FILE__} ]
     then
         command source ./_jh-wm-start-platform-list.sh.txt
