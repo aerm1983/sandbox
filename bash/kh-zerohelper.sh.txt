@@ -3,7 +3,7 @@
 # KUBECTL ZERO-HELPER
 # dependencies: git-bash-aliases.sh
 
-__KH_UPDATED__='2024-08-23 15:51'
+__KH_UPDATED__='2024-08-23 19:01'
 
 
 
@@ -12,7 +12,7 @@ __KH_UPDATED__='2024-08-23 15:51'
 
 
 # deprecated on 2024-08-23
-function __kh_kks1 {
+function __kh_kks_v1_deprecated {
 
     # init
     echo '--> kubectl define: kubeconfig, deployment, pod, $kk'
@@ -73,7 +73,7 @@ function __kh_kks1 {
     echo 'done!'
 
 }
-alias kks1='__kh_kks1'
+alias kks1='__kh_kks_v1_deprecated1'
 
 
 
@@ -389,13 +389,14 @@ function __kh_kkl {
     echo '__kh_kubeconfig: '${__kh_kubeconfig}
     echo '__kh_pod: '${__kh_pod}
     echo '__kh_container: '${__kh_container}
-    # confirm
-    read -p 'continue (y/n)?: ' _continue
-    if [ ${_continue} != 'y'  ] ; then
-        unset _continue
-        echo 'cancelled, no action performed'
-        return 1
-    fi
+    ### confirm, disabled due to zerohelper implementation, begin
+    # read -p 'continue (y/n)?: ' _continue
+    # if [ ${_continue} != 'y'  ] ; then
+        # unset _continue
+        # echo 'cancelled, no action performed'
+        # return 1
+    # fi
+    ### confirm, end
     # tail flag
     if [ ! -z "${1}" ] ; then
         _tflagq="${1}"
@@ -452,13 +453,9 @@ alias kh='__kh_help'
 function __kh_zerohelper_init {
     # cdkak_s
     command source ./kh-zerohelper.sh.txt
-    # if [ -e ${__JH_WMP_START_LIST_FILE__} ] ; then
-    #     command source ./_jh-wm-start-platform-list.sh.txt
-    # else
-    #     __JH_WMP_START_LIST_UPDATED__='(file not available)'
-    # fi
-    echo "updated, main:" ${__KH_UPDATED__}
-    # echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
+    echo 'updated, main: '${__KH_UPDATED__}
+    echo 'alias 0z: '$( alias 0z ) # alias overriding test
+    echo
     __kh_zerohelper_menu
 }
 
@@ -479,7 +476,9 @@ function __kh_source_kh_env_file {
 
 ZH_ZEROHELPER_INIT='__kh_zerohelper_init'
 
-alias __kh_zerohelper_menu='alias 000 001 005 007 ; echo ; alias 0s 0p ; echo ; alias 1 10 11 ; echo "(...)" ; alias 19 110 ; echo ; alias 0z ; '
+alias __kh_zerohelper_menu='alias 000 001 005 007 ; echo ; alias 0s 0p ; echo ; alias 1 10 11 ; echo "(...)" ; alias 19 110 ; echo ; alias 20 21'
+
+alias 0z='echo "alias overriding: kh-zerohelper"'
 
 alias 000='kkr pre # pre'
 alias 001='kkr wm1 # goodbuy'
@@ -502,6 +501,8 @@ alias 18='kks 8 ; kkp'
 alias 19='kks 9 ; kkp'
 alias 110='kks 10 ; kkp'
 
-# alias overriding test
-alias 0z='echo "overriding test: kh-zerohelper"'
+alias 20='kkl n y'
+alias 21='kkl 50 y'
+
+
 

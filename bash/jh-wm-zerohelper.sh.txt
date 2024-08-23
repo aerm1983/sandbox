@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-08-23 15:51'
+__JH_WMP_UPDATED__='2024-08-23 18:51'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -758,6 +758,8 @@ function __jh_zerohelper_init {
     fi
     echo "updated, main:" ${__JH_WMP_UPDATED__}
     echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
+    echo 'alias 0z: '$( alias 0z ) # alias overriding test
+    echo
     __jh_zerohelper_menu
 }
 
@@ -768,7 +770,9 @@ function __jh_zerohelper_init {
 
 ZH_ZEROHELPER_INIT='__jh_zerohelper_init'
 
-alias __jh_zerohelper_menu='alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ; echo ; alias 0z ; '
+alias __jh_zerohelper_menu='alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ; echo ; '
+
+alias 0z='echo "alias overriding: jh-wm-zerohelper"'
 
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
@@ -791,6 +795,4 @@ alias 7='_0rs '
 alias 8='_0kp ; _0rlp ;'
 alias 9='_0kp ; _0rlp ; _0s; _0sp ;'
 
-# alias overriding test
-alias 0z='echo "overriding test: jh-wm-zerohelper"'
 
