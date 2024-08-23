@@ -3,7 +3,7 @@
 # KUBECTL ZERO-HELPER
 # dependencies: git-bash-aliases.sh
 
-__KH_UPDATED__='2024-08-23 10:37'
+__KH_UPDATED__='2024-08-23 15:51'
 
 
 
@@ -429,22 +429,28 @@ alias kkl='__kh_kkl'
 
 
 
-s='--> Kubectl Helper ('${__ALIAS_LAST_UPDATE__}') \n'
-s=${s}'(parameters within parenthesis are optional; also requested via prompt) \n'
-s=${s}'\n'
-s=${s}'  kks : set ($1) kubeconfig-file, ($2) deployment, regex type \n' 
-s=${s}'  kkp : print pre-set variables \n' 
-s=${s}'  kkl : kubectl logs, using pre-set variables, ($1) tail flag '"('n'|digit)"', ($2) follow flag '"('y'|'n')"' \n'
-s=${s}'\n'
-_kh_s=${s}
-unset s
-alias kh='less -f <( echo -e "${_kh_s}" )'
+
+function __kh_help {
+    # 2024-08-25: This function may be unnecessary since zerohelper refactoring.
+    # Meanwhile, kept for maintenance and further refactoring purposes.
+    s='--> Kubectl Helper ('${__ALIAS_LAST_UPDATE__}') \n'
+    s=${s}'(parameters within parenthesis are optional; also requested via prompt) \n'
+    s=${s}'\n'
+    s=${s}'  kks : set ($1) kubeconfig-file, ($2) deployment, regex type \n' 
+    s=${s}'  kkp : print pre-set variables \n' 
+    s=${s}'  kkl : kubectl logs, using pre-set variables, ($1) tail flag '"('n'|digit)"', ($2) follow flag '"('y'|'n')"' \n'
+    s=${s}'\n'
+    _kh_s=${s}
+    unset s
+    less -f <( echo -e "${_kh_s}" )
+}
+alias kh='__kh_help'
 
 
 
 
-function __kh_reload {
-    cdkak_s
+function __kh_zerohelper_init {
+    # cdkak_s
     command source ./kh-zerohelper.sh.txt
     # if [ -e ${__JH_WMP_START_LIST_FILE__} ] ; then
     #     command source ./_jh-wm-start-platform-list.sh.txt
@@ -453,13 +459,13 @@ function __kh_reload {
     # fi
     echo "updated, main:" ${__KH_UPDATED__}
     # echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
-    _0p
+    __kh_zerohelper_menu
 }
 
 
 
 
-function __kh_load_k_env_file {
+function __kh_source_kh_env_file {
     cdkak_s
     command source ./tmp/__kh_env.sh.txt
     echo
@@ -469,29 +475,18 @@ function __kh_load_k_env_file {
 
 
 
-
 ### aliases
 
-alias 0='__kh_reload'
+ZH_ZEROHELPER_INIT='__kh_zerohelper_init'
 
-# alias _0p='alias 0 ; echo ; alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
-alias _0p='alias 0 ; echo ; alias 000 001 005 007 ; echo ; alias 0s 0p ; echo ; alias 1 10 11 ; echo "(...)" ; alias 19 110 ; echo ; '
-# alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
-
-# alias _0kp='_jh_kill_platform'
-# alias _0sp='_jh_start_platform'
-# alias _0ks='_jh_kill_service'
-# alias _0rs='_jh_restart_service'
-
-# alias _0tlp='_jh_truncate_logs_platform'
-# alias _0rlp='_jh_remove_logs_platform'
+alias __kh_zerohelper_menu='alias 000 001 005 007 ; echo ; alias 0s 0p ; echo ; alias 1 10 11 ; echo "(...)" ; alias 19 110 ; echo ; alias 0z ; '
 
 alias 000='kkr pre # pre'
 alias 001='kkr wm1 # goodbuy'
 alias 005='kkr wm5 # lf-mx'
 alias 007='kkr wm7 # beb'
 
-alias 0s='__kh_load_k_env_file'
+alias 0s='__kh_source_kh_env_file'
 alias 0p='kkp'
 
 alias 1='kks'
@@ -507,9 +502,6 @@ alias 18='kks 8 ; kkp'
 alias 19='kks 9 ; kkp'
 alias 110='kks 10 ; kkp'
 
-# alias 4u='_jh_update_repo'
-
-# alias 7='_0rs '
-# alias 8='_0kp ; _0rlp ;'
-# alias 9='_0kp ; _0rlp ; _0s; _0sp ;'
+# alias overriding test
+alias 0z='echo "overriding test: kh-zerohelper"'
 

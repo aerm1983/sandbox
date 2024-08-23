@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-08-23 09:05'
+__JH_WMP_UPDATED__='2024-08-23 15:51'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -747,8 +747,8 @@ function _jh_update_repo {
 
 
 
-function _jh_reload {
-    cdkj_s
+function __jh_zerohelper_init {
+    # cdkj_s
     command source ./jh-wm-zerohelper.sh.txt
     if [ -e ${__JH_WMP_START_LIST_FILE__} ]
     then
@@ -758,7 +758,7 @@ function _jh_reload {
     fi
     echo "updated, main:" ${__JH_WMP_UPDATED__}
     echo "updated, list:" ${__JH_WMP_START_LIST_UPDATED__}
-    _0p
+    __jh_zerohelper_menu
 }
 
 
@@ -766,9 +766,10 @@ function _jh_reload {
 
 ### aliases
 
-alias 0='_jh_reload'
+ZH_ZEROHELPER_INIT='__jh_zerohelper_init'
 
-alias _0p='alias 0 ; echo ; alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ;'
+alias __jh_zerohelper_menu='alias 3b 3r 3c 3s 4u ; echo ; echo $(alias 7) "# restart service" ; echo $(alias 8) "# kill platform" ; echo $(alias 9) "# restart platform " ; echo ; alias 0z ; '
+
 alias _0s='sleep ${__JH_TIMEOUT_CONTINUE_SEC__}'
 
 alias _0kp='_jh_kill_platform'
@@ -789,4 +790,7 @@ alias 4u='_jh_update_repo'
 alias 7='_0rs '
 alias 8='_0kp ; _0rlp ;'
 alias 9='_0kp ; _0rlp ; _0s; _0sp ;'
+
+# alias overriding test
+alias 0z='echo "overriding test: jh-wm-zerohelper"'
 

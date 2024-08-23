@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-08-23 09:09'
+__ALIAS_LAST_UPDATE__='2024-08-23 15:54'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -37,7 +37,13 @@ __BHS_FILE__=${HOME}/'.bash-help-src'
 __JH_XMS_DEFAULT__=${__JH_XMS__}
 __JH_XMX_DEFAULT__=${__JH_XMX__}
 
+__JH_WM_HOME__=${HOME}'/Desktop/dm-git-java'
 __KH_KUBE_HOME__=${HOME}'/Desktop/dm-git-aux/kubeconfig'
+
+ZH_CURRENT_FILE='_'
+ZH_ZEROHELPER_INIT=''
+ZH_CURRENT_ALIASES=''
+
 
 
 
@@ -780,5 +786,40 @@ fi
 
 unset __kernel_is_linux__
 
+
+
+# ------------------------------------------------------
+# ZeroHelper loader
+# ------------------------------------------------------
+
+function __zh_load_zerohelper {
+    # Alias defined in this script cannot be overriden in zerohelper scripts.
+    # Alias defined in zerohelper scripts can be overriden among such scripts.
+    # Check alias 0z in zerohelper scripts (alias overriding test).
+    zh_found_file=$( command ls | command grep zerohelper )
+    zh_found_file_exit_code=${?}
+    if [ ${zh_found_file_exit_code} -eq '0' ] ; then
+        if [ ${ZH_CURRENT_FILE} = ${zh_found_file} ] ; then
+            echo 'zerohelp file exists, ZH_CURRENT_FILE is equal: do nothing'
+            echo
+            command source ${ZH_CURRENT_FILE}
+            eval ${ZH_ZEROHELPER_INIT}
+        else
+            echo 'zerohelp file exists, ZH_CURRENT_FILE is different: do cleanup and reload'
+            echo
+            ZH_CURRENT_ALIASES=' '
+            ZH_CURRENT_FILE=${zh_found_file}
+            command source ${ZH_CURRENT_FILE}
+            eval ${ZH_ZEROHELPER_INIT}
+        fi
+    else
+        echo 'zerohelp file does not exist: do cleanup'
+        ZH_CURRENT_FILE='_'
+        ZH_ZEROHELPER_INIT=' '
+        ZH_CURRENT_ALIASES=' '
+        echo 'no zerohelper file in this folder'
+    fi
+}
+alias 0='__zh_load_zerohelper'
 
 
