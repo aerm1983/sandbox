@@ -3,11 +3,304 @@
 # KUBECTL ZERO-HELPER
 # dependencies: git-bash-aliases.sh
 
-__KH_UPDATED__='2024-08-25 08:49'
+__KH_UPDATED__='2024-08-25 16:26'
+
+
+# initate required vars
+if [ -z ${__kubeconfig_regex} ] ; then
+    __kubeconfig_regex='wm-pre'
+fi
+
+
+# regex definitions, kubeconfig selection
+__regex_wm_pre='wm-pre'
+__regex_wm1_pro_goodbuy='wm1-pro-goodbuy'
+__regex_wm2_pro_groupelga='wm2-pro-groupelga'
+__regex_wm4_pro_hoepli='wm4-pro-hoepli'
+__regex_wm5_pro_logisfashion_mx='wm5-pro-logisfashion-mx'
+__regex_wm7_pro_beb='wm7-pro-beb'
+__regex_wm8_pro_veepee='wm8-pro-veepee'
+
+
+# regex definitions, pod selection
+__regex_api='apiproc'         # 00
+__regex_bulk='bulk'           # 01
+__regex_product='productm'    # 02
+__regex_order='orderm'        # 03
+__regex_mapping='mappingm'    # 04
+__regex_user='userm'          # 05
+__regex_ui='ui'               # 06
+__regex_mailing='mailing'     # 07
+__regex_ebay='eebay'          # 08
+__regex_miravia='miravia'     # 09
+__regex_amazon='amazon'       # 10
+__regex_rabbitmq='rabbitmq.headless'     # 100
+
 
 
 
 ### main functions
+
+
+
+
+function __kh_kkr {
+
+    # init
+    echo '--> kubectl refresh: kubeconfig, $kk, deployments, pods, services'
+    command cd ${__KH_KUBE_HOME__}
+
+    # if ${1} empty, refresh with same previous kubeconfig
+    if [ -z ${1} ] ; then
+        set ${__kubeconfig_regex}
+        echo 'param ${1} was empty, now populated -- ${__kubeconfig_regex}: '${__kubeconfig_regex}' ; ${1}: '${1}
+    fi
+
+    # check if kubeconfig changed
+    __kh_kubeconfig_changed='true'
+    if [ ${__kubeconfig_regex} = ${1} ] ; then
+        __kh_kubeconfig_changed='false'
+    fi
+
+    # define __kh_kubeconfig, 
+    kubeconfig_list="$( command ls *.yml )"
+    __kubeconfig_regex=${1}
+    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${__kubeconfig_regex} | command awk '{print $1}' )
+    echo '__kh_kubeconfig: '${__kh_kubeconfig}
+
+    # define kk
+    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
+    echo 'kk: '${kk}
+
+    # refresh deployments
+    echo -n 'executing '\'${kk}' get deployments'\'' ... '
+    deployment_list="$( ${kk} get deployments )"
+    __kh_deployment_api=$( echo "${deployment_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_deployment_bulk=$( echo "${deployment_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_deployment_product=$( echo "${deployment_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_deployment_order=$( echo "${deployment_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_deployment_mapping=$( echo "${deployment_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_deployment_user=$( echo "${deployment_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_deployment_ui=$( echo "${deployment_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_deployment_mailing=$( echo "${deployment_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_deployment_ebay=$( echo "${deployment_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_deployment_miravia=$( echo "${deployment_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_deployment_amazon=$( echo "${deployment_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    echo 'done'
+
+    # refresh pods
+    echo -n 'executing '\'${kk}' get pods'\'' ... '
+    pod_list="$( ${kk} get pods )"
+    __kh_pod_api=$( echo "${pod_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_pod_bulk=$( echo "${pod_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_pod_product=$( echo "${pod_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_pod_order=$( echo "${pod_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_pod_mapping=$( echo "${pod_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_pod_user=$( echo "${pod_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_pod_ui=$( echo "${pod_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_pod_mailing=$( echo "${pod_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_pod_ebay=$( echo "${pod_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_pod_miravia=$( echo "${pod_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_pod_amazon=$( echo "${pod_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    echo 'done'
+
+    # refresh containers
+    __kh_container=${__kh_deployment}
+    __kh_container_api=${__kh_deployment_api}
+    __kh_container_bulk=${__kh_deployment_bulk}
+    __kh_container_product=${__kh_deployment_product}
+    __kh_container_order=${__kh_deployment_order}
+    __kh_container_mapping=${__kh_deployment_mapping}
+    __kh_container_user=${__kh_deployment_user}
+    __kh_container_ui=${__kh_deployment_ui}
+    __kh_container_mailing=${__kh_deployment_mailing}
+    __kh_container_ebay=${__kh_deployment_ebay}
+    __kh_container_miravia=${__kh_deployment_miravia}
+    __kh_container_amazon=${__kh_deployment_amazon}
+    # echo 'refresh containers, done'
+
+    # refresh services
+    echo -n 'executing '\'${kk}' get services'\'' ... '
+    service_list="$( ${kk} get services )"
+    __kh_service_api=$( echo "${service_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
+    __kh_service_bulk=$( echo "${service_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
+    __kh_service_product=$( echo "${service_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
+    __kh_service_order=$( echo "${service_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
+    __kh_service_mapping=$( echo "${service_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
+    __kh_service_user=$( echo "${service_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
+    __kh_service_ui=$( echo "${service_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
+    __kh_service_mailing=$( echo "${service_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
+    __kh_service_ebay=$( echo "${service_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
+    __kh_service_miravia=$( echo "${service_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
+    __kh_service_amazon=$( echo "${service_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
+    __kh_service_rabbitmq=$( echo "${service_list}" | command grep -P -i ${__regex_rabbitmq} | command awk '{print $1}' )
+    echo 'done'
+
+    # refresh source ports for port-forward
+    __kh_source_port_rabbitmq=10100
+    __kh_source_port_api=10000
+    __kh_source_port_bulk=10001
+    __kh_source_port_product=10002
+    __kh_source_port_order=10003
+    __kh_source_port_ktypeprocessor=10004
+    __kh_source_port_mapping=
+    __kh_source_port_user=10020
+    __kh_source_port_ui=80
+    __kh_source_port_mailing=10006
+    __kh_source_port_ebay=10015
+    __kh_source_port_miravia=
+    __kh_source_port_amazon=10016
+    __kh_source_port_carriercorreosexpress=10018
+    __kh_source_port_rabbitmq=10100
+
+    # refresh target ports for port-forward
+    __kh_target_port_rabbitmq=15672
+    __kh_target_port_api=8188
+    __kh_target_port_bulk=8185
+    __kh_target_port_product=8181
+    __kh_target_port_order=8083
+    __kh_target_port_ktypeprocessor=8207
+    __kh_target_port_mapping=
+    __kh_target_port_user=8086
+    __kh_target_port_ui=80
+    __kh_target_port_mailing=8193
+    __kh_target_port_ebay=8082
+    __kh_target_port_miravia=
+    __kh_target_port_amazon=8189
+    __kh_target_port_carriercorreosexpress=8205
+    __kh_target_port_rabbitmq=15672
+
+    # clean tmp dir
+    if [ ${__kh_kubeconfig_changed} = 'true' ] ; then
+        command rm -vfR ./tmp/*
+    fi
+
+    # last update
+    # __kh_env_file_updated=$( date --iso-8601=seconds ) # dificult for fast human reading
+    __kh_env_file_updated=$( date +'%Y-%m-%d %H:%M:%S %Z' )
+
+    # write environment file
+    __kh_env_file=${__KH_KUBE_HOME__}'/tmp/__kh_env.sh.txt'
+    s='#! /bin/bash \n'
+    s=${s}'\n'
+    s=${s}'# KUBECONFIG FILE \n'
+    s=${s}'__kh_env_file_updated='\'${__kh_env_file_updated}\''\n' 
+    s=${s}'__kh_kubeconfig='\'${__kh_kubeconfig}\''\n'
+    s=${s}'kk='\'${kk}\'' \n'
+    s=${s}'\n'
+    s=${s}'# DEPLOYMENTS \n'
+    s=${s}'__kh_deployment_api='${__kh_deployment_api}' \n'
+    s=${s}'__kh_deployment_bulk='${__kh_deployment_bulk}' \n'
+    s=${s}'__kh_deployment_product='${__kh_deployment_product}' \n'
+    s=${s}'__kh_deployment_order='${__kh_deployment_order}' \n'
+    s=${s}'__kh_deployment_mapping='${__kh_deployment_mapping}' \n'
+    s=${s}'__kh_deployment_user='${__kh_deployment_user}' \n'
+    s=${s}'__kh_deployment_ui='${__kh_deployment_ui}' \n'
+    s=${s}'__kh_deployment_mailing='${__kh_deployment_mailing}' \n'
+    s=${s}'__kh_deployment_ebay='${__kh_deployment_ebay}' \n'
+    s=${s}'__kh_deployment_miravia='${__kh_deployment_miravia}' \n'
+    s=${s}'__kh_deployment_amazon='${__kh_deployment_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# PODS \n'
+    s=${s}'__kh_pod_api='${__kh_pod_api}' \n'
+    s=${s}'__kh_pod_bulk='${__kh_pod_bulk}' \n'
+    s=${s}'__kh_pod_product='${__kh_pod_product}' \n'
+    s=${s}'__kh_pod_order='${__kh_pod_order}' \n'
+    s=${s}'__kh_pod_mapping='${__kh_pod_mapping}' \n'
+    s=${s}'__kh_pod_user='${__kh_pod_user}' \n'
+    s=${s}'__kh_pod_ui='${__kh_pod_ui}' \n'
+    s=${s}'__kh_pod_mailing='${__kh_pod_mailing}' \n'
+    s=${s}'__kh_pod_ebay='${__kh_pod_ebay}' \n'
+    s=${s}'__kh_pod_miravia='${__kh_pod_miravia}' \n'
+    s=${s}'__kh_pod_amazon='${__kh_pod_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# CONTAINERS \n'
+    s=${s}'__kh_container_api='${__kh_container_api}' \n'
+    s=${s}'__kh_container_bulk='${__kh_container_bulk}' \n'
+    s=${s}'__kh_container_product='${__kh_container_product}' \n'
+    s=${s}'__kh_container_order='${__kh_container_order}' \n'
+    s=${s}'__kh_container_mapping='${__kh_container_mapping}' \n'
+    s=${s}'__kh_container_user='${__kh_container_user}' \n'
+    s=${s}'__kh_container_ui='${__kh_container_ui}' \n'
+    s=${s}'__kh_container_mailing='${__kh_container_mailing}' \n'
+    s=${s}'__kh_container_ebay='${__kh_container_ebay}' \n'
+    s=${s}'__kh_container_miravia='${__kh_container_miravia}' \n'
+    s=${s}'__kh_container_amazon='${__kh_container_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# SERVICES \n'
+    s=${s}'__kh_service_api='${__kh_service_api}' \n'
+    s=${s}'__kh_service_bulk='${__kh_service_bulk}' \n'
+    s=${s}'__kh_service_product='${__kh_service_product}' \n'
+    s=${s}'__kh_service_order='${__kh_service_order}' \n'
+    s=${s}'__kh_service_mapping='${__kh_service_mapping}' \n'
+    s=${s}'__kh_service_user='${__kh_service_user}' \n'
+    s=${s}'__kh_service_ui='${__kh_service_ui}' \n'
+    s=${s}'__kh_service_mailing='${__kh_service_mailing}' \n'
+    s=${s}'__kh_service_ebay='${__kh_service_ebay}' \n'
+    s=${s}'__kh_service_miravia='${__kh_service_miravia}' \n'
+    s=${s}'__kh_service_amazon='${__kh_service_amazon}' \n'
+    s=${s}'\n'
+    s=${s}'# PORT FORWARD, SOURCE PORTS \n'
+    s=${s}'__kh_source_port_rabbitmq='${__kh_source_port_rabbitmq}' \n'
+    s=${s}'__kh_source_port_api='${__kh_source_port_api}' \n'
+    s=${s}'__kh_source_port_bulk='${__kh_source_port_bulk}' \n'
+    s=${s}'__kh_source_port_product='${__kh_source_port_product}' \n'
+    s=${s}'__kh_source_port_order='${__kh_source_port_order}' \n'
+    s=${s}'__kh_source_port_mapping='${__kh_source_port_mapping}' \n'
+    s=${s}'__kh_source_port_user='${__kh_source_port_user}' \n'
+    s=${s}'__kh_source_port_ui='${__kh_source_port_ui}' \n'
+    s=${s}'__kh_source_port_mailing='${__kh_source_port_mailing}' \n'
+    s=${s}'__kh_source_port_ebay='${__kh_source_port_ebay}' \n'
+    s=${s}'__kh_source_port_miravia='${__kh_source_port_miravia}' \n'
+    s=${s}'__kh_source_port_amazon='${__kh_source_port_amazon}' \n'
+    s=${s}'__kh_source_port_carriercorreosexpress='${__kh_source_port_carriercorreosexpress}' \n'
+    s=${s}'\n'
+    s=${s}'# PORT FORWARD, TARGET PORTS \n'
+    s=${s}'__kh_target_port_rabbitmq='${__kh_target_port_rabbitmq}' \n'
+    s=${s}'__kh_target_port_api='${__kh_target_port_api}' \n'
+    s=${s}'__kh_target_port_bulk='${__kh_target_port_bulk}' \n'
+    s=${s}'__kh_target_port_product='${__kh_target_port_product}' \n'
+    s=${s}'__kh_target_port_order='${__kh_target_port_order}' \n'
+    s=${s}'__kh_target_port_mapping='${__kh_target_port_mapping}' \n'
+    s=${s}'__kh_target_port_user='${__kh_target_port_user}' \n'
+    s=${s}'__kh_target_port_ui='${__kh_target_port_ui}' \n'
+    s=${s}'__kh_target_port_mailing='${__kh_target_port_mailing}' \n'
+    s=${s}'__kh_target_port_ebay='${__kh_target_port_ebay}' \n'
+    s=${s}'__kh_target_port_miravia='${__kh_target_port_miravia}' \n'
+    s=${s}'__kh_target_port_amazon='${__kh_target_port_amazon}' \n'
+    s=${s}'__kh_target_port_carriercorreosexpress='${__kh_source_target_carriercorreosexpress}' \n'
+    s=${s}'\n'
+    s=${s}'# CLEAN PREVIOUS DEPLOYMENT/POD VARIABLES \n'
+    s=${s}'__kh_deployment=''\n'
+    s=${s}'__kh_pod=''\n'
+    s=${s}'__kh_container=''\n'
+    s=${s}'__kh_service=''\n'
+    s=${s}'# FILE SOURCED, VARS EMPTIED REFERENCE \n'
+    s=${s}'echo '\''file __kh_env_file.sh.txt sourced -- file updated: '${__kh_env_file_updated}\''\n'
+    _kh_s=${s}
+    unset s
+    echo -e ${_kh_s} > ${__kh_env_file}
+    echo 'file '\''./tmp/__kh_env_file.sh.txt'\'' written -- time: '${__kh_env_file_updated}
+
+    # clean variables
+    __kh_kks 111
+
+    # print current variables
+    __kh_kkp
+
+    # kill previous processes
+    if [ ${__kh_kubeconfig_changed} = 'true' ] ; then
+            k1 2> /dev/null ; k2 2> /dev/null ; k3 2> /dev/null ; k4 2> /dev/null ;
+            k5 2> /dev/null ; k6 2> /dev/null ; k7 2> /dev/null ; k8 2> /dev/null ;
+    fi
+
+    # jobs
+    echo
+    jb
+
+    echo 'done!'
+}
+alias kkr='__kh_kkr'
 
 
 
@@ -127,7 +420,7 @@ function __kh_kks {
         echo -e ${s}
         unset s
         return 0
-    elif [ ${1} -eq '10' ] ; then
+    elif [ ${1} -eq '0' ] ; then
         __kh_deployment=${__kh_deployment_api}
         __kh_pod=${__kh_pod_api}
         __kh_container=${__kh_container_api}
@@ -197,7 +490,7 @@ function __kh_kks {
         __kh_service=${__kh_service_miravia}
         __kh_source_port=${__kh_source_port_miravia}
         __kh_target_port=${__kh_target_port_miravia}
-    elif [ ${1} -eq '11' ] ; then
+    elif [ ${1} -eq '10' ] ; then
         __kh_deployment=${__kh_deployment_amazon}
         __kh_pod=${__kh_pod_amazon}
         __kh_container=${__kh_container_amazon}
@@ -221,252 +514,6 @@ function __kh_kks {
     fi
 }
 alias kks='__kh_kks'
-
-
-
-
-function __kh_kkr {
-    # regex definitions
-    __regex_api='apiproc'         # 00
-    __regex_bulk='bulk'           # 01
-    __regex_product='productm'    # 02
-    __regex_order='orderm'        # 03
-    __regex_mapping='mappingm'    # 04
-    __regex_user='userm'          # 05
-    __regex_ui='ui'               # 06
-    __regex_mailing='mailing'     # 07
-    __regex_ebay='eebay'          # 08
-    __regex_miravia='miravia'     # 09
-    __regex_amazon='amazon'       # 10
-    __regex_rabbitmq='rabbitmq.headless'     # 100
-
-    # init
-    echo '--> kubectl refresh: kubeconfig, $kk, deployments, pods, services'
-    command cd ${__KH_KUBE_HOME__}
-
-    # define __kh_kubeconfig
-    kubeconfig_list="$( command ls *.yml )"
-    kubeconfig_regex=${1}
-    __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${kubeconfig_regex} | command awk '{print $1}' )
-    echo '__kh_kubeconfig: '${__kh_kubeconfig}
-
-    # define kk
-    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
-    echo 'kk: '${kk}
-
-    # refresh deployments
-    echo -n 'executing '\'${kk}' get deployments'\'' ... '
-    deployment_list="$( ${kk} get deployments )"
-    __kh_deployment_api=$( echo "${deployment_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
-    __kh_deployment_bulk=$( echo "${deployment_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
-    __kh_deployment_product=$( echo "${deployment_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
-    __kh_deployment_order=$( echo "${deployment_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
-    __kh_deployment_mapping=$( echo "${deployment_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
-    __kh_deployment_user=$( echo "${deployment_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
-    __kh_deployment_ui=$( echo "${deployment_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
-    __kh_deployment_mailing=$( echo "${deployment_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
-    __kh_deployment_ebay=$( echo "${deployment_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
-    __kh_deployment_miravia=$( echo "${deployment_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
-    __kh_deployment_amazon=$( echo "${deployment_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
-    echo 'done'
-
-    # refresh pods
-    echo -n 'executing '\'${kk}' get pods'\'' ... '
-    pod_list="$( ${kk} get pods )"
-    __kh_pod_api=$( echo "${pod_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
-    __kh_pod_bulk=$( echo "${pod_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
-    __kh_pod_product=$( echo "${pod_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
-    __kh_pod_order=$( echo "${pod_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
-    __kh_pod_mapping=$( echo "${pod_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
-    __kh_pod_user=$( echo "${pod_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
-    __kh_pod_ui=$( echo "${pod_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
-    __kh_pod_mailing=$( echo "${pod_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
-    __kh_pod_ebay=$( echo "${pod_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
-    __kh_pod_miravia=$( echo "${pod_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
-    __kh_pod_amazon=$( echo "${pod_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
-    echo 'done'
-
-    # refresh containers
-    __kh_container=${__kh_deployment}
-    __kh_container_api=${__kh_deployment_api}
-    __kh_container_bulk=${__kh_deployment_bulk}
-    __kh_container_product=${__kh_deployment_product}
-    __kh_container_order=${__kh_deployment_order}
-    __kh_container_mapping=${__kh_deployment_mapping}
-    __kh_container_user=${__kh_deployment_user}
-    __kh_container_ui=${__kh_deployment_ui}
-    __kh_container_mailing=${__kh_deployment_mailing}
-    __kh_container_ebay=${__kh_deployment_ebay}
-    __kh_container_miravia=${__kh_deployment_miravia}
-    __kh_container_amazon=${__kh_deployment_amazon}
-    # echo 'refresh containers, done'
-
-    # refresh services
-    echo -n 'executing '\'${kk}' get services'\'' ... '
-    service_list="$( ${kk} get services )"
-    __kh_service_api=$( echo "${service_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
-    __kh_service_bulk=$( echo "${service_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
-    __kh_service_product=$( echo "${service_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
-    __kh_service_order=$( echo "${service_list}" | command grep -P -i ${__regex_order} | command awk '{print $1}' )
-    __kh_service_mapping=$( echo "${service_list}" | command grep -P -i ${__regex_mapping} | command awk '{print $1}' )
-    __kh_service_user=$( echo "${service_list}" | command grep -P -i ${__regex_user} | command awk '{print $1}' )
-    __kh_service_ui=$( echo "${service_list}" | command grep -P -i ${__regex_ui} | command awk '{print $1}' )
-    __kh_service_mailing=$( echo "${service_list}" | command grep -P -i ${__regex_mailing} | command awk '{print $1}' )
-    __kh_service_ebay=$( echo "${service_list}" | command grep -P -i ${__regex_ebay} | command awk '{print $1}' )
-    __kh_service_miravia=$( echo "${service_list}" | command grep -P -i ${__regex_miravia} | command awk '{print $1}' )
-    __kh_service_amazon=$( echo "${service_list}" | command grep -P -i ${__regex_amazon} | command awk '{print $1}' )
-    __kh_service_rabbitmq=$( echo "${service_list}" | command grep -P -i ${__regex_rabbitmq} | command awk '{print $1}' )
-    echo 'done'
-
-    # refresh source ports for port-forward
-    __kh_source_port_rabbitmq=10100
-    __kh_source_port_api=10000
-    __kh_source_port_bulk=10001
-    __kh_source_port_product=10002
-    __kh_source_port_order=10003
-    __kh_source_port_ktypeprocessor=10004
-    __kh_source_port_mapping=
-    __kh_source_port_user=10020
-    __kh_source_port_ui=80
-    __kh_source_port_mailing=10006
-    __kh_source_port_ebay=10015
-    __kh_source_port_miravia=
-    __kh_source_port_amazon=10016
-    __kh_source_port_carriercorreosexpress=10018
-    __kh_source_port_rabbitmq=10100
-
-    # refresh target ports for port-forward
-    __kh_target_port_rabbitmq=15672
-    __kh_target_port_api=8188
-    __kh_target_port_bulk=8185
-    __kh_target_port_product=8181
-    __kh_target_port_order=8083
-    __kh_target_port_ktypeprocessor=8207
-    __kh_target_port_mapping=
-    __kh_target_port_user=8086
-    __kh_target_port_ui=80
-    __kh_target_port_mailing=8193
-    __kh_target_port_ebay=8082
-    __kh_target_port_miravia=
-    __kh_target_port_amazon=8189
-    __kh_target_port_carriercorreosexpress=8205
-    __kh_target_port_rabbitmq=15672
-
-    # last update
-    # __kh_env_file_updated=$( date --iso-8601=seconds ) # dificult for fast human reading
-    __kh_env_file_updated=$( date +'%Y-%m-%d %H:%M:%S %Z' )
-
-    # write environment file
-    __kh_env_file=${__KH_KUBE_HOME__}'/tmp/__kh_env.sh.txt'
-    s='#! /bin/bash \n'
-    s=${s}'\n'
-    s=${s}'# KUBECONFIG FILE \n'
-    s=${s}'__kh_env_file_updated='\'${__kh_env_file_updated}\''\n' 
-    s=${s}'__kh_kubeconfig='\'${__kh_kubeconfig}\''\n'
-    s=${s}'kk='\'${kk}\'' \n'
-    s=${s}'\n'
-    s=${s}'# DEPLOYMENTS \n'
-    s=${s}'__kh_deployment_api='${__kh_deployment_api}' \n'
-    s=${s}'__kh_deployment_bulk='${__kh_deployment_bulk}' \n'
-    s=${s}'__kh_deployment_product='${__kh_deployment_product}' \n'
-    s=${s}'__kh_deployment_order='${__kh_deployment_order}' \n'
-    s=${s}'__kh_deployment_mapping='${__kh_deployment_mapping}' \n'
-    s=${s}'__kh_deployment_user='${__kh_deployment_user}' \n'
-    s=${s}'__kh_deployment_ui='${__kh_deployment_ui}' \n'
-    s=${s}'__kh_deployment_mailing='${__kh_deployment_mailing}' \n'
-    s=${s}'__kh_deployment_ebay='${__kh_deployment_ebay}' \n'
-    s=${s}'__kh_deployment_miravia='${__kh_deployment_miravia}' \n'
-    s=${s}'__kh_deployment_amazon='${__kh_deployment_amazon}' \n'
-    s=${s}'\n'
-    s=${s}'# PODS \n'
-    s=${s}'__kh_pod_api='${__kh_pod_api}' \n'
-    s=${s}'__kh_pod_bulk='${__kh_pod_bulk}' \n'
-    s=${s}'__kh_pod_product='${__kh_pod_product}' \n'
-    s=${s}'__kh_pod_order='${__kh_pod_order}' \n'
-    s=${s}'__kh_pod_mapping='${__kh_pod_mapping}' \n'
-    s=${s}'__kh_pod_user='${__kh_pod_user}' \n'
-    s=${s}'__kh_pod_ui='${__kh_pod_ui}' \n'
-    s=${s}'__kh_pod_mailing='${__kh_pod_mailing}' \n'
-    s=${s}'__kh_pod_ebay='${__kh_pod_ebay}' \n'
-    s=${s}'__kh_pod_miravia='${__kh_pod_miravia}' \n'
-    s=${s}'__kh_pod_amazon='${__kh_pod_amazon}' \n'
-    s=${s}'\n'
-    s=${s}'# CONTAINERS \n'
-    s=${s}'__kh_container_api='${__kh_container_api}' \n'
-    s=${s}'__kh_container_bulk='${__kh_container_bulk}' \n'
-    s=${s}'__kh_container_product='${__kh_container_product}' \n'
-    s=${s}'__kh_container_order='${__kh_container_order}' \n'
-    s=${s}'__kh_container_mapping='${__kh_container_mapping}' \n'
-    s=${s}'__kh_container_user='${__kh_container_user}' \n'
-    s=${s}'__kh_container_ui='${__kh_container_ui}' \n'
-    s=${s}'__kh_container_mailing='${__kh_container_mailing}' \n'
-    s=${s}'__kh_container_ebay='${__kh_container_ebay}' \n'
-    s=${s}'__kh_container_miravia='${__kh_container_miravia}' \n'
-    s=${s}'__kh_container_amazon='${__kh_container_amazon}' \n'
-    s=${s}'\n'
-    s=${s}'# SERVICES \n'
-    s=${s}'__kh_service_api='${__kh_service_api}' \n'
-    s=${s}'__kh_service_bulk='${__kh_service_bulk}' \n'
-    s=${s}'__kh_service_product='${__kh_service_product}' \n'
-    s=${s}'__kh_service_order='${__kh_service_order}' \n'
-    s=${s}'__kh_service_mapping='${__kh_service_mapping}' \n'
-    s=${s}'__kh_service_user='${__kh_service_user}' \n'
-    s=${s}'__kh_service_ui='${__kh_service_ui}' \n'
-    s=${s}'__kh_service_mailing='${__kh_service_mailing}' \n'
-    s=${s}'__kh_service_ebay='${__kh_service_ebay}' \n'
-    s=${s}'__kh_service_miravia='${__kh_service_miravia}' \n'
-    s=${s}'__kh_service_amazon='${__kh_service_amazon}' \n'
-    s=${s}'\n'
-    s=${s}'# PORT FORWARD, SOURCE PORTS \n'
-    s=${s}'__kh_source_port_rabbitmq='${__kh_source_port_rabbitmq}' \n'
-    s=${s}'__kh_source_port_api='${__kh_source_port_api}' \n'
-    s=${s}'__kh_source_port_bulk='${__kh_source_port_bulk}' \n'
-    s=${s}'__kh_source_port_product='${__kh_source_port_product}' \n'
-    s=${s}'__kh_source_port_order='${__kh_source_port_order}' \n'
-    s=${s}'__kh_source_port_mapping='${__kh_source_port_mapping}' \n'
-    s=${s}'__kh_source_port_user='${__kh_source_port_user}' \n'
-    s=${s}'__kh_source_port_ui='${__kh_source_port_ui}' \n'
-    s=${s}'__kh_source_port_mailing='${__kh_source_port_mailing}' \n'
-    s=${s}'__kh_source_port_ebay='${__kh_source_port_ebay}' \n'
-    s=${s}'__kh_source_port_miravia='${__kh_source_port_miravia}' \n'
-    s=${s}'__kh_source_port_amazon='${__kh_source_port_amazon}' \n'
-    s=${s}'__kh_source_port_carriercorreosexpress='${__kh_source_port_carriercorreosexpress}' \n'
-    s=${s}'\n'
-    s=${s}'# PORT FORWARD, TARGET PORTS \n'
-    s=${s}'__kh_target_port_rabbitmq='${__kh_target_port_rabbitmq}' \n'
-    s=${s}'__kh_target_port_api='${__kh_target_port_api}' \n'
-    s=${s}'__kh_target_port_bulk='${__kh_target_port_bulk}' \n'
-    s=${s}'__kh_target_port_product='${__kh_target_port_product}' \n'
-    s=${s}'__kh_target_port_order='${__kh_target_port_order}' \n'
-    s=${s}'__kh_target_port_mapping='${__kh_target_port_mapping}' \n'
-    s=${s}'__kh_target_port_user='${__kh_target_port_user}' \n'
-    s=${s}'__kh_target_port_ui='${__kh_target_port_ui}' \n'
-    s=${s}'__kh_target_port_mailing='${__kh_target_port_mailing}' \n'
-    s=${s}'__kh_target_port_ebay='${__kh_target_port_ebay}' \n'
-    s=${s}'__kh_target_port_miravia='${__kh_target_port_miravia}' \n'
-    s=${s}'__kh_target_port_amazon='${__kh_target_port_amazon}' \n'
-    s=${s}'__kh_target_port_carriercorreosexpress='${__kh_source_target_carriercorreosexpress}' \n'
-    s=${s}'\n'
-    s=${s}'# CLEAN PREVIOUS DEPLOYMENT/POD VARIABLES \n'
-    s=${s}'__kh_deployment=''\n'
-    s=${s}'__kh_pod=''\n'
-    s=${s}'__kh_container=''\n'
-    s=${s}'__kh_service=''\n'
-    s=${s}'# FILE SOURCED, VARS EMPTIED REFERENCE \n'
-    s=${s}'echo '\''file __kh_env_file.sh.txt sourced -- file updated: '${__kh_env_file_updated}\''\n'
-    _kh_s=${s}
-    unset s
-    echo -e ${_kh_s} > ${__kh_env_file}
-    echo 'file '\''./tmp/__kh_env_file.sh.txt'\'' written -- time: '${__kh_env_file_updated}
-    # clean variables
-    __kh_kks 111
-    # print current variables
-    __kh_kkp
-    # kill previous processes
-    k1 ; k2; k3 ; k4 ; k5 ; k6 ; k7 ; k8
-    echo 'done!'
-}
-alias kkr='__kh_kkr'
 
 
 
@@ -647,7 +694,24 @@ function __kh_source_env_file {
     source ./tmp/__kh_env.sh.txt
     echo 
     kkp
-    k1 ; k2; k3 ; k4 ; k5 ; k6 ; k7 ; k8
+    k1 2> /dev/null ; k2 2> /dev/null ; k3 2> /dev/null ; k4 2> /dev/null ;
+    k5 2> /dev/null ; k6 2> /dev/null ; k7 2> /dev/null ; k8 2> /dev/null ;
+}
+
+
+
+
+function __kh_backup_log_file {
+    if [ -z ${__kh_deployment} ] ; then 
+        return 1
+    fi
+    _timestamp_s=$( date +'%Y%m%d_%H%M%S' --utc )
+    _env_name=$( echo ${__kh_kubeconfig} | sed 's/kc-(.*)\.yml/\1/i' )
+    _source_file='./tmp/'${__kh_deployment}'.log'
+    _target_file=${HOME}'/Desktop/loghistory/'${__kh_deployment}'.'${_env_name}'.'${_timestamp_s}'.log'
+    _s='command cp -v '${_source_file}' '${_target_file}
+    eval ${_s}
+    unset _env_name _source_file _target_file _s
 }
 
 
@@ -677,7 +741,7 @@ function __kh_zerohelper_init {
     command source ./kh-zerohelper.sh.txt
     echo 'updated, main: '${__KH_UPDATED__}
     echo 'alias 0z: '$( alias 0z ) # alias overriding test
-    echo
+    # echo
     __kh_zerohelper_menu
 }
 
@@ -698,32 +762,37 @@ function __kh_source_kh_env_file {
 
 ZH_ZEROHELPER_INIT='__kh_zerohelper_init'
 
-alias __kh_zerohelper_menu='alias 00 000 ; echo ; alias 01 02 03 04 ; echo ; alias 90 91 92 93 94 95 '
-alias __kh_zerohelper_menu_1='alias 10 11 12 13 19'
-alias __kh_zerohelper_menu_2='alias 2 20 21 22 23 ; echo "(...)" ; alias 210 2100 2111 ; '
-alias __kh_zerohelper_menu_3='alias 30 31 32 33 34 35a 35b 35c ;'
+alias __kh_zerohelper_menu='alias 00 ; echo ; alias 01 02 03 04'
+alias __kh_zerohelper_menu_1='alias 1s ; echo ; alias 1 10 11 12 14 15 17 18 ; echo ; alias 90 92 94 '
+alias __kh_zerohelper_menu_2='alias 2 20 21 22 23 ; echo "(...)" ; alias 210 2100 2111 ; echo ; alias 91 93 95 '
+alias __kh_zerohelper_menu_3='alias 30 31 32 33 3b ; echo ; alias 34 35a 35b 35c ;'
 alias __kh_zerohelper_menu_4='alias 40 41;'
 
 # main menu, current environment query
 alias 0z='echo "alias overriding: kh-zerohelper"'
 alias 00='__kh_status'
-alias 000='__kh_source_env_file'
 
 alias 01='__kh_zerohelper_menu_1 # select kubeconfig file'
 alias 02='__kh_zerohelper_menu_2 # select pod/service'
 alias 03='__kh_zerohelper_menu_3 # pod/service: describe, log, port-forward'
 alias 04='__kh_zerohelper_menu_4 # pod: scale'
 
+
 # aliases, select environment, load environment from file
-alias 10='kkr pre # pre'
-alias 11='kkr wm1 # goodbuy'
-alias 12='kkr wm5 # lf-mx'
-alias 13='kkr wm7 # beb'
-alias 19='__kh_source_kh_env_file'
+alias 1s='__kh_source_env_file'
+alias 1=' kkr '
+alias 10='kkr '${__regex_wm_pre}
+alias 11='kkr '${__regex_wm1_pro_goodbuy}
+alias 12='kkr '${__regex_wm2_pro_groupelga}
+alias 14='kkr '${__regex_wm4_pro_hoepli}
+alias 15='kkr '${__regex_wm5_pro_logisfashion_mx}
+alias 17='kkr '${__regex_wm7_pro_beb}
+alias 18='kkr '${__regex_wm8_pro_veepee}
+
 
 # aliases, select pod/microservice
 alias 2='kks'
-alias 20=' kks 10 ; kkp # apiprocessor'
+alias 20=' kks  0 ; kkp # apiprocessor'
 alias 21=' kks  1 ; kkp # bulkfileprocessor'
 alias 22=' kks  2 ; kkp # productmanagement'
 alias 23=' kks  3 ; kkp'
@@ -733,25 +802,27 @@ alias 26=' kks  6 ; kkp'
 alias 27=' kks  7 ; kkp'
 alias 28=' kks  8 ; kkp'
 alias 29=' kks  9 ; kkp'
-alias 210='kks 11 ; kkp'
+alias 210='kks 10 ; kkp'
 alias 2100='kks 100 ; kkp'
 alias 2111='kks 111 ; kkp'
+
 
 # aliases, read pod logs, attributes, port-forward
 alias 30='kkl n y'
 alias 31='kkl 50 y'
 alias 32='__kh_tail_f'
 alias 33='__kh_less'
+alias 3b='__kh_backup_log_file'
 
 alias 34='__kh_port_forward'
 alias 35a='$kk port-forward service/wavemarket-queue-svc-headless '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 alias 35b='$kk port-forward service/lopsided-emu-rabbitmq '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 alias 35c='$kk port-forward service/lopsided-emu-rabbitmq-headless '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 
+
 # aliases, pod escale, deploy
 alias 40='__kh_scale 0'
 alias 41='__kh_scale 1'
-
 
 
 # aliases, kubectl-kubeconfig queries
