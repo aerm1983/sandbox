@@ -3,7 +3,7 @@
 # KUBECTL ZERO-HELPER
 # dependencies: git-bash-aliases.sh
 
-__KH_UPDATED__='2024-08-25 16:26'
+__KH_UPDATED__='2024-08-25 18:44'
 
 
 # initate required vars
@@ -34,12 +34,32 @@ __regex_mailing='mailing'     # 07
 __regex_ebay='eebay'          # 08
 __regex_miravia='miravia'     # 09
 __regex_amazon='amazon'       # 10
-__regex_rabbitmq='rabbitmq.headless'     # 100
+__regex_rabbitmq='rabbitmq.*headless'     # 100
+
+
+# refresh source ports for port-forward
+__kh_source_port_rabbitmq=10100
+__kh_source_port_api=10000
+__kh_source_port_bulk=10001
+__kh_source_port_product=10002
+__kh_source_port_order=10003
+__kh_source_port_ktypeprocessor=10004
+__kh_source_port_mapping=
+__kh_source_port_user=10020
+__kh_source_port_ui=80
+__kh_source_port_mailing=10006
+__kh_source_port_ebay=10015
+__kh_source_port_miravia=
+__kh_source_port_amazon=10016
+__kh_source_port_carriercorreosexpress=10018
+__kh_source_port_rabbitmq=10100
 
 
 
 
-### main functions
+# = = = = = = = = =
+# MAIN FUNCTIONS
+# = = = = = = = = =
 
 
 
@@ -62,9 +82,9 @@ function __kh_kkr {
         __kh_kubeconfig_changed='false'
     fi
 
-    # define __kh_kubeconfig, 
-    kubeconfig_list="$( command ls *.yml )"
+    # define __kh_kubeconfig
     __kubeconfig_regex=${1}
+    kubeconfig_list="$( command ls *.yml )"
     __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${__kubeconfig_regex} | command awk '{print $1}' )
     echo '__kh_kubeconfig: '${__kh_kubeconfig}
 
@@ -74,7 +94,8 @@ function __kh_kkr {
 
     # refresh deployments
     echo -n 'executing '\'${kk}' get deployments'\'' ... '
-    deployment_list="$( ${kk} get deployments )"
+    ${kk} get deployments > ./tmp/get-deployments.txt
+    deployment_list="$( cat ./tmp/get-deployments.txt )"
     __kh_deployment_api=$( echo "${deployment_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
     __kh_deployment_bulk=$( echo "${deployment_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
     __kh_deployment_product=$( echo "${deployment_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
@@ -90,7 +111,8 @@ function __kh_kkr {
 
     # refresh pods
     echo -n 'executing '\'${kk}' get pods'\'' ... '
-    pod_list="$( ${kk} get pods )"
+    ${kk} get pods > ./tmp/get-pods.txt
+    pod_list="$( cat ./tmp/get-pods.txt )"
     __kh_pod_api=$( echo "${pod_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
     __kh_pod_bulk=$( echo "${pod_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
     __kh_pod_product=$( echo "${pod_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
@@ -121,7 +143,8 @@ function __kh_kkr {
 
     # refresh services
     echo -n 'executing '\'${kk}' get services'\'' ... '
-    service_list="$( ${kk} get services )"
+    ${kk} get services &> ./tmp/get-services.txt
+    service_list="$( cat ./tmp/get-services.txt )"
     __kh_service_api=$( echo "${service_list}" | command grep -P -i ${__regex_api} | command awk '{print $1}' )
     __kh_service_bulk=$( echo "${service_list}" | command grep -P -i ${__regex_bulk} | command awk '{print $1}' )
     __kh_service_product=$( echo "${service_list}" | command grep -P -i ${__regex_product} | command awk '{print $1}' )
@@ -136,24 +159,8 @@ function __kh_kkr {
     __kh_service_rabbitmq=$( echo "${service_list}" | command grep -P -i ${__regex_rabbitmq} | command awk '{print $1}' )
     echo 'done'
 
-    # refresh source ports for port-forward
-    __kh_source_port_rabbitmq=10100
-    __kh_source_port_api=10000
-    __kh_source_port_bulk=10001
-    __kh_source_port_product=10002
-    __kh_source_port_order=10003
-    __kh_source_port_ktypeprocessor=10004
-    __kh_source_port_mapping=
-    __kh_source_port_user=10020
-    __kh_source_port_ui=80
-    __kh_source_port_mailing=10006
-    __kh_source_port_ebay=10015
-    __kh_source_port_miravia=
-    __kh_source_port_amazon=10016
-    __kh_source_port_carriercorreosexpress=10018
-    __kh_source_port_rabbitmq=10100
-
     # refresh target ports for port-forward
+    # pending: ideally, this should be grepped from '${kk} get services'
     __kh_target_port_rabbitmq=15672
     __kh_target_port_api=8188
     __kh_target_port_bulk=8185
@@ -588,6 +595,10 @@ alias kkl='__kh_kkl'
 
 
 function __kh_tail_f {
+    if [ -z ${__kh_deployment} ] ; then
+        echo 'variable ${__kh_deployment} must be defined -- exit'
+        return 1;
+    fi
     _s='tf ./tmp/$'{__kh_deployment}'.log'
     eval ${_s}
     unset _s
@@ -597,6 +608,10 @@ function __kh_tail_f {
 
 
 function __kh_less {
+    if [ -z ${__kh_deployment} ] ; then
+        echo 'variable ${__kh_deployment} must be defined -- exit'
+        return 1;
+    fi
     _s='less ./tmp/'${__kh_deployment}'.log'
     eval ${_s}
     unset _s
@@ -606,6 +621,10 @@ function __kh_less {
 
 
 function __kh_port_forward {
+    if [ -z ${__kh_service} ] ; then
+        echo 'variable ${__kh_service} must be defined -- exit'
+        return 1;
+    fi
     _s=${kk}' port-forward service/'${__kh_service}' '${__kh_source_port}':'${__kh_target_port}' & '
     eval ${_s}
     unset _s
@@ -615,6 +634,10 @@ function __kh_port_forward {
 
 
 function __kh_scale {
+    if [ -z ${__kh_deployment} ] ; then
+        echo 'variable ${__kh_deployment} must be defined -- exit'
+        return 1;
+    fi
     _s=${kk}' scale --replicas='${1}' deployment/'${__kh_deployment}
     # confirm
     echo 'POD SCALE -- command to be performed: '${_s}
@@ -640,6 +663,10 @@ function __kh_get_pods {
 
 
 function __kh_describe_pod {
+    if [ -z ${__kh_pod} ] ; then
+        echo 'variable ${__kh_pod} must be defined -- exit'
+        return 1;
+    fi
     ${kk} describe pod ${__kh_pod} > ./tmp/describe-pod.txt
     cat ./tmp/describe-pod.txt
 }
@@ -656,6 +683,10 @@ function __kh_get_services {
 
 
 function __kh_describe_service {
+    if [ -z ${__kh_service} ] ; then
+        echo 'variable ${__kh_service} must be defined -- exit'
+        return 1;
+    fi
     ${kk} describe service ${__kh_service} > ./tmp/describe-service.txt
     cat ./tmp/describe-service.txt
 }
@@ -672,6 +703,10 @@ function __kh_get_deployments {
 
 
 function __kh_describe_deployment {
+    if [ -z ${__kh_deployment} ] ; then
+        echo 'variable ${__kh_deployment} must be defined -- exit'
+        return 1;
+    fi
     ${kk} describe deployment ${__kh_deployment} > ./tmp/describe-deployment.txt
     cat ./tmp/describe-deployment.txt
 }
@@ -691,11 +726,22 @@ function __kh_status {
 
 
 function __kh_source_env_file {
+    __kh_kubeconfig_prev=${__kh_kubeconfig}
+    if [ ! -e ./tmp/__kh_env.sh.txt ] ; then
+        echo 'file "./tmp/__kh_env.sh.txt" must exist -- exit'
+        return 1;
+    fi
     source ./tmp/__kh_env.sh.txt
     echo 
     kkp
-    k1 2> /dev/null ; k2 2> /dev/null ; k3 2> /dev/null ; k4 2> /dev/null ;
-    k5 2> /dev/null ; k6 2> /dev/null ; k7 2> /dev/null ; k8 2> /dev/null ;
+    __kh_kubeconfig_changed='true'
+    if [ ${__kh_kubeconfig_prev} = ${__kh_kubeconfig} ] ; then
+        __kh_kubeconfig_changed='false'
+    fi
+    if [ ${__kh_kubeconfig_changed} = 'true'  ] ; then
+        k1 2> /dev/null ; k2 2> /dev/null ; k3 2> /dev/null ; k4 2> /dev/null ;
+        k5 2> /dev/null ; k6 2> /dev/null ; k7 2> /dev/null ; k8 2> /dev/null ;
+    fi
 }
 
 
@@ -779,59 +825,59 @@ alias 04='__kh_zerohelper_menu_4 # pod: scale'
 
 
 # aliases, select environment, load environment from file
-alias 1s='__kh_source_env_file'
-alias 1=' kkr '
-alias 10='kkr '${__regex_wm_pre}
-alias 11='kkr '${__regex_wm1_pro_goodbuy}
-alias 12='kkr '${__regex_wm2_pro_groupelga}
-alias 14='kkr '${__regex_wm4_pro_hoepli}
-alias 15='kkr '${__regex_wm5_pro_logisfashion_mx}
-alias 17='kkr '${__regex_wm7_pro_beb}
-alias 18='kkr '${__regex_wm8_pro_veepee}
+alias 1s='__kh_source_env_file ; '
+alias 1=' kkr ; '
+alias 10='kkr '${__regex_wm_pre}' ; '
+alias 11='kkr '${__regex_wm1_pro_goodbuy}' ; '
+alias 12='kkr '${__regex_wm2_pro_groupelga}' ; '
+alias 14='kkr '${__regex_wm4_pro_hoepli}' ; '
+alias 15='kkr '${__regex_wm5_pro_logisfashion_mx}' ; '
+alias 17='kkr '${__regex_wm7_pro_beb}' ; '
+alias 18='kkr '${__regex_wm8_pro_veepee}' ; '
 
 
 # aliases, select pod/microservice
-alias 2='kks'
-alias 20=' kks  0 ; kkp # apiprocessor'
-alias 21=' kks  1 ; kkp # bulkfileprocessor'
-alias 22=' kks  2 ; kkp # productmanagement'
-alias 23=' kks  3 ; kkp'
-alias 24=' kks  4 ; kkp'
-alias 25=' kks  5 ; kkp'
-alias 26=' kks  6 ; kkp'
-alias 27=' kks  7 ; kkp'
-alias 28=' kks  8 ; kkp'
-alias 29=' kks  9 ; kkp'
-alias 210='kks 10 ; kkp'
-alias 2100='kks 100 ; kkp'
-alias 2111='kks 111 ; kkp'
+alias 2='kks ; '
+alias 20=' kks  0 ; kkp ; '
+alias 21=' kks  1 ; kkp ; '
+alias 22=' kks  2 ; kkp ; '
+alias 23=' kks  3 ; kkp ; '
+alias 24=' kks  4 ; kkp ; '
+alias 25=' kks  5 ; kkp ; '
+alias 26=' kks  6 ; kkp ; '
+alias 27=' kks  7 ; kkp ; '
+alias 28=' kks  8 ; kkp ; '
+alias 29=' kks  9 ; kkp ; '
+alias 210='kks 10 ; kkp ; '
+alias 2100='kks 100 ; kkp ; '
+alias 2111='kks 111 ; kkp ; '
 
 
 # aliases, read pod logs, attributes, port-forward
-alias 30='kkl n y'
-alias 31='kkl 50 y'
-alias 32='__kh_tail_f'
-alias 33='__kh_less'
-alias 3b='__kh_backup_log_file'
+alias 30='kkl n y ; '
+alias 31='kkl 50 y ; '
+alias 32='__kh_tail_f ; '
+alias 33='__kh_less ; '
+alias 3b='__kh_backup_log_file ; '
 
-alias 34='__kh_port_forward'
+alias 34='__kh_port_forward ; '
 alias 35a='$kk port-forward service/wavemarket-queue-svc-headless '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 alias 35b='$kk port-forward service/lopsided-emu-rabbitmq '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 alias 35c='$kk port-forward service/lopsided-emu-rabbitmq-headless '${__kh_source_port_rabbitmq}':'${__kh_target_port_rabbitmq}' & '
 
 
 # aliases, pod escale, deploy
-alias 40='__kh_scale 0'
-alias 41='__kh_scale 1'
+alias 40='__kh_scale 0 ; '
+alias 41='__kh_scale 1 ; '
 
 
 # aliases, kubectl-kubeconfig queries
-alias 90='__kh_get_pods'
-alias 91='__kh_describe_pod'
-alias 92='__kh_get_services'
-alias 93='__kh_describe_service'
-alias 94='__kh_get_deployments'
-alias 95='__kh_describe_deployment'
+alias 90='__kh_get_pods ; '
+alias 91='__kh_describe_pod ; '
+alias 92='__kh_get_services ; '
+alias 93='__kh_describe_service ; '
+alias 94='__kh_get_deployments ; '
+alias 95='__kh_describe_deployment ; '
 
 
 
