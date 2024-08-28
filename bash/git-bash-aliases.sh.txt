@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-08-25 07:53'
+__ALIAS_LAST_UPDATE__='2024-08-27 13:06'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -100,6 +100,23 @@ alias k5='kill %5'
 alias k6='kill %6'
 alias k7='kill %7'
 alias k8='kill %8'
+function __bh_kill_all {
+    # confirm
+    echo '--> kill all running jobs'
+    read -p 'continue (y/n)?: ' _continue
+    if [[ ( -z ${_continue} ) || ( ${_continue} != 'y' ) ]] ; then
+        unset _continue
+        echo 'cancelled, no action performed'
+        jb
+        return 1
+    fi
+    # execute
+    k1 2> /dev/null ; k2 2> /dev/null ; k3 2> /dev/null ; k4 2> /dev/null ;
+    k5 2> /dev/null ; k6 2> /dev/null ; k7 2> /dev/null ; k8 2> /dev/null ;
+    jb
+    unset _continue
+}
+alias ka='__bh_kill_all'
 alias u='. ${HOME}/.git-bash-aliases ; __bh_h_greeting ; __bh_h ;'
 
 # testing:
@@ -119,10 +136,15 @@ alias cdkb_s='command cd ~/Desktop/are-git-sandbox/bash/bash'
 
 alias cdkj='cd ~/Desktop/dm-git-java'
 alias cdkj_s='command cd ~/Desktop/dm-git-java'
-alias cdkak_s='command cd ~/Desktop/dm-git-aux/kubeconfig'
 
 alias cdka='cd ~/Desktop/dm-git-aux'
 alias cdka_s='command cd ~/Desktop/dm-git-aux'
+
+alias cdkk='cd ~/Desktop/dm-git-aux/kubeconfig'
+alias cdkk_s='command cd ~/Desktop/dm-git-aux/kubeconfig'
+
+alias cdkkt='cd ~/Desktop/dm-git-aux/kubeconfig/tmp'
+alias cdkkt_s='command cd ~/Desktop/dm-git-aux/kubeconfig/tmp'
 
 alias cdkl='cd ~/Desktop/log'
 alias cdkl_s='command cd ~/Desktop/log'
