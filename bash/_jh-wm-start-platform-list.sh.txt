@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh, jh-wm-platform.sh
 
-__JH_WMP_START_LIST_UPDATED__='2024-06-10 05:01'
+__JH_WMP_START_LIST_UPDATED__='2024-09-01 03:31'
 
 ### main functions
 
@@ -39,6 +39,7 @@ function _jh_wm_start_platform_list {
 
     _jh_start_service template-generator
     _jh_start_service mailing
+    _jh_start_service runamemanager
     _jh_start_service ui
 
 }

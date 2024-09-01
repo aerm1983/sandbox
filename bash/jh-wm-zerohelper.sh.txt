@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-08-23 18:51'
+__JH_WMP_UPDATED__='2024-09-01 03:30'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -67,6 +67,7 @@ function _jh_start_platform {
 
         _jh_start_service template-generator
         _jh_start_service mailing
+        _jh_start_service runamemanager
         _jh_start_service ui
     fi
 
@@ -116,6 +117,7 @@ function _jh_remove_logs_platform {
 
     command rm -v mailing*.jar.log
     command rm -v template-generator*.jar.log
+    command rm -v runame*.jar.log
     command rm -v ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
@@ -172,6 +174,7 @@ function _jh_truncate_logs_platform {
 
     command echo -n '' > mailing*.jar.log
     command echo -n '' > template-generator*.jar.log
+    command echo -n '' > runame*.jar.log
     command echo -n '' > ui*.jar.log
 
     clear ; echo 'refreshing...' ; sleep 1 ; clear ;
@@ -199,6 +202,7 @@ function _jh_kill_platform {
     cdkj_s
 
     _jh_kill_service ui
+    _jh_kill_service runamemanager
     _jh_kill_service template-generator
     _jh_kill_service mailing
     
@@ -322,6 +326,10 @@ function _jh_start_service {
     elif [ ${1} = 'carriercorreosexpress' ]
     then
         __JH_XMX__='128m'
+
+    elif [ ${1} = 'runamemanager' ]
+    then
+        __JH_XMX__='192m'
 
     elif [ ${1} = 'ui' ]
     then
@@ -452,6 +460,7 @@ function _jh_backup_alberto_platform {
 
     _jh_backup_alberto_service mailing
     _jh_backup_alberto_service template-generator
+    _jh_backup_alberto_service runamemanager
     _jh_backup_alberto_service ui
     
 }
@@ -512,6 +521,7 @@ function _jh_restore_alberto_platform {
 
     _jh_restore_alberto_service mailing
     _jh_restore_alberto_service template-generator
+    _jh_restore_alberto_service runamemanager
     _jh_restore_alberto_service ui
     
 }
@@ -559,6 +569,7 @@ function _jh_clean_restore_dir_alberto_platform {
 
     _jh_clean_restore_dir_alberto_service mailing
     _jh_clean_restore_dir_alberto_service template-generator
+    _jh_clean_restore_dir_alberto_service runamemanager
     _jh_clean_restore_dir_alberto_service ui
     
 }
@@ -607,6 +618,7 @@ function _jh_mysqldump_alberto_platform {
 
     _jh_mysqldump_alberto_service mailing
     _jh_mysqldump_alberto_service templategenerator # adjusted; microservice is 'template-generator'
+    # _jh_mysqldump_alberto_service runamemanager # no database
     # _jh_mysqldump_alberto_service ui # no database
 }
 

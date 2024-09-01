@@ -3,7 +3,21 @@
 # KUBECTL ZERO-HELPER
 # dependencies: git-bash-aliases.sh
 
-__KH_UPDATED__='2024-08-28 09:29'
+
+# Pending: define ${SERVICES_FULL} or equivalent, rewrite bash sentences, using following strategy:
+# ### define services list, loop through it
+# __SERVICES_FULL__="api bulk product order ktype mapping mailing template ui" ;
+# for svc in ${__SERVICES_FULL__} ; do echo ${svc} ; done ;
+#
+# ### define services exclusions and filtered list
+# __SERVICES_FILTERED__=$( echo ${__SERVICES_FULL__} | sed 's/(ktype|template)//ig' ) ;
+# echo ${__SERVICES_FILTERED__} ;
+#
+# ### match value from service list
+# for svc in ${__SERVICES_FILTERED__} ; do echo ${svc} ; if [ ${svc} = 'bulk' ] ; then echo 'matched: '${svc} ; break ; fi ; done ;
+
+
+__KH_UPDATED__='2024-09-01 03:19'
 
 
 # initate required vars
@@ -33,6 +47,7 @@ __KH_REGEX_MAPPING__='mappingm'    # 05
 __KH_REGEX_MAILING__='mailing'     # 06
 __KH_REGEX_TEMPLATE__='template'   # 07
 __KH_REGEX_UI__='ui'               # 08
+__KH_REGEX_RUNAME__='runame'       # 09
 __KH_REGEX_USER__='userm'          # 10
 __KH_REGEX_EBAY__='eebay'          # 15
 __KH_REGEX_MIRAVIA__='miravia'     # 16
@@ -52,6 +67,7 @@ __KH_SOURCE_PORT_MAPPING__=10005
 __KH_SOURCE_PORT_MAILING__=10006
 __KH_SOURCE_PORT_TEMPLATE__=10007
 __KH_SOURCE_PORT_UI__=10008
+__KH_SOURCE_PORT_RUNAME__=10009
 __KH_SOURCE_PORT_USER__=10010
 __KH_SOURCE_PORT_EBAY__=10015
 __KH_SOURCE_PORT_MIRAVIA__=10016
@@ -115,6 +131,7 @@ function __kh_load {
     __kh_deployment_mailing=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_MAILING__} | command awk '{print $1}' )
     __kh_deployment_template=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_TEMPLATE__} | command awk '{print $1}' )
     __kh_deployment_ui=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_UI__} | command awk '{print $1}' )
+    __kh_deployment_runame=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_RUNAME__} | command awk '{print $1}' )
     __kh_deployment_user=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_USER__} | command awk '{print $1}' )
     __kh_deployment_ebay=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_EBAY__} | command awk '{print $1}' )
     __kh_deployment_miravia=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
@@ -135,6 +152,7 @@ function __kh_load {
     __kh_pod_mailing=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_MAILING__} | command awk '{print $1}' )
     __kh_pod_template=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_TEMPLATE__} | command awk '{print $1}' )
     __kh_pod_ui=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_UI__} | command awk '{print $1}' )
+    __kh_pod_runame=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_RUNAME__} | command awk '{print $1}' )
     __kh_pod_user=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_USER__} | command awk '{print $1}' )
     __kh_pod_ebay=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_EBAY__} | command awk '{print $1}' )
     __kh_pod_miravia=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
@@ -153,6 +171,7 @@ function __kh_load {
     __kh_container_mailing=${__kh_deployment_mailing}
     __kh_container_template=${__kh_deployment_template}
     __kh_container_ui=${__kh_deployment_ui}
+    __kh_container_runame=${__kh_deployment_runame}
     __kh_container_user=${__kh_deployment_user}
     __kh_container_ebay=${__kh_deployment_ebay}
     __kh_container_miravia=${__kh_deployment_miravia}
@@ -174,6 +193,7 @@ function __kh_load {
     __kh_service_mailing=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_MAILING__} | command awk '{print $1}' )
     __kh_service_template=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_TEMPLATE__} | command awk '{print $1}' )
     __kh_service_ui=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_UI__} | command awk '{print $1}' )
+    __kh_service_runame=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_RUNAME__} | command awk '{print $1}' )
     __kh_service_user=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_USER__} | command awk '{print $1}' )
     __kh_service_ebay=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_EBAY__} | command awk '{print $1}' )
     __kh_service_miravia=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
@@ -190,9 +210,11 @@ function __kh_load {
     __kh_target_port_order=8083
     __kh_target_port_ktype=8207
     __kh_target_port_mapping=8186
-    __kh_target_port_user=8086
-    __kh_target_port_ui=80
     __kh_target_port_mailing=8193
+    __kh_target_port_template=8090
+    __kh_target_port_ui=80
+    __kh_target_port_runame=8186
+    __kh_target_port_user=8086
     __kh_target_port_ebay=8082
     __kh_target_port_miravia=8197
     __kh_target_port_amazon=8189
@@ -222,6 +244,7 @@ function __kh_load {
     s=${s}'__kh_service_mailing='${__kh_service_mailing}' \n'
     s=${s}'__kh_service_template='${__kh_service_template}' \n'
     s=${s}'__kh_service_ui='${__kh_service_ui}' \n'
+    s=${s}'__kh_service_runame='${__kh_service_runame}' \n'
     s=${s}'__kh_service_user='${__kh_service_user}' \n'
     s=${s}'__kh_service_ebay='${__kh_service_ebay}' \n'
     s=${s}'__kh_service_miravia='${__kh_service_miravia}' \n'
@@ -239,6 +262,7 @@ function __kh_load {
     s=${s}'__kh_deployment_mailing='${__kh_deployment_mailing}' \n'
     s=${s}'__kh_deployment_template='${__kh_deployment_template}' \n'
     s=${s}'__kh_deployment_ui='${__kh_deployment_ui}' \n'
+    s=${s}'__kh_deployment_runame='${__kh_deployment_runame}' \n'
     s=${s}'__kh_deployment_user='${__kh_deployment_user}' \n'
     s=${s}'__kh_deployment_ebay='${__kh_deployment_ebay}' \n'
     s=${s}'__kh_deployment_miravia='${__kh_deployment_miravia}' \n'
@@ -256,6 +280,7 @@ function __kh_load {
     s=${s}'__kh_pod_mailing='${__kh_pod_mailing}' \n'
     s=${s}'__kh_pod_template='${__kh_pod_template}' \n'
     s=${s}'__kh_pod_ui='${__kh_pod_ui}' \n'
+    s=${s}'__kh_pod_runame='${__kh_pod_runame}' \n'
     s=${s}'__kh_pod_user='${__kh_pod_user}' \n'
     s=${s}'__kh_pod_ebay='${__kh_pod_ebay}' \n'
     s=${s}'__kh_pod_miravia='${__kh_pod_miravia}' \n'
@@ -273,6 +298,7 @@ function __kh_load {
     s=${s}'__kh_container_mailing='${__kh_container_mailing}' \n'
     s=${s}'__kh_container_template='${__kh_container_template}' \n'
     s=${s}'__kh_container_ui='${__kh_container_ui}' \n'
+    s=${s}'__kh_container_runame='${__kh_container_runame}' \n'
     s=${s}'__kh_container_user='${__kh_container_user}' \n'
     s=${s}'__kh_container_ebay='${__kh_container_ebay}' \n'
     s=${s}'__kh_container_miravia='${__kh_container_miravia}' \n'
@@ -290,6 +316,7 @@ function __kh_load {
     s=${s}'__KH_SOURCE_PORT_MAILING__='${__KH_SOURCE_PORT_MAILING__}' \n'
     s=${s}'__KH_SOURCE_PORT_TEMPLATE__='${__KH_SOURCE_PORT_TEMPLATE__}' \n'
     s=${s}'__KH_SOURCE_PORT_UI__='${__KH_SOURCE_PORT_UI__}' \n'
+    s=${s}'__KH_SOURCE_PORT_RUNAME__='${__KH_SOURCE_PORT_RUNAME__}' \n'
     s=${s}'__KH_SOURCE_PORT_USER__='${__KH_SOURCE_PORT_USER__}' \n'
     s=${s}'__KH_SOURCE_PORT_EBAY__='${__KH_SOURCE_PORT_EBAY__}' \n'
     s=${s}'__KH_SOURCE_PORT_MIRAVIA__='${__KH_SOURCE_PORT_MIRAVIA__}' \n'
@@ -307,6 +334,7 @@ function __kh_load {
     s=${s}'__kh_target_port_mailing='${__kh_target_port_mailing}' \n'
     s=${s}'__kh_target_port_template='${__kh_target_port_template}' \n'
     s=${s}'__kh_target_port_ui='${__kh_target_port_ui}' \n'
+    s=${s}'__kh_target_port_runame='${__kh_target_port_runame}' \n'
     s=${s}'__kh_target_port_user='${__kh_target_port_user}' \n'
     s=${s}'__kh_target_port_ebay='${__kh_target_port_ebay}' \n'
     s=${s}'__kh_target_port_miravia='${__kh_target_port_miravia}' \n'
@@ -438,6 +466,13 @@ function __kh_set_service {
         # __kh_service=${__kh_service_ui}
         __kh_source_port=${__KH_SOURCE_PORT_UI__}
         __kh_target_port=${__kh_target_port_ui}
+    elif [ ${__kh_service} = ${__kh_service_runame} ] ; then
+        __kh_deployment=${__kh_deployment_runame}
+        __kh_pod=${__kh_pod_runame}
+        __kh_container=${__kh_container_runame}
+        # __kh_service=${__kh_service_runame}
+        __kh_source_port=${__KH_SOURCE_PORT_RUNAME__}
+        __kh_target_port=${__kh_target_port_runame}
     elif [ ${__kh_service} = ${__kh_service_user} ] ; then
         __kh_deployment=${__kh_deployment_user}
         __kh_pod=${__kh_pod_user}
@@ -771,7 +806,7 @@ ZH_ZEROHELPER_INIT='__kh_zerohelper_init'
 
 alias __kh_zerohelper_menu='alias 00 ; echo ; alias 01 02 03 04 ; '
 alias __kh_zerohelper_menu_1='alias 1s ; echo ; alias 10 11 12 14 15 17 18 ; echo ; alias 90 92 94 '
-alias __kh_zerohelper_menu_2='alias 20 21 22 23 24 ; echo ; alias 25 26 27 28 210 ; echo ; alias 215 216 217 225 256 299 ; echo ; alias 91 93 95 '
+alias __kh_zerohelper_menu_2='alias 20 21 22 23 24 ; echo ; alias 25 26 27 28 29 ; echo ; alias 210 215 216 217 225 ; echo ; alias 256 299 ; echo ; alias 91 93 95 '
 alias __kh_zerohelper_menu_3='alias 30 31 33 34 3b ; echo ; alias 36 36a 36b 36c ;'
 alias __kh_zerohelper_menu_4='alias 40 41;'
 
@@ -807,6 +842,7 @@ alias 25='  __kh_set_service '${__KH_REGEX_MAPPING__}' ; '
 alias 26='  __kh_set_service '${__KH_REGEX_MAILING__}' ; '
 alias 27='  __kh_set_service '${__KH_REGEX_TEMPLATE__}' ; '
 alias 28='  __kh_set_service '${__KH_REGEX_UI__}' ; '
+alias 29='  __kh_set_service '${__KH_REGEX_RUNAME__}' ; '
 alias 210=' __kh_set_service '${__KH_REGEX_USER__}' ; '
 alias 215=' __kh_set_service '${__KH_REGEX_EBAY__}' ; '
 alias 216=' __kh_set_service '${__KH_REGEX_MIRAVIA__}' ; '
