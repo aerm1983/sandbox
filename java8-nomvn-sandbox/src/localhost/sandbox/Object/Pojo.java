@@ -43,12 +43,22 @@ public class Pojo {
 		@Override
 		public String toString() {
 			String out = "{ "
-					+ "name: " + name + ", "
-					+ "age: " + age + ", "
-					+ "didService: " + didService + ""
+					+ "" + "name: " + name
+					+ ", " + "age: " + age
+					+ ", " + "didService: " + didService
 					+ " }"
 					;
 			return out;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+			result = prime * result + (Integer.valueOf(this.age).hashCode());
+			result = prime * result + ((this.didService) ? Boolean.TRUE.hashCode() : Boolean.FALSE.hashCode());
+			return result;
 		}
 
 		@Override
@@ -77,5 +87,7 @@ public class Pojo {
 
 			return true;
 		}
+
 	}
+
 }

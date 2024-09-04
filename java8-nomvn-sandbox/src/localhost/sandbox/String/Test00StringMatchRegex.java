@@ -8,18 +8,18 @@ public class Test00StringMatchRegex {
 
 	public static void test00StringMatch () {
 		System.out.println("Hello from RegExTest!");
-		
+
 		// 01
 		// String s = "User credentials have expired";
 		// boolean b = s.matches("(?i)use.*credential.*expired");
 		// System.out.println("s: " + s + "  ;  b: " + b);
-		
+
 		// 02 Base64
 		/*
 		String s = "QWxiZXJ0bw==";
 		boolean b = s.matches("^[A-Za-z0-9+=/]+$");
 		System.out.println("s: " + s + "  ;  b: " + b);
-		*/
+		 */
 
 
 		// 03 Base64
@@ -27,10 +27,10 @@ public class Test00StringMatchRegex {
 		String s2 = "Alberto_";
 		boolean b2 = s2.matches("^[A-Za-z0-9+=/]+$");
 		System.out.println("s: " + s2 + "  ;  b: " + b2);
-		
+
 		byte[] bytes = Base64.getDecoder().decode(s2);
-		*/
-		
+		 */
+
 		// 04 Base64
 		/*
 		String patt = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$";
@@ -40,25 +40,25 @@ public class Test00StringMatchRegex {
 		// byte[] bytes = Base64.getDecoder().decode(s3);
 		byte[] bytes = Base64.getMimeDecoder().decode(s3);
 		System.out.println("byes: " + bytes);
-		*/
+		 */
 
 		// 04 Other, non important
 		/*
 		String s4 = "Alberto01";
 		boolean b4 = s4.matches("(?i)^.*alberto.*$");
 		System.out.println("s: " + s4 + "  ;  b: " + b4);
-		*/
-		
-		
-		
+		 */
+
+
+
 		// 05, uuid pattern
 		// String s5 = "926b3a97-8875-463a-8324-7bcf2c44a9fe";
 		// boolean b5 = s5.matches("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
 		// System.out.println("s: " + s5 + "  ;  b: " + b5);
-		
 
-		
-		
+
+
+
 		// 06, amazon FabricType attribute pattern
 		/*
 		List<String> s6List = new ArrayList<String>();
@@ -74,10 +74,10 @@ public class Test00StringMatchRegex {
 			boolean b6 = s6.matches("(?i)(fabric.*type|tipo.*tejido)");
 			System.out.println("s: " + s6 + "  ;  b: " + b6);
 		}
-		*/
+		 */
 
 
-		
+
 		// 07, amazon, men pattern
 		/*
 		List<String> s7List = new ArrayList<String>();
@@ -96,17 +96,23 @@ public class Test00StringMatchRegex {
 			System.out.println("b7a, b7b, b7c: " + b7a + ", " + b7b + ", " + b7c);
 			System.out.println("");
 		}
-		*/
-		
-		
+		 */
+
+
 		// 08, uuid pattern
+		/*
 		String s8 = " bebés ";
 		boolean b8 = s8.matches("^ beb(e|é)[s]? $");
 		System.out.println("s: " + s8 + "  ;  b: " + b8);
+		 */
 
 
-		
 
-		
+		// 09, Basic Authorization header format, 2024-06-16
+		String s0 = "   Basic   VXNlck1hbmFnZW1lbnQ6ZjJhMWVkNTI3MTBkNDUzM2JkZTI1YmU2ZGEwM2I2ZTM=-.   ";
+		boolean b0 = s0.matches("^[ ]*Basic[ ]+[0-9A-Za-z/+=.-]+[ ]*$");
+		System.out.println("s0: " + s0 + "  ;  b0: " + b0);
+
+
 	}
 }

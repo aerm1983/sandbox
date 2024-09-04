@@ -5,6 +5,7 @@ import localhost.helper.CipherAesCbcPkcs5Helper;
 import localhost.helper.CipherAesEcbPkcs5Helper;
 import localhost.helper.ExecTimeSecsHelper;
 import localhost.helper.FileHelper;
+import localhost.helper.JoinHelper;
 import localhost.helper.LargeStringHelper;
 import localhost.helper.LogHelper;
 import localhost.helper.JvmMemoryHelper;
@@ -24,6 +25,7 @@ import localhost.sandbox.Generics.GenericsMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
 import localhost.sandbox.InheritancePolymorphismInterface.InterfaceMain;
 import localhost.sandbox.JavaLang.ScratchPad.JavaLangScratchPadMain;
+import localhost.sandbox.LinkedHashMapAndSet.LinkedHashMapAndSetMain;
 import localhost.sandbox.Object.ObjectMain;
 import localhost.sandbox.Observable.ObservableMain;
 import localhost.sandbox.OutOfMemoryError.OutOfMemoryMain;
@@ -40,7 +42,7 @@ public class SandboxMain {
 
 	public static void main(String[] args) {
 
-		JavaLangScratchPadMain.main();
+		// JavaLangScratchPadMain.main();
 		// StringMain.main();
 		// ObjectMain.main();
 		// InheritancePolymorphismMain.main();
@@ -61,7 +63,7 @@ public class SandboxMain {
 		// AtomicMain.main();
 		// ThreadObjectNotifyMain.main();
 		// StaticSynchronizedMain.main();
-		// StreamMain.main();
+		StreamMain.main();
 		// CipherAesEcbPkcs5Helper.main();
 		// CipherAesCbcPkcs5Helper.main();
 		// ObjectCopyHelper.main();
@@ -84,6 +86,8 @@ public class SandboxMain {
 		// ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
 		// SynchroWaitNotifyAllHelper.main();
 		// ClassMain.main();
+		// JoinHelper.main();
+		// LinkedHashMapAndSetMain.main();
 
 	}
 }

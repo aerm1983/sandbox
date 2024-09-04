@@ -8,16 +8,62 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import localhost.sandbox.Object.Pojo.Person;
+
 public class JavaLangScratchPadMain {
+
+
+	private enum Letter {
+		A,
+		B,
+		C
+	}
+
 
 	public static void main() {
 
 		System.out.println("Hello from JavaLangScratchPadMain!");
 
+		Letter letter = null;
 
+		if (letter == null) {
+			letter = Letter.A;
+		}
+
+		switch (letter) {
+		case A:
+			System.out.println("letter is: " + letter);
+		case B:
+			System.out.println("letter is: " + letter);
+		case C:
+		default:
+			System.out.println("letter is: " + letter);
+		}
+
+
+
+
+
+
+		/*
+		Set<CustomerRole> crSet = new HashSet<>();
+		crSet.add(new CustomerRole("Alberto", "alberto@email.com"));
+		crSet.add(new CustomerRole("Alberto", "alberto@email.com"));
+		crSet.add(new CustomerRole("Alberto", "alberto@email.com"));
+
+		System.out.println("crSet: " + crSet);
+		 */
+
+
+
+
+
+		/*
 		doSomething("right this!");
 		doSomething(null);
 		System.out.println("method: ");
+		 */
+
 
 
 
@@ -187,6 +233,41 @@ public class JavaLangScratchPadMain {
 
 	public static void doSomething(String some) {
 		System.out.println("doSomething method -- params -- some: " + some);
+	}
+
+
+	public static class CustomerRole {
+
+		private String email;
+		private String role;
+
+		public CustomerRole() {
+			super();
+		}
+
+		public CustomerRole(String email, String role) {
+			super();
+			this.email = email;
+			this.role = role;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getRole() {
+			return role;
+		}
+
+		public void setRole(String role) {
+			this.role = role;
+		}
+
+
 	}
 
 }	

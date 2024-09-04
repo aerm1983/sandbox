@@ -1,20 +1,24 @@
 package localhost.sandbox.Stream;
 
 public class PersonDetail {
-	
+
 	private String name;
 	private Integer age;
 	private Boolean isMale;
-	
+
 	public PersonDetail(String name, int age, boolean isMale) {
 		this.name = name;
 		this.age = age;
 		this.isMale = isMale;
 	}
-	
+
 	public String toString() {
-		String string = "{name:" + name + ", age:" + age + ", isMale:" + isMale + "}";
-		return string ;
+		String out = "{ "
+				+ "" + "name:" + name 
+				+ ", " + "age:" + age 
+				+ ", " + "isMale:" + isMale 
+				+ " }";
+		return out ;
 	}
 
 	public String getName() {
@@ -28,5 +32,5 @@ public class PersonDetail {
 	public Boolean getIsMale() {
 		return isMale;
 	}
-	
+
 }
