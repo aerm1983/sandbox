@@ -31,117 +31,117 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "strCodAge",
-    "strCodCli",
-    "strDepartamento",
-    "strPass"
+		"strCodAge",
+		"strCodCli",
+		"strDepartamento",
+		"strPass"
 })
 @XmlRootElement(name = "LoginWSService___LoginDep2")
 public class LoginDep2Pojo {
 
-    @XmlElement(required = true)
-    protected String strCodAge;
-    @XmlElement(required = true)
-    protected String strCodCli;
-    @XmlElement(required = true)
-    protected String strDepartamento;
-    @XmlElement(required = true)
-    protected String strPass;
+	@XmlElement(required = true)
+	protected String strCodAge;
+	@XmlElement(required = true)
+	protected String strCodCli;
+	@XmlElement(required = true)
+	protected String strDepartamento;
+	@XmlElement(required = true)
+	protected String strPass;
 
-    /**
-     * Gets the value of the strCodAge property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodAge() {
-        return strCodAge;
-    }
+	/**
+	 * Gets the value of the strCodAge property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodAge() {
+		return strCodAge;
+	}
 
-    /**
-     * Sets the value of the strCodAge property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodAge(String value) {
-        this.strCodAge = value;
-    }
+	/**
+	 * Sets the value of the strCodAge property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodAge(String value) {
+		this.strCodAge = value;
+	}
 
-    /**
-     * Gets the value of the strCodCli property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodCli() {
-        return strCodCli;
-    }
+	/**
+	 * Gets the value of the strCodCli property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodCli() {
+		return strCodCli;
+	}
 
-    /**
-     * Sets the value of the strCodCli property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodCli(String value) {
-        this.strCodCli = value;
-    }
+	/**
+	 * Sets the value of the strCodCli property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodCli(String value) {
+		this.strCodCli = value;
+	}
 
-    /**
-     * Gets the value of the strDepartamento property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrDepartamento() {
-        return strDepartamento;
-    }
+	/**
+	 * Gets the value of the strDepartamento property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrDepartamento() {
+		return strDepartamento;
+	}
 
-    /**
-     * Sets the value of the strDepartamento property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrDepartamento(String value) {
-        this.strDepartamento = value;
-    }
+	/**
+	 * Sets the value of the strDepartamento property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrDepartamento(String value) {
+		this.strDepartamento = value;
+	}
 
-    /**
-     * Gets the value of the strPass property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrPass() {
-        return strPass;
-    }
+	/**
+	 * Gets the value of the strPass property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrPass() {
+		return strPass;
+	}
 
-    /**
-     * Sets the value of the strPass property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrPass(String value) {
-        this.strPass = value;
-    }
+	/**
+	 * Sets the value of the strPass property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrPass(String value) {
+		this.strPass = value;
+	}
 
 }

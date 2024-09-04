@@ -29,36 +29,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "strEnvio"
+		"strEnvio"
 })
 @XmlRootElement(name = "WebServService___ConsEnvio2Response")
 public class ConsEnvio2ResponsePojo {
 
-    @XmlElement(required = true)
-    protected String strEnvio;
+	@XmlElement(required = true)
+	protected String strEnvio;
 
-    /**
-     * Gets the value of the strEnvio property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrEnvio() {
-        return strEnvio;
-    }
+	/**
+	 * Gets the value of the strEnvio property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrEnvio() {
+		return strEnvio;
+	}
 
-    /**
-     * Sets the value of the strEnvio property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrEnvio(String value) {
-        this.strEnvio = value;
-    }
+	/**
+	 * Sets the value of the strEnvio property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrEnvio(String value) {
+		this.strEnvio = value;
+	}
 
 }

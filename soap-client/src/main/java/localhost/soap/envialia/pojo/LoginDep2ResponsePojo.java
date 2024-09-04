@@ -39,298 +39,298 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "result",
-    "strCodAgeOut",
-    "strCodCliOut",
-    "strCod",
-    "strNom",
-    "strCodCR",
-    "strTipo",
-    "strVersion",
-    "strError",
-    "strSesion",
-    "strURLDetSegEnv"
+		"result",
+		"strCodAgeOut",
+		"strCodCliOut",
+		"strCod",
+		"strNom",
+		"strCodCR",
+		"strTipo",
+		"strVersion",
+		"strError",
+		"strSesion",
+		"strURLDetSegEnv"
 })
 @XmlRootElement(name = "LoginWSService___LoginDep2Response")
 public class LoginDep2ResponsePojo {
 
-    @XmlElement(name = "Result")
-    protected boolean result;
-    @XmlElement(required = true)
-    protected String strCodAgeOut;
-    @XmlElement(required = true)
-    protected String strCodCliOut;
-    @XmlElement(required = true)
-    protected String strCod;
-    @XmlElement(required = true)
-    protected String strNom;
-    @XmlElement(required = true)
-    protected String strCodCR;
-    @XmlElement(required = true)
-    protected String strTipo;
-    @XmlElement(required = true)
-    protected String strVersion;
-    @XmlElement(required = true)
-    protected String strError;
-    @XmlElement(required = true)
-    protected String strSesion;
-    @XmlElement(required = true)
-    protected String strURLDetSegEnv;
+	@XmlElement(name = "Result")
+	protected boolean result;
+	@XmlElement(required = true)
+	protected String strCodAgeOut;
+	@XmlElement(required = true)
+	protected String strCodCliOut;
+	@XmlElement(required = true)
+	protected String strCod;
+	@XmlElement(required = true)
+	protected String strNom;
+	@XmlElement(required = true)
+	protected String strCodCR;
+	@XmlElement(required = true)
+	protected String strTipo;
+	@XmlElement(required = true)
+	protected String strVersion;
+	@XmlElement(required = true)
+	protected String strError;
+	@XmlElement(required = true)
+	protected String strSesion;
+	@XmlElement(required = true)
+	protected String strURLDetSegEnv;
 
-    /**
-     * Gets the value of the result property.
-     * 
-     */
-    public boolean isResult() {
-        return result;
-    }
+	/**
+	 * Gets the value of the result property.
+	 * 
+	 */
+	public boolean isResult() {
+		return result;
+	}
 
-    /**
-     * Sets the value of the result property.
-     * 
-     */
-    public void setResult(boolean value) {
-        this.result = value;
-    }
+	/**
+	 * Sets the value of the result property.
+	 * 
+	 */
+	public void setResult(boolean value) {
+		this.result = value;
+	}
 
-    /**
-     * Gets the value of the strCodAgeOut property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodAgeOut() {
-        return strCodAgeOut;
-    }
+	/**
+	 * Gets the value of the strCodAgeOut property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodAgeOut() {
+		return strCodAgeOut;
+	}
 
-    /**
-     * Sets the value of the strCodAgeOut property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodAgeOut(String value) {
-        this.strCodAgeOut = value;
-    }
+	/**
+	 * Sets the value of the strCodAgeOut property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodAgeOut(String value) {
+		this.strCodAgeOut = value;
+	}
 
-    /**
-     * Gets the value of the strCodCliOut property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodCliOut() {
-        return strCodCliOut;
-    }
+	/**
+	 * Gets the value of the strCodCliOut property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodCliOut() {
+		return strCodCliOut;
+	}
 
-    /**
-     * Sets the value of the strCodCliOut property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodCliOut(String value) {
-        this.strCodCliOut = value;
-    }
+	/**
+	 * Sets the value of the strCodCliOut property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodCliOut(String value) {
+		this.strCodCliOut = value;
+	}
 
-    /**
-     * Gets the value of the strCod property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCod() {
-        return strCod;
-    }
+	/**
+	 * Gets the value of the strCod property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCod() {
+		return strCod;
+	}
 
-    /**
-     * Sets the value of the strCod property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCod(String value) {
-        this.strCod = value;
-    }
+	/**
+	 * Sets the value of the strCod property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCod(String value) {
+		this.strCod = value;
+	}
 
-    /**
-     * Gets the value of the strNom property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrNom() {
-        return strNom;
-    }
+	/**
+	 * Gets the value of the strNom property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrNom() {
+		return strNom;
+	}
 
-    /**
-     * Sets the value of the strNom property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrNom(String value) {
-        this.strNom = value;
-    }
+	/**
+	 * Sets the value of the strNom property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrNom(String value) {
+		this.strNom = value;
+	}
 
-    /**
-     * Gets the value of the strCodCR property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodCR() {
-        return strCodCR;
-    }
+	/**
+	 * Gets the value of the strCodCR property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodCR() {
+		return strCodCR;
+	}
 
-    /**
-     * Sets the value of the strCodCR property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodCR(String value) {
-        this.strCodCR = value;
-    }
+	/**
+	 * Sets the value of the strCodCR property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodCR(String value) {
+		this.strCodCR = value;
+	}
 
-    /**
-     * Gets the value of the strTipo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrTipo() {
-        return strTipo;
-    }
+	/**
+	 * Gets the value of the strTipo property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrTipo() {
+		return strTipo;
+	}
 
-    /**
-     * Sets the value of the strTipo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrTipo(String value) {
-        this.strTipo = value;
-    }
+	/**
+	 * Sets the value of the strTipo property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrTipo(String value) {
+		this.strTipo = value;
+	}
 
-    /**
-     * Gets the value of the strVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrVersion() {
-        return strVersion;
-    }
+	/**
+	 * Gets the value of the strVersion property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrVersion() {
+		return strVersion;
+	}
 
-    /**
-     * Sets the value of the strVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrVersion(String value) {
-        this.strVersion = value;
-    }
+	/**
+	 * Sets the value of the strVersion property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrVersion(String value) {
+		this.strVersion = value;
+	}
 
-    /**
-     * Gets the value of the strError property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrError() {
-        return strError;
-    }
+	/**
+	 * Gets the value of the strError property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrError() {
+		return strError;
+	}
 
-    /**
-     * Sets the value of the strError property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrError(String value) {
-        this.strError = value;
-    }
+	/**
+	 * Sets the value of the strError property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrError(String value) {
+		this.strError = value;
+	}
 
-    /**
-     * Gets the value of the strSesion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrSesion() {
-        return strSesion;
-    }
+	/**
+	 * Gets the value of the strSesion property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrSesion() {
+		return strSesion;
+	}
 
-    /**
-     * Sets the value of the strSesion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrSesion(String value) {
-        this.strSesion = value;
-    }
+	/**
+	 * Sets the value of the strSesion property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrSesion(String value) {
+		this.strSesion = value;
+	}
 
-    /**
-     * Gets the value of the strURLDetSegEnv property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrURLDetSegEnv() {
-        return strURLDetSegEnv;
-    }
+	/**
+	 * Gets the value of the strURLDetSegEnv property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrURLDetSegEnv() {
+		return strURLDetSegEnv;
+	}
 
-    /**
-     * Sets the value of the strURLDetSegEnv property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrURLDetSegEnv(String value) {
-        this.strURLDetSegEnv = value;
-    }
+	/**
+	 * Sets the value of the strURLDetSegEnv property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrURLDetSegEnv(String value) {
+		this.strURLDetSegEnv = value;
+	}
 
 }

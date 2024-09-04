@@ -29,36 +29,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "strEnvEstados"
+		"strEnvEstados"
 })
 @XmlRootElement(name = "WebServService___ConsEnvEstadosResponse")
 public class ConsEnvEstadosResponsePojo {
 
-    @XmlElement(required = true)
-    protected String strEnvEstados;
+	@XmlElement(required = true)
+	protected String strEnvEstados;
 
-    /**
-     * Gets the value of the strEnvEstados property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrEnvEstados() {
-        return strEnvEstados;
-    }
+	/**
+	 * Gets the value of the strEnvEstados property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrEnvEstados() {
+		return strEnvEstados;
+	}
 
-    /**
-     * Sets the value of the strEnvEstados property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrEnvEstados(String value) {
-        this.strEnvEstados = value;
-    }
+	/**
+	 * Sets the value of the strEnvEstados property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrEnvEstados(String value) {
+		this.strEnvEstados = value;
+	}
 
 }

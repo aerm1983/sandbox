@@ -31,90 +31,90 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "strCodAgeCargo",
-    "strCodAgeOri",
-    "strAlbaran"
+		"strCodAgeCargo",
+		"strCodAgeOri",
+		"strAlbaran"
 })
 @XmlRootElement(name = "WebServService___ConsEnvEstados")
 public class ConsEnvEstadosPojo {
 
-    @XmlElement(required = true)
-    protected String strCodAgeCargo;
-    @XmlElement(required = true)
-    protected String strCodAgeOri;
-    @XmlElement(required = true)
-    protected String strAlbaran;
+	@XmlElement(required = true)
+	protected String strCodAgeCargo;
+	@XmlElement(required = true)
+	protected String strCodAgeOri;
+	@XmlElement(required = true)
+	protected String strAlbaran;
 
-    /**
-     * Gets the value of the strCodAgeCargo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodAgeCargo() {
-        return strCodAgeCargo;
-    }
+	/**
+	 * Gets the value of the strCodAgeCargo property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodAgeCargo() {
+		return strCodAgeCargo;
+	}
 
-    /**
-     * Sets the value of the strCodAgeCargo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodAgeCargo(String value) {
-        this.strCodAgeCargo = value;
-    }
+	/**
+	 * Sets the value of the strCodAgeCargo property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodAgeCargo(String value) {
+		this.strCodAgeCargo = value;
+	}
 
-    /**
-     * Gets the value of the strCodAgeOri property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrCodAgeOri() {
-        return strCodAgeOri;
-    }
+	/**
+	 * Gets the value of the strCodAgeOri property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrCodAgeOri() {
+		return strCodAgeOri;
+	}
 
-    /**
-     * Sets the value of the strCodAgeOri property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrCodAgeOri(String value) {
-        this.strCodAgeOri = value;
-    }
+	/**
+	 * Sets the value of the strCodAgeOri property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrCodAgeOri(String value) {
+		this.strCodAgeOri = value;
+	}
 
-    /**
-     * Gets the value of the strAlbaran property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStrAlbaran() {
-        return strAlbaran;
-    }
+	/**
+	 * Gets the value of the strAlbaran property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getStrAlbaran() {
+		return strAlbaran;
+	}
 
-    /**
-     * Sets the value of the strAlbaran property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStrAlbaran(String value) {
-        this.strAlbaran = value;
-    }
+	/**
+	 * Sets the value of the strAlbaran property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setStrAlbaran(String value) {
+		this.strAlbaran = value;
+	}
 
 }
