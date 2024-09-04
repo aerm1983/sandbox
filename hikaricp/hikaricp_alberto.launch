@@ -22,5 +22,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="are_hikaricp"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="are_hikaricp"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms8m&#13;&#10;-Xmx128m&#13;&#10;-Dspring.profiles.active=testPmRaceCondition&#13;&#10;-D____spring.profiles.active=testConfigBasicOps&#13;&#10;-D____com.zaxxer.hikari.housekeeping.periodMs=6000"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms8m&#13;&#10;-Xmx128m&#13;&#10;-Dspring.profiles.active=testPmRaceCondition&#13;&#10;-D____spring.profiles.active=testConfigBasicOps&#13;&#10;-Dcom.zaxxer.hikari.housekeeping.periodMs=2000"/>
 </launchConfiguration>
