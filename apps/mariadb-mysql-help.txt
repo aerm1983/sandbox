@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB, MySQL binaries install - updated: 2024-08-08 18:37
+MariaDB, MySQL binaries install - updated: 2024-09-09 07:47
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -62,7 +62,41 @@ https://dev.mysql.com/doc/refman/8.0/en/server-options.html#option_mysqld_initia
 
 https://dev.mysql.com/doc/refman/8.0/en/data-directory-initialization.html#data-directory-initialization-password-assignment
 
-(1.13) Pending: review "mariadb-install-db" command
+(1.13) When initializing jdbc connections, this exception may be thrown: "Public Key retrieval not allowed".
+
+There are two solutions: add parameter to client-url connection, or alter user and restart server.
+
+(1.13.1) Add parameter to client-url
+
+Jdbc client url example:
+
+jdbc:mysql://localhost:3306/my_database?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+
+To prevent mentioned exception, add parameter:
+
+&allowPublicKeyRetrieval=true
+
+(1.13.2) Alter user
+
+Query/alter user:
+
+# Results with plugin/auth_plugin different to 'mysql_nativa_password' provoke 'Public Key Retrieval is not allowed' error
+
+# User and password creation as described in previous steps, seems to establish 'caching_sha2_password' as default plugin/auth_plugin
+
+SELECT user, host, plugin FROM mysql.user ; 
+
+# Alter user to use 'mysql_nativa_password' plugin/auth_plugin
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234' ;
+
+This was also indicated by documentation, but was not necessary: add it to mysql.conf file:
+
+[mysqld]
+...
+mysql_native_password=ON 
+
+(1.14) Pending: review "mariadb-install-db" command
 
 
 
@@ -429,5 +463,4 @@ SELECT IFNULL(NULL, '1') >= '0' ;
 SELECT COALESCE(NULL,NULL,NULL,'7') >= '0';
 
 SELECT COALESCE('1','2','3','7') >= '0';
-
 
