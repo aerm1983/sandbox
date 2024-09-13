@@ -10,10 +10,11 @@ public class StringMain {
 		System.out.println("Hello from StringMain!");
 		// other();
 		// Test00StringMatchRegex.test00StringMatch();
-		// Test01StringFormat.stringFormat();
+		// Test01StringFormat.stringFormat01();
+		Test01StringFormat.stringFormat02GenerateCustomSku();
 		// Test02RegexFindGroup.test00RegexFindGroup();
 		// Test03Base64.test00Base64Encode();
-		Test04StringReplace.stringReplace();
+		// Test04StringReplace.stringReplace();
 	}
 
 	public static void other() {

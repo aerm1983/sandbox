@@ -7,15 +7,15 @@ import localhost.sandbox.Reflection.Pojo.Person;
 public class Test00_FieldExistsFieldValue {
 
 	public static void test00_FieldExistsAndFieldValue() {
-		
-		System.out.println("test00 begin");
-		
+
+		System.out.println("test00_FieldExistsAndFieldValue begin");
+
 		Person person = new Person("Juan", 21, true);
-		
+
 		System.out.println("person, before reflection intervention: " + person.toString());
-		
+
 		Class<?> clazz = person.getClass();
-		
+
 		/**
 		 * By using `clazz.getDeclaredFields()`, all attributes (public,
 		 * private, protected) are returned.
@@ -24,13 +24,13 @@ public class Test00_FieldExistsFieldValue {
 		 * returned only if it is public.
 		 */
 		Field[] fields = clazz.getDeclaredFields();
-		
+
 		boolean fAccessible = false;
-		
+
 		String targetFieldName = "name";
 		String oldFieldValue = null;
 		String newFieldValue = "Zorro";
-		
+
 		for (Field field : fields) {
 
 			if (targetFieldName.equals(field.getName())) {
@@ -46,9 +46,9 @@ public class Test00_FieldExistsFieldValue {
 				} catch (Exception e) {
 					System.err.println("error -- e.getClass(): " + e.getClass() + " ; e.getMessage(): {}" + e.getMessage());
 				}
-				
+
 				field.setAccessible(fAccessible);
-				
+
 			}
 		}
 

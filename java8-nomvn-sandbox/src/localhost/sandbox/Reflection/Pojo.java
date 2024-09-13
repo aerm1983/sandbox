@@ -2,24 +2,24 @@ package localhost.sandbox.Reflection;
 
 
 public class Pojo {
-	
+
 	public static class Person {
-		
+
 		private String name;
-		
+
 		private Integer age;
-		
+
 		private Boolean didService;
-		
+
 		Person () {
 		}
-		
+
 		Person (String name, Integer age, Boolean didService) {
 			this.name = name;
 			this.age = age;
 			this.didService = didService;
 		}
-		
+
 		public String getName() {
 			return name;
 		}
@@ -38,7 +38,7 @@ public class Pojo {
 		public void setDidService(Boolean didService) {
 			this.didService = didService;
 		}
-		
+
 		public String toString() {
 			String out = "{"
 					+ "name:" + name + ", "
