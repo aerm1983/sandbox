@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB, MySQL binaries install - updated: 2024-09-09 07:47
+MariaDB, MySQL binaries install - updated: 2024-09-09 08:29
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -95,6 +95,10 @@ This was also indicated by documentation, but was not necessary: add it to mysql
 [mysqld]
 ...
 mysql_native_password=ON 
+
+(1.13.3) MySQL server console message:
+
+2024-09-09T12:26:57.576466Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
 
 (1.14) Pending: review "mariadb-install-db" command
 
