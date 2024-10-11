@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-08-27 13:06'
+__ALIAS_LAST_UPDATE__='2024-10-11 07:10'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -675,10 +675,10 @@ alias grs='echo "--> *git reset --soft" ; sleep ${__ALIAS_TIMEOUT__} ; git reset
 
 function __gh_gf { echo '--> git fetch' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git fetch "${@}" ; echo ; gs ; } 
 alias gf='__gh_gf'
-# alias gf='echo "--> git fetch"; sleep ${__ALIAS_TIMEOUT__}; git fetch ; echo ; gs'
 
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
-alias gps='echo "--> git push"; sleep ${__ALIAS_TIMEOUT__}; git push'
+function __gh_gps { echo '--> git push' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git push "${@}" ; }
+alias gps='__gh_gps'
 
 alias gpss='echo "--> git push origin --set-upstream <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --set-upstream $( git branch --show-current )'
 alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --delete $( git branch --show-current )'
