@@ -28,6 +28,11 @@ package localhost.sandbox.JavaDoc;
  * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail#age Age}.
  * 
  * 
+ * <h1>Special characters</h1>
+ * 
+ * <p>Look source comment: List<T> and List&lt;T&gt;.
+ * 
+ * 
  */
 public class JavaDocMain {
 

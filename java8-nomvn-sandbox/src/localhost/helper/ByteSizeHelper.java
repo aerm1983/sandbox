@@ -34,7 +34,7 @@ public class ByteSizeHelper {
 		} else if (inSize >= ONE_KB) {
 			outSize = formatSize(inSize, ONE_KB, "KB");
 		} else {
-			outSize = formatSize(inSize, ONE_BYTE, "Bytes");    
+			outSize = formatSize(inSize, ONE_BYTE, "Bytes");
 		}
 
 		return outSize;

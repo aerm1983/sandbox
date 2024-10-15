@@ -75,7 +75,7 @@ public class SandboxMain {
 		// RunTimeStatsHelper.main();
 		// SimpleDateFormatHelper.main();
 		// ThreadMain.main();
-		// GenericsMain.main();
+		GenericsMain.main();
 		// FileMain.main();
 		// FileHelper.main();
 		// LargeStringHelper.main();
@@ -89,7 +89,7 @@ public class SandboxMain {
 		// ClassMain.main();
 		// JoinHelper.main();
 		// LinkedHashMapAndSetMain.main();
-		SkuPatternHelper.main();
+		// SkuPatternHelper.main();
 
 	}
 }

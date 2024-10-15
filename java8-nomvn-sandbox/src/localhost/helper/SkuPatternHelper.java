@@ -4,7 +4,7 @@ package localhost.helper;
 /**
  * <h1>Helper for Sku Pattern operations.</h1>
  * 
- * <p>Use {@link SkuPatternPojo SkuPatternPojo} constructors: from pattern generate positions, or viceversa.
+ * <p>Use {@link SkuPatternHelperPojo SkuPatternHelperPojo} constructors: from pattern generate positions, or viceversa.
  * 
  * @author Alberto Romero
  * @since 2024-09-12
@@ -12,17 +12,18 @@ package localhost.helper;
  */
 public class SkuPatternHelper {
 
-	public static final String VERSION = "2024-09-12T20:21:00Z";
+	public static final String VERSION = "2024-09-15T19:12:00Z";
 
 	public static final String DEFAULT_PATTERN = "%1$s_%2$s_%3$s";
 
 	public static final String SITE_ABBREVIATION_FORMAT_ELEMENT = "%1$s";
-	public static final String CONDITION_FORMAT_ELEMENT = "%2$s";
+	public static final String CONDITION_ID_FORMAT_ELEMENT = "%2$s";
 	public static final String SKU_FORMAT_ELEMENT = "%3$s";
 
 	public static final String DELIMITER = "_";
 
-	public static final String[] ACCEPTED_PATTERNS = { 
+	public static final String[] ACCEPTED_PATTERNS = {
+			// (sku "%3$s" must always be present)
 			// three elements
 			"%3$s_%1$s_%2$s", "%3$s_%2$s_%1$s",
 			"%2$s_%1$s_%3$s", "%2$s_%3$s_%1$s",
@@ -41,26 +42,39 @@ public class SkuPatternHelper {
 	 */
 	public static void main() {
 		System.out.println("Hello from SkuPatternHelper main!");
-		testPatternToPositions();
-		testPositionsToPattern();
+		testValidValues();
+		testNonValidValues();
 	}
 
-	public static void testPatternToPositions() {
-		System.out.println("Hello from testPatternToPositions!");
+	private static void testValidValues() {
+		System.out.println("Hello from testValidValues!");
 
-		SkuPatternPojo spp;
+		SkuPatternHelperPojo sphpSrcPatt;
+		SkuPatternHelperPojo sphpSrcPosn;
 		int i = 0;
 
-		// test00, default pattern, good
-		spp = new SkuPatternPojo(DEFAULT_PATTERN);
-		System.out.println("test00, spp: " + spp);
+		// test00, test DEFAULT_PATTERN
+		System.out.println("test00, DEFAULT_PATTERN: ");
+		sphpSrcPatt = new SkuPatternHelperPojo(DEFAULT_PATTERN);
+		System.out.println("sphpSrcPatt: " + sphpSrcPatt);
+		sphpSrcPosn = new SkuPatternHelperPojo(sphpSrcPatt.siteAbbreviationPosition, sphpSrcPatt.conditionIdPosition, sphpSrcPatt.skuPosition);
+		System.out.println("sphpSrcPosn: " + sphpSrcPosn);
 
 		// test01, test all ACCEPTED_PATTERNS
 		System.out.println("test01, ACCEPTED_PATTERNS: ");
 		for (i = 0; i < ACCEPTED_PATTERNS.length ; i++) {
-			spp = new SkuPatternPojo(ACCEPTED_PATTERNS[i]);
-			System.out.println("i: " + i + " ; spp: " + spp);
+			sphpSrcPatt = new SkuPatternHelperPojo(ACCEPTED_PATTERNS[i]);
+			System.out.println("i: " + i + " ; sphpSrcPatt: " + sphpSrcPatt);
+			sphpSrcPosn = new SkuPatternHelperPojo(sphpSrcPatt.siteAbbreviationPosition, sphpSrcPatt.conditionIdPosition, sphpSrcPatt.skuPosition);
+			System.out.println("i: " + i + " ; sphpSrcPosn: " + sphpSrcPosn);
 		}
+	}
+
+	private static void testNonValidValues() {
+		System.out.println("Hello from testNonValidValues!");
+
+		SkuPatternHelperPojo sphp;
+		int i = 0;
 
 		// test02, non valid patterns
 		String[] nonValidPatterns = {
@@ -73,61 +87,43 @@ public class SkuPatternHelper {
 				// other invalid patterns
 				"a", "aA", "1Aa"
 		};
-		System.out.println("test02, nonValidPatterns: ");
+		System.out.println("test, non valid patterns: ");
 		for (i = 0; i < nonValidPatterns.length ; i++) {
-			spp = new SkuPatternPojo(nonValidPatterns[i]);
-			System.out.println("i: " + i + "; patt: " + nonValidPatterns[i] + " ; spp: " + spp);
+			sphp = new SkuPatternHelperPojo(nonValidPatterns[i]);
+			System.out.println("i: " + i + "; patt: " + nonValidPatterns[i] + " ; sphp: " + sphp);
 		}
-	}
-
-	public static void testPositionsToPattern() {
-		System.out.println("Hello from testPositionsToPattern!");
-
-		SkuPatternPojo spp;
-
-		// VALID POSITION VALUES
-		System.out.println("Positions, valid values");
-
-		// testA00, valid positions, sku not null, unique
-		spp = new SkuPatternPojo(null,null,1);
-		System.out.println("testA00, pons: null,null,1, spp: " + spp);
-
-		// testA01, valid positions, sku not null, two values
-		spp = new SkuPatternPojo(null,2,1);
-		System.out.println("testA01, pons: null,2,1, spp: " + spp);
-
-		// testA02, valid positions, sku not null, two values
-		spp = new SkuPatternPojo(2,null,1);
-		System.out.println("testA02, pons: 2,null,1, spp: " + spp);
-
-		// testA03, valid positions, sku not null, two values
-		spp = new SkuPatternPojo(1,2,3);
-		System.out.println("testA03, pons: 1,2,3, spp: " + spp);
-
 
 
 		// NON VALID POSITION VALUES
-		System.out.println("Positions, non valid values");
+		System.out.println("test, non valid positions");
 
 		// testB00, sku null
-		spp = new SkuPatternPojo(1,1,null);
-		System.out.println("testB00, pons: 1,1,null, spp: " + spp);
+		sphp = new SkuPatternHelperPojo(1,1,null);
+		System.out.println("testB00, pons: 1,1,null, sphp: " + sphp);
 
-		// testB01, sku not null, unique, value different to 1
-		spp = new SkuPatternPojo(null,null,2);
-		System.out.println("testB01, pons: null,null,2, spp: " + spp);
+		// testB01_a, sku not null, unique, value different to 1
+		sphp = new SkuPatternHelperPojo(null,null,0);
+		System.out.println("testB01_a, pons: null,null,0, sphp: " + sphp);
+
+		// testB01_b, sku not null, unique, value different to 1
+		sphp = new SkuPatternHelperPojo(null,null,2);
+		System.out.println("testB01_b, pons: null,null,2, sphp: " + sphp);
+
+		// testB01_c, sku not null, unique, value different to 1
+		sphp = new SkuPatternHelperPojo(null,null,4);
+		System.out.println("testB01_c, pons: null,null,4, sphp: " + sphp);
 
 		// testB02, elements with same value
-		spp = new SkuPatternPojo(1,1,1);
-		System.out.println("testB02, pons: 1,1,1, spp: " + spp);
+		sphp = new SkuPatternHelperPojo(1,1,1);
+		System.out.println("testB02, pons: 1,1,1, sphp: " + sphp);
 
 		// testB03, elements with same value
-		spp = new SkuPatternPojo(1,1,2);
-		System.out.println("testB03, pons: 1,1,2, spp: " + spp);
+		sphp = new SkuPatternHelperPojo(1,1,2);
+		System.out.println("testB03, pons: 1,1,2, sphp: " + sphp);
 
 		// testB04, element with value bigger than 3
-		spp = new SkuPatternPojo(4,1,2);
-		System.out.println("testB03, pons: 4,1,2, spp: " + spp);
+		sphp = new SkuPatternHelperPojo(4,1,2);
+		System.out.println("testB03, pons: 4,1,2, sphp: " + sphp);
 
 	}
 
@@ -137,66 +133,66 @@ public class SkuPatternHelper {
 	 * FUNCTIONS
 	 */
 
-	public static String customSkuBaseFormat(String pattern, String siteAbbreviation, Integer condition, String sku) {
-		return String.format(pattern, siteAbbreviation, condition, sku);
+	public static String customSkuBaseFormat(String pattern, String siteAbbreviation, Integer conditionId, String sku) {
+		return String.format(pattern, siteAbbreviation, conditionId, sku);
 	}
 
 
 
-	public static SkuPatternPojo fromPatternToPositions(SkuPatternPojo spp) {
+	private static SkuPatternHelperPojo fromPatternToPositions(SkuPatternHelperPojo sphp) {
 		try {
-			spp = patternIsValid(spp);
-			if (!spp.valid) {
-				return spp;
+			sphp = patternIsValid(sphp);
+			if (!sphp.valid) {
+				return sphp;
 			}
 			boolean processOk = true;
-			String[] e = spp.pattern.split(DELIMITER);
+			String[] e = sphp.pattern.split(DELIMITER);
 			for (int i = 0 ; i < e.length ; i++) {
 				if (SITE_ABBREVIATION_FORMAT_ELEMENT.equals(e[i])) {
-					spp.siteAbbreviationPosition = i + 1;
-				} else if (CONDITION_FORMAT_ELEMENT.equals(e[i])) {
-					spp.conditionPosition = i + 1;
+					sphp.siteAbbreviationPosition = i + 1;
+				} else if (CONDITION_ID_FORMAT_ELEMENT.equals(e[i])) {
+					sphp.conditionIdPosition = i + 1;
 				} else if (SKU_FORMAT_ELEMENT.equals(e[i])) {
-					spp.skuPosition = i + 1;
+					sphp.skuPosition = i + 1;
 				} else {
 					processOk = false;
 				}
 			}
-			spp = positionsAreValid(spp);
-			if (spp.valid && spp.errorMessage == null && !processOk) {
-				spp.valid = false;
-				spp.errorMessage = "condition (process fromPatternToPositions was OK), not fulfilled";
+			sphp = positionsAreValid(sphp);
+			if (sphp.valid && sphp.errorMessage == null && !processOk) {
+				sphp.valid = false;
+				sphp.errorMessage = "condition (process fromPatternToPositions was OK), not fulfilled";
 			}
-			return spp;
+			return sphp;
 		} catch (Throwable e) {
-			spp.valid = false;
-			spp.errorMessage = "error -- exception: " + e.getMessage();
-			return spp;
+			sphp.valid = false;
+			sphp.errorMessage = "error -- exception: " + e.getMessage();
+			return sphp;
 		}
 	}
 
 
 
-	public static SkuPatternPojo fromPositionsToPattern(SkuPatternPojo spp) {
+	private static SkuPatternHelperPojo fromPositionsToPattern(SkuPatternHelperPojo sphp) {
 		try {
-			spp = positionsAreValid(spp);
-			if (!spp.valid) return spp;
+			sphp = positionsAreValid(sphp);
+			if (!sphp.valid) return sphp;
 			String pattern = "";
 			int i = 0;
 			for (i = 1 ; i < 5 ; i++) {
-				if (spp.siteAbbreviationPosition != null && spp.siteAbbreviationPosition == i) {
+				if (sphp.siteAbbreviationPosition != null && sphp.siteAbbreviationPosition == i) {
 					if (i == 1) {
 						pattern += SITE_ABBREVIATION_FORMAT_ELEMENT;
 					} else {
 						pattern += DELIMITER + SITE_ABBREVIATION_FORMAT_ELEMENT;
 					}
-				} else if (spp.conditionPosition != null && spp.conditionPosition == i) {
+				} else if (sphp.conditionIdPosition != null && sphp.conditionIdPosition == i) {
 					if (i == 1) {
-						pattern += CONDITION_FORMAT_ELEMENT;
+						pattern += CONDITION_ID_FORMAT_ELEMENT;
 					} else {
-						pattern += DELIMITER + CONDITION_FORMAT_ELEMENT;
+						pattern += DELIMITER + CONDITION_ID_FORMAT_ELEMENT;
 					}
-				} else if (spp.skuPosition != null && spp.skuPosition == i) {
+				} else if (sphp.skuPosition != null && sphp.skuPosition == i) {
 					if (i == 1) {
 						pattern += SKU_FORMAT_ELEMENT;
 					} else {
@@ -204,78 +200,131 @@ public class SkuPatternHelper {
 					}
 				} 
 			}
-			spp.pattern = pattern;
-			spp = patternIsValid(spp);
-			return spp;
+			sphp.pattern = pattern;
+			sphp = patternIsValid(sphp);
+			return sphp;
 		} catch (Throwable e) {
-			spp.valid = false;
-			spp.errorMessage = "error -- exception: " + e.getMessage();
-			return spp;
+			sphp.valid = false;
+			sphp.errorMessage = "error -- exception: " + e.getMessage();
+			return sphp;
 		}
 	}
 
 
 
-	public static SkuPatternPojo patternIsValid(SkuPatternPojo spp) {
+	private static SkuPatternHelperPojo patternIsValid(SkuPatternHelperPojo sphp) {
 		try {
-			if (spp.pattern == null) {
-				spp.valid = false;
-				spp.errorMessage = "condition (pattern not null), not fulfilled";
-				return spp;
+			if (sphp.pattern == null) {
+				sphp.valid = false;
+				sphp.errorMessage = "condition (pattern not null), not fulfilled";
+				return sphp;
 			}
-			spp.valid = false;
-			spp.errorMessage = "condition (pattern valid), not fulfilled";
+			sphp.valid = false;
+			sphp.errorMessage = "condition (pattern valid), not fulfilled";
 			for (String p : ACCEPTED_PATTERNS) {
-				if (p.equals(spp.pattern)) { 
-					spp.valid = true;
-					spp.errorMessage = null;
+				if (p.equals(sphp.pattern)) { 
+					sphp.valid = true;
+					sphp.errorMessage = null;
 					break;
 				}
 			}
-			return spp;
+			return sphp;
 		} catch (Throwable e) {
-			spp.valid = false;
-			spp.errorMessage = "error -- exception: " + e.getMessage();
-			return spp;
+			sphp.valid = false;
+			sphp.errorMessage = "error -- exception: " + e.getMessage();
+			return sphp;
 		}
 	}
 
 
 
-	public static SkuPatternPojo positionsAreValid(SkuPatternPojo spp) {
+	private static SkuPatternHelperPojo positionsAreValid(SkuPatternHelperPojo sphp) {
 		try {
-			if (spp.skuPosition == null) {
-				spp.valid = false;
-				spp.errorMessage = "condition (skuPosition != null), not fulfilled";
-				return spp;
+			// skuPosition must always be present
+			if (sphp.skuPosition == null) {
+				sphp.valid = false;
+				sphp.errorMessage = "condition (skuPosition != null), not fulfilled";
+				return sphp;
 			}
-			if (spp.siteAbbreviationPosition == null && spp.conditionPosition == null && spp.skuPosition != 1) {
-				spp.valid = false;
-				spp.errorMessage = "condition (skuPosition == 1) if unique present element, not fulfilled";
-				return spp;
+			if (sphp.skuPosition < 1 || sphp.skuPosition > 3 ) {
+				sphp.valid = false;
+				sphp.errorMessage = "condition (skuPosition not less than 1 nor bigger than 3), not fulfilled";
+				return sphp;
 			}
-			if (spp.skuPosition != null && (spp.skuPosition == spp.siteAbbreviationPosition || spp.skuPosition == spp.conditionPosition)) {
-				spp.valid = false;
-				spp.errorMessage = "condition (different elements must have different positions), not fulfilled";
-				return spp;
+			// all three elements present
+			if (sphp.siteAbbreviationPosition != null && sphp.conditionIdPosition != null) {
+				if (sphp.siteAbbreviationPosition < 1 || sphp.siteAbbreviationPosition > 3 ) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (siteAbbreviationPosition not less than 1 nor bigger than 3), not fulfilled";
+					return sphp;
+				}
+				if (sphp.conditionIdPosition < 1 || sphp.conditionIdPosition > 3 ) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (conditionPosition not less than 1 nor bigger than 3), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition == sphp.siteAbbreviationPosition || sphp.skuPosition == sphp.conditionIdPosition || sphp.siteAbbreviationPosition == sphp.conditionIdPosition) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (different elements must have different positions), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition + sphp.conditionIdPosition + sphp.siteAbbreviationPosition != 6) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (sumOfPositions == 6), not fulfilled";
+					return sphp;
+				}
 			}
-			if (spp.conditionPosition != null && (spp.conditionPosition == spp.siteAbbreviationPosition)) {
-				spp.valid = false;
-				spp.errorMessage = "condition (different elements must have different positions), not fulfilled";
-				return spp;
+			// two elements present: sku and siteAbbreviation
+			if (sphp.siteAbbreviationPosition != null && sphp.conditionIdPosition == null) {
+				if (sphp.siteAbbreviationPosition < 1 || sphp.siteAbbreviationPosition > 3 ) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (siteAbbreviationPosition not less than 1 nor bigger than 3), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition == sphp.siteAbbreviationPosition) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (different elements must have different positions), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition + sphp.siteAbbreviationPosition != 3) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (sumOfPositions == 3), not fulfilled";
+					return sphp;
+				}
 			}
-			if (spp.skuPosition > 3 || (spp.conditionPosition != null && spp.conditionPosition > 3) || ( spp.siteAbbreviationPosition != null && spp.siteAbbreviationPosition > 3)) {
-				spp.valid = false;
-				spp.errorMessage = "condition (no element can have a position bigger than 3), not fulfilled";
-				return spp;
+			// two elements present: sku and conditionId
+			if (sphp.conditionIdPosition != null && sphp.siteAbbreviationPosition == null) {
+				if (sphp.conditionIdPosition < 1 || sphp.conditionIdPosition > 3 ) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (conditionIdPosition not less than 1 nor bigger than 3), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition == sphp.conditionIdPosition) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (different elements must have different positions), not fulfilled";
+					return sphp;
+				}
+				if (sphp.skuPosition + sphp.conditionIdPosition != 3) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (sumOfPositions == 3), not fulfilled";
+					return sphp;
+				}
 			}
-			spp.valid = true;
-			spp.errorMessage = null;
-			return spp;
+			// unique element, sku
+			if (sphp.siteAbbreviationPosition == null && sphp.conditionIdPosition == null) {
+				if (sphp.skuPosition != 1) {
+					sphp.valid = false;
+					sphp.errorMessage = "condition (skuPosition == 1) if unique present element, not fulfilled";
+					return sphp;
+				}
+			}
+			sphp.valid = true;
+			sphp.errorMessage = null;
+			return sphp;
 		} catch (Throwable e) {
-			spp.valid = false;
-			spp.errorMessage = "error -- exception: " + e.getMessage();
-			return spp;
+			sphp.valid = false;
+			sphp.errorMessage = "error -- exception: " + e.getMessage();
+			return sphp;
 		}
 	}
 
@@ -294,28 +343,28 @@ public class SkuPatternHelper {
 	 * @since 2024-09-12
 	 * 
 	 */
-	public static class SkuPatternPojo {
+	public static class SkuPatternHelperPojo {
 		protected Source source;
 		protected String pattern;
 		protected Integer siteAbbreviationPosition;
-		protected Integer conditionPosition;
+		protected Integer conditionIdPosition;
 		protected Integer skuPosition;
 		protected boolean valid = false;
 		protected String errorMessage;
 
 		// constructors
 
-		public SkuPatternPojo() {
+		public SkuPatternHelperPojo() {
 			super();
 		}
 
-		public SkuPatternPojo(Source source, boolean valid, String errorMessage) {
+		public SkuPatternHelperPojo(Source source, boolean valid, String errorMessage) {
 			super();
 			this.source = source;
 			this.errorMessage = errorMessage;
 		}
 
-		public SkuPatternPojo(String pattern) {
+		public SkuPatternHelperPojo(String pattern) {
 			super();
 			this.source = Source.PATTERN;
 			this.pattern = pattern;
@@ -323,11 +372,11 @@ public class SkuPatternHelper {
 			fromPatternToPositions(this);
 		}
 
-		public SkuPatternPojo(Integer siteAbbreviationPosition, Integer conditionPosition, Integer skuPosition) {
+		public SkuPatternHelperPojo(Integer siteAbbreviationPosition, Integer conditionIdPosition, Integer skuPosition) {
 			super();
 			this.source = Source.POSITIONS;
 			this.siteAbbreviationPosition = siteAbbreviationPosition;
-			this.conditionPosition = conditionPosition;
+			this.conditionIdPosition = conditionIdPosition;
 			this.skuPosition = skuPosition;
 			this.skuPosition = skuPosition;
 			this.valid = false;
@@ -344,8 +393,8 @@ public class SkuPatternHelper {
 			if (siteAbbreviationPosition != null) {
 				out += ", " + "siteAbbrnPon: " + siteAbbreviationPosition;
 			}
-			if (conditionPosition != null) {
-				out += ", " + "conditionPon: " + conditionPosition;
+			if (conditionIdPosition != null) {
+				out += ", " + "condIdPon: " + conditionIdPosition;
 			}
 			if (skuPosition != null) {
 				out += ", " + "skuPon: " + skuPosition;
@@ -384,12 +433,12 @@ public class SkuPatternHelper {
 			this.siteAbbreviationPosition = siteAbbreviationPosition;
 		}
 
-		public Integer getConditionPosition() {
-			return conditionPosition;
+		public Integer getConditionIdPosition() {
+			return conditionIdPosition;
 		}
 
-		public void setConditionPosition(Integer conditionPosition) {
-			this.conditionPosition = conditionPosition;
+		public void setConditionIdPosition(Integer conditionIdPosition) {
+			this.conditionIdPosition = conditionIdPosition;
 		}
 
 		public Integer getSkuPosition() {
@@ -427,24 +476,24 @@ public class SkuPatternHelper {
 
 
 
-	public static class SkuPatternExtendedPojo extends SkuPatternPojo {
+	public static class SkuPatternHelperExtendedPojo extends SkuPatternHelperPojo {
 
 		private String version = VERSION;
 
 		// constructors
 
-		public SkuPatternExtendedPojo (SkuPatternPojo spp) {
+		public SkuPatternHelperExtendedPojo (SkuPatternHelperPojo spp) {
 			super();
 			this.source = spp.source;
 			this.pattern = spp.pattern;
 			this.siteAbbreviationPosition = spp.siteAbbreviationPosition;
-			this.conditionPosition = spp.conditionPosition;
+			this.conditionIdPosition = spp.conditionIdPosition;
 			this.skuPosition = spp.skuPosition;
 			this.skuPosition = spp.skuPosition;
 			this.valid = spp.valid;
 		}
 
-		public SkuPatternExtendedPojo () {
+		public SkuPatternHelperExtendedPojo () {
 			super();
 		}
 

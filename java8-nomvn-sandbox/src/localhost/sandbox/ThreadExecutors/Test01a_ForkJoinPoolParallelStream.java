@@ -134,7 +134,7 @@ public class Test01a_ForkJoinPoolParallelStream {
 		Stream<Integer> parallelStream = numbers.parallelStream();
 
 		// ForkJoinPool forkJoinPool = new ForkJoinPool(5);
-		ForkJoinPool forkJoinPool = new ForkJoinPool(2, new CustomForkJoinWorkerThreadFactory(), null, false );
+		ForkJoinPool forkJoinPool = new ForkJoinPool(2, new CustomForkJoinWorkerThreadFactory("alberto-worker"), null, false );
 
 		ForkJoinTask<?> forkJoinTask = null;
 
@@ -190,7 +190,7 @@ public class Test01a_ForkJoinPoolParallelStream {
 		numbers.add(18);
 
 		// ForkJoinPool forkJoinPool = new ForkJoinPool(5);
-		ForkJoinPool forkJoinPool = new ForkJoinPool(3, new CustomForkJoinWorkerThreadFactory(), null, fjpAsync );
+		ForkJoinPool forkJoinPool = new ForkJoinPool(3, new CustomForkJoinWorkerThreadFactory("workerThread"), null, fjpAsync );
 
 		Stream<Integer> parallelStream01 = numbers.parallelStream();
 		Stream<Integer> parallelStream02 = numbers.parallelStream();
@@ -300,7 +300,7 @@ public class Test01a_ForkJoinPoolParallelStream {
 		// numbers.add(18);
 
 		// ForkJoinPool forkJoinPool = new ForkJoinPool(5);
-		ForkJoinPool forkJoinPool = new ForkJoinPool(2, new CustomForkJoinWorkerThreadFactory(), null, fjpAsync );
+		ForkJoinPool forkJoinPool = new ForkJoinPool(2, new CustomForkJoinWorkerThreadFactory("workerThread"), null, fjpAsync );
 
 		Stream<Integer> parallelStream01 = numbers.parallelStream();
 		Stream<Integer> parallelStream02 = numbers.parallelStream();
