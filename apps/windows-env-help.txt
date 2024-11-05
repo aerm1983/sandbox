@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2024-08-17 18:12
+WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2024-11-05 16:00
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -29,6 +29,8 @@ WINDOWS USER ENVIRONMENT VARIABLES ABSTRACT - updated: 2024-08-17 18:12
 = = = = = = = = = = = = = = = = = 
 (2) USER ENVIRONMENT VARIABLES
 = = = = = = = = = = = = = = = = = 
+
+CHROME_HOME
 
 GIT_HOME
 
@@ -73,6 +75,8 @@ NPP_HOME
 (3) USER %PATH% VARIABLE CONTENT
 = = = = = = = = = = = = = = = = = 
 
+%CHROME_HOME%
+
 %GIT_HOME%
 %GIT_HOME%\bin
 
@@ -101,6 +105,8 @@ NPP_HOME
 = = = = = = = = = = = = = = = = = 
 (4) FAST CMD INSTALL CHECKS
 = = = = = = = = = = = = = = = = = 
+
+where chrome
 
 where git # also with all other commands
 

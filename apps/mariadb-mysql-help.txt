@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB, MySQL binaries install - updated: 2024-09-09 08:29
+MariaDB, MySQL binaries install - updated: 2024-10-18 05:50
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -467,4 +467,12 @@ SELECT IFNULL(NULL, '1') >= '0' ;
 SELECT COALESCE(NULL,NULL,NULL,'7') >= '0';
 
 SELECT COALESCE('1','2','3','7') >= '0';
+
+
+
+(19) INSERT variations:
+
+REPLACE INTO ...
+
+INSERT IGNORE ...
 

@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-10-11 07:10'
+__ALIAS_LAST_UPDATE__='2024-11-05 16:56'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -573,15 +573,13 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 # Git Aliases
 # ------------------------------------------------------
 
-# alias gs='echo "--> git status"; sleep ${__ALIAS_TIMEOUT__}; git status'
-# previously requires: git config --system color.status always ; git config --system color.branch always ; 
-# check configurations: git config --list | grep color ;
 function __gh_gs { echo '--> *git status' ; git status ; echo ; git log --graph --decorate --color -1 ; echo -e '\n--> git stash list' ; git stash list ; }
 alias gs='__gh_gs'
 alias gsi='echo "--> git status --ignored"; sleep ${__ALIAS_TIMEOUT__}; git status --ignored'
 alias gl='echo "--> git log --graph --decorate"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate'
 alias gla='echo "--> git log --graph --decorate --all"; sleep ${__ALIAS_TIMEOUT__}; git log --graph --decorate --all'
 alias gl1='echo "--> git log --graph --decorate -1"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --graph --decorate -1'
+alias glnt='echo "--> git log --no-walk --tags"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --no-walk --tags'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
 function __gh_gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
@@ -682,6 +680,7 @@ alias gps='__gh_gps'
 
 alias gpss='echo "--> git push origin --set-upstream <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --set-upstream $( git branch --show-current )'
 alias gpsd='echo "--> git push origin --delete <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --delete $( git branch --show-current )'
+alias gpsf='echo "--> git push origin --force <current-branch>"; sleep ${__ALIAS_TIMEOUT__}; git push origin --force $( git branch --show-current )'
 
 alias gz='echo "--> git stash"; sleep ${__ALIAS_TIMEOUT__}; git stash'
 alias gzl='echo "--> git stash list"; sleep ${__ALIAS_TIMEOUT__}; git stash list'
@@ -702,6 +701,7 @@ s=${s}'  gsi  : git status --ignored \n'
 s=${s}'  gl*  : git log --graph --decorate \n'
 s=${s}'  gl1  : git log --graph --decorate -1 \n'
 s=${s}'  gla  : git log --graph --decorate --all  \n'
+s=${s}'  glnt : git log --no-walk --tags  \n'
 s=${s}'  glf  : git ls-files \n'
 s=${s}'\n'
 s=${s}'  gb*  : git branch \n'
@@ -729,6 +729,7 @@ s=${s}'  gps : git push \n'
 s=${s}'\n'
 s=${s}'  gpss: git push origin --set-upstream <current_branch> \n'
 s=${s}'  gpsd: git push origin --delete <current_branch> \n'
+s=${s}'  gpsf: git push origin --force <current_branch> \n'
 s=${s}'\n'
 s=${s}'  gz  : git stash \n'
 s=${s}'  gzl : git stash list \n'
