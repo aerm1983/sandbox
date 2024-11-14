@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-11-13 07:26'
+__ALIAS_LAST_UPDATE__='2024-11-14 05:42'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -570,7 +570,45 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 
 
 # ------------------------------------------------------
-# Git Aliases
+# Git Configuration - System
+# ------------------------------------------------------
+
+git config --system color.status 'always'
+git config --system color.branch 'always'
+git config --system color.log 'true'
+git config --system color.diff 'auto'
+git config --system color.ui 'true'
+git config --system color.interactive 'true'
+git config --system help.format 'web'
+git config --system web.browser 'chrome'
+
+
+
+# ------------------------------------------------------
+# Git Configuration - Global
+# ------------------------------------------------------
+
+# git config --global user.name 'My User Name' # username
+# git config --global user.email 'my_user@email.com' # email
+git config --global alias.pwd '!pwd' # escape to execute bash
+git config --global alias.s 'status'
+git config --global alias.a 'add'
+git config --global alias.b 'branch'
+git config --global alias.ch 'checkout'
+git config --global alias.d 'diff'
+git config --global alias.dc 'diff --cached'
+git config --global alias.l 'log --graph --decorate'
+git config --global alias.m 'merge'
+git config --global alias.ms 'merge --squash'
+git config --global alias.ra 'restore --staged'
+git config --global alias.ro 'restore --source'
+git config --global alias.ri 'rebase --interactive'
+git config --global alias.rs 'reset --soft'
+
+
+
+# ------------------------------------------------------
+# Git-Bash Aliases
 # ------------------------------------------------------
 
 function __gh_gs { echo '--> *git status' ; git status ; echo ; git log --graph --decorate --color -1 ; echo -e '\n--> git stash list' ; git stash list ; }
