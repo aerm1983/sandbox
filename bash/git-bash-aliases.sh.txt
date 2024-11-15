@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-11-14 05:42'
+__ALIAS_LAST_UPDATE__='2024-11-15 05:08'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -570,7 +570,8 @@ alias jh='less -f <( echo -e "${_jh_s}")'
 
 
 # ------------------------------------------------------
-# Git Configuration - System
+# Git Configuration, --system
+# ( see sample list output at the end of this file )
 # ------------------------------------------------------
 
 git config --system color.status 'always'
@@ -585,7 +586,8 @@ git config --system web.browser 'chrome'
 
 
 # ------------------------------------------------------
-# Git Configuration - Global
+# Git Configuration, --global
+# ( see sample list output at the end of this file )
 # ------------------------------------------------------
 
 # git config --global user.name 'My User Name' # username
@@ -884,5 +886,57 @@ function __zh_load_zerohelper {
     fi
 }
 alias 0='__zh_load_zerohelper'
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# GIT CONFIG - Sample from Windows-10, 2024-11-15
+# - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+### git config --system --list | sort
+# color.branch=always
+# color.diff=auto
+# color.interactive=true
+# color.log=true
+# color.status=always
+# color.ui=true
+# core.autocrlf=true
+# core.fscache=true
+# core.symlinks=false
+# credential.helper=!"C:/path-to-git/mingw64/bin/git-credential-manager-core.exe"
+# diff.astextplain.textconv=astextplain
+# filter.lfs.clean=git-lfs clean -- %f
+# filter.lfs.process=git-lfs filter-process
+# filter.lfs.required=true
+# filter.lfs.smudge=git-lfs smudge -- %f
+# help.format=web
+# init.defaultbranch=main
+# rebase.autosquash=true
+# web.browser=chrome
+
+### git config --global --list | sort
+# alias.a=add
+# alias.b=branch
+# alias.ch=checkout
+# alias.d=diff
+# alias.dc=diff --cached
+# alias.l=log --graph --decorate
+# alias.m=merge
+# alias.ms=merge --squash
+# alias.pwd=!pwd
+# alias.ra=restore --staged
+# alias.ri=rebase --interactive
+# alias.ro=restore --source
+# alias.rs=reset --soft
+# alias.s=status
+# core.autocrlf=true
+# credential.helperselector.selected=manager-core
+# credential.https://source.some-repo-01.com.provider=generic
+# credential.https://gitsrc.some-repo-02.com.provider=generic
+# maintenance.repo=C:/path-to-local-repo-01/my-repo-01
+# maintenance.repo=C:/path-to-local-repo-02/my-repo-02
+# user.email=my_user_name@email.com
+# user.name=My User Name
 
 
