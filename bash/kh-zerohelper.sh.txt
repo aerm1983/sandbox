@@ -18,7 +18,7 @@
 # for svc in ${__SERVICES_FILTERED__} ; do echo ${svc} ; if [ ${svc} = 'bulk' ] ; then echo 'matched: '${svc} ; break ; fi ; done ;
 
 
-__KH_UPDATED__='2024-11-13 07:19'
+__KH_UPDATED__='2024-11-24 21:57'
 
 
 # initate required vars
@@ -29,7 +29,7 @@ __KH_CLEANVARS__='CLEANVARS'
 
 
 # regex definitions, kubeconfig selection
-__KH_REGEX_WM_PRE__='wm-pre'
+__KH_REGEX_WM_PRE__='wm0-pre'
 __KH_REGEX_WM1_PRO_GOODBUY__='wm1-pro-goodbuy'
 __KH_REGEX_WM2_PRO_GROUPELGA__='wm2-pro-groupelga'
 __KH_REGEX_WM4_PRO_HOEPLI__='wm4-pro-hoepli'
@@ -54,6 +54,9 @@ __KH_REGEX_EBAY__='eebay'              # 15
 __KH_REGEX_MIRAVIA__='miravia'         # 16
 __KH_REGEX_AMAZON__='amazon'           # 17
 __KH_REGEX_CARRIERCORREOSEXPRESS__='correosexpress' # 25
+__KH_REGEX_PIM__='pim'                 # 30
+__KH_REGEX_ICECAT__='icecat'           # 31
+__KH_REGEX_AECOC__='aecoc'             # 32
 __KH_REGEX_RABBITMQ__='headless.*15672'     # 100
 # __regex=${1}                              # 98
 __KH_REGEX_CLEANVARS__=${__KH_CLEANVARS__}  # 99
@@ -75,6 +78,9 @@ __KH_SOURCE_PORT_EBAY__=10015
 __KH_SOURCE_PORT_MIRAVIA__=10016
 __KH_SOURCE_PORT_AMAZON__=10017
 __KH_SOURCE_PORT_CARRIERCORREOSEXPRESS__=10025
+__KH_SOURCE_PORT_PIM__=10030
+__KH_SOURCE_PORT_ICECAT__=10031
+__KH_SOURCE_PORT_AECOC__=10032
 __KH_SOURCE_PORT_RABBITMQ__=10056
 
 
@@ -139,6 +145,9 @@ function __kh_load {
     __kh_service_miravia=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
     __kh_service_amazon=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_AMAZON__} | command awk '{print $1}' )
     __kh_service_carriercorreosexpress=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_CARRIERCORREOSEXPRESS__} | command awk '{print $1}' )
+    __kh_service_pim=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_PIM__} | command awk '{print $1}' )
+    __kh_service_icecat=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_ICECAT__} | command awk '{print $1}' )
+    __kh_service_aecoc=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_AECOC__} | command awk '{print $1}' )
     __kh_service_rabbitmq=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_RABBITMQ__} | command awk '{print $1}' )
     echo 'done'
 
@@ -161,6 +170,9 @@ function __kh_load {
     __kh_deployment_miravia=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
     __kh_deployment_amazon=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_AMAZON__} | command awk '{print $1}' )
     __kh_deployment_carriercorreosexpress=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_CARRIERCORREOSEXPRESS__} | command awk '{print $1}' )
+    __kh_deployment_pim=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_PIM__} | command awk '{print $1}' )
+    __kh_deployment_icecat=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_ICECAT__} | command awk '{print $1}' )
+    __kh_deployment_aecoc=$( echo "${deployment_list}" | command grep -P -i ${__KH_REGEX_AECOC__} | command awk '{print $1}' )
     echo 'done'
 
     # refresh pods
@@ -182,6 +194,9 @@ function __kh_load {
     __kh_pod_miravia=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_MIRAVIA__} | command awk '{print $1}' )
     __kh_pod_amazon=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_AMAZON__} | command awk '{print $1}' )
     __kh_pod_carriercorreosexpress=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_CARRIERCORREOSEXPRESS__} | command awk '{print $1}' )
+    __kh_pod_pim=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_PIM__} | command awk '{print $1}' )
+    __kh_pod_icecat=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_ICECAT__} | command awk '{print $1}' )
+    __kh_pod_aecoc=$( echo "${pod_list}" | command grep -P -i ${__KH_REGEX_AECOC__} | command awk '{print $1}' )
     echo 'done'
 
     # refresh containers
@@ -201,6 +216,9 @@ function __kh_load {
     __kh_container_miravia=${__kh_deployment_miravia}
     __kh_container_amazon=${__kh_deployment_amazon}
     __kh_container_carriercorreosexpress=${__kh_deployment_carriercorreosexpress}
+    __kh_container_pim=${__kh_deployment_pim}
+    __kh_container_icecat=${__kh_deployment_icecat}
+    __kh_container_aecoc=${__kh_deployment_aecoc}
     __kh_container_rabbitmq=${__kh_deployment_rabbitmq}
     # echo 'refresh containers, done'
 
@@ -222,6 +240,9 @@ function __kh_load {
     __kh_target_port_carriercorreosexpress=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_CARRIERCORREOSEXPRESS__} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
     # __kh_target_port_rabbitmq=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_RABBITMQ__} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' ) # manual adjust
     __kh_target_port_rabbitmq=15672 # manual adjust
+    __kh_target_port_pim=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_PIM__} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
+    __kh_target_port_icecat=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_ICECAT__} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
+    __kh_target_port_aecoc=$( echo "${service_list}" | command grep -P -i ${__KH_REGEX_AECOC__} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
 
     # last update
     # __kh_env_file_updated=$( date --iso-8601=seconds ) # dificult for fast human reading (no white-space)
@@ -252,6 +273,9 @@ function __kh_load {
     s=${s}'__kh_service_miravia='${__kh_service_miravia}' \n'
     s=${s}'__kh_service_amazon='${__kh_service_amazon}' \n'
     s=${s}'__kh_service_carriercorreosexpress='${__kh_service_carriercorreosexpress}' \n'
+    s=${s}'__kh_service_pim='${__kh_service_pim}' \n'
+    s=${s}'__kh_service_icecat='${__kh_service_icecat}' \n'
+    s=${s}'__kh_service_aecoc='${__kh_service_aecoc}' \n'
     s=${s}'__kh_service_rabbitmq='${__kh_service_rabbitmq}' \n'
     s=${s}'\n'
     s=${s}'# DEPLOYMENTS \n'
@@ -271,6 +295,9 @@ function __kh_load {
     s=${s}'__kh_deployment_amazon='${__kh_deployment_amazon}' \n'
     s=${s}'__kh_deployment_carriercorreosexpress='${__kh_deployment_carriercorreosexpress}' \n'
     s=${s}'__kh_deployment_rabbitmq='${__kh_deployment_carriercorreosexpress}' \n'
+    s=${s}'__kh_deployment_pim='${__kh_deployment_pim}' \n'
+    s=${s}'__kh_deployment_icecat='${__kh_deployment_icecat}' \n'
+    s=${s}'__kh_deployment_aecoc='${__kh_deployment_aecoc}' \n'
     s=${s}'\n'
     s=${s}'# PODS \n'
     s=${s}'__kh_pod_api='${__kh_pod_api}' \n'
@@ -288,6 +315,9 @@ function __kh_load {
     s=${s}'__kh_pod_miravia='${__kh_pod_miravia}' \n'
     s=${s}'__kh_pod_amazon='${__kh_pod_amazon}' \n'
     s=${s}'__kh_pod_carriercorreosexpress='${__kh_pod_carriercorreosexpress}' \n'
+    s=${s}'__kh_pod_pim='${__kh_pod_pim}' \n'
+    s=${s}'__kh_pod_icecat='${__kh_pod_icecat}' \n'
+    s=${s}'__kh_pod_aecoc='${__kh_pod_aecoc}' \n'
     s=${s}'__kh_pod_rabbitmq='${__kh_pod_rabbitmq}' \n'
     s=${s}'\n'
     s=${s}'# CONTAINERS \n'
@@ -306,6 +336,9 @@ function __kh_load {
     s=${s}'__kh_container_miravia='${__kh_container_miravia}' \n'
     s=${s}'__kh_container_amazon='${__kh_container_amazon}' \n'
     s=${s}'__kh_container_carriercorreosexpress='${__kh_container_carriercorreosexpress}' \n'
+    s=${s}'__kh_container_pim='${__kh_container_pim}' \n'
+    s=${s}'__kh_container_icecat='${__kh_container_icecat}' \n'
+    s=${s}'__kh_container_aecoc='${__kh_container_aecoc}' \n'
     s=${s}'__kh_container_rabbitmq='${__kh_container_rabbitmq}' \n'
     s=${s}'\n'
     s=${s}'# PORT FORWARD, SOURCE PORTS \n'
@@ -324,6 +357,9 @@ function __kh_load {
     s=${s}'__KH_SOURCE_PORT_MIRAVIA__='${__KH_SOURCE_PORT_MIRAVIA__}' \n'
     s=${s}'__KH_SOURCE_PORT_AMAZON__='${__KH_SOURCE_PORT_AMAZON__}' \n'
     s=${s}'__KH_SOURCE_PORT_CARRIERCORREOSEXPRESS__='${__KH_SOURCE_PORT_CARRIERCORREOSEXPRESS__}' \n'
+    s=${s}'__KH_SOURCE_PORT_PIM__='${__KH_SOURCE_PORT_PIM__}' \n'
+    s=${s}'__KH_SOURCE_PORT_ICECAT__='${__KH_SOURCE_PORT_ICECAT__}' \n'
+    s=${s}'__KH_SOURCE_PORT_AECOC__='${__KH_SOURCE_PORT_AECOC__}' \n'
     s=${s}'__KH_SOURCE_PORT_RABBITMQ__='${__KH_SOURCE_PORT_RABBITMQ__}' \n'
     s=${s}'\n'
     s=${s}'# PORT FORWARD, TARGET PORTS \n'
@@ -342,6 +378,9 @@ function __kh_load {
     s=${s}'__kh_target_port_miravia='${__kh_target_port_miravia}' \n'
     s=${s}'__kh_target_port_amazon='${__kh_target_port_amazon}' \n'
     s=${s}'__kh_target_port_carriercorreosexpress='${__kh_source_target_carriercorreosexpress}' \n'
+    s=${s}'__kh_target_port_pim='${__kh_target_port_pim}' \n'
+    s=${s}'__kh_target_port_icecat='${__kh_target_port_icecat}' \n'
+    s=${s}'__kh_target_port_aecoc='${__kh_target_port_aecoc}' \n'
     s=${s}'__kh_target_port_rabbitmq='${__kh_target_port_rabbitmq}' \n'
     s=${s}'\n'
     s=${s}'# CLEAN PREVIOUS DEPLOYMENT/POD VARIABLES \n'
@@ -510,6 +549,27 @@ function __kh_set_service {
         # __kh_service=${__kh_service_carriercorreosexpress}
         __kh_source_port=${__KH_SOURCE_PORT_CARRIERCORREOSEXPRESS__}
         __kh_target_port=${__kh_target_port_carriercorreosexpress}
+    elif [ ${__kh_service} = ${__kh_service_pim} ] ; then
+        __kh_deployment=${__kh_deployment_pim}
+        __kh_pod=${__kh_pod_pim}
+        __kh_container=${__kh_container_pim}
+        # __kh_service=${__kh_service_pim}
+        __kh_source_port=${__KH_SOURCE_PORT_PIM__}
+        __kh_target_port=${__kh_target_port_pim}
+    elif [ ${__kh_service} = ${__kh_service_icecat} ] ; then
+        __kh_deployment=${__kh_deployment_icecat}
+        __kh_pod=${__kh_pod_icecat}
+        __kh_container=${__kh_container_icecat}
+        # __kh_service=${__kh_service_icecat}
+        __kh_source_port=${__KH_SOURCE_PORT_ICECAT__}
+        __kh_target_port=${__kh_target_port_icecat}
+    elif [ ${__kh_service} = ${__kh_service_aecoc} ] ; then
+        __kh_deployment=${__kh_deployment_aecoc}
+        __kh_pod=${__kh_pod_aecoc}
+        __kh_container=${__kh_container_aecoc}
+        # __kh_service=${__kh_service_aecoc}
+        __kh_source_port=${__KH_SOURCE_PORT_AECOC__}
+        __kh_target_port=${__kh_target_port_aecoc}
     elif [ ${__kh_service} = ${__kh_service_rabbitmq} ] ; then
         __kh_deployment=${__kh_deployment_rabbitmq}
         __kh_pod=${__kh_pod_rabbitmq}
@@ -881,6 +941,9 @@ alias 215=' __kh_set_service '${__KH_REGEX_EBAY__}' ; '
 alias 216=' __kh_set_service '${__KH_REGEX_MIRAVIA__}' ; '
 alias 217=' __kh_set_service '${__KH_REGEX_AMAZON__}' ; '
 alias 225=' __kh_set_service '${__KH_REGEX_CARRIERCORREOSEXPRESS__}' ; '
+alias 230=' __kh_set_service '${__KH_REGEX_PIM__}' ; '
+alias 231=' __kh_set_service '${__KH_REGEX_ICECAT__}' ; '
+alias 232=' __kh_set_service '${__KH_REGEX_AECOC__}' ; '
 alias 256=' __kh_set_service '${__KH_REGEX_RABBITMQ__}' ; '
 alias 298=' __kh_set_service '
 alias 299=' __kh_set_service '${__KH_REGEX_CLEANVARS__}' ; '
