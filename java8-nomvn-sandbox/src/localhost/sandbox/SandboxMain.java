@@ -16,6 +16,7 @@ import localhost.helper.SimpleDateFormatHelper;
 import localhost.helper.SkuPatternHelper;
 import localhost.helper.SynchroWaitNotifyAllHelper;
 import localhost.helper.ThreadHelper;
+import localhost.sandbox.AbstractClass.AbstractClassMain;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.Class.ClassMain;
 import localhost.sandbox.CompareSort.CompareSortMain;
@@ -75,7 +76,7 @@ public class SandboxMain {
 		// RunTimeStatsHelper.main();
 		// SimpleDateFormatHelper.main();
 		// ThreadMain.main();
-		GenericsMain.main();
+		// GenericsMain.main();
 		// FileMain.main();
 		// FileHelper.main();
 		// LargeStringHelper.main();
@@ -90,6 +91,7 @@ public class SandboxMain {
 		// JoinHelper.main();
 		// LinkedHashMapAndSetMain.main();
 		// SkuPatternHelper.main();
+		AbstractClassMain.main();
 
 	}
 }

@@ -25,12 +25,25 @@ public class Test04StringReplace {
 		 */
 
 		// test 2024-07-16
+		/*
 		String input = "CAMISA|HOMBRE|ROPA|CALZADO";
 		String output = input.toLowerCase().replaceAll("(?i)[|]", ";");
 		System.out.println("input: " + input);
 		System.out.println("output: " + output);
+		 */
 
 
+		// test 2021-12-04
+		String input00 = "abc.def.0123.lmn";
+		String output00 = input00.toLowerCase().replaceAll("(?i)\\.[0-9]+\\.", ".").replaceAll("(?i)\\.[0-9]+$", "");
+		System.out.println("input00: " + input00);
+		System.out.println("output00: " + output00);
+
+
+		String input01 = "abc.def.0123";
+		String output01 = input01.toLowerCase().replaceAll("(?i)\\.[0-9]+\\.", ".").replaceAll("(?i)\\.[0-9]+$", "");
+		System.out.println("input01: " + input01);
+		System.out.println("output01: " + output01);
 
 	}
 }

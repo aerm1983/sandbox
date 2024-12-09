@@ -22,10 +22,11 @@ public class Test00ClassT {
 	static public void printClassNameVariations() {
 		String myStr = "Hello World"; // variable of any type/class here
 		Object obj = myStr;
-		System.out.println("obj.getName(): " + myStr.getClass().getName());
-		System.out.println("obj.getCanonicalName(): " + myStr.getClass().getCanonicalName());
-		System.out.println("obj.getSimpleName(): " + myStr.getClass().getSimpleName());
-		System.out.println("obj.getTypeName(): " + myStr.getClass().getTypeName());
+		System.out.println("obj.getClass(): " + myStr.getClass());
+		System.out.println("clazz.getName(): " + myStr.getClass().getName());
+		System.out.println("clazz.getCanonicalName(): " + myStr.getClass().getCanonicalName());
+		System.out.println("clazz.getSimpleName(): " + myStr.getClass().getSimpleName());
+		System.out.println("clazz.getTypeName(): " + myStr.getClass().getTypeName());
 	}
 
 }

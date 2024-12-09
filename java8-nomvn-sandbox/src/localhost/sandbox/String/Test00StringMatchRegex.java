@@ -109,10 +109,44 @@ public class Test00StringMatchRegex {
 
 
 		// 09, Basic Authorization header format, 2024-06-16
+		/*
 		String s0 = "   Basic   VXNlck1hbmFnZW1lbnQ6ZjJhMWVkNTI3MTBkNDUzM2JkZTI1YmU2ZGEwM2I2ZTM=-.   ";
 		boolean b0 = s0.matches("^[ ]*Basic[ ]+[0-9A-Za-z/+=.-]+[ ]*$");
 		System.out.println("s0: " + s0 + "  ;  b0: " + b0);
+		 */
 
 
+
+		// 10, product /order / mp's dummies, 2024-10-19
+		/*
+		String rePattern = "(?i)^.*market.?dummy.*$";
+		String s10a = "marketdummy";
+		String s10b = "market_dummy";
+		String s10c = "market-dummy";
+		String s10d = "market___dummy";
+		boolean b10a = s10a.matches(rePattern);
+		boolean b10b = s10b.matches(rePattern);
+		boolean b10c = s10c.matches(rePattern);
+		boolean b10d = s10d.matches(rePattern);
+		System.out.println("s10a: " + s10a + "  ;  b10a: " + b10a);
+		System.out.println("s10b: " + s10b + "  ;  b10b: " + b10b);
+		System.out.println("s10c: " + s10c + "  ;  b10c: " + b10c);
+		System.out.println("s10d: " + s10d + "  ;  b10d: " + b10d);
+		 */
+
+
+
+
+		// 11 numbers only 2024-12-04
+		String rePattern = "(?i)^[0-9]+$";
+		String s11a = "000123456879";
+		String s11b = "0001ABC56879";
+		String s11c = "000123456.879";
+		boolean b11a = s11a.matches(rePattern);
+		boolean b11b = s11b.matches(rePattern);
+		boolean b11c = s11c.matches(rePattern);
+		System.out.println("s11a: " + s11a + "  ;  b11a: " + b11a);
+		System.out.println("s11b: " + s11b + "  ;  b11b: " + b11b);
+		System.out.println("s11c: " + s11c + "  ;  b11c: " + b11c);
 	}
 }

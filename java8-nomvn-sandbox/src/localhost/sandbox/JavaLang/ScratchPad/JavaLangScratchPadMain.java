@@ -227,6 +227,14 @@ public class JavaLangScratchPadMain {
 		}
 		 */
 
+
+
+
+		// test 2024-12-04
+		String input = "0004234955132";
+		String output = Long.valueOf(input).toString();
+		System.out.println("input: " + input + " ; output: " + output);
+
 	}
 
 

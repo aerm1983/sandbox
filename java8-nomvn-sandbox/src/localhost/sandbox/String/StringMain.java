@@ -9,9 +9,9 @@ public class StringMain {
 	public static void main() {
 		System.out.println("Hello from StringMain!");
 		// other();
-		// Test00StringMatchRegex.test00StringMatch();
+		Test00StringMatchRegex.test00StringMatch();
 		// Test01StringFormat.stringFormat01();
-		Test01StringFormat.stringFormat02GenerateCustomSku();
+		// Test01StringFormat.stringFormat02GenerateCustomSku();
 		// Test02RegexFindGroup.test00RegexFindGroup();
 		// Test03Base64.test00Base64Encode();
 		// Test04StringReplace.stringReplace();
