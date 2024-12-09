@@ -9,14 +9,21 @@ package localhost.sandbox.JavaDoc;
  * <p>Reference to class, labeled:  
  * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail Person}.
  * 
+ * <p>Reference to class using generic, label mentions generic:  
+ * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail Person&lt;T&gt;}.
+ * 
+ * 
  * 
  * <h1>Method</h1>
  * 
- * <p>Reference to method in same class, labeled: 
- * {@link #printSomething(String) print}.
+ * <p>Reference to method in same class, no label: 
+ * {@link #printSomething(String)}.
  * 
  * <p>Reference to method in other class, labeled: 
- * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail#toString() toString}.
+ * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail#toString() toStr}.
+ * 
+ * <p>Reference to method in other class, with generic type parameter, no label:
+ * {@link localhost.sandbox.JavaDoc.JavaDocMain.PersonDetail#PersonDetail(String, Integer, Boolean, Object)}.
  * 
  * 
  * <h1>Attribute</h1>
@@ -70,7 +77,7 @@ public class JavaDocMain {
 	 * <p>This is PersonDetail class.
 	 * 
 	 */
-	public class PersonDetail {
+	public class PersonDetail<T> {
 
 		private String name;
 		/**
@@ -78,11 +85,16 @@ public class JavaDocMain {
 		 */
 		private Integer age;
 		private Boolean isMale;
+		private T variant;
 
-		public PersonDetail(String name, int age, boolean isMale) {
+		/**
+		 * <p> This is <i>PersonDetail</i> constructor with arguments. 
+		 */
+		public PersonDetail(String name, int age, boolean isMale, T variant) {
 			this.name = name;
 			this.age = age;
 			this.isMale = isMale;
+			this.variant = variant;
 		}
 
 		public String toString() {
@@ -90,20 +102,25 @@ public class JavaDocMain {
 					+ "" + "name:" + name 
 					+ ", " + "age:" + age 
 					+ ", " + "isMale:" + isMale 
+					+ ", " + "variant:" + variant
 					+ " }";
 			return out ;
 		}
 
 		public String getName() {
-			return name;
+			return this.name;
 		}
 
 		public Integer getAge() {
-			return age;
+			return this.age;
 		}
 
 		public Boolean getIsMale() {
-			return isMale;
+			return this.isMale;
+		}
+
+		public T getVariant() {
+			return this.variant;
 		}
 
 	}
