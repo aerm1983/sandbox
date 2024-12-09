@@ -22,6 +22,7 @@ import localhost.sandbox.Class.ClassMain;
 import localhost.sandbox.CompareSort.CompareSortMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
+import localhost.sandbox.Enum.EnumMain;
 import localhost.sandbox.File.FileMain;
 import localhost.sandbox.Generics.GenericsMain;
 import localhost.sandbox.InheritancePolymorphismInterface.AbstractMain;
@@ -91,7 +92,8 @@ public class SandboxMain {
 		// JoinHelper.main();
 		// LinkedHashMapAndSetMain.main();
 		// SkuPatternHelper.main();
-		AbstractClassMain.main();
+		// AbstractClassMain.main();
+		EnumMain.main();
 
 	}
 }

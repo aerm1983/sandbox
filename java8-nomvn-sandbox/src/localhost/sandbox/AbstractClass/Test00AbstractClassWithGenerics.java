@@ -15,8 +15,8 @@ public class Test00AbstractClassWithGenerics {
 	}
 
 
-	/**
-	 * Abstrac classes
+	/*
+	 * Abstract classes
 	 */
 
 	private static abstract class Car<T1 extends radio,T2 extends tyre> {
@@ -33,8 +33,8 @@ public class Test00AbstractClassWithGenerics {
 	}
 
 
-	/**
-	 * Classes extending car (each one may have its own additional attributes)
+	/*
+	 * Classes extending 'car' (each one may have its own additional attributes)
 	 */
 
 	private static class Volkswagen<T1 extends radio,T2 extends tyre> extends Car<T1,T2> {
@@ -47,8 +47,8 @@ public class Test00AbstractClassWithGenerics {
 	}
 
 
-	/**
-	 * Classes extending radio (each one may have its own additional attributes)
+	/*
+	 * Classes extending 'radio' (each one may have its own additional attributes)
 	 */
 
 	private static class Panasonic extends radio {
@@ -61,8 +61,8 @@ public class Test00AbstractClassWithGenerics {
 	}
 
 
-	/**
-	 * Classes extending tyre  (each one may have its own additional attributes)
+	/*
+	 * Classes extending 'tyre'  (each one may have its own additional attributes)
 	 */
 
 	private static class Firestone extends tyre {
