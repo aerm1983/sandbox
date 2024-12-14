@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-12-14 03:31'
+__ALIAS_LAST_UPDATE__='2024-12-14 07:16'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_DEFAULT_JAVA_VERSION__='8' # valid values: '8', '17', '21' (formal value in pom.xml for '8' is '1.8')
@@ -867,18 +867,29 @@ if [ ${__kernel_is_windows__} -eq '0'  ]; then
         echo 'eclipse launcher -- begin...'
         __pwd__=$( pwd ) 
         __eh__=''
-        if [ -z ${1} ]; then
+        if [ -z ${1} ]
+        then
             echo 'ECLIPSE_HOME: '${ECLIPSE_HOME}
             __eh__=${ECLIPSE_HOME}
-        elif [ ${1} = 'old' ]; then
+        elif [ ${1} = 'old' ]
+        then
             echo 'ECLIPSE_OLD_HOME: '${ECLIPSE_OLD_HOME}
             __eh__=${ECLIPSE_OLD_HOME}
+        elif [ ${1} = 'sts' ]
+        then
+            echo 'STS_HOME: '${STS_HOME}
+            __eh__=${STS_HOME}
         else
             echo 'parameter ${1} not valid; should be empty or "old"'
             return 1
         fi
         command cd ${__eh__}
-        ./eclipse & 
+        if [ ${1} = 'sts'  ]
+        then
+            ./SpringToolSuite4 &
+        else
+            ./eclipse & 
+        fi
         disown ${!}
         command cd ${__pwd__}
         unset __pwd__ __eh__
@@ -886,6 +897,7 @@ if [ ${__kernel_is_windows__} -eq '0'  ]; then
     }
     alias ecl=' __jh_ecl'
     alias eclo='__jh_ecl old'
+    alias sts=' __jh_ecl sts'
 fi
 
 unset __kernel_is_windows__
