@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-11-15 05:08'
+__ALIAS_LAST_UPDATE__='2024-12-14 02:25'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_XMS__='8m'
@@ -596,6 +596,7 @@ git config --global alias.pwd '!pwd' # escape to execute bash
 git config --global alias.s 'status'
 git config --global alias.a 'add'
 git config --global alias.b 'branch'
+git config --global alias.bf 'branch --force'
 git config --global alias.ch 'checkout'
 git config --global alias.d 'diff'
 git config --global alias.dc 'diff --cached'
@@ -622,8 +623,9 @@ alias gl1='echo "--> git log --graph --decorate -1"; sleep ${__ALIAS_TIMEOUT__};
 alias glnt='echo "--> git log --no-walk --tags"; sleep ${__ALIAS_TIMEOUT__}; echo ; git log --no-walk --tags'
 alias glf='echo "--> git ls-files"; sleep ${__ALIAS_TIMEOUT__}; git ls-files'
 
-function __gh_gb { echo '--> *git branch' ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
+function __gh_gb { echo '--> *git branch' "${@}" ; sleep ${__ALIAS_TIMEOUT__}; git branch ${@} ; echo ; git log --graph --decorate -1 ; }
 alias gb='__gh_gb'
+alias gbf='__gh_gb --force'
 
 function __gh_gbd {
     echo '--> git branch -D <local-branches> -- ${@}: '"${@}"' -- (cancel: ctrl + c)'
@@ -713,6 +715,7 @@ alias grs='echo "--> *git reset --soft" ; sleep ${__ALIAS_TIMEOUT__} ; git reset
 
 function __gh_gf { echo '--> git fetch --tags' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git fetch --tags "${@}" ; echo ; gs ; } 
 alias gf='__gh_gf'
+alias gff='__gh_gf --force'
 
 alias gpl='echo "--> git pull"; sleep ${__ALIAS_TIMEOUT__}; git pull'
 function __gh_gps { echo '--> git push' "${@}" ; sleep ${__ALIAS_TIMEOUT__} ; git push "${@}" ; }
@@ -745,7 +748,8 @@ s=${s}'  glnt : git log --no-walk --tags  \n'
 s=${s}'  glf  : git ls-files \n'
 s=${s}'\n'
 s=${s}'  gb*  : git branch \n'
-s=${s}'  gbd  : git branch -D <local-branches> # delete all local helper \n'
+s=${s}'  gbf* : git branch --force \n'
+s=${s}'  gbd  : git branch -D <local-branches> # delete all, local helper \n'
 s=${s}'  gt   : git tag \n'
 s=${s}'\n'
 s=${s}'  gch* : git checkout # regex helper \n'
@@ -764,9 +768,11 @@ s=${s}'  gri* : git rebase --interactive \n'
 s=${s}'  grs* : git reset --soft \n'
 s=${s}'\n'
 s=${s}'  gf  : git fetch --tags \n'
-s=${s}'  gpl : git pull \n'
-s=${s}'  gps : git push \n'
+s=${s}'  gff : git fetch --tags --force \n'
 s=${s}'\n'
+s=${s}'  gpl : git pull \n'
+s=${s}'\n'
+s=${s}'  gps : git push \n'
 s=${s}'  gpss: git push origin --set-upstream <current_branch> \n'
 s=${s}'  gpsd: git push origin --delete <current_branch> \n'
 s=${s}'  gpsf: git push origin --force <current_branch> \n'
