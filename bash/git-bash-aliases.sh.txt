@@ -24,9 +24,10 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-12-14 02:25'
+__ALIAS_LAST_UPDATE__='2024-12-14 03:31'
 __ALIAS_TIMEOUT__='0.3'
 
+__JH_DEFAULT_JAVA_VERSION__='8' # valid values: '8', '17', '21' (formal value in pom.xml for '8' is '1.8')
 __JH_XMS__='8m'
 __JH_XMX__='256m'
 __JH_SPRING_PROFILES_ACTIVE__='alberto,albertolocalpre' # comma separated values, no whitespace
@@ -363,6 +364,50 @@ alias tk='__jh_tk'
 
 
 
+function __jh_from_pom_set_java_version {
+    if [ ! -f './pom.xml' ]
+    then
+        echo 'no pom.xml in current dir, set default java version and exit'
+        __jh_from_number_set_java_version
+        return 1
+    fi
+
+    _p_java_version=$( command grep  'java\.version' pom.xml \
+        | sed -E '{ s/[<][\/]?java\.version[>]//ig }' \
+        | sed -E '{ s/[ ]*[\t]*//ig }' \
+        | sed -E '{ s/1\.//ig }' )
+
+    __jh_from_number_set_java_version ${_p_java_version}
+
+    unset _p_java_version
+}
+alias sj='__jh_from_pom_set_java_version'
+
+
+
+function __jh_from_number_set_java_version {
+    if [ -z ${1} ] ; then
+        echo 'param ${1} empty; ${__JH_DEFAULT_JAVA_VERSION__}: '${__JH_DEFAULT_JAVA_VERSION__}
+        _p_java_version=${__JH_DEFAULT_JAVA_VERSION__}
+    fi
+
+    if [ ${_p_java_version} -eq '8' ] ; then
+        sj8
+    elif [ ${_p_java_version} -eq '17'  ] ; then
+        sj17
+    elif [ ${_p_java_version} -eq '21'  ] ; then
+        sj21
+    else
+        echo 'param ${1}: '${1}', not valid java version; fallback to default'
+        _p_java_version=${__JH_DEFAULT_JAVA_VERSION__}
+        __jh_from_number_set_java_version ${_p_java_version}
+    fi
+
+    unset _p_java_version
+}
+
+
+
 function __jh_jj { 
 
     if [ -z ${1} ]
@@ -405,13 +450,15 @@ function __jh_jjr {
     if [ -e ./target/*jar ] ; then
 	tk
 	echo
-        
+
 	jarfile=$( ls ./target/*.jar )
 	jarlogfile=${__JH_JAR_LOG_HOME__}/$( basename ${jarfile} )'.log'
 	echo 'jarfile: '${jarfile}
 	echo -n '' > ${jarlogfile}
 	echo -e 'jarlogfile cleaned, wc: '$( wc ${jarlogfile} )'\n'
-        
+
+    __jh_from_pom_set_java_version
+
 	_cmd_str='javaw -Xms'${__JH_XMS__}' -Xmx'${__JH_XMX__}' -Dfile.encoding=UTF-8 -Dspring.profiles.active='${__JH_SPRING_PROFILES_ACTIVE__}' -jar '${jarfile}' &>> '${jarlogfile}' & ' # using '' to delimit values in java parameters is faulty-prone
 	echo "${_cmd_str}"
 	eval ${_cmd_str}
@@ -543,6 +590,8 @@ s=${s}'  jjr : java -jar ./${jar_file} > ${log_file} \n'
 s=${s}'\n'
 s=${s}'  jjrg  : grep -P -i ${1} ${log_file} \n'
 s=${s}'  jjrgts: grep -P -i '\''tomcat started'\'' ${log_file} \n'
+s=${s}'\n'
+s=${s}'  sj  : __jh_from_pom_set_java_version # helper function  \n'
 s=${s}'\n'
 s=${s}'  mc  : mvn clean \n'
 s=${s}'  mci : mvn clean install -U -Dmaven.test.skip=true \n'

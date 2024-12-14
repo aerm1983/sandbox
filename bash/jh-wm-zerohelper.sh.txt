@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-11-24 21:17'
+__JH_WMP_UPDATED__='2024-12-14 02:43'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -253,6 +253,12 @@ function _jh_kill_platform {
 
 function _jh_start_service {
     cdkj_s
+
+    if [ -z ${1} ] ; then
+        echo 'parameter ${1} empty, should be valid springboot project dir'
+        return 1
+    fi
+
     if [ ! -d "${1}" ] ; then
         echo 'directory '${1}' not available, exit'
         echo
