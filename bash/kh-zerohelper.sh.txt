@@ -18,7 +18,7 @@
 # for svc in ${__SERVICES_FILTERED__} ; do echo ${svc} ; if [ ${svc} = 'bulk' ] ; then echo 'matched: '${svc} ; break ; fi ; done ;
 
 
-__KH_UPDATED__='2024-11-24 21:57'
+__KH_UPDATED__='2024-12-27 18:23'
 
 
 # initate required vars
@@ -26,6 +26,7 @@ if [ -z ${__kubeconfig_regex} ] ; then
     __kubeconfig_regex='wm-pre'
 fi
 __KH_CLEANVARS__='CLEANVARS'
+__KH_LOG_HISTORY_DIR__=${HOME}'/Desktop/loghistory'
 
 
 # regex definitions, kubeconfig selection
@@ -122,8 +123,14 @@ function __kh_load {
     __kh_kubeconfig=$( echo "${kubeconfig_list}" | command grep -P -i ${__kubeconfig_regex} | command awk '{print $1}' )
     echo '__kh_kubeconfig: '${__kh_kubeconfig}
 
+    # define __kh_namespace
+    if [ -z ${__kh_namespace} ] ; then
+        __kh_namespace='default'
+    fi
+    echo '__kh_namespace: '${__kh_namespace}
+
     # define kk
-    kk='command kubectl --kubeconfig '${__kh_kubeconfig}
+    kk='command kubectl --kubeconfig '${__kh_kubeconfig}' --namespace '${__kh_namespace}
     echo 'kk: '${kk}
 
     # refresh services
@@ -255,6 +262,7 @@ function __kh_load {
     s=${s}'# KUBECONFIG FILE \n'
     s=${s}'__kh_env_file_updated='\'${__kh_env_file_updated}\''\n' 
     s=${s}'__kh_kubeconfig='\'${__kh_kubeconfig}\''\n'
+    s=${s}'__kh_namespace='\'${__kh_namespace}\''\n'
     s=${s}'kk='\'${kk}\'' \n'
     s=${s}'\n'
     s=${s}'# SERVICES \n'
@@ -601,6 +609,7 @@ function __kh_print_vars {
     echo '__KH_KUBE_HOME__ : '${__KH_KUBE_HOME__}
     echo '__kh_e_f_updated : '${__kh_env_file_updated}
     echo '__kh_kubeconfig  : '${__kh_kubeconfig}
+    echo '__kh_namespace   : '${__kh_namespace}
     echo '__kh_service     : '${__kh_service}
     echo '__kh_deployment  : '${__kh_deployment}
     echo '__kh_pod         : '${__kh_pod}
@@ -840,13 +849,13 @@ function __kh_backup_log_file {
     if [ -z ${__kh_deployment} ] ; then 
         return 1
     fi
-    _timestamp_s=$( date +'%Y%m%d_%H%M%S' --utc )
-    _env_name=$( echo ${__kh_kubeconfig} | sed 's/kc-(.*)\.yml/\1/i' )
-    _source_file='./tmp/'${__kh_deployment}'.log'
-    _target_file=${HOME}'/Desktop/loghistory/'${__kh_deployment}'.'${_env_name}'.'${_timestamp_s}'.log'
-    _s='command cp -v '${_source_file}' '${_target_file}
-    eval ${_s}
-    unset _env_name _source_file _target_file _s
+    _v_timestamp_s=$( date +'%Y%m%d_%H%M%S' --utc )
+    _v_env_name=$( echo ${__kh_kubeconfig} | sed 's/kc-(.*)\.yml/\1/i' )
+    _v_source_file='./tmp/'${__kh_deployment}'.log'
+    _v_target_file=${__KH_LOG_HISTORY_DIR__}'/'${_v_timestamp_s}'.'${_v_env_name}'.'${__kh_deployment}'.log'
+    _v_cmd='command cp -v '${_v_source_file}' '${_v_target_file}
+    eval ${_v_cmd}
+    unset  _v_timestamp_s  _v_env_name  _v_source_file  _v_target_file  _v_cmd
 }
 
 
