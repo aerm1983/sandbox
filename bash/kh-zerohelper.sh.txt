@@ -18,7 +18,7 @@
 # for svc in ${__SERVICES_FILTERED__} ; do echo ${svc} ; if [ ${svc} = 'bulk' ] ; then echo 'matched: '${svc} ; break ; fi ; done ;
 
 
-__KH_UPDATED__='2024-12-27 18:23'
+__KH_UPDATED__='2025-01-02 11:11'
 
 
 # initate required vars
@@ -593,8 +593,8 @@ function __kh_set_service {
         __kh_pod=$( echo "${pod_list}" | command grep -P -i ${__regex} | command awk '{print $1}' )
         __kh_container=${__kh_deployment}
         # __kh_service="${__kh_service}"
-        __kh_source_port=$( echo "${service_list}" | command grep -P -i ${__regex} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
-        __kh_target_port=10298
+        __kh_source_port=10298
+        __kh_target_port=$( echo "${service_list}" | command grep -P -i ${__regex} | command awk '{print $5}' | sed '{ s/\/TCP$//ig }' )
     fi
     __kh_print_vars
 }
