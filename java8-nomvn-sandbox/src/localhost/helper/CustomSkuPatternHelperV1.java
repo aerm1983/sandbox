@@ -10,7 +10,7 @@ package localhost.helper;
  * @since 2024-09-12
  * 
  */
-public class SkuPatternHelper {
+public class CustomSkuPatternHelperV1 {
 
 	public static final String VERSION = "2024-09-15T19:12:00Z";
 
