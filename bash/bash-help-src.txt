@@ -1,4 +1,4 @@
-# BHS -- updated: 2024-11-14 06:12
+# BHS -- updated: 2025-01-24 09:44
 # {0} -- execute 'hi' for index
 a:
 alias:  Make aliases, show aliases.  Aliases can contain several commands, but take parameters only at the end (concatenation), not in between, as functions can do.  Aliases have the higher precedence over functions, builtins and executables.  Aliases are not recursive, so no worries with functions/builtins/executables having the same name.  See 'function', 'enable', 'bash' for more details on such precedence.  For diagnostics, see: 'alias <comm>', 'declare -f <comm>', 'which <comm>', 'enable -n'.  Option -p print.  Examples:  alias c='clear'  ;  alias c  ;  alias -p  ;  
@@ -128,7 +128,7 @@ tr:  Translate characters, one by one.  See also: sed, truncate.  Options:  -d d
 truncate:  Eliminate bytes or characters from file.  Useful to eliminate trailing newline from text files.  See also: tr, sed.  Examples:  truncate -s -1 file.txt  ;  
 type:  Indicate type of command: alias, function, builtin or executable from $PATH.  See also: which.  Example: type ls  ;
 u:
-ulimit:  Show hardware limit settings
+ulimit:  Show/modify shell resource limits.  Options:  -a list all resource limits.  -n open-files limit.  Examples:  ulimit -a  ;  ulimit -n  ;  
 umount:  Unmount drive.  See also: 'mount', lsblk, 'mountvol' (windows).  Examples:  umount /dev/sdb  ;   
 uniq:  In a sorted file, eliminate duplicate lines.  Example: uniq file.sort.txt.old > file.sort.uniq.txt  ;
 unix2dos:  Convert txt from unix to dos.

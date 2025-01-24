@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2024-12-14 02:43'
+__JH_WMP_UPDATED__='2025-01-24 09:41'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -455,10 +455,10 @@ function _jh_backup_alberto_service {
     
     echo '--> backup alberto files from '\'$( pwd  )\'
     find . -iname '*alberto*' | grep -v '/target/' | grep -v "/${__JH_RESTORE_DIR__}/" | xargs -I % cp -v % '../zalberto/z'${1}'/'
-    # find ./src -name '*alberto*' | while read myfile; do command cp -v ${myfile} '../zalberto/z'${1}'/'; done; # deprecated
-    if [ "${1}" = 'marketplaceebay' ] ; then
-        command git restore --source=dev pom.xml # deprecate?
-    fi
+    # find ./src -name '*alberto*' | while read myfile; do command cp -v ${myfile} '../zalberto/z'${1}'/'; done; # defunct
+    # if [ "${1}" = 'marketplaceebay' ] ; then # defunct
+    #    command git restore --source=dev pom.xml # defunct
+    # fi # defunct
     command cd ..
     echo
 }

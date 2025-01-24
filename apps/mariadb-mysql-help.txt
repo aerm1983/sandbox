@@ -1,5 +1,5 @@
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-MariaDB, MySQL binaries install - updated: 2024-10-18 05:50
+MariaDB, MySQL binaries install - updated: 2025-01-14 09:40
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -157,11 +157,7 @@ plugin-dir=/opt/mariadb/mariadb-10.6.5/lib/plugin
 
 
 
-(4) (empty)
-
-
-
-(5) Start server daemon:
+(4) Start server daemon:
 
 mariadbd --console
 
@@ -174,6 +170,22 @@ mariadbd --defaults-file=D:\opt\mariadb\mariadb-10.6.5\my.dev-0.ini --console
 mariadbd --defaults-file=/etc/mariadb/maria.ini --console
 
 In each .ini file, adjust 'datadir' and 'port' as convenient.
+
+
+
+(5) Change root password, using initialization file:
+
+(5.1) At an easy location (e.g. ${HOME}), create a file with this single line:
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '1234';
+
+(5.2) Run in cmd / shell:
+
+mysqld --init-file=C:\Users\my-user-name\mysql-init.txt --console # Windows
+
+mysqld --init-file=${HOME}/mysql-init.txt --console # Bash
+
+(5.3) Restart MariaDB / MySql server, new password should have been established.
 
 
 

@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2024-12-14 07:16'
+__ALIAS_LAST_UPDATE__='2025-01-24 09:50'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_DEFAULT_JAVA_VERSION__='8' # valid values: '8', '17', '21' (formal value in pom.xml for '8' is '1.8')
@@ -259,15 +259,15 @@ function __bh_h_greeting {
 # ------------------------------------------------------
 
 alias mc='echo "--> mvn clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean'
-alias mci='echo "--> mvn clean install -U -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; mvn clean install -U -Dmaven.test.skip=true'
-alias mcc='echo "--> mvn -T 1C clean compile -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C clean compile -Dmaven.test.skip=true --offline'
-alias mcp='echo "--> mvn -T 1C clean package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C clean package -Dmaven.test.skip=true --offline'
-alias mp='echo "--> mvn -T 1C package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C package -Dmaven.test.skip=true --offline'
-alias mrjr='echo "--> mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline'
-alias mrr='echo "--> mvn resources:resources"; sleep ${__ALIAS_TIMEOUT__}; mvn resources:resources'
-alias mec='echo "--> mvn clean eclipse:clean"; sleep ${__ALIAS_TIMEOUT__}; mvn clean eclipse:clean'
-alias mdt='echo "--> mvn dependency:tree"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:tree'
-alias mdr='echo "--> mvn dependency:resolve -U"; sleep ${__ALIAS_TIMEOUT__}; mvn dependency:resolve -U'
+alias mci='echo "--> mvn clean install -U -Dmaven.test.skip=true"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn clean install -U -Dmaven.test.skip=true'
+alias mcc='echo "--> mvn -T 1C clean compile -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn -T 1C clean compile -Dmaven.test.skip=true --offline'
+alias mcp='echo "--> mvn -T 1C clean package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn -T 1C clean package -Dmaven.test.skip=true --offline'
+alias mp='echo "--> mvn -T 1C package -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn -T 1C package -Dmaven.test.skip=true --offline'
+alias mrjr='echo "--> mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn -T 1C resources:resources jar:jar spring-boot:repackage -Dmaven.test.skip=true --offline'
+alias mrr='echo "--> mvn resources:resources"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn resources:resources'
+alias mec='echo "--> mvn clean eclipse:clean"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn clean eclipse:clean'
+alias mdt='echo "--> mvn dependency:tree"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn dependency:tree'
+alias mdr='echo "--> mvn dependency:resolve -U"; sleep ${__ALIAS_TIMEOUT__}; sj; mvn dependency:resolve -U'
 alias mdp='echo "--> mvn dependency:purge-local-repository"; sleep ${__ALIAS_TIMEOUT__}; echo "# just as reminder, execute manually"'
 
 
