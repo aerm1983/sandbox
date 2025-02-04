@@ -3,7 +3,7 @@
 # JAVA HELPER WM PLATFORM
 # dependencies: git-bash-aliases.sh, set-java-version.sh
 
-__JH_WMP_UPDATED__='2025-01-24 09:41'
+__JH_WMP_UPDATED__='2025-02-04 18:34'
 __JH_TIMEOUT_RETRY_SEC__=15
 __JH_TIMEOUT_CONTINUE_SEC__=5
 __JH_WMP_START_LIST_FILE__='_jh-wm-start-platform-list.sh.txt'
@@ -624,7 +624,7 @@ function _jh_clean_restore_dir_alberto_platform {
 
 function _jh_mysqldump_alberto_service {
     cdkj_s
-    __jh_db_prefix__='pre_'
+    __jh_db_prefix__='local_'
     __jh_db_file_ext__='.sql'
     command mysqldump -u root --password=1234 -h localhost -P 3306 --add-drop-database --add-drop-table --skip-extended-insert --databases ${__jh_db_prefix__}${1} > './zalberto/zsql/'${__jh_db_prefix__}${1}${__jh_db_file_ext__}
     unset  __jh_db_prefix__  __jh_db_file_ext__
