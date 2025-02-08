@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * <p>For method "x.compareTo(y)", see interface "Comparable".
- * <p>For method "x.compare(x,y)", see interface "Comparator".
+ * <p>For method "objX.compareTo(objY)", see interface "Comparable".
+ * <p>For method "objComparator.compare(objX,objY)", see interface "Comparator".
  * <p>Method "Collections.sort(...)" can make use of several combinations
  * of those two.
  * 
@@ -59,7 +59,7 @@ public class Test00_CompareTo_Sort_Compare {
 
 
 	/**
-	 * <p>Built-in implementations of "x.compareTo(y)" are used
+	 * <p>Built-in implementations of "objX.compareTo(objY)" are used
 	 * internally by "Collections.sort(Collection<T>)".
 	 * 
 	 * @since 2024-04-11
@@ -114,8 +114,9 @@ public class Test00_CompareTo_Sort_Compare {
 
 
 	/**
-	 * <p>Explicit implementation of "compare(x,y)" method can be done
-	 * using built-in implementations of "x.compareTo(y)".
+	 * <p>Explicit implementation of "objComparator.compare(objX,objY)" 
+	 * method can be done using built-in implementations of 
+	 * "objX.compareTo(objY)".
 	 * 
 	 * <p>This test proposes a way to statically define several 
 	 * "compare()" methods, then conveniently using anonymous class 
@@ -123,8 +124,8 @@ public class Test00_CompareTo_Sort_Compare {
 	 * 
 	 * @since 2024-04-11
 	 */
-	public static void test02_Sort_Compare_CompareTo_OnPojo() {
-		System.out.println("Hello from test02_Sort_Compare_CompareTo_OnPojo!");
+	public static void test02_Sort_Compare_CompareTo_OnPojo_Anonymous() {
+		System.out.println("Hello from test02_Sort_Compare_CompareTo_OnPojo_Anonymous!");
 
 		// pojos
 		PersonPojo pJosefa = new PersonPojo("Josefa", 80, 1.50);
@@ -178,6 +179,31 @@ public class Test00_CompareTo_Sort_Compare {
 		System.out.println("PersonPojo -- array, after sort by height: " + ah);
 
 	}
+
+
+
+	/**
+	 * <p>Implementation of "clazz.compare(objX,objY)", with method 
+	 * definition in separate class, so it can be re-used multiple
+	 * times.
+	 * 
+	 * @since 2024-12-23
+	 */
+	public static void test03_Sort_Compare_Separate() {
+		System.out.println("Hello from test03_Sort_Compare_Separate!");
+
+		// String, surname
+		ArrayList<String> as = new ArrayList<>();
+		as.add("abcdefghi");
+		as.add("abc");
+		as.add("abcdef");
+		as.add("abcdefgh");
+		System.out.println("Array, before sort by length: " + as);
+		Collections.sort(as, new MyStringComparatorByLength());
+		System.out.println("Array, after sort by length: " + as);
+	}
+
+
 
 	/**
 	 * POJO 
@@ -290,6 +316,34 @@ public class Test00_CompareTo_Sort_Compare {
 			}
 		}
 
+	}
+
+
+
+	/**
+	 * <p> Example of Comparator implementation in separate class.
+	 * 
+	 * @since 2024-12-23
+	 * 
+	 */
+	public static class MyStringComparatorByLength implements java.util.Comparator<String> {
+
+		public MyStringComparatorByLength() {
+			super();
+		}
+
+		public int compare(String s1, String s2) {
+			if (s1 == null && s2 == null) {
+				return 0;
+			} 
+			if (s1 != null && s2 == null) {
+				return 1;
+			} 
+			if (s1 == null && s2!= null) {
+				return -1;
+			}
+			return s1.length() - s2.length();
+		}
 	}
 
 }
