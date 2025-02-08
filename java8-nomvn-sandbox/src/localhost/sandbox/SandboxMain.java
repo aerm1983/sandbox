@@ -14,11 +14,13 @@ import localhost.helper.ReflectionFieldHelper;
 import localhost.helper.RunTimeStatsHelper;
 import localhost.helper.SimpleDateFormatHelper;
 import localhost.helper.SkuPatternHelper;
+import localhost.helper.CustomSkuHelper;
 import localhost.helper.SynchroWaitNotifyAllHelper;
 import localhost.helper.ThreadHelper;
 import localhost.sandbox.AbstractClass.AbstractClassMain;
 import localhost.sandbox.Annotation.AnnotationMain;
 import localhost.sandbox.Class.ClassMain;
+import localhost.sandbox.ClassLoader.ClassLoaderMain;
 import localhost.sandbox.CompareSort.CompareSortMain;
 import localhost.sandbox.DatabaseEncryption.DatabaseEncryptionMain;
 import localhost.sandbox.Date.DateMain;
@@ -89,11 +91,14 @@ public class SandboxMain {
 		// ThreadRaceConditionSynchroWaitNotifyAtomicMain.main();
 		// SynchroWaitNotifyAllHelper.main();
 		// ClassMain.main();
+		ClassLoaderMain.main();
 		// JoinHelper.main();
 		// LinkedHashMapAndSetMain.main();
-		// SkuPatternHelper.main();
 		// AbstractClassMain.main();
-		EnumMain.main();
+		// EnumMain.main();
+		// CustomSkuHelperV1.main();
+		// CustomSkuHelper.main();
+
 
 	}
 }

@@ -138,6 +138,7 @@ public class Test00StringMatchRegex {
 
 
 		// 11 numbers only 2024-12-04
+		/*
 		String rePattern = "(?i)^[0-9]+$";
 		String s11a = "000123456879";
 		String s11b = "0001ABC56879";
@@ -148,5 +149,31 @@ public class Test00StringMatchRegex {
 		System.out.println("s11a: " + s11a + "  ;  b11a: " + b11a);
 		System.out.println("s11b: " + s11b + "  ;  b11b: " + b11b);
 		System.out.println("s11c: " + s11c + "  ;  b11c: " + b11c);
+		 */
+
+
+
+
+
+
+
+		// 12
+		/*
+		boolean m1 = "tradeItem.foodInfo.ingredient.1.ingredientName.0".matches("(i?)^tradeItem\\.foodInfo\\.ingredient\\.[0-9]+\\.ingredientName[\\.]?[0-9]*$");
+		System.out.println("m1: " + m1);
+
+		boolean m2 = "tradeItem.foodInfo.ingredient.1.contentPercentage".matches("(i?)^tradeItem\\.foodInfo\\.ingredient\\.[0-9]+\\.contentPercentage$");
+		System.out.println("m2: " + m2);
+		 */
+
+
+		boolean m1 = "PRO-".matches("(i?)^PRO[-]?$");
+		System.out.println("m1: " + m1);
+
+		boolean m2 = "P".matches("(i?)^PRO[-]?$");
+		System.out.println("m2: " + m2);
+
+
+
 	}
 }

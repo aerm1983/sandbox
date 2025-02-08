@@ -4,44 +4,72 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <h1>Helper for CustomSku pattern operations</h1>
+ * <h1>Helper for CustomSku operations</h1>
  * 
- * <p>Available operations:
+ * <p>This implementation is substitute to {@link SkuPatternHelper}.
+ * 
+ * <p>Available helping inner classes:
  * <ul>
- * <li>Validation
- * <li>Generation, Reversal
+ * <li>{@link CustomSkuPatternValidationHelper} (pattern validation)
+ * <li>{@link CustomSkuProcessorHelper} (customSku generation, reversal) 
  * </ul>
- * 
- * <h2>Validation</h2>
- * <p>Use {@link CustomSkuPatternValidationHelper CustomSkuPatternHelperPojo} constructors: from pattern generate positions, or viceversa.
- * 
- * <h2>Generation, Reversal</h2>
- * <p>Use {@link CustomSkuPatternValidationHelper CustomSkuPatternHelperPojo} constructors: from pattern generate positions, or viceversa.
  * 
  * <p>Delimiter character is '<b>_</b>' (underscore, <b>final constant</b>).
  * 
+ * <p>See {@link CustomSkuProcessorHelper} for guidance regarding specific 
+ * implementation into marketplaces.
+ * 
+ * <p>See {@link Component} for restrictions concerning acceptable values, 
+ * regarding {@link CustomSkuHelper#DELIMITER DELIMITER}.
+ * 
  * @author Alberto Romero
- * @since 2025-01-17
+ * @since 2025-01-22
  * 
  */
-public class CustomSkuHelperV2 {
+public class CustomSkuHelper {
 
-	protected static final String VERSION = "2025-01-20T14:02:00Z";
+	protected static final String VERSION = "2025-01-24T12:00:00Z";
 
+	/**
+	 * <p>Hard-coded, never-changing, underscore character.
+	 */
 	protected static final String DELIMITER = "_";
 
 	/**
 	 * <p>Components (fields) integrating customSku.
 	 * 
-	 * <p><b>Important:</b> SKU is the <b>only</b> component allowed
-	 * to contain DELIMITER character.
+	 * <p><b>Important:</b> {@link Component#SKU SKU} is the <b>only</b> 
+	 * component allowed to contain {@link CustomSkuHelper#DELIMITER DELIMITER} 
+	 * character.
+	 * 
+	 * <p>See also: 
+	 * <ul>
+	 * <li>{@link Component#SITE_ABBREVIATION} 
+	 * <li>{@link Component#CONDITION_ID}
+	 * <li>{@link Component#SKU}
+	 * </ul>
 	 * 
 	 * @author Alberto Romero
-	 * @since 2025-01-20
+	 * @since 2025-01-22
 	 */
 	protected static enum Component {
+
+		/**
+		 * <p>Cannot contain {@link CustomSkuHelper#DELIMITER DELIMITER} character.  
+		 * Examples: "ES", "IT", "FR".
+		 */
 		SITE_ABBREVIATION("{siteAbbreviation}"),
+
+		/**
+		 * <p>Cannot contain {@link CustomSkuHelper#DELIMITER DELIMITER} character.  
+		 * Examples: "1000", "1200".
+		 */
 		CONDITION_ID("{conditionId}"),
+
+		/**
+		 * <p>May contain {@link CustomSkuHelper#DELIMITER DELIMITER} character.  
+		 * Examples: "ABC", "A_B_C".
+		 */
 		SKU("{sku}");
 
 		private String value;
@@ -57,8 +85,6 @@ public class CustomSkuHelperV2 {
 			} else {
 				this.regexCustomSkuPlaceholder = ".+";
 			}
-
-
 		}
 
 		public Component fromValue(String inValue) {
@@ -79,7 +105,7 @@ public class CustomSkuHelperV2 {
 
 	}
 
-	protected static final String DEFAULT_PATTERN = Component.SITE_ABBREVIATION + DELIMITER + Component.CONDITION_ID + DELIMITER + Component.SKU;	
+	// protected static final String EXAMPLE_DEFAULT_PATTERN = Component.SITE_ABBREVIATION + DELIMITER + Component.CONDITION_ID + DELIMITER + Component.SKU;
 
 	protected static final String[] ACCEPTED_PATTERNS = {
 			// (sku must always be present)
@@ -105,6 +131,9 @@ public class CustomSkuHelperV2 {
 	 */
 	public static void main() {
 		System.out.println("Hello from SkuPatternHelper main!");
+		/*
+		 * (Easier to run one testing-method at a time)
+		 */
 		// testValidationGoodInputs();
 		// testValidationBadInputs();
 		testGenerateReverseGoodInputs();
@@ -113,31 +142,24 @@ public class CustomSkuHelperV2 {
 	private static void testValidationGoodInputs() {
 		System.out.println("Hello from testValidationGoodInputs!");
 
-		CustomSkuPatternValidationHelper csphpSrcPatt;
-		CustomSkuPatternValidationHelper csphpSrcPosn;
+		CustomSkuPatternValidationHelper cspvhSrcPatt;
+		CustomSkuPatternValidationHelper cspvhSrcPosn;
 		int i = 0;
 
-		// test00, test DEFAULT_PATTERN
-		System.out.println("test00, DEFAULT_PATTERN: ");
-		csphpSrcPatt = new CustomSkuPatternValidationHelper(DEFAULT_PATTERN);
-		System.out.println("csphpSrcPatt: " + csphpSrcPatt);
-		csphpSrcPosn = new CustomSkuPatternValidationHelper(csphpSrcPatt.siteAbbreviationPosition, csphpSrcPatt.conditionIdPosition, csphpSrcPatt.skuPosition);
-		System.out.println("csphpSrcPosn: " + csphpSrcPosn);
-
-		// test01, test all ACCEPTED_PATTERNS
+		// test00, test all ACCEPTED_PATTERNS
 		System.out.println("test01, ACCEPTED_PATTERNS: ");
 		for (i = 0; i < ACCEPTED_PATTERNS.length ; i++) {
-			csphpSrcPatt = new CustomSkuPatternValidationHelper(ACCEPTED_PATTERNS[i]);
-			System.out.println("i: " + i + " ; csphpSrcPatt: " + csphpSrcPatt);
-			csphpSrcPosn = new CustomSkuPatternValidationHelper(csphpSrcPatt.siteAbbreviationPosition, csphpSrcPatt.conditionIdPosition, csphpSrcPatt.skuPosition);
-			System.out.println("i: " + i + " ; csphpSrcPosn: " + csphpSrcPosn);
+			cspvhSrcPatt = new CustomSkuPatternValidationHelper(ACCEPTED_PATTERNS[i]);
+			System.out.println("i: " + i + " ; cspvhSrcPatt: " + cspvhSrcPatt);
+			cspvhSrcPosn = new CustomSkuPatternValidationHelper(cspvhSrcPatt.siteAbbreviationPosition, cspvhSrcPatt.conditionIdPosition, cspvhSrcPatt.skuPosition);
+			System.out.println("i: " + i + " ; cspvhSrcPosn: " + cspvhSrcPosn);
 		}
 	}
 
 	private static void testValidationBadInputs() {
 		System.out.println("Hello from testValidationBadInputs!");
 
-		CustomSkuPatternValidationHelper csphp;
+		CustomSkuPatternValidationHelper cspvh;
 		int i = 0;
 
 		// test02, non valid patterns
@@ -153,8 +175,8 @@ public class CustomSkuHelperV2 {
 		};
 		System.out.println("test, non valid patterns: ");
 		for (i = 0; i < nonValidPatterns.length ; i++) {
-			csphp = new CustomSkuPatternValidationHelper(nonValidPatterns[i]);
-			System.out.println("i: " + i + "; patt: " + nonValidPatterns[i] + " ; csphp: " + csphp);
+			cspvh = new CustomSkuPatternValidationHelper(nonValidPatterns[i]);
+			System.out.println("i: " + i + "; patt: " + nonValidPatterns[i] + " ; cspvh: " + cspvh);
 		}
 
 
@@ -162,78 +184,96 @@ public class CustomSkuHelperV2 {
 		System.out.println("test, non valid positions");
 
 		// testB00, sku null
-		csphp = new CustomSkuPatternValidationHelper(1,1,null);
-		System.out.println("testB00, pons: 1,1,null, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(1,1,null);
+		System.out.println("testB00, pons: 1,1,null, cspvh: " + cspvh);
 
 		// testB01_a, sku not null, unique, value different to 1
-		csphp = new CustomSkuPatternValidationHelper(null,null,0);
-		System.out.println("testB01_a, pons: null,null,0, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(null,null,0);
+		System.out.println("testB01_a, pons: null,null,0, cspvh: " + cspvh);
 
 		// testB01_b, sku not null, unique, value different to 1
-		csphp = new CustomSkuPatternValidationHelper(null,null,2);
-		System.out.println("testB01_b, pons: null,null,2, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(null,null,2);
+		System.out.println("testB01_b, pons: null,null,2, cspvh: " + cspvh);
 
 		// testB01_c, sku not null, unique, value different to 1
-		csphp = new CustomSkuPatternValidationHelper(null,null,4);
-		System.out.println("testB01_c, pons: null,null,4, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(null,null,4);
+		System.out.println("testB01_c, pons: null,null,4, cspvh: " + cspvh);
 
 		// testB02, elements with same value
-		csphp = new CustomSkuPatternValidationHelper(1,1,1);
-		System.out.println("testB02, pons: 1,1,1, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(1,1,1);
+		System.out.println("testB02, pons: 1,1,1, cspvh: " + cspvh);
 
 		// testB03, elements with same value
-		csphp = new CustomSkuPatternValidationHelper(1,1,2);
-		System.out.println("testB03, pons: 1,1,2, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(1,1,2);
+		System.out.println("testB03, pons: 1,1,2, cspvh: " + cspvh);
 
 		// testB04, element with value bigger than 3
-		csphp = new CustomSkuPatternValidationHelper(4,1,2);
-		System.out.println("testB03, pons: 4,1,2, csphp: " + csphp);
+		cspvh = new CustomSkuPatternValidationHelper(4,1,2);
+		System.out.println("testB03, pons: 4,1,2, cspvh: " + cspvh);
 
 	}
 
 	private static void testGenerateReverseGoodInputs() {
 		System.out.println("Hello from testGenerateReverseGoodInputs!");
 
-		String dbPattern = null;
-		String dbFallbackPattern = null;
+		String pattern = null;
 		String siteAbbreviation = "ES";
 		String conditionId = "1000";
 		String sku = "ABCXYZ";
-		String reversedSku = null;
-		String customSku = null;
-
-		System.out.println("ACCEPTED_PATTERNS:");
 		CustomSkuProcessorHelper csph = null;
+		String customSku = null;
+		ReversedCustomSkuPojo reversedCS = null;
+		String customSkuAgain = null;
+
+		System.out.println("- - - - - - - - - - - - - - - -");
+		System.out.println("ACCEPTED_PATTERNS:");
 		int i = 0;
 		for (i = 0; i < ACCEPTED_PATTERNS.length ; i++) {
-			dbPattern = ACCEPTED_PATTERNS[i];
-			dbFallbackPattern = ACCEPTED_PATTERNS[i];
+			pattern = ACCEPTED_PATTERNS[i];
 			try {
-				csph = new CustomSkuProcessorHelper(dbPattern, dbFallbackPattern);
+				csph = new CustomSkuProcessorHelper(pattern);
 			} catch (Throwable ex) {
 				System.err.println("exception: " +  ex);
 			}
 			customSku = csph.generate(siteAbbreviation, conditionId, sku);
-			reversedSku = csph.reverse(customSku);
+			reversedCS = csph.reverse(customSku);
+			customSkuAgain = csph.generate(reversedCS.getSiteAbbreviation(), reversedCS.getConditionId(), reversedCS.getSku());
 
-			System.out.println("i: " + i + " ; dbPattern: " + dbPattern +  " ; sku: " + sku + " ; customSku: " + customSku + " ; reversedSku: " + reversedSku);
+			System.out.println("i: " + i + " ; dbPattern: " + pattern +  " ; sku: " + sku + " ; customSku: " + customSku + " ; reversedCS: " + reversedCS + " ; customSkuAgain: " + customSkuAgain);
 		}
 
-
+		System.out.println("- - - - - - - - - - - - - - - -");
 		System.out.println("SKU containing DELIMITER character:");
-		sku = "ABC_LMN_XYZ";
+		sku = "A_B_C";
 		for (i = 0; i < ACCEPTED_PATTERNS.length ; i++) {
-			dbPattern = ACCEPTED_PATTERNS[i];
-			dbFallbackPattern = ACCEPTED_PATTERNS[i];
+			pattern = ACCEPTED_PATTERNS[i];
 			try {
-				csph = new CustomSkuProcessorHelper(dbPattern, dbFallbackPattern);
+				csph = new CustomSkuProcessorHelper(pattern);
 			} catch (Throwable ex) {
 				System.err.println("exception: " +  ex);
 			}
 			customSku = csph.generate(siteAbbreviation, conditionId, sku);
-			reversedSku = csph.reverse(customSku);
+			reversedCS = csph.reverse(customSku);
+			customSkuAgain = csph.generate(reversedCS.getSiteAbbreviation(), reversedCS.getConditionId(), reversedCS.getSku());
 
-			System.out.println("i: " + i + " ; dbPattern: " + dbPattern +  " ; sku: " + sku + " ; customSku: " + customSku + " ; reversedSku: " + reversedSku);
+			System.out.println("i: " + i + " ; dbPattern: " + pattern +  " ; sku: " + sku + " ; customSku: " + customSku + " ; reversedCS: " + reversedCS + " ; customSkuAgain: " + customSkuAgain);
+		}
+
+		System.out.println("- - - - - - - - - - - - - - - -");
+		System.out.println("SKU containing and surrounded by DELIMITER character:");
+		sku = "_A_B_C_";
+		for (i = 0; i < ACCEPTED_PATTERNS.length ; i++) {
+			pattern = ACCEPTED_PATTERNS[i];
+			try {
+				csph = new CustomSkuProcessorHelper(pattern);
+			} catch (Throwable ex) {
+				System.err.println("exception: " +  ex);
+			}
+			customSku = csph.generate(siteAbbreviation, conditionId, sku);
+			reversedCS = csph.reverse(customSku);
+			customSkuAgain = csph.generate(reversedCS.getSiteAbbreviation(), reversedCS.getConditionId(), reversedCS.getSku());
+
+			System.out.println("i: " + i + " ; dbPattern: " + pattern +  " ; sku: " + sku + " ; customSku: " + customSku + " ; reversedCS: " + reversedCS + " ; customSkuAgain: " + customSkuAgain);
 		}
 
 	}
@@ -585,59 +625,33 @@ public class CustomSkuHelperV2 {
 
 
 
-	public static class CustomSkuPatternHelperExtendedPojo extends CustomSkuPatternValidationHelper {
-
-		private String version = VERSION;
-
-		// constructors
-
-		public CustomSkuPatternHelperExtendedPojo (CustomSkuPatternValidationHelper cspvh) {
-			super();
-			this.source = cspvh.source;
-			this.pattern = cspvh.pattern;
-			this.siteAbbreviationPosition = cspvh.siteAbbreviationPosition;
-			this.conditionIdPosition = cspvh.conditionIdPosition;
-			this.skuPosition = cspvh.skuPosition;
-			this.skuPosition = cspvh.skuPosition;
-			this.valid = cspvh.valid;
-		}
-
-		public CustomSkuPatternHelperExtendedPojo () {
-			super();
-		}
-
-		// getters, setters
-
-		public String getVersion() {
-			return version;
-		}
-
-		public void setVersion(String version) {
-			this.version = version;
-		}
-
-	}
-
-
-
 
 	/**
 	 * <p> Class for CustomSku <b>generation / reversal</b> purposes.
 	 * 
-	 * <p> Use constructors to perform operations:
+	 * <p> Use <i>pattern</i> to create instance of this class, then 
+	 * {@link CustomSkuProcessorHelper#generate(String, String, String) generate} or 
+	 * {@link CustomSkuProcessorHelper#reverse(String) reverse} customSku.
+	 * 
+	 * <p>Parameter <i>pattern</i> typically would be the outcome of a 
+	 * decision-making process in the marketplace, (not strictly) similar 
+	 * to this: 
 	 * <ul> 
-	 * <li>from pattern generate positions 
-	 * <li>viceversa
+	 * <li>main or preferred value depends on storeId and siteId 
+	 * <li>first fallback depends on storeId (siteId is null)
+	 * <li>second fallback is defined by the marketplace (storeId and siteId are null)
 	 * </ul>
 	 * 
+	 * <p>Note that <b>pattern depends always on the marketplace</b>, so this class must not
+	 * suggest any pattern as fallback nor default.
+	 * 
 	 * @author Alberto Romero
-	 * @since 2025-01-20
+	 * @since 2025-01-22
 	 * 
 	 */
 	public static class CustomSkuProcessorHelper {
 
 		private String pattern;
-		private ProcessorPatternSource processorPatternSource;
 
 		private String siteAbbreviation;
 		private String conditionId;
@@ -652,34 +666,22 @@ public class CustomSkuHelperV2 {
 
 
 
-		public CustomSkuProcessorHelper(String dbPattern, String dbFallbackPattern) throws Throwable {
+		public CustomSkuProcessorHelper(String pattern) throws Throwable {
 
 			CustomSkuPatternValidationHelper cspvh = null;
 
-			if (dbPattern != null) {
-				cspvh = new CustomSkuPatternValidationHelper(dbPattern);
-				if (!cspvh.isValid()) {
-					throw new Exception("customSku, dbPattern not valid");
-				}
-				this.pattern = dbPattern;
-				this.processorPatternSource = ProcessorPatternSource.DB;
-				return;
+			if (pattern == null || pattern.isEmpty()) {
+				throw new Exception("pattern cannot be null, nor be empty");
 			}
 
-			if (dbFallbackPattern != null) {
-				cspvh = new CustomSkuPatternValidationHelper(dbFallbackPattern);
-				if (!cspvh.isValid()) {
-					throw new Exception("customSku, dbFallbackPattern not valid");
-				}
-				this.pattern = dbFallbackPattern;
-				this.processorPatternSource = ProcessorPatternSource.DB_FALLBACK;
-				return;
+			cspvh = new CustomSkuPatternValidationHelper(pattern);
+			if (!cspvh.isValid()) {
+				throw new Exception("customSku, dbPattern not valid");
 			}
-
-			this.pattern = DEFAULT_PATTERN;
-			this.processorPatternSource = ProcessorPatternSource.DEFAULT;
+			this.pattern = pattern;
 			return;
 		}
+
 
 
 		/*
@@ -695,6 +697,9 @@ public class CustomSkuHelperV2 {
 
 		/**
 		 * <p>Generate customSku.
+		 * 
+		 * <p>Params <i>siteAbbreviation</i> and / or <i>conditionId</i> may be
+		 * null if they are absent from <i>pattern</i> used for instantiation.
 		 * 
 		 * @author Alberto Romero
 		 * @since 2025-01-20 
@@ -721,7 +726,7 @@ public class CustomSkuHelperV2 {
 		 * @author Alberto Romero
 		 * @since 2025-01-20 
 		 */
-		public String reverse(String customSku) {
+		public ReversedCustomSkuPojo reverse(String customSku) {
 			if (this.pattern == null || customSku == null) {
 				return null;
 			}
@@ -750,7 +755,9 @@ public class CustomSkuHelperV2 {
 			}
 
 			extractAssignSku();
-			return this.sku;
+
+			ReversedCustomSkuPojo rcsp = new ReversedCustomSkuPojo(this.siteAbbreviation, this.conditionId, this.sku);
+			return rcsp;
 		}
 
 
@@ -830,12 +837,12 @@ public class CustomSkuHelperV2 {
 						value = reM2.group();
 
 						switch(b) {
-						case Border.LEFT:
+						case LEFT:
 							value = value.substring(0, value.length() -1); // remove pre-appended delimiter
 							setValueForComponent(c, value);
 							modifiedCustomSku = modifiedCustomSku.replaceFirst("^" + value + DELIMITER, "");
 							break;
-						case Border.RIGHT:
+						case RIGHT:
 							value = value.substring(1, value.length()); // remove post-appended delimiter
 							setValueForComponent(c, value);
 							modifiedCustomSku = modifiedCustomSku.replaceFirst(DELIMITER + value + "$", "");
@@ -895,20 +902,49 @@ public class CustomSkuHelperV2 {
 			return;
 		}
 
-
 	}
 
-
-	private static enum ProcessorPatternSource {
-		DB,
-		DB_FALLBACK,
-		DEFAULT
-	}
 
 
 	private static enum Border {
 		LEFT,
 		RIGHT
+	}
+
+
+
+	public static class ReversedCustomSkuPojo {
+
+		private String siteAbbreviation;
+		private String conditionId;
+		private String sku;
+
+		public ReversedCustomSkuPojo (String siteAbbreviation, String conditionId, String sku) {
+			this.siteAbbreviation = siteAbbreviation;
+			this.conditionId = conditionId;
+			this.sku = sku;
+		}
+
+		public String toString() {
+			String out = "{ "
+					+ "" + "siteAbbreviation: " + this.siteAbbreviation
+					+ ", " + "conditionId: " + this.conditionId
+					+ ", " + "sku: " + this.sku
+					+ " }"
+					;
+			return out;
+		}
+
+		public String getSiteAbbreviation() {
+			return siteAbbreviation;
+		}
+		public String getConditionId() {
+			return conditionId;
+		}
+		public String getSku() {
+			return sku;
+		}
+
 	}
 
 }

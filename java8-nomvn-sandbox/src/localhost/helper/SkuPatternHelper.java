@@ -2,7 +2,9 @@ package localhost.helper;
 
 
 /**
- * <h1>Helper for Sku Pattern operations.</h1>
+ * <p>Helper for Sku Pattern operations.
+ * 
+ * <p>This class is substituted by {@link CustomSkuHelper}.
  * 
  * <p>Use {@link SkuPatternHelperPojo SkuPatternHelperPojo} constructors: from pattern generate positions, or viceversa.
  * 
@@ -10,7 +12,8 @@ package localhost.helper;
  * @since 2024-09-12
  * 
  */
-public class CustomSkuPatternHelperV1 {
+@Deprecated
+public class SkuPatternHelper {
 
 	public static final String VERSION = "2024-09-15T19:12:00Z";
 
