@@ -65,6 +65,10 @@ public class Test00IntroSimple {
 	 * <li>jar:file:/C:/Users/my-home-folder/.m2/repository/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04.jar!/org/w3c/dom/Element.class
 	 * </ul>
 	 * 
+	 * <p>Then, to locate dependency including jar with duplicated resource:
+	 * <br>
+	 * <code> mvn dependency:tree</code>
+	 * 
 	 * <p>Example of URL, simple file:
 	 * <ul>
 	 * <li>file:/C:/Users/my-home-folder/Desktop/my-java-root-folder/bin/localhost/helper/LargeStringHelper.class
