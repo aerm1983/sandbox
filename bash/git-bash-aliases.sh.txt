@@ -24,7 +24,7 @@
 
 
 # Constants required for script
-__ALIAS_LAST_UPDATE__='2025-02-04 16:36'
+__ALIAS_LAST_UPDATE__='2025-02-12 04:51'
 __ALIAS_TIMEOUT__='0.3'
 
 __JH_DEFAULT_JAVA_VERSION__='8' # valid values: '8', '17', '21' (formal value in pom.xml for '8' is '1.8')
@@ -711,6 +711,10 @@ function __gh_gcmh {
         echo '--> git commit --amend -m '\'"${_new_commit_message}"\'
         echo
         git commit --amend -m "${_new_commit_message}"
+    elif [ "${2}" = 'allow-empty' ] ; then
+        echo '--> git commit --allow-empty -m '\'"${_new_commit_message}"\'
+        echo
+        git commit --allow-empty -m "${_new_commit_message}"
     else
         echo '--> git commit -m '\'"${_new_commit_message}"\'
         echo
@@ -731,8 +735,12 @@ function __gh_gcm {
 function __gh_gcam {
     __gh_gcmh "${1}" 'amend'
 }
+function __gh_gcem {
+    __gh_gcmh "${1}" 'allow-empty'
+}
 alias gcm='__gh_gcm'
 alias gcam='__gh_gcam'
+alias gcem='__gh_gcem'
 
 alias gt='echo "--> git tag"; sleep ${__ALIAS_TIMEOUT__}; git tag'
 
@@ -809,6 +817,7 @@ s=${s}'  gdc* : git diff --cached \n'
 s=${s}'  gco* : git commit # raw, primitive \n'
 s=${s}'  gcm  : git commit # fast message helper, mode '\'normal\'' \n'
 s=${s}'  gcam : git commit # fast message helper, mode '\'amend\'' \n'
+s=${s}'  gcem : git commit # fast message helper, mode '\'allow-empty\'' \n'
 s=${s}'  gro* : git restore --source \n'
 s=${s}'\n'
 s=${s}'  gm*  : git merge \n'
