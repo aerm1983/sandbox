@@ -12,7 +12,7 @@ public class Test01_SynchroWaitNotify {
 	 * states and sequential execution of each one of them after 
 	 * "notifyAll()".
 	 * 
-	 * <p>Not that If "notify()" was used instead of "notifyAll()", 
+	 * <p>Note that If "notify()" was used instead of "notifyAll()", 
 	 * only one of the blocked threads would be awakened.
 	 * 
 	 * <p>If "wait()" and "notify()" are invoked out of object's

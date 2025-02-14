@@ -62,6 +62,14 @@ public class LargeStringHelper {
 	}
 
 
+	/**
+	 * <p>Parameter <i>inChunkSize</i> is approximately 1/3
+	 * of shortened string (output).
+	 * 
+	 * @author Alberto Romero
+	 * @since 2024-05-07
+	 *  
+	 */
 	public static String shorten(int inChunkSize, String input) {
 		// validation, prevent exception occurrence
 		if (input == null) {
@@ -98,4 +106,42 @@ public class LargeStringHelper {
 		int outputLength = output.length();
 		return output + " (" + inputLength + ":" + outputLength + ")";
 	}
+
+	/**
+	 * <p>Useful for suppressing exceeding whitespace, eg html files. 
+	 * 
+	 * @author Alberto Romero
+	 * @since 2025-02-07
+	 */
+	public static String whitespaceClean(String input) {
+		if (input == null) return null;
+		String output = input.replaceAll("(\\r\\n)+"," ")
+				.replaceAll("(\\n)+"," ")
+				.replaceAll("(\\t)+"," ")
+				.replaceAll("( )+"," ");
+		return output;
+	}
+
+
+
+	/**
+	 * <p>Class for aliasing {@link LargeStringHelper} methods.
+	 * 
+	 * <p>Use methods:
+	 * <ul>
+	 * <li> {@link #shorten(String)}
+	 * <li> {@link #wsClean(String)}
+	 * </ul>
+	 * 
+	 * @author Alberto Romero
+	 * @since 2025-02-07
+	 */
+	public static class LSH extends LargeStringHelper {
+
+		public static String wsClean(String input) {
+			return LargeStringHelper.whitespaceClean(input);
+		}
+
+	}
+
 }
