@@ -1,21 +1,21 @@
-package localhost.mysql.sandbox.test;
+package localhost.mysqlsandbox.test;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import localhost.mysql.sandbox.util.MysqlHelper;
-import localhost.mysql.sandbox.util.MysqlHelper.StatementMethod;
+import localhost.mysqlsandbox.util.MysqlHelper;
+import localhost.mysqlsandbox.util.MysqlHelper.StatementMethod;
 
 public class Test00 {
 
 	public static void main() {
-		System.out.println("Start Test00.main()");
+		System.out.println("Test00 -- Start main()");
 		test00();
 	}
 
 	private static void test00() {
-		System.out.println("Start Test00.test00()");
+		System.out.println("Test00 -- Start test00()");
 
 		// connection params
 		String host = "localhost";
@@ -58,6 +58,12 @@ public class Test00 {
 		} catch (Throwable ex) {
 			System.err.println("exception -- " + ex);
 		}
+
+		// close Statement, ResultSet
+		MysqlHelper.closeStmtAndRS(stmt, rs);
+
+		// close Connection
+		MysqlHelper.closeConn(conn);
 
 		System.out.println("done!");
 	}

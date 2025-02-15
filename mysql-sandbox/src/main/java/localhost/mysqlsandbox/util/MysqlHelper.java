@@ -1,4 +1,4 @@
-package localhost.mysql.sandbox.util;
+package localhost.mysqlsandbox.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -64,7 +64,7 @@ public class MysqlHelper {
 	/**
 	 * <p>Always good to close unused Statements and ResultSets. 
 	 */
-	private static void closeStmtAndRS(Statement stmt, ResultSet rs) {
+	public static void closeStmtAndRS(Statement stmt, ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
@@ -81,6 +81,21 @@ public class MysqlHelper {
 				// ignore
 			} 
 			stmt = null;
+		}
+	}
+
+
+	/**
+	 * <p>Always good to close Connection(s) when finalizing. 
+	 */
+	public static void closeConn(Connection conn) {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException sqlEx) { 
+				// ignore
+			} 
+			conn = null;
 		}
 	}
 
