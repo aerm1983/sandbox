@@ -1,0 +1,4 @@
+My Resource Sample
+line one
+line two
+line three
